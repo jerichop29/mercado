@@ -10,19 +10,10 @@ export default function Contact() {
         {/* Section Title */}
         <div className="container section-title" data-aos="fade-up">
           <h2>Contact</h2>
-          <p>Get in touch with Mercado for inquiries and support.</p>
+          <p>Get in touch with Mercado for any inquiries, support, or assistance you may need.</p>
+          <p>Our team is dedicated to providing prompt and efficient help, ensuring that all your questions are answered and your issues are resolved.</p>
+          <p>Whether you're seeking more information, need guidance on using our services, or have any concerns, we're here to help every step of the way.</p>
         </div> {/* End Section Title */}
-
-        <div className="mb-5" data-aos="fade-up" data-aos-delay="200">
-          <iframe
-            style={{ border: 0, width: '100%', height: '370px' }}
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3867.731965761415!2d121.16293052192657!3d14.210466356533631!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33bd6310a720dcc1%3A0xa7f398923d91bdba!2sMercado%20de%20Calamba!5e0!3m2!1sen!2sph!4v1737679968621!5m2!1sen!2sph"
-            frameBorder="0"
-            allowFullScreen=""
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-          ></iframe>  
-        </div> {/* End Google Maps */}
 
         <div className="container" data-aos="fade-up" data-aos-delay="100">
           <div className="row gy-4">
@@ -63,6 +54,16 @@ export default function Contact() {
           </div>
         </div>
       </section> {/* /Contact Section */}
+      <div className="mb-5" data-aos="fade-up" data-aos-delay="200">
+          <iframe
+            style={{ border: 0, width: '100%', height: '370px' }}
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3867.731965761415!2d121.16293052192657!3d14.210466356533631!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33bd6310a720dcc1%3A0xa7f398923d91bdba!2sMercado%20de%20Calamba!5e0!3m2!1sen!2sph!4v1737679968621!5m2!1sen!2sph"
+            frameBorder="0"
+            allowFullScreen=""
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          ></iframe>  
+        </div> {/* End Google Maps */}
     </div>
   );
 }

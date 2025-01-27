@@ -1,10 +1,12 @@
 import './Header.css';
 import Logo from '../../../assets/img/logo.png';
+import { Link, useLocation } from 'react-router-dom'; // Import Link and useLocation
 
 export default function Header() {
+    const location = useLocation(); // Get current location (route)
+
     return (
         <header id="header" className="header sticky-top">
-
             <div className="topbar d-flex align-items-center">
                 <div className="container d-flex justify-content-center justify-content-md-between">
                     <div className="d-none d-md-flex align-items-center">
@@ -18,18 +20,35 @@ export default function Header() {
 
             <div className="branding d-flex align-items-center">
                 <div className="container position-relative d-flex justify-content-between align-items-center">
-                    <a href="index.html" className="logo d-flex align-items-center">
+                    <Link to="/" className="logo d-flex align-items-center">
                         <img src={Logo} alt="Logo" />
-                    </a>
+                    </Link>
 
                     <nav id="navmenu" className="navmenu">
                         <ul>
-                            <li><a href="#hero" className="active"><i className="bi bi-house-door"></i>Home</a></li>
-                            <li><a href="#about"><i className="bi bi-info-square"></i>About</a></li>
-                            <li><a href="#services"><i className="bi bi-shop"></i>Services</a></li>
+                            <li>
+                                <Link to="/" className={location.pathname === '/' ? 'active' : ''}>
+                                    <i className="bi bi-house-door"></i>Home
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/about" className={location.pathname === '/about' ? 'active' : ''}>
+                                    <i className="bi bi-info-square"></i>About
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/services" className={location.pathname === '/services' ? 'active' : ''}>
+                                    <i className="bi bi-shop"></i>Services
+                                </Link>
+                            </li>
                             <li className="dropdown">
-                                <a href="#"><i className="bi bi-building"></i><span>Buildings</span> <i className="bi bi-chevron-down toggle-dropdown"></i></a>
+                                <a href="#">
+                                    <i className="bi bi-building"></i>
+                                    <span>Stalls</span>
+                                    <i className="bi bi-chevron-down toggle-dropdown"></i>
+                                </a>
                                 <ul>
+                                    <li><a href="#">All Stalls</a></li>
                                     <li><a href="#">Building 1</a></li>
                                     <li><a href="#">Building 2</a></li>
                                     <li><a href="#">Building 3</a></li>
@@ -38,18 +57,32 @@ export default function Header() {
                                 </ul>
                             </li>
                             <li className="dropdown">
-                                <a href="#"><i className="bi bi-building-gear"></i><span>Facilities</span> <i className="bi bi-chevron-down toggle-dropdown"></i></a>
+                                <a href="#">
+                                    <i className="bi bi-building-gear"></i>
+                                    <span>Facilities</span>
+                                    <i className="bi bi-chevron-down toggle-dropdown"></i>
+                                </a>
                                 <ul>
                                     <li><a href="#">Facilities 1</a></li>
                                     <li><a href="#">Facilities 2</a></li>
                                 </ul>
                             </li>
-                            <li><a href="#services"><i className="fas fa-star"></i>Discover</a></li>
-                            <li><a href="#contact"><i className="bi bi-telephone-inbound"></i>Contact</a></li>
-                            <li><a href="#login"><i className="bi bi-person"></i> Sign in</a></li>
+                            <li>
+                                <Link to="/discover" className={location.pathname === '/discover' ? 'active' : ''}>
+                                    <i className="fas fa-star"></i>Discover
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/contact" className={location.pathname === '/contact' ? 'active' : ''}>
+                                    <i className="bi bi-telephone-inbound"></i>Contact
+                                </Link>
+                            </li>
                         </ul>
                     </nav>
-                    <a className="cta-btn" href="index.html#appointment">Access Your Account</a>
+                    {/* Updated link for accessing account */}
+                    <Link className="cta-btn" to="/auth/signin">
+                        <i className="bi bi-person-square"></i> Access Your Account
+                    </Link>
                 </div>
             </div>
         </header>

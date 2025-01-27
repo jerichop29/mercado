@@ -3,6 +3,7 @@ import CarouseImage1 from "../../../assets/img/hero-carousel/hero-carousel-1.png
 import CarouseImage2 from "../../../assets/img/hero-carousel/hero-carousel-2.jpg";
 import CarouseImage3 from "../../../assets/img/hero-carousel/hero-carousel-3.jpg";
 
+
 export default function Hero() {
   return (
     <>
@@ -20,7 +21,7 @@ export default function Hero() {
           </div>
           {/* End Carousel Item */}
 
-          <div className="carousel-item active">
+          <div className="carousel-item">
             <img src={CarouseImage2} alt="Hero 2" />
             <div className="container">
             <h2>Welcome to Mercado</h2>
@@ -50,7 +51,12 @@ export default function Hero() {
             <span className="carousel-control-next-icon bi bi-chevron-right" aria-hidden="true"></span>
           </a>
 
-          <ol className="carousel-indicators"></ol>
+          <ol className="carousel-indicators">
+            <li data-bs-target="#hero-carousel" data-bs-slide-to="0" className="active"></li>
+            <li data-bs-target="#hero-carousel" data-bs-slide-to="1"></li>
+            <li data-bs-target="#hero-carousel" data-bs-slide-to="2"></li>
+          </ol>
+
         </div>
       </section>
       {/* /Hero Section */}

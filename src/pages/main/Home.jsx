@@ -8,7 +8,7 @@ import Services from "../../components/user/Services/Services";
 import CallToActionFacility from "../../components/user/CallToActionFacility/CallToActionFacility";
 import Contact from "../../components/user/Contact/Contact";
 
-export default function Home() {
+export default function HomePage() {
   return (
     <>
         <main className="main">
