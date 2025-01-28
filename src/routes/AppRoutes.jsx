@@ -7,7 +7,7 @@ import MainLayout from "../layouts/MainLayout";
 import AuthLayout from "../layouts/AuthLayout";
 
 // Pages
-import SignInPage from "../pages/Auth/SignIn";
+import SignInPage from "../pages/auth/SignIn";
 import HomePage from "../pages/main/Home";
 import AboutPage from "../pages/main/About";
 import ServicesPage from "../pages/main/Services";

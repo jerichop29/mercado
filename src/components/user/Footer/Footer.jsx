@@ -16,9 +16,7 @@ export default function Footer() {
                             <p><strong>Email:</strong> <span>mdc.marketmanagementdivision@gmail.com</span></p>
                         </div>
                         <div className="social-links d-flex mt-4">
-                            <a href=""><i className="bi bi-twitter-x"></i></a>
                             <a href="https://www.facebook.com/profile.php?id=100085059805113" target='_blank'><i className="bi bi-facebook"></i></a>
-                            <a href=""><i className="bi bi-instagram"></i></a>
                         </div>
                     </div>
                     <div className="col-lg-2 col-md-6 footer-links">
