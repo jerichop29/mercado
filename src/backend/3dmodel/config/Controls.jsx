@@ -2,7 +2,7 @@ import { OrbitControls } from '@react-three/drei'
 
 function Controls() {
   return <OrbitControls 
-  autoRotate ={true}
+  autoRotate ={false}
   autoRotateSpeed={0.8}
   makeDefault
   enableDamping
