@@ -48,23 +48,42 @@ export default function Header() {
                                     <i className="bi bi-chevron-down toggle-dropdown"></i>
                                 </a>
                                 <ul>
-                                    <li><a href="#">All Stalls</a></li>
-                                    <li><a href="#">Building 1</a></li>
-                                    <li><a href="#">Building 2</a></li>
-                                    <li><a href="#">Building 3</a></li>
-                                    <li><a href="#">Building 4</a></li>
-                                    <li><a href="#">Building 5</a></li>
+                                    <li>       
+                                        <Link to="/all stalls" className={location.pathname === '/all stalls' ? 'active' : ''}> All Stalls</Link>
+                                    </li>
+                                    <li>       
+                                        <Link to="/building 1" className={location.pathname === '/building 1' ? 'active' : ''}> Building 1</Link>
+                                    </li>
+                                    <li>       
+                                        <Link to="/building 2" className={location.pathname === '/building 2' ? 'active' : ''}> Building 2</Link>
+                                    </li>
+                                    <li>       
+                                        <Link to="/building 3" className={location.pathname === '/building 3' ? 'active' : ''}> Building 3</Link>
+                                    </li>
+                                    <li>       
+                                        <Link to="/building 4" className={location.pathname === '/building 4' ? 'active' : ''}> Building 4</Link>
+                                    </li>
+                                    <li>       
+                                        <Link to="/building 5" className={location.pathname === '/building 5' ? 'active' : ''}> Building 5</Link>
+                                    </li>
                                 </ul>
                             </li>
                             <li className="dropdown">
                                 <a href="#">
-                                    <i className="bi bi-building-gear"></i>
+                                    <i className="bi bi-building"></i>
                                     <span>Facilities</span>
                                     <i className="bi bi-chevron-down toggle-dropdown"></i>
                                 </a>
                                 <ul>
-                                    <li><a href="#">Facilities 1</a></li>
-                                    <li><a href="#">Facilities 2</a></li>
+                                    <li>       
+                                        <Link to="/all facilities" className={location.pathname === '/all facilities' ? 'active' : ''}> All Facilities</Link>
+                                    </li>
+                                    <li>       
+                                        <Link to="/facility 1" className={location.pathname === '/facility 1' ? 'active' : ''}> Facility 1</Link>
+                                    </li>
+                                    <li>       
+                                        <Link to="/facility 2" className={location.pathname === '/facility 2' ? 'active' : ''}> Facility 2</Link>
+                                    </li>
                                 </ul>
                             </li>
                             <li>

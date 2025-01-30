@@ -1,25 +1,27 @@
 import React from 'react';
-import { useLocation, Link } from 'react-router-dom'; // Import necessary hooks
+import { useLocation, Link } from 'react-router-dom';
 import './PageTitle.css';
 
 const PageTitle = () => {
-  const location = useLocation(); // Get the current route from react-router
+  const location = useLocation();
 
-  // Split the path into segments (ignoring leading/trailing slashes)
-  const pathSegments = location.pathname.split('/').filter(Boolean);
+  // Split the path into segments and decode any encoded characters (like %20 -> space)
+  const pathSegments = location.pathname
+    .split('/')
+    .filter(Boolean)
+    .map(segment => decodeURIComponent(segment)); // Decoding each segment
 
-  // If path is empty (root route), we treat it as 'Home'
+  // Create breadcrumbs
   const breadcrumbs = pathSegments.map((segment, index) => {
-    // Build the full path for each breadcrumb item
-    const linkPath = '/' + pathSegments.slice(  0, index + 1).join('/');
+    const linkPath = '/' + pathSegments.slice(0, index + 1).join('/');
 
     return {
-      label: segment.charAt(0).toUpperCase() + segment.slice(1), // Capitalize the first letter
+      label: segment.charAt(0).toUpperCase() + segment.slice(1), // Capitalize first letter
       link: linkPath,
     };
   });
 
-  // Add "Home" at the beginning of the breadcrumbs
+  // Add "Page" at the beginning of the breadcrumbs
   breadcrumbs.unshift({
     label: 'Page',
     link: '/',
@@ -31,11 +33,7 @@ const PageTitle = () => {
         <div className="container">
           <ol>
             {breadcrumbs.map((breadcrumb, index) => (
-              <li
-                key={index}
-                className={index === breadcrumbs.length - 1 ? 'current' : ''}
-              >
-                {/* If it's the last breadcrumb (current page), don't make it a link */}
+              <li key={index} className={index === breadcrumbs.length - 1 ? 'current' : ''}>
                 {index === breadcrumbs.length - 1 ? (
                   <span>{breadcrumb.label}</span>
                 ) : (

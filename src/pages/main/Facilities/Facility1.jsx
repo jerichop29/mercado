@@ -1,9 +1,8 @@
 import PageTitle from "../../../components/user/PageTitle/PageTitle"
-
-export default function Building1Page(){
-    return (
+export default function Facility1(){
+    return(
         <>
-           <PageTitle />
+            <PageTitle />
         </>
     )
 }

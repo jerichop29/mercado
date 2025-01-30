@@ -12,6 +12,16 @@ import HomePage from "../pages/main/Home";
 import AboutPage from "../pages/main/About";
 import ServicesPage from "../pages/main/Services";
 import ContactPage from "../pages/main/Contact";
+import DiscoverPage from "../pages/main/Discover";
+import AllStallsPage from "../pages/main/Stalls/AllStalls";
+import Building1Page from "../pages/main/Stalls/Building1"
+import Building2Page from "../pages/main/Stalls/Building2"
+import Building3Page from "../pages/main/Stalls/Building3"
+import Building4Page from "../pages/main/Stalls/Building4"
+import Building5Page from "../pages/main/Stalls/Building5"
+import AllFacilitiesPage from "../pages/main/Facilities/AllFacilities";
+import Facility1Page from "../pages/main/Facilities/Facility1";
+import Facility2Page from "../pages/main/Facilities/Facility2";
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -62,6 +72,136 @@ const AppRoutes = () => {
                   transition={{ duration: 0.5 }}
                 >
                   <ServicesPage />
+                </motion.div>
+              }
+            />
+            <Route
+              path="all stalls"
+              element={
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <AllStallsPage />
+                </motion.div>
+              }
+            />
+            <Route
+              path="building 1"
+              element={
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <Building1Page />
+                </motion.div>
+              }
+            />
+            <Route
+              path="building 2"
+              element={
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <Building2Page />
+                </motion.div>
+              }
+            />
+            <Route
+              path="building 3"
+              element={
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <Building3Page />
+                </motion.div>
+              }
+            />
+            <Route
+              path="building 4"
+              element={
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <Building4Page />
+                </motion.div>
+              }
+            />
+            <Route
+              path="building 5"
+              element={
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <Building5Page />
+                </motion.div>
+              }
+            />
+            <Route
+              path="all facilities"
+              element={
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <AllFacilitiesPage />
+                </motion.div>
+              }
+            />
+            <Route
+              path="facility 1"
+              element={
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <Facility1Page />
+                </motion.div>
+              }
+            />
+            <Route
+              path="facility 2"
+              element={
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <Facility2Page />
+                </motion.div>
+              }
+            />
+            <Route
+              path="discover"
+              element={
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <DiscoverPage />
                 </motion.div>
               }
             />

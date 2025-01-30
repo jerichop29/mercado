@@ -7,6 +7,7 @@ import Features from "../../components/user/Features/Features";
 import Services from "../../components/user/Services/Services";
 import CallToActionFacility from "../../components/user/CallToActionFacility/CallToActionFacility";
 import Contact from "../../components/user/Contact/Contact";
+import Discover from "../../components/user/Discover/Discover";
 
 export default function HomePage() {
   return (
@@ -20,6 +21,7 @@ export default function HomePage() {
             <Features />
             <Services />
             <CallToActionFacility />
+            <Discover />
             <Contact />
         </main>
     </>
