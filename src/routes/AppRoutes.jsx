@@ -76,7 +76,7 @@ const AppRoutes = () => {
               }
             />
             <Route
-              path="all buildings"
+              path="all-buildings"
               element={
                 <motion.div
                   initial={{ opacity: 0 }}
@@ -102,7 +102,7 @@ const AppRoutes = () => {
               }
             />
             <Route
-              path="building 2"
+              path="building-2"
               element={
                 <motion.div
                   initial={{ opacity: 0 }}
@@ -115,7 +115,7 @@ const AppRoutes = () => {
               }
             />
             <Route
-              path="building 3"
+              path="building-3"
               element={
                 <motion.div
                   initial={{ opacity: 0 }}
@@ -128,7 +128,7 @@ const AppRoutes = () => {
               }
             />
             <Route
-              path="building 4"
+              path="building-4"
               element={
                 <motion.div
                   initial={{ opacity: 0 }}
@@ -141,7 +141,7 @@ const AppRoutes = () => {
               }
             />
             <Route
-              path="building 5"
+              path="building-5"
               element={
                 <motion.div
                   initial={{ opacity: 0 }}
@@ -154,7 +154,7 @@ const AppRoutes = () => {
               }
             />
             <Route
-              path="all facilities"
+              path="all-facilities"
               element={
                 <motion.div
                   initial={{ opacity: 0 }}
@@ -167,7 +167,7 @@ const AppRoutes = () => {
               }
             />
             <Route
-              path="facility 1"
+              path="facility-1"
               element={
                 <motion.div
                   initial={{ opacity: 0 }}
@@ -180,7 +180,7 @@ const AppRoutes = () => {
               }
             />
             <Route
-              path="facility 2"
+              path="facility-2"
               element={
                 <motion.div
                   initial={{ opacity: 0 }}

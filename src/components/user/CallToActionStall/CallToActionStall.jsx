@@ -1,4 +1,5 @@
 import './CallToActionStall.css';
+import { Link } from "react-router-dom";
 
 export default function CallToActionStall () {
   return (
@@ -11,7 +12,7 @@ export default function CallToActionStall () {
               <p>
               Easily browse through available options to find the perfect space that meets your needs. Whether you're looking for a short-term or long-term rental, our system helps you quickly identify stalls that suit your requirements, making the process simple and hassle-free. Start your search today and secure the ideal stall for your business.
               </p>
-              <a className="cta-btn" href="#appointment">Find a stall</a>
+              <Link className="cta-btn" to="/all-buildings">Find a stall</Link>
             </div>
           </div>
         </div>
@@ -19,4 +20,3 @@ export default function CallToActionStall () {
     </section>
   );
 };
-

@@ -1,4 +1,5 @@
 import './CallToActionFacility.css';
+import { Link } from "react-router-dom";
 
 export default function CallToActionFacility () {
   return (
@@ -11,7 +12,7 @@ export default function CallToActionFacility () {
               <p>
               Easily browse through available options to find the perfect space that meets your needs. Whether you're looking for a short-term or long-term rental, our system helps you quickly identify facility that suit your requirements, making the process simple and hassle-free. Start your search today and secure the ideal Facility for your event.
               </p>
-              <a className="cta-btn" href="#appointment">Check the Facility</a>
+              <Link className="cta-btn" to="/all-facilities">Check the Facility</Link>
             </div>
           </div>
         </div>
@@ -19,4 +20,3 @@ export default function CallToActionFacility () {
     </section>
   );
 };
-

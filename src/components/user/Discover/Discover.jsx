@@ -13,7 +13,7 @@ export default function Discover() {
         </div>
         {/* End Section Title */}
 
-        <div className="discover">
+        <div className="discover" data-aos="fade-up">
           <ul className="cards">
           <li className="cards_item">
             <div className="card" tabIndex="0">

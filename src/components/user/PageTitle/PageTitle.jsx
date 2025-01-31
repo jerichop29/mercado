@@ -1,15 +1,15 @@
-import React from 'react';
+
 import { useLocation, Link } from 'react-router-dom';
 import './PageTitle.css';
 
 const PageTitle = () => {
   const location = useLocation();
 
-  // Split the path into segments and decode any encoded characters (like %20 -> space)
+  // Split the path into segments and replace hyphens with spaces
   const pathSegments = location.pathname
     .split('/')
     .filter(Boolean)
-    .map(segment => decodeURIComponent(segment)); // Decoding each segment
+    .map(segment => decodeURIComponent(segment).replace(/-/g, ' ')); // Replacing hyphens with spaces
 
   // Create breadcrumbs
   const breadcrumbs = pathSegments.map((segment, index) => {

@@ -49,22 +49,22 @@ export default function Header() {
                                 </a>
                                 <ul>
                                     <li>       
-                                        <Link to="/all buildings" className={location.pathname === '/all buildings' ? 'active' : ''}> All Buildings</Link>
+                                        <Link to="/all-buildings" className={location.pathname === '/all-buildings' ? 'active' : ''}> All Buildings</Link>
                                     </li>
                                     <li>       
-                                        <Link to="/building 1" className={location.pathname === '/building 1' ? 'active' : ''}> Building 1</Link>
+                                        <Link to="/building-1" className={location.pathname === '/building-1' ? 'active' : ''}> Building 1</Link>
                                     </li>
                                     <li>       
-                                        <Link to="/building 2" className={location.pathname === '/building 2' ? 'active' : ''}> Building 2</Link>
+                                        <Link to="/building-2" className={location.pathname === '/building-2' ? 'active' : ''}> Building 2</Link>
                                     </li>
                                     <li>       
-                                        <Link to="/building 3" className={location.pathname === '/building 3' ? 'active' : ''}> Building 3</Link>
+                                        <Link to="/building-3" className={location.pathname === '/building-3' ? 'active' : ''}> Building 3</Link>
                                     </li>
                                     <li>       
-                                        <Link to="/building 4" className={location.pathname === '/building 4' ? 'active' : ''}> Building 4</Link>
+                                        <Link to="/building-4" className={location.pathname === '/building-4' ? 'active' : ''}> Building 4</Link>
                                     </li>
                                     <li>       
-                                        <Link to="/building 5" className={location.pathname === '/building 5' ? 'active' : ''}> Building 5</Link>
+                                        <Link to="/building-5" className={location.pathname === '/building-5' ? 'active' : ''}> Building 5</Link>
                                     </li>
                                 </ul>
                             </li>
@@ -76,13 +76,13 @@ export default function Header() {
                                 </a>
                                 <ul>
                                     <li>       
-                                        <Link to="/all facilities" className={location.pathname === '/all facilities' ? 'active' : ''}> All Facilities</Link>
+                                        <Link to="/all-facilities" className={location.pathname === '/all-facilities' ? 'active' : ''}> All Facilities</Link>
                                     </li>
                                     <li>       
-                                        <Link to="/facility 1" className={location.pathname === '/facility 1' ? 'active' : ''}> Facility 1</Link>
+                                        <Link to="/facility-1" className={location.pathname === '/facility-1' ? 'active' : ''}> Facility 1</Link>
                                     </li>
                                     <li>       
-                                        <Link to="/facility 2" className={location.pathname === '/facility 2' ? 'active' : ''}> Facility 2</Link>
+                                        <Link to="/facility-2" className={location.pathname === '/facility-2' ? 'active' : ''}> Facility 2</Link>
                                     </li>
                                 </ul>
                             </li>
