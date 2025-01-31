@@ -13,7 +13,7 @@ import AboutPage from "../pages/main/About";
 import ServicesPage from "../pages/main/Services";
 import ContactPage from "../pages/main/Contact";
 import DiscoverPage from "../pages/main/Discover";
-import AllStallsPage from "../pages/main/Stalls/AllStalls";
+import AllBuildingsPage from "../pages/main/Stalls/AllBuildings";
 import Building1Page from "../pages/main/Stalls/Building1"
 import Building2Page from "../pages/main/Stalls/Building2"
 import Building3Page from "../pages/main/Stalls/Building3"
@@ -76,7 +76,7 @@ const AppRoutes = () => {
               }
             />
             <Route
-              path="all stalls"
+              path="all buildings"
               element={
                 <motion.div
                   initial={{ opacity: 0 }}
@@ -84,7 +84,7 @@ const AppRoutes = () => {
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.5 }}
                 >
-                  <AllStallsPage />
+                  <AllBuildingsPage />
                 </motion.div>
               }
             />

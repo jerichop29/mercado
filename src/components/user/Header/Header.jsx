@@ -10,7 +10,7 @@ export default function Header() {
             <div className="topbar d-flex align-items-center">
                 <div className="container d-flex justify-content-center justify-content-md-between">
                     <div className="d-none d-md-flex align-items-center">
-                        <i className="bi bi-globe"></i> Mercado De Calamba Official Website
+                        <i className="bi bi-globe"></i>&nbsp;Mercado De Calamba Official Website
                     </div>
                     <div className="d-flex align-items-center">
                         <i className="bi bi-phone me-1"></i> Call us now (+63) 9426912070
@@ -28,28 +28,28 @@ export default function Header() {
                         <ul>
                             <li>
                                 <Link to="/" className={location.pathname === '/' ? 'active' : ''}>
-                                    <i className="bi bi-house-door"></i>Home
+                                    <i className="bi bi-house-door"></i>&nbsp;Home
                                 </Link>
                             </li>
                             <li>
                                 <Link to="/about" className={location.pathname === '/about' ? 'active' : ''}>
-                                    <i className="bi bi-info-square"></i>About
+                                    <i className="bi bi-info-square"></i>&nbsp;About
                                 </Link>
                             </li>
                             <li>
                                 <Link to="/services" className={location.pathname === '/services' ? 'active' : ''}>
-                                    <i className="bi bi-shop"></i>Services
+                                    <i className="bi bi-shop"></i>&nbsp;Services
                                 </Link>
                             </li>
                             <li className="dropdown">
                                 <a href="#">
                                     <i className="bi bi-building"></i>
-                                    <span>Stalls</span>
+                                    <span>&nbsp;Stalls</span>
                                     <i className="bi bi-chevron-down toggle-dropdown"></i>
                                 </a>
                                 <ul>
                                     <li>       
-                                        <Link to="/all stalls" className={location.pathname === '/all stalls' ? 'active' : ''}> All Stalls</Link>
+                                        <Link to="/all buildings" className={location.pathname === '/all buildings' ? 'active' : ''}> All Buildings</Link>
                                     </li>
                                     <li>       
                                         <Link to="/building 1" className={location.pathname === '/building 1' ? 'active' : ''}> Building 1</Link>
@@ -71,7 +71,7 @@ export default function Header() {
                             <li className="dropdown">
                                 <a href="#">
                                     <i className="bi bi-building"></i>
-                                    <span>Facilities</span>
+                                    <span>&nbsp;Facilities</span>
                                     <i className="bi bi-chevron-down toggle-dropdown"></i>
                                 </a>
                                 <ul>
@@ -88,19 +88,19 @@ export default function Header() {
                             </li>
                             <li>
                                 <Link to="/discover" className={location.pathname === '/discover' ? 'active' : ''}>
-                                    <i className="fas fa-star"></i>Discover
+                                    <i className="fas fa-star"></i>&nbsp;Discover
                                 </Link>
                             </li>
                             <li>
                                 <Link to="/contact" className={location.pathname === '/contact' ? 'active' : ''}>
-                                    <i className="bi bi-telephone-inbound"></i>Contact
+                                    <i className="bi bi-telephone-inbound"></i>&nbsp;Contact
                                 </Link>
                             </li>
                         </ul>
                     </nav>
                     {/* Updated link for accessing account */}
                     <Link className="cta-btn" to="/auth/signin">
-                        <i className="bi bi-person-square"></i> Access Your Account
+                        <i className="bi bi-person-square"></i>&nbsp;&nbsp;Access Your Account
                     </Link>
                 </div>
             </div>
