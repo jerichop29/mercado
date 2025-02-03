@@ -36,7 +36,7 @@ export default function AllFacilities() {
                                     <span><i className="fa-solid fa-ruler-horizontal"></i> Width: 5m</span>
                                 </p>
                                 <p>The Mercado de Calamba Event Hall provides a spacious venue designed for gatherings, conferences, and celebrations. Equipped with modern amenities, excellent lighting, and ventilation, it ensures a comfortable experience for all attendees. Whether hosting corporate functions or social events, this facility offers a well-maintained space to meet your needs.</p>
-                                <a href="#" className="btn btn--with-icon"><i className="btn-icon fa fa-long-arrow-right"></i>SEE MORE</a>
+                                <a href="#" className="facility-card-btny btn--with-icon"><i className="btn-icon fa fa-long-arrow-right"></i>SEE MORE</a>
                             </div>
                         </article>
                     </div>
@@ -64,7 +64,7 @@ export default function AllFacilities() {
                                     <span><i className="fa-solid fa-ruler-horizontal"></i> Width: 5m</span>
                                 </p>
                                 <p>The Mercado de Calamba Table Tennis Facility is a dedicated space for table tennis enthusiasts of all skill levels. Featuring high-quality tables, ample lighting, and a well-ventilated environment, it ensures an enjoyable playing experience. Whether for practice or competitive matches, this facility provides everything needed for a great game.</p>
-                                <a href="#" className="btn btn--with-icon"><i className="btn-icon fa fa-long-arrow-right"></i>SEE MORE</a>
+                                <a href="#" className="facility-card-btny btn--with-icon"><i className="btn-icon fa fa-long-arrow-right"></i>SEE MORE</a>
                             </div>
                         </article>
                     </div>

@@ -215,8 +215,7 @@
   }
   
   .btn-primary:hover {
-    color: #0d3e94;
-    background-color: #ffffff;
+    background: color-mix(in srgb, var(--accent-color), transparent 10%);
     border-color: #0d3e94;
   }
   

@@ -89,7 +89,7 @@ const AppRoutes = () => {
               }
             />
             <Route
-              path="building 1"
+              path="building-1"
               element={
                 <motion.div
                   initial={{ opacity: 0 }}
