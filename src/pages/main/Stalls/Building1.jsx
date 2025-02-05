@@ -1,11 +1,14 @@
-import PageTitle from "../../../components/user/PageTitle/PageTitle"
-import Building from "../../../components/user/Stalls/Building/Building"
-
+import PageTitle from "../../../components/main/PageTitle/PageTitle"
+import Building from "../../../components/main/Stalls/Building/Building"
+const MODELS = [
+    { id: 'B1_1-v1', label: '1' },
+    // Add more models as needed
+  ];
 export default function Building1Page(){
     return (
         <>
            <PageTitle />
-           <Building />
+           <Building models={MODELS}/>
         </>
     )
 }
