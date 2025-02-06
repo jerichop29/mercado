@@ -19,7 +19,7 @@ export default function Features() {
               <div className="icon-box d-flex position-relative" data-aos="fade-up" data-aos-delay="300">
                 <i className="fa-brands fa-cc-discover flex-shrink-0"></i>
                 <div>
-                  <h4><a href="" className="stretched-link">Easy Product Discovery</a></h4>
+                  <h4><a className="stretched-link">Easy Product Discovery</a></h4>
                   <p>Quickly find the products you need with advanced search filters and personalized recommendations.</p>
                 </div>
               </div>{/* End Icon Box */}
@@ -27,7 +27,7 @@ export default function Features() {
               <div className="icon-box d-flex position-relative" data-aos="fade-up" data-aos-delay="400">
                 <i className="fa-solid fa-cart-shopping flex-shrink-0"></i>
                 <div>
-                  <h4><a href="" className="stretched-link">Hassle-Free Checkout</a></h4>
+                  <h4><a className="stretched-link">Hassle-Free Checkout</a></h4>
                   <p>Complete your purchases with a secure and fast checkout process, including multiple payment options.</p>
                 </div>
               </div>{/* End Icon Box */}
@@ -35,7 +35,7 @@ export default function Features() {
               <div className="icon-box d-flex position-relative" data-aos="fade-up" data-aos-delay="500">
                 <i className="bi bi-patch-check-fill flex-shrink-0"></i>
                 <div>
-                  <h4><a href="" className="stretched-link">Verified Sellers</a></h4>
+                  <h4><a className="stretched-link">Verified Sellers</a></h4>
                   <p>Shop confidently with trusted, verified sellers and transparent reviews to guide your decisions.</p>
                 </div>
               </div>{/* End Icon Box */}
@@ -43,7 +43,7 @@ export default function Features() {
               <div className="icon-box d-flex position-relative" data-aos="fade-up" data-aos-delay="600">
                 <i className="fa-regular fa-handshake flex-shrink-0"></i>
                 <div>
-                  <h4><a href="" className="stretched-link">Vendor Partnerships</a></h4>
+                  <h4><a className="stretched-link">Vendor Partnerships</a></h4>
                   <p>Local vendors can collaborate on promotions, sales, or special offers, fostering a sense of community and supporting each other’s businesses.</p>
                 </div>
               </div>{/* End Icon Box */}

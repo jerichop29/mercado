@@ -1,17 +1,52 @@
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router, useLocation } from "react-router-dom";
 import Aos from 'aos';
-import { useEffect } from "react"
+import { useEffect, useState } from "react";
 import AppRoutes from "./routes/AppRoutes";
 
 function App() {
-  useEffect (() => {
-    Aos.init();
-  }, [])
   return (
     <Router>
-      <AppRoutes />
+      <AppRoutesWithStyles />
     </Router>
-  )
+  );
 }
 
-export default App
+function AppRoutesWithStyles() {
+  const location = useLocation();
+  const [styleLoaded, setStyleLoaded] = useState(false);
+
+  useEffect(() => {
+    // Initialize Aos (if used for animations)
+    Aos.init();
+
+    // Determine the CSS file based on the route
+    let currentStyle;
+    if (location.pathname.startsWith('/user/')) {
+      currentStyle = './assets/css/user/Style.css'; // Path for user styles
+    } else {
+      currentStyle = './assets/css/main/Style.css'; // Default path for main styles
+    }
+
+    // Dynamically import the correct stylesheet based on the path
+    import(currentStyle)
+      .then(() => {
+        setStyleLoaded(true);
+      })
+      .catch((err) => {
+        console.error("Error loading style:", err);
+      });
+
+    return () => {
+      setStyleLoaded(false); // Reset the state when path changes
+    };
+  }, [location.pathname]); // Depend on pathname to reload styles on path change
+
+  return (
+    <div>
+      <AppRoutes />
+      {styleLoaded && <p>Styles Loaded!</p>}
+    </div>
+  );
+}
+
+export default App;

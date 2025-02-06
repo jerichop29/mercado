@@ -19,7 +19,7 @@ export default function Services() {
               <div className="icon">
                 <i className="fas fa-apple-alt"></i>
               </div>
-              <a href="#" className="stretched-link">
+              <a className="stretched-link">
                 <h3>Fresh Produce Section</h3>
               </a>
               <p>
@@ -35,7 +35,7 @@ export default function Services() {
               <div className="icon">
                 <i className="fas fa-fish"></i>
               </div>
-              <a href="#" className="stretched-link">
+              <a className="stretched-link">
                 <h3>Seafood and Meat Market</h3>
               </a>
               <p>
@@ -51,7 +51,7 @@ export default function Services() {
               <div className="icon">
                 <i className="fas fa-box"></i>
               </div>
-              <a href="#" className="stretched-link">
+              <a className="stretched-link">
                 <h3>Dry Goods and Groceries</h3>
               </a>
               <p>
@@ -67,7 +67,7 @@ export default function Services() {
               <div className="icon">
                 <i className="fas fa-hamburger"></i>
               </div>
-              <a href="#" className="stretched-link">
+              <a className="stretched-link">
                 <h3>Cooked Food and Delicacies</h3>
               </a>
               <p>
@@ -83,7 +83,7 @@ export default function Services() {
               <div className="icon">
                 <i className="fas fa-tshirt"></i>
               </div>
-              <a href="#" className="stretched-link">
+              <a className="stretched-link">
                 <h3>Clothing and Household Items</h3>
               </a>
               <p>
@@ -99,7 +99,7 @@ export default function Services() {
               <div className="icon">
                 <i className="fas fa-briefcase"></i>
               </div>
-              <a href="#" className="stretched-link">
+              <a className="stretched-link">
                 <h3>Business Services for Vendors</h3>
               </a>
               <p>

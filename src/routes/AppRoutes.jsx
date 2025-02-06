@@ -3,8 +3,9 @@ import { AnimatePresence, motion } from "framer-motion"; // Import Framer Motion
 import { useEffect } from "react";
 
 // Layouts
-import MainLayout from "../layouts/MainLayout";
+import MainLayout from "../layouts/MainLayout/MainLayout";
 import AuthLayout from "../layouts/AuthLayout";
+import UserLayout from "../layouts/UserLayout/UserLayout";
 
 // Pages
 import SignInPage from "../pages/auth/SignIn";
@@ -22,6 +23,7 @@ import Building5Page from "../pages/main/Stalls/Building5"
 import AllFacilitiesPage from "../pages/main/Facilities/AllFacilities";
 import Facility1Page from "../pages/main/Facilities/Facility1";
 import Facility2Page from "../pages/main/Facilities/Facility2";
+import DashboardPage from "../pages/user/Dashboard";
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -236,6 +238,24 @@ const AppRoutes = () => {
               }
             />
           </Route>
+
+          <Route path="user" element={<UserLayout />}>
+            <Route
+              path="dashboard"
+              element={
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <DashboardPage />
+                </motion.div>
+              }
+            />
+          </Route>
+
+
         </Routes>
       </AnimatePresence>
     </>
