@@ -4,7 +4,7 @@ const LogoOverlay = () => {
     return (
         <div style={{
             position: 'absolute',
-            top:  '27vh',
+            top:  '20vh',
             left:  '5vw',
             zIndex: 12,
         }}>
