@@ -8,7 +8,7 @@ export default function Hero() {
   return (
     <>
       {/* Hero Section */}
-      <section id="hero" className="hero section">
+      <section id="hero" className="hero">
         <div id="hero-carousel" className="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
           <div className="carousel-item active">
             <img src={CarouseImage1} alt="Hero 1" />

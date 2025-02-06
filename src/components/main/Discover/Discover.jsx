@@ -18,7 +18,7 @@ export default function Discover() {
           <li className="cards_item">
             <div className="card" tabIndex="0">
                 <div className="card_image">
-                <img src="https://scontent.fmnl16-1.fna.fbcdn.net/v/t39.30808-6/427989829_867250462084011_3951982731069653291_n.jpg?stp=dst-jpg_p180x540_tt6&_nc_cat=108&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeHkaip8hCtbsy7-tW0OsW62ZPLGPt24lA1k8sY-3biUDQflOjVHA_Nr0-OnzKPk3CoN3_QaO_bf5SDZ5qxwAVvh&_nc_ohc=ZjH8zhA-QUYQ7kNvgG93DEL&_nc_zt=23&_nc_ht=scontent.fmnl16-1.fna&_nc_gid=AySD0hpnRQXLpDhfC8QKvKi&oh=00_AYA6qiPNFSeH76HGIWAhkpCIPD1CUP5dRQmINrH0nU3JHA&oe=67A0A552" alt="a Reuben sandwich on wax paper." />
+                <img src="https://cdn.manilastandard.net/wp-content/uploads/2021/12/team_ph.jpg" />
                 </div>
                 <div className="card_content"> 
                 <h2 className="card_title">Mercado Karate Tournament</h2>

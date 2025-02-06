@@ -1,5 +1,5 @@
-import PageTitle from "../../../components/user/PageTitle/PageTitle"
-import AllFacilities from "../../../components/user/Facilities/AllFacilities"
+import PageTitle from "../../../components/main/PageTitle/PageTitle"
+import AllFacilities from "../../../components/main/Facilities/AllFacilities"
 
 export default function AllFacilitiesPage(){
     return(

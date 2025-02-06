@@ -1,6 +1,6 @@
 
-import PageTitle from "../../components/user/PageTitle/PageTitle"
-import Discover from "../../components/user/Discover/Discover"
+import PageTitle from "../../components/main/PageTitle/PageTitle"
+import Discover from "../../components/main/Discover/Discover"
 
 export default function DiscoverPage(){
     return(
