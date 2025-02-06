@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import stallHandler from './backend/handler_js/stallHandler';
+import stallHandler from './handler_js/stallHandler';
 import StallForm from './forms/StallForm';
 
 const StallData = () => {
+    // State variables to manage stall data, search term, filtered data, and editing state
     const [data, setData] = useState({ status: '', message: '', data: [] });
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredData, setFilteredData] = useState([]);
     const [editingStall, setEditingStall] = useState(null);
     const [message, setMessage] = useState({ text: '', type: '' });
 
-    // Fetch initial data
+    // Fetch initial data when the component mounts
     useEffect(() => {
         handleFetchData();
     }, []);
 
+    // Function to fetch stall data from the server
     const handleFetchData = async () => {
         try {
             const result = await stallHandler.getStalls();
@@ -24,7 +26,7 @@ const StallData = () => {
         }
     };
 
-    // Handle search
+    // Handle search input and filter stalls based on the search term
     const handleSearch = (e) => {
         const term = e.target.value.toLowerCase();
         setSearchTerm(term);
@@ -35,6 +37,7 @@ const StallData = () => {
         setFilteredData(filtered);
     };
 
+    // Function to delete a stall after user confirmation
     const handleDelete = async (id) => {
         if (window.confirm('Are you sure you want to delete this stall?')) {
             try {
@@ -46,10 +49,12 @@ const StallData = () => {
         }
     };
 
+    // Function to set the stall to be edited
     const handleEdit = (stall) => {
         setEditingStall(stall);
     };
 
+    // Function to handle successful form submission
     const handleSubmitSuccess = () => {
         handleFetchData();
         setEditingStall(null);
@@ -65,6 +70,7 @@ const StallData = () => {
                 />
             ) : (
                 <>
+                    {/* Search input for filtering stalls */}
                     <input
                         type="text"
                         placeholder="Search by Stall Name..."
@@ -80,6 +86,7 @@ const StallData = () => {
                         }}
                     />
 
+                    {/* Message display for success or error notifications */}
                     {message.text && (
                         <div style={{
                             padding: '10px',
@@ -92,6 +99,7 @@ const StallData = () => {
                         </div>
                     )}
 
+                    {/* Grid display for filtered stalls */}
                     <div style={{ 
                         display: 'grid',
                         gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
@@ -119,6 +127,7 @@ const StallData = () => {
                                     gap: '10px',
                                     marginTop: '15px'
                                 }}>
+                                    {/* Edit and Delete buttons for each stall */}
                                     <button
                                         onClick={() => handleEdit(stall)}
                                         style={{
@@ -152,6 +161,7 @@ const StallData = () => {
                         ))}
                     </div>
 
+                    {/* Message for no stalls found */}
                     {filteredData.length === 0 && (
                         <div style={{ textAlign: 'center', padding: '20px', color: '#666' }}>
                             No stalls found matching "{searchTerm}"

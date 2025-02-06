@@ -1,0 +1,44 @@
+import { Environment} from '@react-three/drei'
+import { Scene } from './Scene'
+import { CameraSetup } from './CameraSetup'
+import { Suspense } from 'react'
+import PropTypes from 'prop-types'
+
+function ThreeDModel ( {modelName}){
+    if (!modelName ) {
+        console.warn('Scene: modelUrl are required parameters')
+        return null
+      }
+    return (
+
+    <Suspense fallback={null}>
+        <CameraSetup />
+        <Scene modelName={modelName} />
+
+        {/* Environment lighting */}
+        <Environment
+          preset="night" // Try: 'sunset', 'dawn', 'night', 'warehouse', 'forest', 'apartment', 'studio', 'city', 'park', 'lobby'
+          background = 'whitesmoke' // Shows the environment map as a background
+          blur={1} // Blur factor between 0 and 1
+        />
+        {/* Supplementary lights */}
+        <ambientLight intensity={1.0} />
+        <directionalLight 
+          position={[10, 10, 5]} 
+          intensity={2}
+          castShadow
+
+        />
+        <directionalLight 
+          position={[20, 20, 10]} 
+          intensity={2}
+          castShadow
+
+        />
+      </Suspense>
+      )
+}
+ThreeDModel.propTypes = {
+    modelName: PropTypes.string.isRequired,
+  }
+export { ThreeDModel }
