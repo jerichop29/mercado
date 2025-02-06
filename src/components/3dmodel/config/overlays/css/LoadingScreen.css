@@ -14,8 +14,8 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 98vw;
-    height: 80vh;
+    width: 100vw;
+    height: 100vh;
     background: rgba(0, 0, 0, .8);
     overflow: hidden;
     z-index: 13;

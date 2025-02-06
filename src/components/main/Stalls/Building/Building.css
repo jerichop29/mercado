@@ -2,7 +2,7 @@
     display: flex;
     justify-content: center; /* Center the content horizontally */
     align-items: center; /* Center the content vertically */
-    height: 90vh; /* Full viewport height */
+    height: 100vh; /* Full viewport height */
     background-color: #f0f0f0; /* Light background color */
     
 }
@@ -11,6 +11,5 @@
     max-width: 100vw; /* Maximum width */
     background-color: white; /* White background for the model container */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    border-radius: 8px; /* Rounded corners */
     z-index: 3;
 }

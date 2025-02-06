@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../connect_db.php';
 
-class StallFunctions {
+class DiscoverFunctions {
     private $db;
     private $conn;
 
@@ -76,21 +76,21 @@ $data = json_decode(file_get_contents('php://input'), true);
 try {
     switch ($action) {
         case 'get':
-            echo json_encode($stallFunctions->getAllDiscovers());
+            echo json_encode($discoverFunctions->getAllDiscovers());
             break;
             
         case 'addDiscover':
-            echo json_encode($stallFunctions->addDiscover($data));
+            echo json_encode($discoverFunctions->addDiscover($data));
             break;
             
         case 'deleteDiscover':
             $id = $_GET['id'] ?? null;
-            echo json_encode($stallFunctions->deleteDiscover($id));
+            echo json_encode($discoverFunctions->deleteDiscover($id));
             break;
             
         case 'updateDiscover':
             $id = $_GET['id'] ?? null;
-            echo json_encode($stallFunctions->updateDiscover($id, $data));
+            echo json_encode($discoverFunctions->updateDiscover($id, $data));
             break;
             
         default:

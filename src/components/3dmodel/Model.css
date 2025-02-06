@@ -1,6 +1,6 @@
 .model-container {
-  width: 95vw;
-  height: 80vh;
+  width: 100vw;
+  height: 100vh;
   position: inherit;
-  overflow: auto;
+  overflow: hidden;
 } 

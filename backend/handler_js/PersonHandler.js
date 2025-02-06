@@ -1,10 +1,32 @@
 class PersonHandler {
     constructor() {
-        this.baseUrl = 'http://localhost/mercado/backend/handler_php/person/Function/personFunctions.php'; // Update with the correct PHP file
+        this.baseUrl = 'http://localhost/mercado/backend/handler_php/personFunctions.php'; // Update with the correct PHP file
     }
 
     async fetchWithErrorHandling(url, options = {}) {
-        // ... existing fetchWithErrorHandling method ...
+        try {
+            const response = await fetch(url, {
+                ...options,
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...options.headers,
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            if (data.status === 'error') {
+                throw new Error(data.message);
+            }
+
+            return data;
+        } catch (error) {
+            console.error('API Error:', error);
+            throw error;
+        }
     }
 
     async getPersons() {

@@ -1,5 +1,13 @@
 <?php
-header('Access-Control-Allow-Origin: http://localhost:5173');
+// Allow requests from any origin on port 5173
+if (isset($_SERVER['HTTP_ORIGIN'])) {
+    $origin = $_SERVER['HTTP_ORIGIN'];
+    // Check if the origin ends with :5173
+    if (preg_match('/^http?:\/\/[^\/]+:5173$/', $origin)) {
+        header('Access-Control-Allow-Origin: ' . $origin);
+    }
+}
+
 header('Access-Control-Allow-Credentials: true');
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS, DELETE, PUT');
 header('Access-Control-Allow-Headers: Content-Type');

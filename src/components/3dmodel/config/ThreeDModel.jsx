@@ -17,10 +17,12 @@ function ThreeDModel ( {modelName}){
 
         {/* Environment lighting */}
         <Environment
-          preset="night" // Try: 'sunset', 'dawn', 'night', 'warehouse', 'forest', 'apartment', 'studio', 'city', 'park', 'lobby'
-          background = 'whitesmoke' // Shows the environment map as a background
-          blur={1} // Blur factor between 0 and 1
-        />
+          // Try: 'sunset', 'dawn', 'night', 'warehouse', 'forest', 'apartment', 'studio', 'city', 'park', 'lobby'
+          background ={true} // Shows the environment map as a background
+          // Blur factor between 0 and 1
+        >
+          <color attach="background" args={['#898']} /> {/* Set custom background color */}
+        </Environment>
         {/* Supplementary lights */}
         <ambientLight intensity={1.0} />
         <directionalLight 

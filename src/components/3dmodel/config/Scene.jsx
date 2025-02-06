@@ -5,7 +5,7 @@ import * as THREE from 'three'
 import { EffectComposer, Bloom } from '@react-three/postprocessing'
 import PropTypes from 'prop-types'
 import Loader from './overlays/LoadingScreen'
-
+import stallHandler from '../../../../backend/handler_js/stallHandler'
 
 function Model({ url }) {
   const { nodes } = useGLTF(url)
@@ -13,9 +13,9 @@ function Model({ url }) {
   const [greenMeshes, setGreenMeshes] = useState(new Set())
   const [glowingMeshes, setGlowingMeshes] = useState(new Set()) // Track glowing state
   const [additionalInfo, setAdditionalInfo] = useState('') // State to hold additional information
-  
+  const [vacantStalls,setVacantStalls] = useState([]);
   // Define which geometries should be black
-  const vacantStalls = ['1','2','3','8','11','12','16','Stall_light_1'];
+  
   
   // Create a glowing material
   const glowMaterial = new THREE.MeshStandardMaterial({ 
@@ -29,12 +29,36 @@ function Model({ url }) {
   const greenMaterial = new THREE.MeshStandardMaterial({ 
     color: '#88ff88',
     roughness: 2,
-    metalness: 1.5,
+    metalness: 1.7,
     opacity: 0.5
   })
+  // Function to fetch stall data from the server
+  const handleFetchData = async () => {
+    try {
+        const stall = await stallHandler.getStalls();
+        
+        // Filter stalls where Owner_Id is null
+        const vacantStalls = stall.data.filter(stall => 
+            stall.Owner_Id === null ); // Fallback to an empty array if stall.data is undefined
+        let vacantStallNames = ([]);
+        if (url && url === '/models/B4_4-v1.glb') {
+           vacantStallNames = vacantStalls.map(stall => stall.StallName,);
+        }
+        else{// Create an array of StallNames for vacant stalls
+         vacantStallNames = vacantStalls.map(stall => stall.StallName+"_Light" );
+        }
+        // Set the state with the array of vacant stall names
+        setVacantStalls(vacantStallNames);
+        setGlowingMeshes(new Set(vacantStallNames));
 
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
+  };
   // Effect to handle key press events
   useEffect(() => {
+    handleFetchData();
+   
     const handleKeyPress = (event) => {
       if (event.key === 'Enter' && selectedMesh) {
         // Display additional information for the selected mesh
@@ -47,7 +71,7 @@ function Model({ url }) {
     return () => {
       window.removeEventListener('keydown', handleKeyPress);
     };
-  }, [selectedMesh, additionalInfo]); // Dependencies include selectedMesh and additionalInfo
+  }, []); // Dependencies include selectedMesh and additionalInfo
 
   return (
     <>
@@ -63,7 +87,6 @@ function Model({ url }) {
       <group onClick={(e) => {
         if (e.object.type === 'Scene') {
           setGreenMeshes(new Set())
-          setGlowingMeshes(new Set(vacantStalls))
           setSelectedMesh(null)
         }
       }}>
@@ -71,7 +94,7 @@ function Model({ url }) {
           const mesh = nodes[nodeName]
           if (mesh.isMesh) {
             const worldPosition = mesh.getWorldPosition(new THREE.Vector3())
-            const commonShapes = ['Plane', 'Cube', 'Sphere', 'Cylinder', 'Cone', 'Torus', 'Circle','light','Text'];
+            const commonShapes = ['Plane', 'Cube', 'Sphere', 'Cylinder', 'Cone', 'Torus', 'Circle','Light','Text'];
             const isSelectable = nodeName.length <= 16 && 
                                 nodeName != 'RoadMap' && 
                                 nodeName != 'Stairs' &&
