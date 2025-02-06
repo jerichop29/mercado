@@ -57,8 +57,9 @@ function Model({ url }) {
   };
   // Effect to handle key press events
   useEffect(() => {
-    handleFetchData();
-   
+    handleFetchData();},[])
+
+  useEffect(() => {
     const handleKeyPress = (event) => {
       if (event.key === 'Enter' && selectedMesh) {
         // Display additional information for the selected mesh
@@ -71,7 +72,7 @@ function Model({ url }) {
     return () => {
       window.removeEventListener('keydown', handleKeyPress);
     };
-  }, []); // Dependencies include selectedMesh and additionalInfo
+  }, [selectedMesh,additionalInfo]); // Dependencies include selectedMesh and additionalInfo
 
   return (
     <>

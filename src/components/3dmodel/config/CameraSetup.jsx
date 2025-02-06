@@ -7,12 +7,12 @@ function CameraSetup() {
     
     useEffect(() => {
       // Set initial camera position
-      camera.position.set(0,8,10)
-      camera.lookAt(0,10,0)
+      camera.position.set(0,5,10)
+      camera.lookAt(0,5,5)
       camera.updateProjectionMatrix()
       
         // Optional: Set camera FOV (Field of View)
-        camera.fov = 7
+        camera.fov = 45
         camera.updateProjectionMatrix()
     }, [camera])
 

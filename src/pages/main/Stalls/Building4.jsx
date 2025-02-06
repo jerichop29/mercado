@@ -9,7 +9,7 @@ const MODELS = [
 export default function Building4Page(){
     return (
         <>
-            <PageTitle />
+
             <Building models={MODELS}/>
         </>
     )

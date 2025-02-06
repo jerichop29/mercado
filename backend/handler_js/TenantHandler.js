@@ -1,6 +1,6 @@
 class TenantHandler {
     constructor() {
-        this.baseUrl = 'http://localhost/mercado/backend/handler_php/tenantFunctions.php'; // Update with the correct PHP file
+       this.baseUrl = `http://localhost/mercado/backend/handler_php/tenantFunctions.php`; // Update with the correct PHP file
     }
 
     async fetchWithErrorHandling(url, options = {}) {

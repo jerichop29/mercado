@@ -1,6 +1,6 @@
 class DiscoverHandler {
     constructor() {
-        this.baseUrl = `${window.location.origin}/mercado/backend/handler_php/discoverFunctions.php`; // Update with the correct PHP file
+        this.baseUrl = 'http://localhost/mercado/backend/handler_php/discoverFunctions.php'; // Update with the correct PHP file
     }
 
     async fetchWithErrorHandling(url, options = {}) {
