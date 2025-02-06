@@ -5,7 +5,9 @@ import './Building.css';
 export default function Building({models}){
     return(
         <div className="building-container">
-            <Model models={models} />
+            <div className="model-container">
+                <Model models={models} />
+            </div>
         </div>
     )
 }

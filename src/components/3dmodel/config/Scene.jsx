@@ -187,8 +187,8 @@ function Scene({modelName}) {
   return (
     <>
       <Controls />
-      <Suspense style={{ zIndex:-9999 }} fallback={<Loader loading={loading} />}>
-        {loading ? <Model url={model} /> : <Loader loading={loading} onStartLoading={handleStartLoading} />}
+      <Suspense >
+        {loading ? <Model url={model} /> : <Loader onStartLoading={handleStartLoading} />}
       </Suspense>
     </>
   )
