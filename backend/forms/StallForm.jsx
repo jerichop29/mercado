@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import stallHandler from '../backend/handler_js/stallHandler';
+import stallHandler from '../handler_js/stallHandler';
 
 const StallForm = ({ editData, onClose, onSubmitSuccess }) => {
     const [formData, setFormData] = useState({
