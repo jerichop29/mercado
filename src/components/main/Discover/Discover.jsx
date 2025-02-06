@@ -5,23 +5,25 @@ import DiscoverHandler from '../../../../backend/handler_js/DiscoverHandler';
 
 
 export default function Discover() {
-  const [discoverData,setDiscoverData] = useState([]);
-  const [filteredData, setFilteredData] = useState([]);
+  const [filteredData, setFilteredData] = useState(new Set());
+  const [currentDay,setCurrentDay]= useState([]);
   // Function to fetch stall data from the server
 const handleFetchData = async () => {
   try {
       const discover = await DiscoverHandler.getDiscoveries();
-      setDiscoverData(discover.data);
+      const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
       const currentDate = new Date();
-
+      const year = currentDate.getFullYear(); // Get the current year
+      const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Get the current month and ensure it's two digits
+      const day = String(currentDate.getDate()).padStart(2, '0');
+      const formattedMonth = monthNames[currentDate.getMonth()]; // Get the current month name
+      const formattedDate = `${formattedMonth +" "+ day+", "+year} `; // Format as YYYY:MM
+     const date = `${year}-${month}-${day}`;
       // Filter data based on the current date
-      const filteredDate = discover.data.filter(item => {
-        const itemStartDate = new Date(item.StartDate);
-        const itemEndDate = new Date(item.EndDate);
-        return itemStartDate < currentDate && itemEndDate > currentDate; // Return true if the item is within the date range
-      });
-      console.log(filteredDate);
-      setFilteredData(filteredDate); // Set the filtered data
+      const filteredDate = discover.data.filter(item =>  date >= item.Date_Start && date <= item.Date_End// Compare with currentDate
+      );
+      setCurrentDay(formattedDate);
+      setFilteredData(new Set(filteredDate)); // Set the filtered data
   } catch (error) {
       console.error('Error fetching data:', error);
   }
@@ -45,19 +47,19 @@ const handleFetchData = async () => {
         <div className="discover" data-aos="fade-up">
           <ul className="cards">
             {/* Render your filtered data here */}
-            {filteredData.map(item => (
-          <li className="cards_item" key={item.id}>
+            {Array.from(filteredData).map(discover => (
+          <li className="cards_item" key={discover.discover_Id}>
             <div className="card" tabIndex="0">
                 <div className="card_image">
                 <img src="https://cdn.manilastandard.net/wp-content/uploads/2021/12/team_ph.jpg" />
                 </div>
                 <div className="card_content"> 
-                <h2 className="card_title">{item.Title}</h2>
+                <h2 className="card_title">{discover.Title}</h2>
                 <div className="card_text">
-                <span className="note">{item.Activity}</span>
-                    <p>{item.Description}</p>
+                <span className="note">{discover.Activity}</span>
+                    <p>{discover.Description}</p>
                     <p>Registration Form: <strong>https://docs.google.com/forms/d/e/1FAIpQLSfs6PPXbXGZiX1ECBAyKnkzW-GcacswQUU90WeJq5ic-UVtkw/</strong></p>
-                    <p className="upcharge">{item.StartDate} - {item.EndDate}</p>
+                    <p className="upcharge">{currentDay} - 10:00pm - 11:00pm </p>
                 </div>
                 </div>
             </div>
