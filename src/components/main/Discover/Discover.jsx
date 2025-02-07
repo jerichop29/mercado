@@ -5,24 +5,42 @@ import DiscoverHandler from '../../../../backend/handler_js/DiscoverHandler';
 
 
 export default function Discover() {
+
   const [filteredData, setFilteredData] = useState(new Set());
-  const [currentDay,setCurrentDay]= useState([]);
+  const [date,setFormatDate]=useState([]);
   // Function to fetch stall data from the server
+  const formatDate = (inputDate) => {
+    try {
+        const date = new Date(inputDate); // Create a Date object from the input
+        const year = date.getFullYear(); // Get the year
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Get the month and ensure it's two digits
+        const day = String(date.getDate()).padStart(2, '0'); // Get the day and ensure it's two digits
+        return `${year}-${month}-${day}`; // Return formatted date
+    } catch (error) {
+        console.error('Error formatting date:', error);
+        return null; // Return null or a default value in case of error
+    }
+  };
+  const formatDateWMonth = (inputDate) => {
+    try {
+        const date = new Date(inputDate); // Create a Date object from the input
+        const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        const formattedMonth = monthNames[date.getMonth()]; // Get the current month name
+        return `${formattedMonth +" "+ String(date.getDate()).padStart(2, '0')+", "+date.getFullYear()} `; // Return formatted date
+    } catch (error) {
+        console.error('Error formatting date:', error);
+        return null; // Return null or a default value in case of error
+    }
+  };
 const handleFetchData = async () => {
   try {
       const discover = await DiscoverHandler.getDiscoveries();
-      const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-      const currentDate = new Date();
-      const year = currentDate.getFullYear(); // Get the current year
-      const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Get the current month and ensure it's two digits
-      const day = String(currentDate.getDate()).padStart(2, '0');
-      const formattedMonth = monthNames[currentDate.getMonth()]; // Get the current month name
-      const formattedDate = `${formattedMonth +" "+ day+", "+year} `; // Format as YYYY:MM
-     const date = `${year}-${month}-${day}`;
+     const currentDate = new Date();
+      const current = formatDate(currentDate);
+      setFormatDate(current);
       // Filter data based on the current date
       const filteredDate = discover.data.filter(item =>  date >= item.Date_Start && date <= item.Date_End// Compare with currentDate
       );
-      setCurrentDay(formattedDate);
       setFilteredData(new Set(filteredDate)); // Set the filtered data
   } catch (error) {
       console.error('Error fetching data:', error);
@@ -31,7 +49,7 @@ const handleFetchData = async () => {
 
   useEffect(()=>{
     handleFetchData()
-  },[]);
+  },[date]);
   return (
     <>
     
@@ -46,7 +64,7 @@ const handleFetchData = async () => {
 
         <div className="discover" data-aos="fade-up">
           <ul className="cards">
-            {/* Render your filtered data here */}
+            {/* Render  filtered data  */}
             {Array.from(filteredData).map(discover => (
           <li className="cards_item" key={discover.discover_Id}>
             <div className="card" tabIndex="0">
@@ -58,29 +76,20 @@ const handleFetchData = async () => {
                 <div className="card_text">
                 <span className="note">{discover.Activity}</span>
                     <p>{discover.Description}</p>
-                    <p>Registration Form: <strong>https://docs.google.com/forms/d/e/1FAIpQLSfs6PPXbXGZiX1ECBAyKnkzW-GcacswQUU90WeJq5ic-UVtkw/</strong></p>
-                    <p className="upcharge">{currentDay} - 10:00pm - 11:00pm </p>
+                    {discover.Reg_form !== '' &&
+                    <p>Registration Form: 
+                      <a href={discover.Reg_form} target='_blank'><strong>{discover.Reg_form}</strong></a>
+                    </p>}
+                    <p className="upcharge">{formatDateWMonth(discover.Date_Start)}
+                      {discover.Date_Start === discover.Date_End 
+                      ? <span> - 10:00pm - 11:00pm </span>
+                      : <span>- {formatDateWMonth(discover.Date_Start)}
+                      </span>} 
+                    </p>
                 </div>
                 </div>
             </div>
-            </li>
-))}
-            <li className="cards_item">
-            <div className="card" tabIndex="0">
-                <div className="card_image">
-                <img src="https://mercadodecalamba-market.com/assets/images/uploads/discover/6765fa74728ee_1734736500.jpg" alt="a Reuben sandwich on wax paper." />
-                </div>
-                <div className="card_content"> 
-                <h2 className="card_title">Mercado Table Tennis Tournament</h2>
-                <div className="card_text">
-                <span className="note">Table Tennis Sport</span>
-                    <p>The "Table Tennis Tournament at Mercado De Calamba for Youth" is an exciting event aimed at promoting sportsmanship, skill development, and community engagement among young people. Held at the Mercado De Calamba, this tournament invites local youth to participate in friendly yet competitive table tennis matches. The event provides a platform for young players to showcase their talents, improve their game, and interact with peers in a vibrant and supportive environment.</p>
-                    <p>Registration Form: <strong>https://docs.google.com/forms/d/e/1FAIpQLSfs6PPXbXGZiX1ECBAyKnkzW-GcacswQUU90WeJq5ic-UVtkw/</strong></p>
-                    <p className="upcharge">March 24, 2025 - 10:00pm - 11:00pm</p>
-                </div>
-                </div>
-            </div>
-            </li>
+            </li>))}
           </ul>
         </div>
       </section>

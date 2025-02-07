@@ -26,10 +26,10 @@ function AppRoutesWithStyles() {
     } else {
       currentStyle = './assets/css/main/Style.css'; // Default path for main styles
     }
-
     // Dynamically import the correct stylesheet based on the path
     import(currentStyle)
       .then(() => {
+        console.log("Styles Loaded")
         setStyleLoaded(true);
       })
       .catch((err) => {
@@ -44,7 +44,6 @@ function AppRoutesWithStyles() {
   return (
     <div>
       <AppRoutes />
-      {styleLoaded && <p>Styles Loaded!</p>}
     </div>
   );
 }

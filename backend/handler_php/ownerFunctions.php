@@ -25,11 +25,45 @@ class OwnerFunctions {
         return ["status" => "error", "message" => "Failed to fetch owners"];
     }
 
+    // Authenticate owners
+    public function AuthOwner($data) {
+        // Decode the JSON input
+        $username = $data['username'] ?? null;
+        $password = $data['password'] ?? null;
+
+        // Check if username and password are provided
+        if (!$username || !$password) {
+            return ["status" => "error", "message" => "Username and password are required"];
+        }
+
+        $sql = "SELECT `Password` FROM OwnerTbl WHERE Username = ?"; // Updated SQL query
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("s", $username);
+        
+        if ($stmt->execute()) {
+            $result = $stmt->get_result();
+            if ($result->num_rows > 0) {
+                $owner = $result->fetch_assoc();
+                // Verify the password (assuming passwords are hashed)
+                if (password_verify($password, $owner['Password'])) {
+                    return [
+                        "status" => "success", "message" => "Authentication successful"
+                    ];
+                }
+            }
+            return ["status" => "error", "message" => "Invalid Username or Password"];
+        }
+        return ["status" => "error", "message" => "Failed to fetch owners"];
+    }
+
     // Add new owner
     public function addOwner($data) {
+        // Hash the password before storing it using Argon2
+        $hashedPassword = password_hash($data['password'], PASSWORD_ARGON2ID);
+        
         $sql = "INSERT INTO OwnerTbl (Person_Id, Admin_Id, Username, `Password`) VALUES (?, ?, ?, ?)";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("iiss", $data['person_id'], $data['admin_id'], $data['username'], $data['password']);
+        $stmt->bind_param("iiss", $data['person_id'], $data['admin_id'], $data['username'], $hashedPassword);
         
         if ($stmt->execute()) {
             return ["status" => "success", "message" => "Owner added successfully"];
@@ -80,6 +114,10 @@ try {
             echo json_encode($ownerFunctions->getAllOwners());
             break;
             
+        case 'auth':
+            echo json_encode($ownerFunctions->AuthOwner($data));
+            break;
+
         case 'add':
             echo json_encode($ownerFunctions->addOwner($data));
             break;

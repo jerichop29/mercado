@@ -1,6 +1,6 @@
 class OwnerHandler {
     constructor() {
-        this.baseUrl = 'http://localhost/mercado/backend/handler_php/ownerFunctions.php'; // Update with the correct PHP file
+        this.baseUrl = `${window.location.protocol}//${window.location.hostname}/mercado/backend/handler_php/ownerFunctions.php`; // Dynamic base URL without port
     }
 
     async fetchWithErrorHandling(url, options = {}) {
@@ -24,14 +24,20 @@ class OwnerHandler {
 
             return data;
         } catch (error) {
-            console.error('API Error:', error);
+            //console.error('API Error:', error);
             throw error;
         }
-        // ... existing fetchWithErrorHandling method ...
     }
 
     async getOwners() {
         return this.fetchWithErrorHandling(`${this.baseUrl}?action=get`);
+    }
+
+    async AuthOwner(ownerData) {
+        return this.fetchWithErrorHandling(`${this.baseUrl}?action=auth`,{
+        method:'POST',
+        body: JSON.stringify(ownerData)
+        });
     }
 
     async addOwner(ownerData) {
@@ -52,6 +58,13 @@ class OwnerHandler {
             method: 'PUT',
             body: JSON.stringify(ownerData)
         });
+    }
+
+    validateOwnerData(data) {
+        if (!data.username?.trim() || !data.password?.trim()) {
+            throw new Error('Username and password are required');
+        }
+        return true;
     }
 }
 
