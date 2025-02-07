@@ -1,6 +1,11 @@
+// src/AppRoutes.js
 import { Routes, Route, useLocation } from "react-router-dom";
-import { AnimatePresence, motion } from "framer-motion"; // Import Framer Motion
-import { useEffect } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import Loader from "../components/loader/loader";
+
+// Hooks
+import useScrollReset from "../hooks/useScrollReset";
+import useLoading from "../hooks/useLoading";
 
 // Layouts
 import MainLayout from "../layouts/MainLayout/MainLayout";
@@ -15,11 +20,11 @@ import ServicesPage from "../pages/main/Services";
 import ContactPage from "../pages/main/Contact";
 import DiscoverPage from "../pages/main/Discover";
 import AllBuildingsPage from "../pages/main/Stalls/AllBuildings";
-import Building1Page from "../pages/main/Stalls/Building1"
-import Building2Page from "../pages/main/Stalls/Building2"
-import Building3Page from "../pages/main/Stalls/Building3"
-import Building4Page from "../pages/main/Stalls/Building4"
-import Building5Page from "../pages/main/Stalls/Building5"
+import Building1Page from "../pages/main/Stalls/Building1";
+import Building2Page from "../pages/main/Stalls/Building2";
+import Building3Page from "../pages/main/Stalls/Building3";
+import Building4Page from "../pages/main/Stalls/Building4";
+import Building5Page from "../pages/main/Stalls/Building5";
 import AllFacilitiesPage from "../pages/main/Facilities/AllFacilities";
 import Facility1Page from "../pages/main/Facilities/Facility1";
 import Facility2Page from "../pages/main/Facilities/Facility2";
@@ -27,237 +32,53 @@ import DashboardPage from "../pages/user/Dashboard";
 
 const AppRoutes = () => {
   const location = useLocation();
+  const isLoading = useLoading(); // Get loading state from the hook
 
-  // Reset scroll position instantly when the location changes
-  useEffect(() => {
-    window.scrollTo(0, 0); // Instantly scroll to the top of the page
-  }, [location]);
+  useScrollReset();
+
+  const renderPage = (Page) => (
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
+      <Page />
+    </motion.div>
+  );
 
   return (
     <>
-      <AnimatePresence mode="wait">
-        <Routes location={location} key={location.pathname}>
-          <Route path="/" element={<MainLayout />}>
-            <Route
-              index
-              element={
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <HomePage />
-                </motion.div>
-              }
-            />
-            <Route
-              path="about"
-              element={
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <AboutPage />
-                </motion.div>
-              }
-            />
-            <Route
-              path="services"
-              element={
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <ServicesPage />
-                </motion.div>
-              }
-            />
-            <Route
-              path="all-buildings"
-              element={
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <AllBuildingsPage />
-                </motion.div>
-              }
-            />
-            <Route
-              path="building-1"
-              element={
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <Building1Page />
-                </motion.div>
-              }
-            />
-            <Route
-              path="building-2"
-              element={
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <Building2Page />
-                </motion.div>
-              }
-            />
-            <Route
-              path="building-3"
-              element={
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <Building3Page />
-                </motion.div>
-              }
-            />
-            <Route
-              path="building-4"
-              element={
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <Building4Page />
-                </motion.div>
-              }
-            />
-            <Route
-              path="building-5"
-              element={
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <Building5Page />
-                </motion.div>
-              }
-            />
-            <Route
-              path="all-facilities"
-              element={
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <AllFacilitiesPage />
-                </motion.div>
-              }
-            />
-            <Route
-              path="facility-1"
-              element={
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <Facility1Page />
-                </motion.div>
-              }
-            />
-            <Route
-              path="facility-2"
-              element={
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <Facility2Page />
-                </motion.div>
-              }
-            />
-            <Route
-              path="discover"
-              element={
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <DiscoverPage />
-                </motion.div>
-              }
-            />
-            <Route
-              path="contact"
-              element={
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <ContactPage />
-                </motion.div>
-              }
-            />
-          </Route>
-          
-            {/* Auth Layout */}
-          <Route path="auth" element={<AuthLayout />}>
-            <Route
-              path="signin"
-              element={
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <SignInPage />
-                </motion.div>
-              }
-            />
-          </Route>
+      {isLoading ? (
+        <Loader isLoading={isLoading} />
+      ) : (
+        <AnimatePresence mode="wait">
+          <Routes location={location} key={location.pathname}>
+            {/* Main Layout Routes */}
+            <Route path="/" element={<MainLayout />}>
+              <Route index element={renderPage(HomePage)} />
+              <Route path="about" element={renderPage(AboutPage)} />
+              <Route path="services" element={renderPage(ServicesPage)} />
+              <Route path="all-buildings" element={renderPage(AllBuildingsPage)} />
+              <Route path="building-1" element={renderPage(Building1Page)} />
+              <Route path="building-2" element={renderPage(Building2Page)} />
+              <Route path="building-3" element={renderPage(Building3Page)} />
+              <Route path="building-4" element={renderPage(Building4Page)} />
+              <Route path="building-5" element={renderPage(Building5Page)} />
+              <Route path="all-facilities" element={renderPage(AllFacilitiesPage)} />
+              <Route path="facility-1" element={renderPage(Facility1Page)} />
+              <Route path="facility-2" element={renderPage(Facility2Page)} />
+              <Route path="discover" element={renderPage(DiscoverPage)} />
+              <Route path="contact" element={renderPage(ContactPage)} />
+            </Route>
 
-          <Route path="user" element={<UserLayout />}>
-            <Route
-              path="dashboard"
-              element={
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <DashboardPage />
-                </motion.div>
-              }
-            />
-          </Route>
+            {/* Auth Layout Routes */}
+            <Route path="auth" element={<AuthLayout />}>
+              <Route path="signin" element={renderPage(SignInPage)} />
+            </Route>
 
-
-        </Routes>
-      </AnimatePresence>
+            {/* User Layout Routes */}
+            <Route path="user" element={<UserLayout />}>
+              <Route path="dashboard" element={renderPage(DashboardPage)} />
+            </Route>
+          </Routes>
+        </AnimatePresence>
+      )}
     </>
   );
 };

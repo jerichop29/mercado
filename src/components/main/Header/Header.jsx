@@ -42,7 +42,7 @@ export default function Header() {
                                 </Link>
                             </li>
                             <li className="dropdown">
-                                <a href="#">
+                                <a>
                                     <i className="bi bi-building"></i>
                                     <span>&nbsp;Stalls</span>
                                     <i className="bi bi-chevron-down toggle-dropdown"></i>
@@ -69,7 +69,7 @@ export default function Header() {
                                 </ul>
                             </li>
                             <li className="dropdown">
-                                <a href="#">
+                                <a>
                                     <i className="bi bi-building"></i>
                                     <span>&nbsp;Facilities</span>
                                     <i className="bi bi-chevron-down toggle-dropdown"></i>
