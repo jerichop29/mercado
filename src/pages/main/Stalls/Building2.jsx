@@ -1,5 +1,3 @@
-import PageTitle from "../../../components/main/PageTitle/PageTitle";
-
 import Building from "../../../components/main/Stalls/Building/Building"
 const MODELS = [
     { id: 'B2_2-v1', label: '1' },

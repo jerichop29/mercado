@@ -5,7 +5,7 @@ const UserLayout = () => {
   return (
     <>
       {/* Layout */}
-      <div class="container-scroller">
+      <div className="container-scroller">
           <TopBar />
           <Outlet />
       </div>

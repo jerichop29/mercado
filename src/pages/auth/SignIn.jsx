@@ -1,8 +1,45 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import './SignIn.css';
 import LoginImage from '../../assets/img/login.png';
+import OwnerHandler from '../../../backend/handler_js/OwnerHandler';
+import Cookies from 'js-cookie';
 
 const SignInPage = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
+
+  useEffect(() => {
+    const savedUsername = Cookies.get('username');
+    if (savedUsername) {
+      setUsername(savedUsername);
+      setRememberMe(true);
+    }
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setErrorMessage('');
+
+    try {
+      if (!username || !password) {
+        throw new Error('Username and password are required');
+      }
+      const response = await OwnerHandler.AuthOwner({username,password});
+      console.log('Authentication successful:', response);
+
+      if (rememberMe) {
+        Cookies.set('username', username, { expires: 7 });
+      } else {
+        Cookies.remove('username');
+      }
+    } catch (error) {
+      console.error('Authentication failed');
+      setErrorMessage(error.message);
+    }
+  };
+
   return (
     <div className="d-lg-flex half">
       {/* Background image section */}
@@ -38,7 +75,7 @@ const SignInPage = () => {
               <strong>Login to your Account</strong>
               </h3>
               <p className="mb-4">Sign in to explore your personalized dashboard.</p>
-              <form action="#" method="post">
+              <form onSubmit={handleSubmit}>
                 {/* Username Field */}
                 <div className="form-group first">
                   <label htmlFor="username">Username</label>
@@ -47,6 +84,8 @@ const SignInPage = () => {
                     className="form-control"
                     placeholder="Your username"
                     id="username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
                   />
                 </div>
 
@@ -58,13 +97,22 @@ const SignInPage = () => {
                     className="form-control"
                     placeholder="Your Password"
                     id="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
+
+                {/* Error Message */}
+                {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
 
                 {/* Remember Me and Forgot Password */}
                 <div className="d-flex justify-content-between align-items-center mb-5">
                   <label className="control control--checkbox mb-0">
-                    <input type="checkbox" />
+                    <input 
+                      type="checkbox" 
+                      checked={rememberMe} 
+                      onChange={(e) => setRememberMe(e.target.checked)}
+                    />
                     <span className="caption">Remember me</span>
                     <div className="control__indicator"></div>
                   </label>

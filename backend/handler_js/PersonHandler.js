@@ -1,6 +1,6 @@
 class PersonHandler {
     constructor() {
-        this.baseUrl = 'http://localhost/mercado/backend/handler_php/personFunctions.php'; // Update with the correct PHP file
+        this.baseUrl = `${window.location.protocol}//${window.location.hostname}/mercado/backend/handler_php/personFunctions.php`; // Update with the correct PHP file
     }
 
     async fetchWithErrorHandling(url, options = {}) {

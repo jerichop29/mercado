@@ -1,6 +1,6 @@
 class StallHandler {
     constructor() {
-        this.baseUrl = `http://localhost/mercado/backend/handler_php/stallFunctions.php`;
+        this.baseUrl = `${window.location.protocol}//${window.location.hostname}/mercado/backend/handler_php/stallFunctions.php`;
     }
 
     // Generic fetch method with error handling

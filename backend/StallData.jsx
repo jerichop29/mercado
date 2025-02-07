@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import stallHandler from './handler_js/stallHandler';
 import StallForm from './forms/StallForm';
 
@@ -22,6 +22,7 @@ const StallData = () => {
             setData(result);
             setFilteredData(result.data);
         } catch (error) {
+            setMessage(error)
             console.error('Error fetching data:', error);
         }
     };

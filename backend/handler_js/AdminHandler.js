@@ -1,8 +1,9 @@
 class AdminHandler {
     constructor() {
-        this.baseUrl = 'http://localhost/mercado/backend/handler_php/adminFunctions.php';// Update with the correct PHP file
+        this.baseUrl = `${window.location.protocol}//${window.location.hostname}/mercado/backend/handler_php/ownerFunctions.php`;// Update with the correct PHP file
+        
     }
-
+    
     async fetchWithErrorHandling(url, options = {}) {
         try {
             const response = await fetch(url, {
