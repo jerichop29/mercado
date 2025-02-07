@@ -1,13 +1,14 @@
 import { Component } from "react";
+import "./assets/css/main/Style.css"; // Import CSS file
 
 class ErrorBoundary extends Component {
   constructor(props) {
     super(props);
-    this.state = { hasError: false };
+    this.state = { hasError: false, errorMessage: "" };
   }
 
   static getDerivedStateFromError(error) {
-    return { hasError: true };
+    return { hasError: true, errorMessage: error.message };
   }
 
   componentDidCatch(error, errorInfo) {
@@ -17,17 +18,16 @@ class ErrorBoundary extends Component {
   render() {
     if (this.state.hasError) {
       return (
-        <div className="flex justify-center items-center min-h-screen bg-gray-100">
-          <div className="bg-white p-8 rounded-2xl shadow-lg text-center max-w-md">
-            <h1 className="text-3xl font-bold text-red-600 mb-4">Oops!</h1>
-            <p className="text-gray-700 mb-6">
+        <div className="error-container">
+          <div className="error-box">
+            <h1 className="error-title">Oops!</h1>
+            <p className="error-message">
               Something went wrong. Please try refreshing the page.
-              
             </p>
-            <button
-              onClick={() => window.location.reload()}
-              className="bg-blue-600 text-white px-5 py-2 rounded-lg shadow-md transition hover:bg-blue-700"
-            >
+            <p className="error-details">
+              <strong>Error:</strong> {this.state.errorMessage}
+            </p>
+            <button className="error-button" onClick={() => window.location.reload()}>
               Reload Page
             </button>
           </div>
