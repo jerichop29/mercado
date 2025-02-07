@@ -1,7 +1,9 @@
-import { BrowserRouter as Router, useLocation } from "react-router-dom";
-import Aos from 'aos';
-import { useEffect, useState } from "react";
+// src/App.jsx
+import { BrowserRouter as Router } from "react-router-dom";
+import { motion } from "framer-motion"; // Import motion from framer-motion
 import AppRoutes from "./routes/AppRoutes";
+import Loader from "./components/loader/loader"; // Import the loader component
+import useStyleLoader from "./hooks/useStyleLoader"; // Import the custom hook
 
 function App() {
   return (
@@ -12,40 +14,22 @@ function App() {
 }
 
 function AppRoutesWithStyles() {
-  const location = useLocation();
-  const [styleLoaded, setStyleLoaded] = useState(false);
+  const { styleLoaded, isLoading } = useStyleLoader(); // Use the hook to get the state
 
-  useEffect(() => {
-    // Initialize Aos (if used for animations)
-    Aos.init();
-
-    // Determine the CSS file based on the route
-    let currentStyle;
-    if (location.pathname.startsWith('/user/')) {
-      currentStyle = './assets/css/user/Style.css'; // Path for user styles
-    } else {
-      currentStyle = './assets/css/main/Style.css'; // Default path for main styles
-    }
-
-    // Dynamically import the correct stylesheet based on the path
-    import(currentStyle)
-      .then(() => {
-        setStyleLoaded(true);
-      })
-      .catch((err) => {
-        console.error("Error loading style:", err);
-      });
-
-    return () => {
-      setStyleLoaded(false); // Reset the state when path changes
-    };
-  }, [location.pathname]); // Depend on pathname to reload styles on path change
+  // Until the style is loaded, render a loading indicator
+  if (!styleLoaded || isLoading) {
+    return <Loader isLoading={true} />;
+  }
 
   return (
-    <div>
+    <motion.div
+      initial={{ opacity: 0 }} // Start with 0 opacity
+      animate={{ opacity: 1 }} // Animate to full opacity
+      exit={{ opacity: 0 }} // Fade out on exit (if needed)
+      transition={{ duration: 1 }} // Transition duration
+    >
       <AppRoutes />
-      {styleLoaded && <p>Styles Loaded!</p>}
-    </div>
+    </motion.div>
   );
 }
 
