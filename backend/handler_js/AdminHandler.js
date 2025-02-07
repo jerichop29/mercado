@@ -35,6 +35,13 @@ class AdminHandler {
         return this.fetchWithErrorHandling(`${this.baseUrl}?action=get`);
     }
 
+    async Authadmin(adminData) {
+        return this.fetchWithErrorHandling(`${this.baseUrl}?action=auth`,{
+        method:'POST',
+        body: JSON.stringify(adminData)
+        });
+    }
+
     async addAdmin(adminData) {
         return this.fetchWithErrorHandling(`${this.baseUrl}?action=add`, {
             method: 'POST',

@@ -164,10 +164,7 @@ function Model({ url }) {
               {selectedMesh === nodeName && isSelectable && (
                 //TODO: ADD MODAL FUNCTION
                 alert(`Additional info for ${selectedMesh}: ${additionalInfo}`)
-                
                 )}
-                
-           
             }}
        
             onPointerDown={innerWidth < 789 ? (e) => {
@@ -230,10 +227,7 @@ function Scene({modelName}) {
     </>
   )
 }
-/*<mesh>
-        <meshStandardMaterial map={textureUrl} />
-      </mesh>*/ 
-// Add PropTypes for better validation
+
 Scene.propTypes = {
   modelName: PropTypes.string.isRequired
 }

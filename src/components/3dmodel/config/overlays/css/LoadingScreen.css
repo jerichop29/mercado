@@ -1,67 +1,177 @@
-@keyframes loadingAnimation {
-    0% { width: 0%; }
-    50% { width: 60%; }
-    100% { width: 98%; }
-}
-
 .loader-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    color: white;
-    position: inherit;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 2rem;
+    border-radius: 8px;
+    width: 98vw;
     height: 80vh;
-    background: rgba(0, 0, 0, .8);
-    overflow: hidden;
-    z-index: 13;
+    animation: fadeIn 0.5s ease-in;
 }
 
 .loader-button {
-    padding: 10px 20px;
-    font-size: 18px;
-    font-weight: 500;
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    background-color: #4a90e2;
     color: white;
-    background-color: transparent;
-    border: solid;
-    border-radius: 5px;
+    border: none;
+    border-radius: 4px;
     cursor: pointer;
-    margin-bottom: 20px;
-    transition: background-color 0.3s;
-    z-index: 13;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
 }
 
 .loader-button:hover {
-    background-color: #009e70;
+    background-color: #357abd;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(74, 144, 226, 0.3);
+}
+
+.loader-button:active {
+    transform: translateY(0);
 }
 
 .loading-bar-container {
     width: 100%;
     height: 20px;
-    background-color: rgba(255, 255, 255, 0.3);
-    border-radius: 5px;
+    background-color: #2c2c2c;
+    border-radius: 10px;
     overflow: hidden;
-    margin-bottom: 20px;
-    z-index: 13;
+    margin: 1rem 0;
+    position: relative;
 }
 
 .loading-bar {
-    width: 100%;
     height: 100%;
-    background-color: #00ff88;
-    animation: loadingAnimation 3s linear forwards;
+    background: linear-gradient(
+        90deg,
+        #4a90e2 0%,
+        #5a7c9e 25%,
+        #357abd 50%,
+        #4a90e2 100%
+    );
+    border-radius: 10px;
+    transition: width 0.3s ease-in-out;
+    background-size: 200% 100%;
+    animation: gradientMove 2s linear infinite;
 }
 
 .loading-text {
-    font-size: 18px;
-    font-weight: 500;
-    text-align: center;
     color: white;
-    margin-top: 10px;
-    font-family: Arial, sans-serif;
-    letter-spacing: 1px;
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 1rem;
+    animation: pulse 2s infinite;
+}
+
+.loading-text small {
+    opacity: 0.7;
+    font-size: 0.8rem;
+    display: block;
+    margin-top: 0.5rem;
+}
+
+/* Shimmer effect before loading starts */
+.loader-button::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        to right,
+        transparent,
+        rgba(255, 255, 255, 0.1),
+        transparent
+    );
+    transform: rotate(45deg);
+    animation: shimmer 2s infinite;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes gradientMove {
+    0% {
+        background-position: 100% 0;
+    }
+    100% {
+        background-position: -100% 0;
+    }
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        transform: rotate(45deg) translateX(-200%);
+    }
+    100% {
+        transform: rotate(45deg) translateX(200%);
+    }
+}
+
+/* Loading dots animation for the text */
+.loading-text::after {
+    content: '';
+    animation: loading-dots 1.5s infinite;
+}
+
+@keyframes loading-dots {
+    0% { content: ''; }
+    25% { content: '.'; }
+    50% { content: '..'; }
+    75% { content: '...'; }
+    100% { content: '....'; }
+}
+
+/* Optional: Add a pulsing glow effect to the container */
+@keyframes glow {
+    0% {
+        box-shadow: 0 0 5px rgba(74, 144, 226, 0.2);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(74, 144, 226, 0.4);
+    }
+    100% {
+        box-shadow: 0 0 5px rgba(74, 144, 226, 0.2);
+    }
+}
+
+.loader-container {
+    animation: fadeIn 0.2s ease-in, glow 2s infinite;
+}
+/* Hide loading dots by default */
+.loading-text::after {
+    content: '';  /* Empty by default */
+    display: none; /* Hidden */
+}
+
+/* Show loading dots when "loading" class is added */
+.loading-text.loading::after {
+    display: inline;
+    animation: loading-dots 1.5s infinite;
 }
