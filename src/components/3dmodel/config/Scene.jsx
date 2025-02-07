@@ -14,7 +14,7 @@ function Model({ url }) {
   const [glowingMeshes, setGlowingMeshes] = useState(new Set()) // Track glowing state
   const [additionalInfo, setAdditionalInfo] = useState('') // State to hold additional information
   const [vacantStalls,setVacantStalls] = useState([]);
-  let lastTap = 0; // Initialize lastTap variable
+
   
   // Define which geometries should be black
   
@@ -169,21 +169,16 @@ function Model({ url }) {
                 
            
             }}
-            onPointerDown={(e) => {
-              if (!isSelectable) return;
-              
+       
+            onPointerDown={innerWidth < 789 ? (e) => {
+              if (!isSelectable || e.pointerType !== 'touch') return; // Only proceed if it's a touch event
               // Handle touch event for double-tap
-              if(selectedMesh === nodeName && isSelectable){
-                if (e.pointerType === 'touch') {
-                  const now = Date.now();
-                  if (now - lastTap < 500) {
-                    // If the time between taps is less than 300ms, consider it a double-tap
-                    alert(`Additional info for ${selectedMesh}: ${additionalInfo}`);
-                  }
-                  lastTap = now;
-                }
+              if (selectedMesh === nodeName) {
+                // If the time between taps is less than 300ms, consider it a double-tap
+                alert(`Additional info for ${selectedMesh}: ${additionalInfo}`);
               }
-            }}
+            } : undefined}
+           
                 onPointerMissed={() => {
                   setSelectedMesh(null)
                   setGreenMeshes(new Set())
