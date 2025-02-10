@@ -1,19 +1,30 @@
 import './Header.css';
 import Logo from '../../../assets/img/logo.png';
-import { Link, useLocation } from 'react-router-dom'; // Import Link and useLocation
+import { Link, useLocation } from 'react-router-dom';
+import React, { useState } from 'react';
 
 export default function Header() {
     const location = useLocation(); // Get current location (route)
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // State to track mobile menu visibility
+    const [openDropdown, setOpenDropdown] = useState(null); // State to track which dropdown is open
+
+    const toggleMobileMenu = () => {
+        setIsMobileMenuOpen(!isMobileMenuOpen); // Toggle the mobile menu
+    };
+
+    const toggleDropdown = (dropdown) => {
+        setOpenDropdown(openDropdown === dropdown ? null : dropdown); // Toggle dropdown
+    };
 
     return (
-        <header id="header" className="header sticky-top">
+        <header id="" className="header sticky-top">
             <div className="topbar d-flex align-items-center">
                 <div className="container d-flex justify-content-center justify-content-md-between">
                     <div className="d-none d-md-flex align-items-center">
-                        <i className="bi bi-globe"></i>&nbsp;Mercado De Calamba Official Website
+                        <i className="bi bi-phone me-1"></i>Call us now (+63) 9426912070
                     </div>
                     <div className="d-flex align-items-center">
-                        <i className="bi bi-phone me-1"></i> Call us now (+63) 9426912070
+                        <i className="bi bi-globe me-1"></i> Mercado De Calamba Official Website
                     </div>
                 </div>
             </div>
@@ -24,8 +35,8 @@ export default function Header() {
                         <img src={Logo} alt="Logo" />
                     </Link>
 
-                    <nav id="navmenu" className="navmenu">
-                        <ul>
+                    <div id="navmenu" className={`navmenu ${isMobileMenuOpen ? 'mobile-nav-active' : ''}`}>
+                        <ul className='navmenu-content'>
                             <li>
                                 <Link to="/" className={location.pathname === '/' ? 'active' : ''}>
                                     <i className="bi bi-house-door"></i>&nbsp;Home
@@ -42,12 +53,12 @@ export default function Header() {
                                 </Link>
                             </li>
                             <li className="dropdown">
-                                <a>
+                                <a onClick={() => toggleDropdown('stalls')}>
                                     <i className="bi bi-building"></i>
                                     <span>&nbsp;Stalls</span>
-                                    <i className="bi bi-chevron-down toggle-dropdown"></i>
+                                    <i id="toggle-dropdown" className="bi bi-chevron-down toggle-dropdown"></i>
                                 </a>
-                                <ul>
+                                <ul className={openDropdown === 'stalls' ? 'dropdown-active' : ''}>
                                     <li>       
                                         <Link to="/all-buildings" className={location.pathname === '/all-buildings' ? 'active' : ''}> All Buildings</Link>
                                     </li>
@@ -69,12 +80,12 @@ export default function Header() {
                                 </ul>
                             </li>
                             <li className="dropdown">
-                                <a>
-                                    <i className="bi bi-building"></i>
+                                <a onClick={() => toggleDropdown('facilities')}>
+                                    <i className="bi bi-building-gear"></i>
                                     <span>&nbsp;Facilities</span>
                                     <i className="bi bi-chevron-down toggle-dropdown"></i>
                                 </a>
-                                <ul>
+                                <ul className={openDropdown === 'facilities' ? 'dropdown-active' : ''}>
                                     <li>       
                                         <Link to="/all-facilities" className={location.pathname === '/all-facilities' ? 'active' : ''}> All Facilities</Link>
                                     </li>
@@ -88,7 +99,7 @@ export default function Header() {
                             </li>
                             <li>
                                 <Link to="/discover" className={location.pathname === '/discover' ? 'active' : ''}>
-                                    <i className="fas fa-star"></i>&nbsp;Discover
+                                    <i className="bi bi-calendar-event"></i>&nbsp;Discover
                                 </Link>
                             </li>
                             <li>
@@ -97,7 +108,15 @@ export default function Header() {
                                 </Link>
                             </li>
                         </ul>
-                    </nav>
+                    </div>
+                    {/* Mobile Menu Toggle Button */}
+                    <div
+                        className="mobile-nav-toggle d-md-none"
+                        onClick={toggleMobileMenu}
+                        aria-label="Toggle Menu"
+                    >
+                        <i className={`bi bi-${isMobileMenuOpen ? 'x' : 'list'}`}></i> {/* Toggle icon */}
+                    </div>
                     {/* Updated link for accessing account */}
                     <Link className="cta-btn" to="/auth/signin">
                         <i className="bi bi-person-square"></i>&nbsp;&nbsp;Access Your Account
