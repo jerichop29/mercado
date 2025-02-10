@@ -24,12 +24,44 @@ class AdminFunctions {
         }
         return ["status" => "error", "message" => "Failed to fetch admins"];
     }
+// Authenticate owners
+public function Authadmin($data) {
+    // Decode the JSON input
+    $username = $data['username'] ?? null;
+    $password = $data['password'] ?? null;
 
+    // Check if username and password are provided
+    if (!$username || !$password) {
+        return ["status" => "error", "message" => "Username and password are required"];
+    }
+
+    $sql = "SELECT `Password` FROM AdminTbl WHERE Username = ?"; // Updated SQL query
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bind_param("s", $username);
+    
+    if ($stmt->execute()) {
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $admin = $result->fetch_assoc();
+            // Verify the password (assuming passwords are hashed)
+            if (password_verify($password, $admin['Password'])) {
+                return [
+                    "status" => "success", "message" => "Authentication successful"
+                ];
+            }
+        }
+        return ["status" => "error", "message" => "Invalid Username or Password"];
+    }
+    return ["status" => "error", "message" => "Failed to fetch owners"];
+}
     // Add new admin
     public function addAdmin($data) {
+        // Hash the password before storing it using Argon2
+        $hashedPassword = password_hash($data['password'], PASSWORD_ARGON2ID);
+        
         $sql = "INSERT INTO AdminTbl (Username, `Password`, `role`) VALUES (?, ?, ?)";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("sss", $data['username'], $data['password'], $data['role']);
+        $stmt->bind_param("sss", $data['username'], $hashedPassword, $data['role']);
         
         if ($stmt->execute()) {
             return ["status" => "success", "message" => "Admin added successfully"];
@@ -80,6 +112,10 @@ try {
             echo json_encode($adminFunctions->getAllAdmins());
             break;
             
+        case 'auth':
+            echo json_encode($adminFunctions->Authadmin($data));
+            break;
+
         case 'add':
             echo json_encode($adminFunctions->addAdmin($data));
             break;
