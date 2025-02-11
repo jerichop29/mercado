@@ -13,64 +13,71 @@ class DiscoverFunctions {
     // Get all discoveries
     public function getAllDiscovers() {
         $sql = "SELECT * FROM discoverTbl";
-        
         $result = $this->conn->query($sql);
         
         if ($result) {
             $discovers = $result->fetch_all(MYSQLI_ASSOC);
-            return [
-                "status" => "success", "data" => $discovers
-            ];
+            return ["status" => "success", "data" => $discovers];
         }
         return ["status" => "error", "message" => "Failed to fetch discoveries"];
     }
 
     // Add new discovery
     public function addDiscover($data) {
-        $sql = "INSERT INTO discoverTbl (Title, Activity, `Description`, Date_start, Date_End) VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO discoverTbl (Title, Activity, `Description`, Date_start, Date_End, reg_form) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("sssss", $data['title'], $data['activity'], $data['description'], $data['date_start'], $data['date_end']);
+        $stmt->bind_param("ssssss", $data['title'], $data['activity'], $data['description'], $data['date_start'], $data['date_end'], $data['reg_form']);
         
         if ($stmt->execute()) {
             return ["status" => "success", "message" => "Discovery added successfully"];
         }
-        ErrorHandler::handleError(E_USER_ERROR, "Failed to add discovery");
+        error_log("Failed to add discovery");
         return ["status" => "error", "message" => "Failed to add discovery"];
     }
 
     // Delete discovery
     public function deleteDiscover($id) {
-        $stmt = $this->conn->prepare("DELETE FROM discoverTbl WHERE discover_ID = ?");
+        $stmt = $this->conn->prepare("DELETE FROM discoverTbl WHERE discover_Id = ?");
         $stmt->bind_param("i", $id);
         
         if ($stmt->execute()) {
             return ["status" => "success", "message" => "Discovery deleted successfully"];
         }
-        ErrorHandler::handleError(E_USER_ERROR, "Failed to delete discovery");
+        error_log("Failed to delete discovery");
         return ["status" => "error", "message" => "Failed to delete discovery"];
     }
 
     // Update discovery
     public function updateDiscover($id, $data) {
-        $sql = "UPDATE discoverTbl SET Title = ?, Activity = ?, `Description` = ?, Date_start = ?, Date_End = ? WHERE discover_ID = ?";
+        $sql = "UPDATE discoverTbl SET Title = ?, Activity = ?, `Description` = ?, Date_start = ?, Date_End = ?, reg_form = ? WHERE discover_ID = ?";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("sssssi", $data['title'], $data['activity'], $data['description'], $data['date_start'], $data['date_end'], $id);
+        $stmt->bind_param("ssssssi", $data['title'], $data['activity'], $data['description'], $data['date_start'], $data['date_end'], $data['reg_form'], $id);
         
         if ($stmt->execute()) {
             return ["status" => "success", "message" => "Discovery updated successfully"];
         }
-        ErrorHandler::handleError(E_USER_ERROR, "Failed to update discovery");
+        error_log("Failed to update discovery");
         return ["status" => "error", "message" => "Failed to update discovery"];
     }
 }
 
 // Handle incoming requests
+header("Content-Type: application/json");
+
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit();
 }
+
 $discoverFunctions = new DiscoverFunctions();
 $action = $_GET['action'] ?? '';
+
+$allowedActions = ['get', 'addDiscover', 'deleteDiscover', 'updateDiscover'];
+if (!in_array($action, $allowedActions, true)) {
+    echo json_encode(["status" => "error", "message" => "Invalid action"]);
+    exit();
+}
+
 $data = json_decode(file_get_contents('php://input'), true);
 
 try {
@@ -84,22 +91,24 @@ try {
             break;
             
         case 'deleteDiscover':
-            $id = $_GET['id'] ?? null;
+            $id = isset($_GET['id']) ? (int)$_GET['id'] : null;
+            if (!$id) {
+                echo json_encode(["status" => "error", "message" => "Missing or invalid ID"]);
+                exit();
+            }
             echo json_encode($discoverFunctions->deleteDiscover($id));
             break;
             
         case 'updateDiscover':
-            $id = $_GET['id'] ?? null;
+            $id = isset($_GET['id']) ? (int)$_GET['id'] : null;
+            if (!$id) {
+                echo json_encode(["status" => "error", "message" => "Missing or invalid ID"]);
+                exit();
+            }
             echo json_encode($discoverFunctions->updateDiscover($id, $data));
             break;
-            
-        default:
-            throw new Exception("Invalid action");
     }
 } catch (Exception $e) {
-    echo json_encode([
-        "status" => "error",
-        "message" => $e->getMessage()
-    ]);
+    echo json_encode(["status" => "error", "message" => $e->getMessage()]);
 }
-?> 
+?>

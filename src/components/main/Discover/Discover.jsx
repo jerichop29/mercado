@@ -83,7 +83,7 @@ const handleFetchData = async () => {
                     <p className="upcharge">{formatDateWMonth(discover.Date_Start)}
                       {discover.Date_Start === discover.Date_End 
                       ? <span> - 10:00pm - 11:00pm </span>
-                      : <span>- {formatDateWMonth(discover.Date_Start)}
+                      : <span>- {formatDateWMonth(discover.Date_End)}
                       </span>} 
                     </p>
                 </div>

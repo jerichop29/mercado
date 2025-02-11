@@ -12,15 +12,13 @@ class TenantFunctions {
 
     // Get all tenants
     public function getAllTenants() {
-        $sql = "SELECT * FROM TenantTbl"; // Updated SQL query
+        $sql = "SELECT * FROM TenantTbl"; 
         
         $result = $this->conn->query($sql);
         
         if ($result) {
             $tenants = $result->fetch_all(MYSQLI_ASSOC);
-            return [
-                "status" => "success", "data" => $tenants
-            ];
+            return ["status" => "success", "data" => $tenants];
         }
         return ["status" => "error", "message" => "Failed to fetch tenants"];
     }
@@ -29,12 +27,12 @@ class TenantFunctions {
     public function addTenant($data) {
         $sql = "INSERT INTO TenantTbl (Person_Id, Stall_Id, `Market Fee`) VALUES (?, ?, ?)";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("iis", $data['person_id'], $data['stall_id'], $data['market_fee']);
+        $stmt->bind_param("iid", $data['person_id'], $data['stall_id'], $data['market_fee']);
         
         if ($stmt->execute()) {
             return ["status" => "success", "message" => "Tenant added successfully"];
         }
-        ErrorHandler::handleError(E_USER_ERROR, "Failed to add tenant");
+        error_log("Failed to add tenant");
         return ["status" => "error", "message" => "Failed to add tenant"];
     }
 
@@ -46,7 +44,7 @@ class TenantFunctions {
         if ($stmt->execute()) {
             return ["status" => "success", "message" => "Tenant deleted successfully"];
         }
-        ErrorHandler::handleError(E_USER_ERROR, "Failed to delete tenant");
+        error_log("Failed to delete tenant");
         return ["status" => "error", "message" => "Failed to delete tenant"];
     }
 
@@ -54,17 +52,19 @@ class TenantFunctions {
     public function updateTenant($id, $data) {
         $sql = "UPDATE TenantTbl SET Person_Id = ?, Stall_Id = ?, `Market Fee` = ? WHERE TenantId = ?";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("iisi", $data['person_id'], $data['stall_id'], $data['market_fee'], $id);
+        $stmt->bind_param("iidi", $data['person_id'], $data['stall_id'], $data['market_fee'], $id);
         
         if ($stmt->execute()) {
             return ["status" => "success", "message" => "Tenant updated successfully"];
         }
-        ErrorHandler::handleError(E_USER_ERROR, "Failed to update tenant");
+        error_log("Failed to update tenant");
         return ["status" => "error", "message" => "Failed to update tenant"];
     }
 }
 
 // Handle incoming requests
+header("Content-Type: application/json");
+
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit();
@@ -72,6 +72,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 $tenantFunctions = new TenantFunctions();
 $action = $_GET['action'] ?? '';
+
+$allowedActions = ['get', 'add', 'delete', 'update'];
+if (!in_array($action, $allowedActions, true)) {
+    echo json_encode(["status" => "error", "message" => "Invalid action"]);
+    exit();
+}
+
 $data = json_decode(file_get_contents('php://input'), true);
 
 try {
@@ -85,22 +92,24 @@ try {
             break;
             
         case 'delete':
-            $id = $_GET['id'] ?? null;
+            $id = isset($_GET['id']) ? (int)$_GET['id'] : null;
+            if (!$id) {
+                echo json_encode(["status" => "error", "message" => "Missing or invalid ID"]);
+                exit();
+            }
             echo json_encode($tenantFunctions->deleteTenant($id));
             break;
             
         case 'update':
-            $id = $_GET['id'] ?? null;
+            $id = isset($_GET['id']) ? (int)$_GET['id'] : null;
+            if (!$id) {
+                echo json_encode(["status" => "error", "message" => "Missing or invalid ID"]);
+                exit();
+            }
             echo json_encode($tenantFunctions->updateTenant($id, $data));
             break;
-            
-        default:
-            throw new Exception("Invalid action");
     }
 } catch (Exception $e) {
-    echo json_encode([
-        "status" => "error",
-        "message" => $e->getMessage()
-    ]);
+    echo json_encode(["status" => "error", "message" => $e->getMessage()]);
 }
 ?>
