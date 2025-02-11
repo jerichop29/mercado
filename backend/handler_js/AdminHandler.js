@@ -1,6 +1,6 @@
 class AdminHandler {
     constructor() {
-        this.baseUrl = `${window.location.protocol}//${window.location.hostname}/mercado/backend/handler_php/ownerFunctions.php`;// Update with the correct PHP file
+        this.baseUrl = `${window.location.protocol}//${window.location.hostname}/mercado/backend/handler_php/adminFunctions.php`;// Update with the correct PHP file
         
     }
     
@@ -25,7 +25,7 @@ class AdminHandler {
 
             return data;
         } catch (error) {
-            console.error('API Error:', error);
+            //console.error('API Error:', error);
             throw error;
         }
         // ... existing fetchWithErrorHandling method ...

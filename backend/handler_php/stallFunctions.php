@@ -1,6 +1,4 @@
 <?php
-
-
 require_once __DIR__ . '/../connect_db.php';
 
 class StallFunctions {
@@ -14,18 +12,16 @@ class StallFunctions {
 
     // Get all stalls
     public function getStalls() {
-        $sql = "SELECT StallTbl.*, BuildingTbl.BuildingName ,TypesTbl.Name
+        $sql = "SELECT StallTbl.*, BuildingTbl.BuildingName, TypesTbl.Name AS TypeName
                 FROM StallTbl 
                 LEFT JOIN TypesTbl ON StallTbl.Type_Id = TypesTbl.Types_Id
-                LEFT JOIN BuildingTbl ON StallTbl.BuildingName = BuildingTbl.Id ";
+                LEFT JOIN BuildingTbl ON StallTbl.BuildingName = BuildingTbl.Id";
 
         $result = $this->conn->query($sql);
         
         if ($result) {
             $stalls = $result->fetch_all(MYSQLI_ASSOC);
-            return [
-                "status" => "success", "data" => $stalls
-            ];
+            return ["status" => "success", "data" => $stalls];
         }
         return ["status" => "error", "message" => "Failed to fetch stalls"];
     }
@@ -34,12 +30,12 @@ class StallFunctions {
     public function addStall($data) {
         $sql = "INSERT INTO StallTbl (StallName, BuildingName, Type_Id) VALUES (?, ?, ?)";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("ssi", $data['stallName'], $data['buildingName'], $data['type']);
+        $stmt->bind_param("sii", $data['stallName'], $data['BuildingName'], $data['type']);
         
         if ($stmt->execute()) {
             return ["status" => "success", "message" => "Stall added successfully"];
         }
-        ErrorHandler::handleError(E_USER_ERROR, "Failed to add stall");
+        error_log("Failed to add stall");
         return ["status" => "error", "message" => "Failed to add stall"];
     }
 
@@ -51,7 +47,7 @@ class StallFunctions {
         if ($stmt->execute()) {
             return ["status" => "success", "message" => "Stall deleted successfully"];
         }
-        ErrorHandler::handleError(E_USER_ERROR, "Failed to delete stall");
+        error_log("Failed to delete stall");
         return ["status" => "error", "message" => "Failed to delete stall"];
     }
 
@@ -59,17 +55,19 @@ class StallFunctions {
     public function updateStall($id, $data) {
         $sql = "UPDATE StallTbl SET StallName = ?, BuildingName = ?, Type_Id = ? WHERE Stall_Id = ?";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("ssii", $data['stallName'], $data['buildingName'], $data['type'], $id);
+        $stmt->bind_param("siii", $data['stallName'], $data['BuildingName'], $data['type'], $id);
         
         if ($stmt->execute()) {
             return ["status" => "success", "message" => "Stall updated successfully"];
         }
-        ErrorHandler::handleError(E_USER_ERROR, "Failed to update stall");
+        error_log("Failed to update stall");
         return ["status" => "error", "message" => "Failed to update stall"];
     }
 }
 
 // Handle incoming requests
+header("Content-Type: application/json");
+
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit();
@@ -77,6 +75,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 $stallFunctions = new StallFunctions();
 $action = $_GET['action'] ?? '';
+
+$allowedActions = ['get', 'add', 'delete', 'update'];
+if (!in_array($action, $allowedActions, true)) {
+    echo json_encode(["status" => "error", "message" => "Invalid action"]);
+    exit();
+}
+
 $data = json_decode(file_get_contents('php://input'), true);
 
 try {
@@ -90,22 +95,24 @@ try {
             break;
             
         case 'delete':
-            $id = $_GET['id'] ?? null;
+            $id = isset($_GET['id']) ? (int)$_GET['id'] : null;
+            if (!$id) {
+                echo json_encode(["status" => "error", "message" => "Missing or invalid ID"]);
+                exit();
+            }
             echo json_encode($stallFunctions->deleteStall($id));
             break;
             
         case 'update':
-            $id = $_GET['id'] ?? null;
+            $id = isset($_GET['id']) ? (int)$_GET['id'] : null;
+            if (!$id) {
+                echo json_encode(["status" => "error", "message" => "Missing or invalid ID"]);
+                exit();
+            }
             echo json_encode($stallFunctions->updateStall($id, $data));
             break;
-            
-        default:
-            throw new Exception("Invalid action");
     }
 } catch (Exception $e) {
-    echo json_encode([
-        "status" => "error",
-        "message" => $e->getMessage()
-    ]);
+    echo json_encode(["status" => "error", "message" => $e->getMessage()]);
 }
-?> 
+?>

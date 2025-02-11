@@ -12,15 +12,13 @@ class PersonFunctions {
 
     // Get all persons
     public function getAllPersons() {
-        $sql = "SELECT * FROM OwnerTbl"; // Updated SQL query
+        $sql = "SELECT * FROM OwnerTbl";
         
         $result = $this->conn->query($sql);
         
         if ($result) {
             $persons = $result->fetch_all(MYSQLI_ASSOC);
-            return [
-                "status" => "success", "data" => $persons
-            ];
+            return ["status" => "success", "data" => $persons];
         }
         return ["status" => "error", "message" => "Failed to fetch persons"];
     }
@@ -35,7 +33,7 @@ class PersonFunctions {
                                       Contact, 
                                       Email, 
                                       Birthdate) 
-                                      VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("ssssssss", 
                           $data['fname'], 
@@ -50,7 +48,7 @@ class PersonFunctions {
         if ($stmt->execute()) {
             return ["status" => "success", "message" => "Person added successfully"];
         }
-        ErrorHandler::handleError(E_USER_ERROR, "Failed to add person");
+        error_log("Failed to add person");
         return ["status" => "error", "message" => "Failed to add person"];
     }
 
@@ -62,7 +60,7 @@ class PersonFunctions {
         if ($stmt->execute()) {
             return ["status" => "success", "message" => "Person deleted successfully"];
         }
-        ErrorHandler::handleError(E_USER_ERROR, "Failed to delete person");
+        error_log("Failed to delete person");
         return ["status" => "error", "message" => "Failed to delete person"];
     }
 
@@ -70,14 +68,14 @@ class PersonFunctions {
     public function updatePerson($id, $data) {
         $sql = "UPDATE OwnerTbl 
                 SET FName = ?, 
-                    LName = ?,
-                    MName = ?,
-                    Gender = ?,
-                    `Address` = ?,
-                    Contact = ?,
-                    mail = ?,
-                    Birthdate = ?
-                    WHERE Person_Id = ?";
+                    LName = ?, 
+                    MName = ?, 
+                    Gender = ?, 
+                    `Address` = ?, 
+                    Contact = ?, 
+                    Email = ?, 
+                    Birthdate = ? 
+                WHERE Person_Id = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("ssssssssi",
                     $data['fname'],
@@ -93,12 +91,14 @@ class PersonFunctions {
         if ($stmt->execute()) {
             return ["status" => "success", "message" => "Person updated successfully"];
         }
-        ErrorHandler::handleError(E_USER_ERROR, "Failed to update person");
+        error_log("Failed to update person");
         return ["status" => "error", "message" => "Failed to update person"];
     }
 }
 
 // Handle incoming requests
+header("Content-Type: application/json");
+
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit();
@@ -106,6 +106,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 $personFunctions = new PersonFunctions();
 $action = $_GET['action'] ?? '';
+
+$allowedActions = ['get', 'add', 'delete', 'update'];
+if (!in_array($action, $allowedActions, true)) {
+    echo json_encode(["status" => "error", "message" => "Invalid action"]);
+    exit();
+}
+
 $data = json_decode(file_get_contents('php://input'), true);
 
 try {
@@ -119,22 +126,24 @@ try {
             break;
             
         case 'delete':
-            $id = $_GET['id'] ?? null;
+            $id = isset($_GET['id']) ? (int)$_GET['id'] : null;
+            if (!$id) {
+                echo json_encode(["status" => "error", "message" => "Missing or invalid ID"]);
+                exit();
+            }
             echo json_encode($personFunctions->deletePerson($id));
             break;
             
         case 'update':
-            $id = $_GET['id'] ?? null;
+            $id = isset($_GET['id']) ? (int)$_GET['id'] : null;
+            if (!$id) {
+                echo json_encode(["status" => "error", "message" => "Missing or invalid ID"]);
+                exit();
+            }
             echo json_encode($personFunctions->updatePerson($id, $data));
             break;
-            
-        default:
-            throw new Exception("Invalid action");
     }
 } catch (Exception $e) {
-    echo json_encode([
-        "status" => "error",
-        "message" => $e->getMessage()
-    ]);
+    echo json_encode(["status" => "error", "message" => $e->getMessage()]);
 }
 ?>

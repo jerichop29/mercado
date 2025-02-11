@@ -10,100 +10,108 @@ class AdminFunctions {
         $this->conn = $this->db->getConnection();
     }
 
-    // Get all admins
+    // Get all admins (WITHOUT returning passwords)
     public function getAllAdmins() {
-        $sql = "SELECT Admin_Id, Username, `Password`, `role` FROM AdminTbl"; // Updated SQL query
-        
+        $sql = "SELECT Admin_Id, Username, `role` FROM AdminTbl"; 
         $result = $this->conn->query($sql);
-        
+
         if ($result) {
-            $admins = $result->fetch_all(MYSQLI_ASSOC);
-            return [
-                "status" => "success", "data" => $admins
-            ];
+            return ["status" => "success", "data" => $result->fetch_all(MYSQLI_ASSOC)];
         }
         return ["status" => "error", "message" => "Failed to fetch admins"];
     }
-// Authenticate owners
-public function Authadmin($data) {
-    // Decode the JSON input
-    $username = $data['username'] ?? null;
-    $password = $data['password'] ?? null;
 
-    // Check if username and password are provided
-    if (!$username || !$password) {
-        return ["status" => "error", "message" => "Username and password are required"];
-    }
+    // Authenticate admin
+    public function authAdmin($data) {
+        $username = $data['username'] ?? null;
+        $password = $data['password'] ?? null;
 
-    $sql = "SELECT `Password` FROM AdminTbl WHERE Username = ?"; // Updated SQL query
-    $stmt = $this->conn->prepare($sql);
-    $stmt->bind_param("s", $username);
-    
-    if ($stmt->execute()) {
+        if (!$username || !$password) {
+            
+            return ["status" => "error", "message" => "Username and password are required"];
+        }
+
+        $stmt = $this->conn->prepare("SELECT `Password` FROM AdminTbl WHERE Username = ?");
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
         $result = $stmt->get_result();
+
         if ($result->num_rows > 0) {
             $admin = $result->fetch_assoc();
-            // Verify the password (assuming passwords are hashed)
             if (password_verify($password, $admin['Password'])) {
-                return [
-                    "status" => "success", "message" => "Authentication successful"
-                ];
+                return ["status" => "success", "message" => "Authentication successful"];
             }
         }
         return ["status" => "error", "message" => "Invalid Username or Password"];
     }
-    return ["status" => "error", "message" => "Failed to fetch owners"];
-}
+
     // Add new admin
     public function addAdmin($data) {
-        // Hash the password before storing it using Argon2
         $hashedPassword = password_hash($data['password'], PASSWORD_ARGON2ID);
-        
-        $sql = "INSERT INTO AdminTbl (Username, `Password`, `role`) VALUES (?, ?, ?)";
-        $stmt = $this->conn->prepare($sql);
+
+        $stmt = $this->conn->prepare("INSERT INTO AdminTbl (Username, `Password`, `role`) VALUES (?, ?, ?)");
         $stmt->bind_param("sss", $data['username'], $hashedPassword, $data['role']);
-        
+
         if ($stmt->execute()) {
             return ["status" => "success", "message" => "Admin added successfully"];
         }
-        ErrorHandler::handleError(E_USER_ERROR, "Failed to add admin");
+        error_log("Failed to add admin: " . $stmt->error);
         return ["status" => "error", "message" => "Failed to add admin"];
+    }
+
+    // Update admin (only hash the password if changed)
+    public function updateAdmin($id, $data) {
+        $updatePassword = !empty($data['password']);
+        $sql = "UPDATE AdminTbl SET Username = ?, `role` = ?" . ($updatePassword ? ", `Password` = ?" : "") . " WHERE Admin_Id = ?";
+        $stmt = $this->conn->prepare($sql);
+
+        if ($updatePassword) {
+            $hashedPassword = password_hash($data['password'], PASSWORD_ARGON2ID);
+            $stmt->bind_param("sssi", $data['username'], $data['role'], $hashedPassword, $id);
+        } else {
+            $stmt->bind_param("ssi", $data['username'], $data['role'], $id);
+        }
+
+        if ($stmt->execute()) {
+            return ["status" => "success", "message" => "Admin updated successfully"];
+        }
+        error_log("Failed to update admin: " . $stmt->error);
+        return ["status" => "error", "message" => "Failed to update admin"];
     }
 
     // Delete admin
     public function deleteAdmin($id) {
         $stmt = $this->conn->prepare("DELETE FROM AdminTbl WHERE Admin_Id = ?");
         $stmt->bind_param("i", $id);
-        
+
         if ($stmt->execute()) {
             return ["status" => "success", "message" => "Admin deleted successfully"];
         }
-        ErrorHandler::handleError(E_USER_ERROR, "Failed to delete admin");
-        return ["status" => "error", "message" => "Failed to delete admin"];
-    }
-
-    // Update admin
-    public function updateAdmin($id, $data) {
-        $sql = "UPDATE AdminTbl SET Username = ?, `Password` = ?, `role` = ? WHERE Admin_Id = ?";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("sssi", $data['username'], $data['password'], $data['role'], $id);
+        error_log("Failed to delete admin: " . $stmt->error);
         
-        if ($stmt->execute()) {
-            return ["status" => "success", "message" => "Admin updated successfully"];
-        }
-        ErrorHandler::handleError(E_USER_ERROR, "Failed to update admin");
-        return ["status" => "error", "message" => "Failed to update admin"];
+        return ["status" => "error", "message" => "Failed to delete admin"];
     }
 }
 
+
+
 // Handle incoming requests
+header("Content-Type: application/json");
+
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
+    
     exit();
 }
 
 $adminFunctions = new AdminFunctions();
 $action = $_GET['action'] ?? '';
+
+$allowedActions = ['get', 'auth', 'add', 'delete', 'update'];
+if (!in_array($action, $allowedActions, true)) {
+    echo json_encode(["status" => "error", "message" => "Invalid action"]);
+    exit();
+}
+
 $data = json_decode(file_get_contents('php://input'), true);
 
 try {
@@ -111,32 +119,25 @@ try {
         case 'get':
             echo json_encode($adminFunctions->getAllAdmins());
             break;
-            
         case 'auth':
-            echo json_encode($adminFunctions->Authadmin($data));
+            echo json_encode($adminFunctions->authAdmin($data));
             break;
-
         case 'add':
             echo json_encode($adminFunctions->addAdmin($data));
             break;
-            
         case 'delete':
             $id = $_GET['id'] ?? null;
             echo json_encode($adminFunctions->deleteAdmin($id));
             break;
-            
         case 'update':
             $id = $_GET['id'] ?? null;
             echo json_encode($adminFunctions->updateAdmin($id, $data));
             break;
-            
         default:
             throw new Exception("Invalid action");
     }
 } catch (Exception $e) {
-    echo json_encode([
-        "status" => "error",
-        "message" => $e->getMessage()
-    ]);
+    
+    echo json_encode(["status" => "error", "message" => $e->getMessage()]);
 }
 ?>

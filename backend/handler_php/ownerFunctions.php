@@ -12,31 +12,26 @@ class OwnerFunctions {
 
     // Get all owners
     public function getAllOwners() {
-        $sql = "SELECT Owner_Id, Person_Id, Admin_Id, Username FROM OwnerTbl"; // Updated SQL query
-        
+        $sql = "SELECT Owner_Id, Person_Id, Admin_Id, Username FROM OwnerTbl";
         $result = $this->conn->query($sql);
         
         if ($result) {
             $owners = $result->fetch_all(MYSQLI_ASSOC);
-            return [
-                "status" => "success", "data" => $owners
-            ];
+            return ["status" => "success", "data" => $owners];
         }
         return ["status" => "error", "message" => "Failed to fetch owners"];
     }
 
     // Authenticate owners
     public function AuthOwner($data) {
-        // Decode the JSON input
         $username = $data['username'] ?? null;
         $password = $data['password'] ?? null;
 
-        // Check if username and password are provided
         if (!$username || !$password) {
             return ["status" => "error", "message" => "Username and password are required"];
         }
 
-        $sql = "SELECT `Password` FROM OwnerTbl WHERE Username = ?"; // Updated SQL query
+        $sql = "SELECT `Password` FROM OwnerTbl WHERE Username = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("s", $username);
         
@@ -44,21 +39,17 @@ class OwnerFunctions {
             $result = $stmt->get_result();
             if ($result->num_rows > 0) {
                 $owner = $result->fetch_assoc();
-                // Verify the password (assuming passwords are hashed)
                 if (password_verify($password, $owner['Password'])) {
-                    return [
-                        "status" => "success", "message" => "Authentication successful"
-                    ];
+                    return ["status" => "success", "message" => "Authentication successful"];
                 }
             }
             return ["status" => "error", "message" => "Invalid Username or Password"];
         }
-        return ["status" => "error", "message" => "Failed to fetch owners"];
+        return ["status" => "error", "message" => "Failed to authenticate"];
     }
 
     // Add new owner
     public function addOwner($data) {
-        // Hash the password before storing it using Argon2
         $hashedPassword = password_hash($data['password'], PASSWORD_ARGON2ID);
         
         $sql = "INSERT INTO OwnerTbl (Person_Id, Admin_Id, Username, `Password`) VALUES (?, ?, ?, ?)";
@@ -68,7 +59,7 @@ class OwnerFunctions {
         if ($stmt->execute()) {
             return ["status" => "success", "message" => "Owner added successfully"];
         }
-        ErrorHandler::handleError(E_USER_ERROR, "Failed to add owner");
+        error_log("Failed to add owner");
         return ["status" => "error", "message" => "Failed to add owner"];
     }
 
@@ -80,25 +71,34 @@ class OwnerFunctions {
         if ($stmt->execute()) {
             return ["status" => "success", "message" => "Owner deleted successfully"];
         }
-        ErrorHandler::handleError(E_USER_ERROR, "Failed to delete owner");
+        error_log("Failed to delete owner");
         return ["status" => "error", "message" => "Failed to delete owner"];
     }
 
     // Update owner
     public function updateOwner($id, $data) {
-        $sql = "UPDATE OwnerTbl SET Person_Id = ?, Admin_Id = ?, Username = ?, `Password` = ? WHERE Owner_Id = ?";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("iissi", $data['person_id'], $data['admin_id'], $data['username'], $data['password'], $id);
-        
+        if (!empty($data['password'])) {
+            $hashedPassword = password_hash($data['password'], PASSWORD_ARGON2ID);
+            $sql = "UPDATE OwnerTbl SET Person_Id = ?, Admin_Id = ?, Username = ?, `Password` = ? WHERE Owner_Id = ?";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bind_param("iissi", $data['person_id'], $data['admin_id'], $data['username'], $hashedPassword, $id);
+        } else {
+            $sql = "UPDATE OwnerTbl SET Person_Id = ?, Admin_Id = ?, Username = ? WHERE Owner_Id = ?";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bind_param("iisi", $data['person_id'], $data['admin_id'], $data['username'], $id);
+        }
+
         if ($stmt->execute()) {
             return ["status" => "success", "message" => "Owner updated successfully"];
         }
-        ErrorHandler::handleError(E_USER_ERROR, "Failed to update owner");
+        error_log("Failed to update owner");
         return ["status" => "error", "message" => "Failed to update owner"];
     }
 }
 
 // Handle incoming requests
+header("Content-Type: application/json");
+
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit();
@@ -106,6 +106,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 $ownerFunctions = new OwnerFunctions();
 $action = $_GET['action'] ?? '';
+
+$allowedActions = ['get', 'auth', 'add', 'delete', 'update'];
+if (!in_array($action, $allowedActions, true)) {
+    echo json_encode(["status" => "error", "message" => "Invalid action"]);
+    exit();
+}
+
 $data = json_decode(file_get_contents('php://input'), true);
 
 try {
@@ -123,22 +130,16 @@ try {
             break;
             
         case 'delete':
-            $id = $_GET['id'] ?? null;
+            $id = isset($_GET['id']) ? (int)$_GET['id'] : null;
             echo json_encode($ownerFunctions->deleteOwner($id));
             break;
             
         case 'update':
-            $id = $_GET['id'] ?? null;
+            $id = isset($_GET['id']) ? (int)$_GET['id'] : null;
             echo json_encode($ownerFunctions->updateOwner($id, $data));
             break;
-            
-        default:
-            throw new Exception("Invalid action");
     }
 } catch (Exception $e) {
-    echo json_encode([
-        "status" => "error",
-        "message" => $e->getMessage()
-    ]);
+    echo json_encode(["status" => "error", "message" => $e->getMessage()]);
 }
 ?>
