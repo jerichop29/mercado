@@ -2,7 +2,7 @@ import './Hero.css';
 import CarouseImage1 from "../../../assets/img/hero-carousel/hero-carousel-1.png";
 import CarouseImage2 from "../../../assets/img/hero-carousel/hero-carousel-2.jpg";
 import CarouseImage3 from "../../../assets/img/hero-carousel/hero-carousel-3.jpg";
-
+import { Link, useLocation } from 'react-router-dom';
 
 export default function Hero() {
   return (
@@ -16,7 +16,7 @@ export default function Hero() {
               <h2>Welcome to Mercado</h2>
               <p>Mercado De Calamba is a vibrant marketplace known for its rich cultural heritage and bustling atmosphere, offering a variety of local products and services.</p>
               <p>✔️  A diverse range of fresh produce and handcrafted goods.</p>
-              <a href="#about" className="btn-get-started">Read More</a>
+              <Link to="/about" className="btn-get-started">Read More</Link>
             </div>
           </div>
           {/* End Carousel Item */}
@@ -24,10 +24,10 @@ export default function Hero() {
           <div className="carousel-item">
             <img src={CarouseImage2} alt="Hero 2" />
             <div className="container">
-            <h2>Welcome to Mercado</h2>
-              <p>Mercado De Calamba is a vibrant marketplace known for its rich cultural heritage and bustling atmosphere, offering a variety of local products and services.</p>
-              <p>✔️   A lively environment that reflects the community spirit.</p>
-              <a href="#about" className="btn-get-started">Read More</a>
+            <h2>Make Appointment for Stalls Rental</h2>
+              <p>Find stalls available for rent? </p>
+              <p>✔️ We offer a variety of stalls for rent, perfect for events, exhibitions, markets, and fairs.</p>
+              <Link to="/all-buildings"className="btn-get-started">Available Stalls</Link>
             </div>
           </div>
           {/* End Carousel Item */}
@@ -35,10 +35,10 @@ export default function Hero() {
           <div className="carousel-item">
             <img src={CarouseImage3} alt="Hero 3" />
             <div className="container">
-            <h2>Welcome to Mercado</h2>
-              <p>Mercado De Calamba is a vibrant marketplace known for its rich cultural heritage and bustling atmosphere, offering a variety of local products and services.</p>
-              <p>✔️  Conveniently located with easy access to essential amenities and transport options.</p>
-              <a href="#about" className="btn-get-started">Read More</a>
+            <h2>Make Appointment for Facility Rental</h2>
+              <p>Looking for the perfect space for your next event or gathering?</p>
+              <p>✔️ Our facility offers a versatile and fully equipped environment ideal for meetings, conferences, workshops, parties, and more.</p>
+              <Link to="/all-facilities" href="#about" className="btn-get-started">Available Facilities</Link>
             </div>
           </div>
           {/* End Carousel Item */}
