@@ -4,7 +4,7 @@ import { CameraSetup } from './CameraSetup'
 import { Suspense } from 'react'
 import PropTypes from 'prop-types'
 
-function ThreeDModel ( {modelName}){
+function ThreeEnvironment ( {modelName}){
     if (!modelName ) {
         console.warn('Scene: modelUrl are required parameters')
         return null
@@ -21,7 +21,7 @@ function ThreeDModel ( {modelName}){
           background ={true} // Shows the environment map as a background
           // Blur factor between 0 and 1
         >
-          <color attach="background" args={['#898']} /> {/* Set custom background color */}
+          <color attach="background" args={['#889']} /> {/* Set custom background color */}
         </Environment>
         {/* Supplementary lights */}
         <ambientLight intensity={1.0} />
@@ -40,7 +40,7 @@ function ThreeDModel ( {modelName}){
       </Suspense>
       )
 }
-ThreeDModel.propTypes = {
+ThreeEnvironment.propTypes = {
     modelName: PropTypes.string.isRequired,
   }
-export { ThreeDModel }
+export { ThreeEnvironment }

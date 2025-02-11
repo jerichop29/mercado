@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { Canvas } from '@react-three/fiber'
-import { ThreeDModel } from './config/ThreeDModel'
+import { ThreeEnvironment } from './config/ThreeEnvironment'
 import {ControlsOverlay} from './config/overlays/ControlsOverlay'
 import LogoOverlay from './config/overlays/LogoOverlay'
 import ModelSelector from './config/overlays/ModelSelector'
-import './Model.css'
+import './ThreeDModel.css'
 
-function Model({ models }) {
+function ThreeDModel({ models }) {
   const [currentModel, setCurrentModel] = useState(models[0].id)
 
   return (
@@ -15,7 +15,7 @@ function Model({ models }) {
         <LogoOverlay/>
         <Canvas>
           <fog attach="fog" args={['#101020', .3, 30]} /> 
-          <ThreeDModel modelName={currentModel} />
+          <ThreeEnvironment modelName={currentModel} />
         </Canvas>
         
         {models.length > 1 && (
@@ -27,4 +27,4 @@ function Model({ models }) {
   )
 }
 
-export default Model
+export default ThreeDModel
