@@ -1,13 +1,13 @@
 import { Outlet } from "react-router-dom";
-import TopBar from "../../components/user/TopBar";
+import SideBar from "../../components/user/SideBar";
 
 const UserLayout = () => {
   return (
     <>
       {/* Layout */}
-      <div className="container-scroller">
-          <TopBar />
-          <Outlet />
+      <div className="g-sidenav-show  bg-gray-100">
+          <SideBar />
+          
       </div>
     </>
   );
