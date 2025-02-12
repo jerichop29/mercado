@@ -6,29 +6,38 @@ import Aos from "aos";
 const useStyleLoader = () => {
   const location = useLocation();
   const [styleLoaded, setStyleLoaded] = useState(false);
-  const [isLoading, setIsLoading] = useState(true); // State to track if it's the first load
-  const [initialLoad, setInitialLoad] = useState(true); // Track if it's the initial load
+  const [isLoading, setIsLoading] = useState(true);
+  const [initialLoad, setInitialLoad] = useState(true);
 
   useEffect(() => {
     Aos.init();
 
-    const currentStyle = location.pathname.startsWith("/user/")
-      ? "../assets/css/user/Style.css"
-      : "../assets/css/main/Style.css";
+    const loadStyles = async () => {
+      try {
+        if (location.pathname.startsWith("/user/")) {
+          // Load multiple styles for user routes
+          await Promise.all([
+            import(/* @vite-ignore */ "../assets/css/user/Style.css"),
+            import(/* @vite-ignore */ "../assets/vendor/css/theme-default.css"),
+            import(/* @vite-ignore */ "../assets/vendor/css/core.css"),
+          ]);
+        } else {
+          // Load a single style for non-user routes
+          await import(/* @vite-ignore */ "../assets/css/main/Style.css");
+        }
 
-    import(/* @vite-ignore */ currentStyle)
-      .then(() => {
         setStyleLoaded(true);
         if (initialLoad) {
-          // Set isLoading to false after the first load
-          setTimeout(() => setIsLoading(false), 500); // Wait for loader to disappear
-          setInitialLoad(false); // Set initialLoad to false after the first load
+          setTimeout(() => setIsLoading(false), 500);
+          setInitialLoad(false);
         }
-      })
-      .catch((err) => {
-        console.error("Error loading style:", err);
-        setStyleLoaded(true); // Even on error, proceed so the app isn’t stuck
-      });
+      } catch (err) {
+        console.error("Error loading styles:", err);
+        setStyleLoaded(true);
+      }
+    };
+
+    loadStyles();
   }, [location.pathname, initialLoad]);
 
   return { styleLoaded, isLoading };

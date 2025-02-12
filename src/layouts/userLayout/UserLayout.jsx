@@ -5,9 +5,10 @@ const UserLayout = () => {
   return (
     <>
       {/* Layout */}
-      <div className="g-sidenav-show  bg-gray-100">
-          <SideBar />
-          
+      <div className="layout-wrapper layout-content-navbar">
+          <div class="layout-container">
+            <SideBar />
+          </div>
       </div>
     </>
   );
