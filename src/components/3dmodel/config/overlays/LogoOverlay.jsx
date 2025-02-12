@@ -6,7 +6,7 @@ const LogoOverlay = () => {
             position: 'absolute',
             top:  '20vh',
             left:  '5vw',
-            zIndex: 12,
+            zIndex: 1,
         }}>
             <img src="src/assets/img/logo.png" alt="Logo" style={{ width: window.innerWidth < 768 ? '35vw' : '10vw', height: 'auto' }} />
         </div>

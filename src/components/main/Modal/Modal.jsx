@@ -2,27 +2,25 @@ import { useState, useEffect } from "react";
 import stallHandler from "../../../../backend/handler_js/stallHandler";
 import "./Modal.css";
 
-function Modal({ isOpen, onClose }) {
+function Modal({ isOpen, stallName, onClose }) {
   const [stall, setData] = useState([]);
 
   const handleFilterData = async () => {
     try {
       const stallData = await stallHandler.getStalls();
-      setData(stallData.data.filter((data) => data.StallName === "C-24"));
+      setData(stallData.data.filter((data) => data.StallName === stallName.replace(/^Stall_/,'')));
     } catch (e) {
       console.error(e);
     }
   };
 
-  // useEffect(() => {
-  //   if (isOpen) {
-  //     handleFilterData();
-  //   }
-  // }, [isOpen]);
-  useEffect (()=>{
-    handleFilterData();
-  })
-  // if (!isOpen) return null;
+  useEffect(() => {
+    if (isOpen) {
+      handleFilterData();
+    }
+  }, [isOpen]);
+
+  if (!isOpen) return null;
 
   return (
     <div className="modal-overlay" onClick={onClose}>

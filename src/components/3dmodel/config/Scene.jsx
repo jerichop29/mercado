@@ -2,9 +2,7 @@ import { Controls } from './Controls'
 import { useState, Suspense } from 'react'
 import PropTypes from 'prop-types'
 import Loader from './overlays/LoadingScreen'
-import { Model } from './Model'
-import Modal from '../../main/Modal/Modal'
-
+import { Model} from './Model'
 function Scene({modelName}) {
   const [loading, setLoading] = useState(false);
 
@@ -27,7 +25,9 @@ function Scene({modelName}) {
       <Suspense >
         {loading ? <Model url={model} /> : <Loader onStartLoading={handleStartLoading} />}
       </Suspense>
+      
     </>
+    
   )
 }
 

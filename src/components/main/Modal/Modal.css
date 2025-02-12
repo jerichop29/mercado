@@ -5,21 +5,24 @@
     display: grid;
     place-items: center;
     background: rgb(0 0 0 / 0.2);
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(15px);
     animation: fadeIn 0.2s ease;
+    z-index:13;
   }
   
   .modal-container {
+    
     background: linear-gradient(135deg, #fff, #f8f9ff);
     padding: 2rem;
     border-radius: 1rem;
-    width: min(800px, 90vw);
+    height: 2vh;
+    width: min(800px, 50vw);
     box-shadow: 
       0 4px 6px rgb(0 0 0 / 0.1),
       0 10px 15px rgb(0 0 0 / 0.1);
-    position: relative;
+    position: fixed;
     animation: slideIn 0.2s ease;
-    overflow: hidden;
+    overflow: visible;
   }
   
   /* Decorative Elements */
