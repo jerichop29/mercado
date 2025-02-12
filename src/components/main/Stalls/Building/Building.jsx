@@ -1,12 +1,12 @@
 import React from 'react';
-import Model from '../../../3dmodel/Model'
+import ThreeDModel from '../../../3dmodel/ThreeDModel';
 import './Building.css';
 
 export default function Building({models}){
     return(
         <div className="building-container">
             <div className="model-container">
-                <Model models={models} />
+                <ThreeDModel models={models} />
             </div>
         </div>
     )
