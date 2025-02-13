@@ -1,16 +1,9 @@
 import "./Facility.scss";
 import Calendar from "react-calendar"; // Import react-calendar package
-import "react-calendar/dist/Calendar.css"; // Import calendar styles
 import { useState, useEffect } from "react";
-import AOS from "aos"; // Import AOS for animations
-import "aos/dist/aos.css"; // Import AOS styles
 
 export default function Facility({ facility }) {
     const [date, setDate] = useState(new Date());
-
-    useEffect(() => {
-        AOS.init({ duration: 1000, once: true }); // Initialize AOS with duration
-    }, []);
 
     if (!facility) {
         return <h2 className="text-center mt-5">Facility not found</h2>;

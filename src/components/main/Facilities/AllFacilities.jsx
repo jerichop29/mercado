@@ -13,8 +13,7 @@ export default function AllFacilities() {
                 </div>
                 {/* End Section Title */}
 
-                <div className="row" data-aos="fade-up"
-                    data-aos-duration="3000">
+                <div className="row" data-aos="fade-up">
                     {FacilityData.map((facility) => (
                         <div className="col-12 col-md-6" key={facility.id}>
                             <article className="facility-card">
