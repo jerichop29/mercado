@@ -1,14 +1,9 @@
 import React from 'react';
-
+import './css/LogoOverlay.css'
 const LogoOverlay = () => {
     return (
-        <div style={{
-            position: 'absolute',
-            top:  '20vh',
-            left:  '5vw',
-            zIndex: 1,
-        }}>
-            <img src="src/assets/img/logo.png" alt="Logo" style={{ width: window.innerWidth < 768 ? '35vw' : '10vw', height: 'auto' }} />
+        <div className='logo_3D'>
+            <img src="src/assets/img/logo.png" alt="Logo"  />
         </div>
     );
 };

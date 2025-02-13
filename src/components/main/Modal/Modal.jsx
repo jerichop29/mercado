@@ -34,7 +34,7 @@ function Modal({ isOpen, stallName, onClose }) {
               <div key={index} className="stall-card">
                 <div className="stall-image">
                   <img 
-                    src="/api/placeholder/400/200" 
+                    src={data.image==''?"/api/placeholder/400/200":data.image} 
                     alt="Stall preview" 
                     className="stall-preview-image"
                   />
