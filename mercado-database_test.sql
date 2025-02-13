@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 11, 2025 at 02:10 AM
+-- Generation Time: Feb 13, 2025 at 03:26 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -79,7 +79,47 @@ CREATE TABLE `discovertbl` (
 
 INSERT INTO `discovertbl` (`discover_Id`, `Title`, `image`, `Activity`, `Description`, `Date_Start`, `Date_End`, `Reg_form`) VALUES
 (1, 'Test', '', 'TEst', 'The \"Table Tennis Tournament at Mercado De Calamba for Youth\" is an exciting event aimed at promoting sportsmanship, skill development, and community engagement among young people. Held at the Mercado De Calamba, this tournament invites local youth to participate in friendly yet competitive table tennis matches. The event provides a platform for young players to showcase their talents, improve their game, and interact with peers in a vibrant and supportive environment.', '2025-02-06', '2025-02-08', 'http://localhost/phpmyadmin/index.php?route=/sql&pos=0&db=mercado-database_test&table=discovertbl'),
-(2, 'Test', '', 'TEst', 'The \"Table Tennis Tournament at Mercado De Calamba for Youth\" is an exciting event aimed at promoting sportsmanship, skill development, and community engagement among young people. Held at the Mercado De Calamba, this tournament invites local youth to participate in friendly yet competitive table tennis matches. The event provides a platform for young players to showcase their talents, improve their game, and interact with peers in a vibrant and supportive environment.', '2025-02-06', '2025-02-08', 'http://localhost/phpmyadmin/index.php?route=/sql&pos=0&db=mercado-database_test&table=discovertbl');
+(2, 'Test', '', 'TEst', 'The \"Table Tennis Tournament at Mercado De Calamba for Youth\" is an exciting event aimed at promoting sportsmanship, skill development, and community engagement among young people. Held at the Mercado De Calamba, this tournament invites local youth to participate in friendly yet competitive table tennis matches. The event provides a platform for young players to showcase their talents, improve their game, and interact with peers in a vibrant and supportive environment.', '2025-02-06', '2025-02-12', 'http://localhost/phpmyadmin/index.php?route=/sql&pos=0&db=mercado-database_test&table=discovertbl');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `eventtbl`
+--
+
+CREATE TABLE `eventtbl` (
+  `Event_Id` int(11) NOT NULL,
+  `facilities_Id` int(11) NOT NULL,
+  `Event_Name` varchar(60) NOT NULL,
+  `Event_Date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `eventtbl`
+--
+
+INSERT INTO `eventtbl` (`Event_Id`, `facilities_Id`, `Event_Name`, `Event_Date`) VALUES
+(1, 1, 'Valentines Day', '2025-02-14'),
+(2, 1, 'G asdasd', '2025-02-14');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `facilitiestbl`
+--
+
+CREATE TABLE `facilitiestbl` (
+  `facilities_Id` int(11) NOT NULL,
+  `facilities_Name` varchar(60) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `facilitiestbl`
+--
+
+INSERT INTO `facilitiestbl` (`facilities_Id`, `facilities_Name`) VALUES
+(1, 'Event Hall'),
+(2, 'Table Tennis');
 
 -- --------------------------------------------------------
 
@@ -647,6 +687,19 @@ ALTER TABLE `discovertbl`
   ADD PRIMARY KEY (`discover_Id`);
 
 --
+-- Indexes for table `eventtbl`
+--
+ALTER TABLE `eventtbl`
+  ADD PRIMARY KEY (`Event_Id`),
+  ADD KEY `fk_facilities_id` (`facilities_Id`);
+
+--
+-- Indexes for table `facilitiestbl`
+--
+ALTER TABLE `facilitiestbl`
+  ADD PRIMARY KEY (`facilities_Id`);
+
+--
 -- Indexes for table `ownertbl`
 --
 ALTER TABLE `ownertbl`
@@ -706,6 +759,18 @@ ALTER TABLE `discovertbl`
   MODIFY `discover_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `eventtbl`
+--
+ALTER TABLE `eventtbl`
+  MODIFY `Event_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `facilitiestbl`
+--
+ALTER TABLE `facilitiestbl`
+  MODIFY `facilities_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `ownertbl`
 --
 ALTER TABLE `ownertbl`
@@ -738,6 +803,12 @@ ALTER TABLE `typestbl`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `eventtbl`
+--
+ALTER TABLE `eventtbl`
+  ADD CONSTRAINT `fk_facilities_id` FOREIGN KEY (`facilities_Id`) REFERENCES `facilitiestbl` (`facilities_Id`);
 
 --
 -- Constraints for table `ownertbl`

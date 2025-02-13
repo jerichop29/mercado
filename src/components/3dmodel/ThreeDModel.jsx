@@ -5,15 +5,9 @@ import { ControlsOverlay } from './config/overlays/ControlsOverlay'
 import LogoOverlay from './config/overlays/LogoOverlay'
 import ModelSelector from './config/overlays/ModelSelector'
 import './ThreeDModel.css'
-import { ModalOpen, stallName, setModalOpen, setStallName ,handleCloseModal} from './config/Model'
-import Modal from '../main/Modal/Modal'
 
 function ThreeDModel({ models }) {
   const [currentModel, setCurrentModel] = useState(models[0].id)
-
-  useEffect(() => {
-    console.log(ModalOpen, stallName)
-  }, [ModalOpen, stallName])
 
   return ( 
     <center>
@@ -28,9 +22,6 @@ function ThreeDModel({ models }) {
         )}
         <ControlsOverlay />
       </div>
-      {ModalOpen &&  (
-        <Modal isOpen={ModalOpen} stallName={stallName} onClose={this.handleCloseModal} />
-      )}
     </center>
   )
 }
