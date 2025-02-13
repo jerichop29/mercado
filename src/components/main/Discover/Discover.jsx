@@ -39,7 +39,7 @@ const handleFetchData = async () => {
       const current = formatDate(currentDate);
       setFormatDate(current);
       // Filter data based on the current date
-      const filteredDate = discover.data.filter(item =>  date >= item.Date_Start && date <= item.Date_End// Compare with currentDate
+      const filteredDate = discover.data.filter(item =>  date <= item.Date_Start || date <= item.Date_End// Compare with currentDate
       );
       setFilteredData(new Set(filteredDate)); // Set the filtered data
   } catch (error) {
@@ -69,7 +69,7 @@ const handleFetchData = async () => {
           <li className="cards_item" key={discover.discover_Id}>
             <div className="card" tabIndex="0">
                 <div className="card_image">
-                <img src="https://cdn.manilastandard.net/wp-content/uploads/2021/12/team_ph.jpg" />
+                <img src={discover.image==''?"https://cdn.manilastandard.net/wp-content/uploads/2021/12/team_ph.jpg": discover.image} />
                 </div>
                 <div className="card_content"> 
                 <h2 className="card_title">{discover.Title}</h2>
