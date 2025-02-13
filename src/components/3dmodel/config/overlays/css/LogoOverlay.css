@@ -1,0 +1,21 @@
+.logo_3D {
+    position: absolute;
+    top: 20vh;
+    left: 5vw;
+    z-index: 1;
+  }
+.logo_3D img {
+    width: 10vw;
+}
+
+  /* Mobile Optimization */
+  @media (max-width: 640px) {
+    .logo_3D {
+      top: 20vh;  /* Adjusted to fit smaller screens */
+      left: 2.5vw; /* Slightly reduced margin */
+    }
+    .logo_3D img {
+        width:  20vh;  /* Adjusted to fit smaller screens */
+      
+      }
+  }

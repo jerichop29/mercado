@@ -35,7 +35,9 @@ function Model({ url }) {
   const [vacantStalls, setVacantStalls] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false)
   
-
+const Close = () =>{
+  setIsModalOpen(false);
+}
   // Define which geometries should be black
   // Create a glowing material
   const glowMaterial = new THREE.MeshStandardMaterial({
@@ -196,8 +198,7 @@ function Model({ url }) {
                     setIsModalOpen(true);
                     setModalOpen(true);
                     setData({ data: selectedMesh });
-                    // If the time between taps is less than 300ms, consider it a double-tap
-                   
+                    isOpen({ Open: true });
                   }
                 } : undefined}
 
@@ -222,16 +223,15 @@ function Model({ url }) {
           return null
         })}
       </group>
-
-      {!ModalOpen && (
+      {ModalOpen && (
         <Html>
           <div>
-            <Modal isOpen={ModalOpen} onClose={handleCloseModal} stallName={selectedMesh} />
+            <Modal isOpen={isModalOpen} onClose={Close} stallName={stallName} />
           </div>
         </Html>
       )}
     </>
   )
 }
-
+ 
 export { Model, ModalOpen, stallName, setModalOpen, setStallName ,handleCloseModal};
