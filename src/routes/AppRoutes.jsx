@@ -2,6 +2,7 @@
 import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import Loader from "../components/loader/loader";
+import NotFound from "../components/main/ErrorPages/NotFound"; // Import the NotFound component
 
 // Hooks
 import useScrollReset from "../hooks/useScrollReset";
@@ -76,6 +77,9 @@ const AppRoutes = () => {
             <Route path="user" element={<UserLayout />}>
               <Route path="dashboard" element={renderPage(DashboardPage)} />
             </Route>
+
+            {/* Catch-all route */}
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </AnimatePresence>
       )}

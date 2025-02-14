@@ -1,18 +1,18 @@
-import { Component } from "react";
-import "./assets/css/main/Style.css"; // Import CSS file
+import React from 'react';
+import '../../../assets/css/main/Style.css';
 
-class ErrorBoundary extends Component {
+class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { hasError: false, errorMessage: "" };
+    this.state = { hasError: false };
   }
 
   static getDerivedStateFromError(error) {
-    return { hasError: true, errorMessage: error.message };
+    return { hasError: true };
   }
 
   componentDidCatch(error, errorInfo) {
-    console.error("Error caught by boundary:", error, errorInfo);
+    console.error("ErrorBoundary caught an error", error, errorInfo);
   }
 
   render() {
@@ -34,7 +34,8 @@ class ErrorBoundary extends Component {
         </div>
       );
     }
-    return this.props.children;
+
+    return this.props.children; 
   }
 }
 
