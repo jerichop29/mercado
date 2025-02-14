@@ -14,8 +14,7 @@ const UserLayout = () => {
             <div className="layout-page">
               <Navbar />
                 <div className="content-wrapper">
-                  <Dashboard />
-                  <Footer />
+
                   <div className="content-backdrop fade"></div>
                 </div>
             </div>
