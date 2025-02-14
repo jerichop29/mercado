@@ -1,5 +1,5 @@
 import React from 'react';
-import ThreeDModel from '../../../3dmodel/ThreeDModel';
+import ThreeDModel from '../../../3dmodel/module/ThreeDModel';
 import './Building.css';
 
 export default function Building({models}){

@@ -1,5 +1,5 @@
 import React from 'react';
-import './css/LogoOverlay.css'
+import '../../styles/LogoOverlay.css'
 import Logo from '../../../../assets/img/logo.png'
 const LogoOverlay = () => {
     return (

@@ -1,6 +1,6 @@
 import { Html } from '@react-three/drei';
 import { useState } from 'react';
-import './css/LoadingScreen.css'; // Import the CSS file
+import '../../styles/LoadingScreen.css'; // Import the CSS file
 
 function Loader({ onStartLoading }) {
     const [loading, setLoading] = useState(false);
