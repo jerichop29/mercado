@@ -3,6 +3,8 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import Loader from "../components/loader/loader";
 import NotFound from "../components/main/ErrorPages/NotFound"; // Import the NotFound component
+import Forbidden from "../components/main/ErrorPages/Forbidden"; // Import the Forbidden component
+import ProtectedRoute from "../components/main/ProtectedRoute/ProtectedRoute"; // Import the ProtectedRoute component
 
 // Hooks
 import useScrollReset from "../hooks/useScrollReset";
@@ -68,17 +70,19 @@ const AppRoutes = () => {
               <Route path="contact" element={renderPage(ContactPage)} />
             </Route>
 
-            {/* Auth Layout Routes */}
+            Auth Layout Routes
             <Route path="auth" element={<AuthLayout />}>
               <Route path="signin" element={renderPage(SignInPage)} />
             </Route>
 
             {/* User Layout Routes */}
+            {/* <Route path="user" element={<ProtectedRoute><UserLayout /></ProtectedRoute>}> */}
             <Route path="user" element={<UserLayout />}>
               <Route path="dashboard" element={renderPage(DashboardPage)} />
             </Route>
 
             {/* Catch-all route */}
+            <Route path="forbidden" element={<Forbidden />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AnimatePresence>

@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "concurrently \"vite\" \"nodemon database_setup.js\"",
-    "build": "vite build",
+    "build": "concurrently \"vite build\" \"node database_setup.js\"",
     "lint": "eslint .",
     "preview": "vite preview"
   },
