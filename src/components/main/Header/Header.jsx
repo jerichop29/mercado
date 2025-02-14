@@ -39,23 +39,23 @@ export default function Header() {
                         <ul className='navmenu-content'>
                             <li>
                                 <Link to="/" className={location.pathname === '/' ? 'active' : ''}>
-                                    <i className="bi bi-house-door"></i>&nbsp;Home
+                                    <i className="bi bi-house-door"></i>&nbsp;&nbsp;Home
                                 </Link>
                             </li>
                             <li>
                                 <Link to="/about" className={location.pathname === '/about' ? 'active' : ''}>
-                                    <i className="bi bi-info-square"></i>&nbsp;About
+                                    <i className="bi bi-info-square"></i>&nbsp;&nbsp;About
                                 </Link>
                             </li>
                             <li>
                                 <Link to="/services" className={location.pathname === '/services' ? 'active' : ''}>
-                                    <i className="bi bi-shop"></i>&nbsp;Services
+                                    <i className="bi bi-shop"></i>&nbsp;&nbsp;Services
                                 </Link>
                             </li>
                             <li className="dropdown">
                                 <a onClick={() => toggleDropdown('stalls')}>
                                     <i className="bi bi-building"></i>
-                                    <span>&nbsp;Stalls</span>
+                                    <span>&nbsp;&nbsp;Stalls</span>
                                     <i id="toggle-dropdown" className="bi bi-chevron-down toggle-dropdown"></i>
                                 </a>
                                 <ul className={openDropdown === 'stalls' ? 'dropdown-active' : ''}>
@@ -82,7 +82,7 @@ export default function Header() {
                             <li className="dropdown">
                                 <a onClick={() => toggleDropdown('facilities')}>
                                     <i className="bi bi-building-gear"></i>
-                                    <span>&nbsp;Facilities</span>
+                                    <span>&nbsp;&nbsp;Facilities</span>
                                     <i className="bi bi-chevron-down toggle-dropdown"></i>
                                 </a>
                                 <ul className={openDropdown === 'facilities' ? 'dropdown-active' : ''}>
@@ -99,12 +99,12 @@ export default function Header() {
                             </li>
                             <li>
                                 <Link to="/discover" className={location.pathname === '/discover' ? 'active' : ''}>
-                                    <i className="bi bi-calendar-event"></i>&nbsp;Discover
+                                    <i className="bi bi-calendar-event"></i>&nbsp;&nbsp;Discover
                                 </Link>
                             </li>
                             <li>
                                 <Link to="/contact" className={location.pathname === '/contact' ? 'active' : ''}>
-                                    <i className="bi bi-telephone-inbound"></i>&nbsp;Contact
+                                    <i className="bi bi-telephone-inbound"></i>&nbsp;&nbsp;Contact
                                 </Link>
                             </li>
                         </ul>
