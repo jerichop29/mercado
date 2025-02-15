@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import './css/ControlsOverlay.css' // Import the CSS file
+import '../../styles/ControlsOverlay.css' // Import the CSS file
 
 export function ControlsOverlay() {
   const [isVisible, setIsVisible] = useState(true)

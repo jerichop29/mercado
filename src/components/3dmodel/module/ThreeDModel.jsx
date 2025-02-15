@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState} from 'react'
 import { Canvas } from '@react-three/fiber'
-import { ThreeEnvironment } from './config/ThreeEnvironment'
-import { ControlsOverlay } from './config/overlays/ControlsOverlay'
-import LogoOverlay from './config/overlays/LogoOverlay'
-import ModelSelector from './config/overlays/ModelSelector'
-import './ThreeDModel.css'
+import { ThreeEnvironment } from '../components/core/ThreeEnvironment'
+import { ControlsOverlay } from '../components/overlays/ControlsOverlay'
+import LogoOverlay from '../components/overlays/LogoOverlay'
+import ModelSelector from '../components/controls/ModelSelector'
+import '../styles/ThreeDModel.css'
 
 function ThreeDModel({ models }) {
   const [currentModel, setCurrentModel] = useState(models[0].id)

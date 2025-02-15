@@ -1,6 +1,6 @@
 import { Environment} from '@react-three/drei'
 import { Scene } from './Scene'
-import { CameraSetup } from './CameraSetup'
+import { CameraSetup } from '../controls/CameraSetup'
 import { Suspense } from 'react'
 import PropTypes from 'prop-types'
 

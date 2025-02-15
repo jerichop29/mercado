@@ -2,8 +2,8 @@ import { useGLTF, Html } from '@react-three/drei'
 import { useState, useEffect } from 'react'
 import * as THREE from 'three'
 import { EffectComposer, Bloom } from '@react-three/postprocessing'
-import stallHandler from '../../../../backend/handler_js/stallHandler'
-import Modal from '../../main/Modal/Modal'
+import stallHandler from '../../../../../backend/handler_js/stallHandler'
+import Modal from '../../../main/Modal/Modal'
 let ModalOpen = false;
 let stallName = '';
 

@@ -1,7 +1,7 @@
-import { Controls } from './Controls'
+import { Controls } from '../controls/Controls'
 import { useState, Suspense } from 'react'
 import PropTypes from 'prop-types'
-import Loader from './overlays/LoadingScreen'
+import Loader from '../overlays/LoadingScreen'
 import { Model} from './Model'
 function Scene({modelName}) {
   const [loading, setLoading] = useState(false);
