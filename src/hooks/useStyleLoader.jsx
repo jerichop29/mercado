@@ -17,13 +17,13 @@ const useStyleLoader = () => {
         if (location.pathname.startsWith("/user/")) {
           // Load multiple styles for user routes
           await Promise.all([
-            import(/* @vite-ignore */ "../assets/css/user/Style.css"),
-            import(/* @vite-ignore */ "../assets/vendor/css/theme-default.css"),
-            import(/* @vite-ignore */ "../assets/vendor/css/core.css"),
+            import(/* @vite-ignore */ "../assets/css/user/style.css"),
+            import(/* @vite-ignore */ "../assets/css/user/core.css"),
+            import(/* @vite-ignore */ "../assets/css/user/theme-default.css"),
           ]);
         } else {
           // Load a single style for non-user routes
-          await import(/* @vite-ignore */ "../assets/css/main/Style.css");
+          await import(/* @vite-ignore */ "../assets/css/main/style.css");
         }
 
         setStyleLoaded(true);

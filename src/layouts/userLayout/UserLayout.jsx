@@ -1,27 +1,28 @@
-import { Outlet } from "react-router-dom";
-import SideBar from "../../components/user/SideBar";
-import Navbar from "../../components/user/NavBar";
-import Footer from "../../components/user/Footer";
-import Dashboard from "../../components/user/Dashboard";
+import React, { useEffect } from 'react';
+import Sidebar from './Sidebar';
+import Navbar from './Navbar';
+import Footer from './Footer';
 
-const UserLayout = () => {
+const UserLayout = ({ children }) => {
+  useEffect(() => {
+    Main();
+  },[])
   return (
-    <>
-      {/* Layout */}
-      <div className="layout-wrapper layout-content-navbar">
-          <div className="layout-container">
-            <SideBar />
-            <div className="layout-page">
-              <Navbar />
-                <div className="content-wrapper">
-
-                  <div className="content-backdrop fade"></div>
-                </div>
+    <div className="layout-wrapper layout-content-navbar">
+      <div className="layout-container">
+        <Sidebar />
+        <div className="layout-page ">
+          <Navbar />
+          <div className="content-wrapper">
+            <div className="container-xxl flex-grow-1 container-p-y">
+            {children}
             </div>
+            <Footer />
           </div>
-          <div className="layout-overlay layout-menu-toggle"></div>
+        </div>
+      <div className="layout-overlay layout-menu-toggle"></div>
       </div>
-    </>
+    </div>
   );
 };
 

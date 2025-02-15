@@ -6,7 +6,7 @@
 
 let menu, animate;
 
-(function () {
+function Main () {
   // Initialize menu
   //-----------------
 
@@ -115,4 +115,4 @@ let menu, animate;
 
   // Auto update menu collapsed/expanded based on the themeConfig
   window.Helpers.setCollapsed(true, false);
-})();
+};

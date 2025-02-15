@@ -38,16 +38,16 @@ export default function Hero() {
             <h2>Make Appointment for Facility Rental</h2>
               <p>Looking for the perfect space for your next event or gathering?</p>
               <p>✔️ Our facility offers a versatile and fully equipped environment ideal for meetings, conferences, workshops, parties, and more.</p>
-              <Link to="/all-facilities" href="#about" className="btn-get-started">Available Facilities</Link>
+              <Link to="/all-facilities"  className="btn-get-started">Available Facilities</Link>
             </div>
           </div>
           {/* End Carousel Item */}
 
-          <a className="carousel-control-prev" href="#hero-carousel" role="button" data-bs-slide="prev">
+          <a className="carousel-control-prev" role="button" data-bs-slide="prev">
             <span className="carousel-control-prev-icon bi bi-chevron-left" aria-hidden="true"></span>
           </a>
 
-          <a className="carousel-control-next" href="#hero-carousel" role="button" data-bs-slide="next">
+          <a className="carousel-control-next" role="button" data-bs-slide="next">
             <span className="carousel-control-next-icon bi bi-chevron-right" aria-hidden="true"></span>
           </a>
 

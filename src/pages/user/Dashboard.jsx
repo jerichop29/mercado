@@ -2,7 +2,7 @@
 export default function DashboardPage(){
     return(
         <>
-        <h1>sdadsad</h1>
+        <h1>Dashboard Page</h1>
         </>
     )
 }
