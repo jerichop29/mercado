@@ -179,12 +179,14 @@
   }
   
   .control__indicator:after {
-    font-family: 'icomoon';
-    content: '\e5ca';
+    font-family: 'bootstrap-icons';
+    content: '\F272';
     position: absolute;
     display: none;
     font-size: 16px;
+    font-weight: bold;
     transition: .3s all ease;
+    padding-top: 1px;
   }
   
   .control input:checked ~ .control__indicator:after {
