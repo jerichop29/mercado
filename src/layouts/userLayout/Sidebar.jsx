@@ -1,18 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import menuData from './menuData.json'
+import MenuData from '../../utils/MenuData.json'
+import Logo from '../../assets/img/logo.png';
+
 
 const Sidebar = () => {
-
-
     return (
         <aside id="layout-menu" className="layout-menu menu-vertical menu bg-menu-theme">
             <div className="app-brand demo">
-                <Link aria-label='Navigate to sneat homepage' to="/" className="app-brand-link">
+                <Link aria-label="Navigate to user homepage" to="/user/dashboard" className="app-brand-link">
                     <span className="app-brand-logo demo">
-                        <img src="/assets/img/sneat.svg" alt="sneat-logo" aria-label='Sneat logo image' />
+                        <img src={Logo} alt="logo" aria-label="logo image" />
                     </span>
-                    <span className="app-brand-text demo menu-text fw-bold ms-2">Sneat</span>
                 </Link>
 
                 <a href="#" className="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
@@ -23,14 +22,16 @@ const Sidebar = () => {
             <div className="menu-inner-shadow"></div>
 
             <ul className="menu-inner py-1">
-                {menuData.map((section) => (
+                {MenuData.map((section) => (
                     <React.Fragment key={section.header}>
                         {section.header && (
                             <li className="menu-header small text-uppercase">
                                 <span className="menu-header-text">{section.header}</span>
                             </li>
                         )}
-                        {section.items.map(MenuItem)}
+                        {section.items.map((item, index) => (
+                            <MenuItem key={item.id || index} item={item} />
+                        ))}
                     </React.Fragment>
                 ))}
             </ul>
@@ -38,7 +39,7 @@ const Sidebar = () => {
     );
 };
 
-const MenuItem = (item) => {
+const MenuItem = ({ item }) => {
     const location = useLocation();
     const isActive = location.pathname === item.link;
     const hasSubmenu = item.submenu && item.submenu.length > 0;
@@ -57,8 +58,12 @@ const MenuItem = (item) => {
                     <div className="badge bg-label-primary fs-tiny rounded-pill ms-auto">Pro</div>
                 )}
             </NavLink>
-            {item.submenu && (
-                <ul className="menu-sub">{item.submenu.map(MenuItem)}</ul>
+            {hasSubmenu && (
+                <ul className="menu-sub">
+                    {item.submenu.map((subitem, subIndex) => (
+                        <MenuItem key={subitem.id || subIndex} item={subitem} />
+                    ))}
+                </ul>
             )}
         </li>
     );

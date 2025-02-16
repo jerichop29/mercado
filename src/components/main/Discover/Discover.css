@@ -3,7 +3,7 @@
     margin: 0 auto;
   }
   
-  .cards {
+  .d-cards {
     display: grid;
     flex-wrap: wrap;
     list-style: none;
@@ -13,24 +13,24 @@
     gap: 1rem;
   }
   
-  .cards_item {
+  .d-cards_item {
     display: flex;
   }
   
-  .card_image {
+  .d-card_image {
     display: flex;
     height: 250px;
     box-shadow: 0 50px 100px 0 var(--contrast-color);
   }
   
-  .card_image img {
+  .d-card_image img {
     display: block;
     width: 100%;
     height: auto;
     object-fit: cover;
   }
   
-  .card {
+  .d-card {
     display: flex;
     flex-direction: column;
     position: relative;
@@ -40,23 +40,23 @@
     transition: transform 0.1s linear, box-shadow 0.2s;
   }
   
-  .card_text:focus,
-  .card:focus {
+  .d-card_text:focus,
+  .d-card:focus {
     outline: 2px dashed var(--accent-color);
   }
   
-  .card:focus,
-  .card:hover {
+  .d-card:focus,
+  .d-card:hover {
     transform: scale(1.01);
     box-shadow: 0 10px 5px -5px rgba(0, 0, 0, 0.2);
   }
   
-  .card_content {
+  .d-card_content {
     padding: 0.5rem 1rem 1rem;
     color: var(--trueBlack);
   }
   
-  .card_title {
+  .d-card_title {
     position: absolute;
     top: 0;
     right: 0;
@@ -77,17 +77,17 @@
   }
   
   @media (min-width: 535px) {
-    .card_title {
+    .d-card_title {
       animation: 0.5s 0.25s fly-out 1 both;
     }
   }
   
-  .card:focus .card_title,
-  .card:hover .card_title {
+  .d-card:focus .d-card_title,
+  .d-card:hover .d-card_title {
     animation: 0.5s ease-in 0s fly-in 1 both;
   }
   
-  .card_text {
+  .d-card_text {
     font-family: Segoe UI, Frutiger, Frutiger Linotype, Dejavu Sans, Helvetica,
       Helvetica Neue, Arial, sans-serif;
     line-height: 1.5;
@@ -95,34 +95,34 @@
     padding: 0 1rem;
   }
   
-  .card_text p:first-of-type:first-letter {
+  .d-card_text p:first-of-type:first-letter {
     font-size: 1.8em;
     font-family: Georgia, Times, serif;
     margin-right: 0.05em;
   }
   
   @media (min-width: 480px) {
-    .card_text {
+    .d-card_text {
       overflow: auto;
       max-height: 20rem;
       scrollbar-width: thin;
       scrollbar-color: var(--accent-color) var(--contrast-color);
     }
   
-    .card_text::-webkit-scrollbar {
+    .d-card_text::-webkit-scrollbar {
       width: 12px;
     }
   
-    .card_text::-webkit-scrollbar-track {
+    .d-card_text::-webkit-scrollbar-track {
       background: var(--contrast-color);
     }
   
-    .card_text::-webkit-scrollbar-thumb {
+    .d-card_text::-webkit-scrollbar-thumb {
       background-color: var(--accent-color);
     }
   }
   
-  .card_text strong {
+  .d-card_text strong {
     color: var(--accent-color);
   }
   

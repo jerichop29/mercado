@@ -1,0 +1,160 @@
+[
+    {
+        "header": "",
+        "items": [
+            {
+                "text": "Dashboard",
+                "icon": "bx bx-home",
+                "available": true,
+                "link": "/user/dashboard"
+            },
+            {
+                "text": "Sub-users",
+                "icon": "bi bi-people",
+                "available": true,
+                "link": "/user/manage-users"
+            }
+        ]
+    },
+
+    {
+        "header": "Properties",
+        "items": [
+            {
+                "text": "Manage Stalls",
+                "icon": "bx bx-store",
+                "available": true,
+                "link": "/user/manage-stalls"
+            },
+            {
+                "text": "Manage Facilities",
+                "icon": "bx bx-building",
+                "available": true,
+                "link": "/user/manage-facilities"
+            }
+        ]
+    },
+
+    {
+        "header": "Appointments",
+        "items": [
+            {
+                "text": "Manage Appointments",
+                "icon": "bx bx-calendar",
+                "available": true,
+                "link": "",
+                "submenu": [
+                        {
+                            "text": "All Appointments",
+                            "icon": "bi bi-calendar3",
+                            "available": true,
+                            "link": "/user/all-appointments"
+                        },
+                        {
+                            "text": "Approved Appointment",
+                            "icon": "bx bx-check-circle",
+                            "available": true,
+                            "link": "/user/approved-appointment"
+                        },
+                        {
+                            "text": "Cancelled Appointment",
+                            "icon": "bx bx-x-circle",
+                            "available": true,
+                            "link": "/user/cancelled-appointment"
+                        },
+                        {
+                            "text": "Request Appointment",
+                            "icon": "bx bx-calendar-check",
+                            "available": true,
+                            "link": "/user/request-appointment"
+                        }
+                ]
+            }            
+        ]
+    },
+    {
+        "header": "Complaints",
+        "items": [
+            {
+                "text": "Manage Complaints",
+                "icon": "bi bi-exclamation-diamond",
+                "available": true,
+                "link": "",
+                "submenu": [
+                        {
+                            "text": "Closed Complaints",
+                            "icon": "bx bx-lock",
+                            "available": true,
+                            "link": "/user/closed-complaints"
+                        },
+                        {
+                            "text": "In Process Complaints",
+                            "icon": "bx bx-loader-circle",
+                            "available": true,
+                            "link": "/user/in-process-complaints"
+                        },
+                        {
+                            "text": "Not Forwarded Complaints",
+                            "icon": "bx bx-block",
+                            "available": true,
+                            "link": "/user/not-forwarded-complaints"
+                        },
+                        {
+                            "text": "Not Processed Complaints",
+                            "icon": "bx bx-time",
+                            "available": true,
+                            "link": "/user/not-process-complaints"
+                        }
+                ]
+            },
+            {
+                "text": "Category",
+                "icon": "bx bx-category",
+                "available": true,
+                "link": "",
+                "submenu": [
+                        {
+                            "text": "Add Category",
+                            "icon": "bx bx-book-add",
+                            "available": true,
+                            "link": "/user/add-category"
+                        },
+                        {
+                            "text": "Manage Category",
+                            "icon": "bx bx-cog",
+                            "available": true,
+                            "link": "/user/manage-category"
+                        }
+                ]
+            }               
+        ]
+    },
+    {
+        "header": "Discover",
+        "items": [
+            {
+                "text": "Add Discover",
+                "icon": "bx bx-comment-add",
+                "available": true,
+                "link": "/user/add-discover"
+            },
+            {
+                "text": "Manage Discover",
+                "icon": "bi bi-newspaper",
+                "available": true,
+                "link": "/user/manage-discover"
+            }
+        ]
+    },
+    {
+        "header": "Report",
+        "items": [
+            {
+                "text": "Report",
+                "icon": "bx bxs-report",
+                "available": true,
+                "link": "/user/report"
+            }
+        ]
+    }
+]

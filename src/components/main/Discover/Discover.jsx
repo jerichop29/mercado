@@ -63,17 +63,17 @@ const handleFetchData = async () => {
         {/* End Section Title */}
 
         <div className="discover" data-aos="fade-up">
-          <ul className="cards">
+          <ul className="d-cards">
             {/* Render  filtered data  */}
             {Array.from(filteredData).map(discover => (
-          <li className="cards_item" key={discover.discover_Id}>
-            <div className="card" tabIndex="0">
-                <div className="card_image">
+          <li className="d-cards_item" key={discover.discover_Id}>
+            <div className="d-card" tabIndex="0">
+                <div className="d-card_image">
                 <img src={discover.image==''?"https://cdn.manilastandard.net/wp-content/uploads/2021/12/team_ph.jpg": discover.image} />
                 </div>
-                <div className="card_content"> 
-                <h2 className="card_title">{discover.Title}</h2>
-                <div className="card_text">
+                <div className="d-card_content"> 
+                <h2 className="d-card_title">{discover.Title}</h2>
+                <div className="d-card_text">
                 <span className="note">{discover.Activity}</span>
                     <p>{discover.Description}</p>
                     {discover.Reg_form !== '' &&
