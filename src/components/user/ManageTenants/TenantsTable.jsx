@@ -1,7 +1,7 @@
 import React from 'react';
-import AddUser from './AddUser';
+import AddTenant from './AddTenant';
 
-const UserTable = ({ users }) => {
+const TenantsTable = ({ tenants, search }) => {
   return (
     <div className="card">
       <div className="card-header border-bottom">
@@ -9,11 +9,11 @@ const UserTable = ({ users }) => {
         <div className="d-flex justify-content-between align-items-center row pt-4 gap-md-0 g-6">
           <div className="col-md-4 user_role">
             <select id="UserRole" className="form-select text-capitalize">
-              <option value>Select Role</option>
-              <option value="Admin">Admin</option>
-              <option value="Owner">Owner</option>
-              <option value="SuperAdmin">Super Admin</option>
-            </select>
+              <option value="">{search[0].title}</option>
+              {search[0].options.map((role, index) => (
+              <option key={index} value={role.value}>{role.label}</option>
+            ))}
+          </select>
           </div>
         </div>
       </div>
@@ -41,7 +41,7 @@ const UserTable = ({ users }) => {
                 <button className="btn add-new tbl-btn-primary" tabIndex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddUser">
                   <span className="d-flex justify-content-between align-item-center">
                     <i className="icon-base bx bx-plus icon-lg me-0 me-sm-2"></i>
-                    <span className="d-none d-sm-inline-block">Add New User</span>
+                    <span className="d-none d-sm-inline-block">Add New Tenant</span>
                   </span>
                 </button>
               </div>
@@ -52,13 +52,15 @@ const UserTable = ({ users }) => {
             <div className="d-md-flex justify-content-between align-items-center dt-layout-full table-responsive">
               <table className="datatables-users table border-top dataTable dtr-column collapsed" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" style={{ width: '100%' }}>
                 <colgroup>
-                  <col data-dt-column="1" style={{ width: '162.465px' }} />
-                  <col data-dt-column="2" style={{ width: '297.448px' }} />
-                  <col data-dt-column="3" style={{ width: '152.656px' }} />
-                  <col data-dt-column="4" style={{ width: '119.983px' }} />
-                  <col data-dt-column="5" style={{ width: '193.368px' }} />
-                  <col data-dt-column="6" style={{ width: '115.278px' }} />
-                  <col data-dt-column="7" style={{ width: '164.983px' }} />
+                  <col data-dt-column="1" style={{ width: '10px' }} />
+                  <col data-dt-column="2" style={{ width: '300px' }} />
+                  <col data-dt-column="3" style={{ width: '130px' }} />
+                  <col data-dt-column="4" style={{ width: '80px' }} />
+                  <col data-dt-column="5" style={{ width: '400px' }} />
+                  <col data-dt-column="6" style={{ width: '20px' }} />
+                  <col data-dt-column="7" style={{ width: '100px' }} />
+                  <col data-dt-column="8" style={{ width: '150px' }} />
+                  <col data-dt-column="9" style={{ width: '150px' }} />
                 </colgroup>
                 <thead>
                   <tr>
@@ -79,16 +81,22 @@ const UserTable = ({ users }) => {
                       <span className="dt-column-title" role="button">Address</span>
                     </th>
                     <th data-dt-column="6" className="dt-orderable-asc dt-orderable-desc">
-                      <span className="dt-column-title" role="button">Role</span>
+                      <span className="dt-column-title" role="button">Building</span>
                     </th>
-                    <th data-dt-column="7" className="dt-orderable-none">
+                    <th data-dt-column="7" className="dt-orderable-asc dt-orderable-desc">
+                      <span className="dt-column-title" role="button">Stall</span>
+                    </th>
+                    <th data-dt-column="8" className="dt-orderable-asc dt-orderable-desc">
+                      <span className="dt-column-title" role="button">Stall Owner</span>
+                    </th>
+                    <th data-dt-column="9" className="dt-orderable-none">
                       <span className="dt-column-title">Actions</span>
                     </th>
                   </tr>
                 </thead>
 
                 <tbody>
-                  {users && users.map((user, index) => (
+                  {tenants && tenants.map((tenant, index) => (
                     <tr key={index}>
                       <td className="control dtr-hidden" tabIndex="0" style={{ display: 'none' }}></td>
                       <td className="dt-select">
@@ -98,27 +106,37 @@ const UserTable = ({ users }) => {
                         <div className="d-flex justify-content-start align-items-center user-name">
                           <div className="avatar-wrapper">
                             <div className="avatar avatar-sm me-4">
-                              <img src={user.avatar || "https://cdn-icons-png.flaticon.com/512/9203/9203764.png"} alt="Avatar" className="rounded-circle" />
+                              <img src={tenant.avatar || "https://cdn-icons-png.flaticon.com/512/9203/9203764.png"} alt="Avatar" className="rounded-circle" />
                             </div>
                           </div>
                           <div className="d-flex flex-column">
                             <a href="app-user-view-account.html" className="text-heading text-truncate">
-                              <span className="fw-medium">{user.fullName}</span>
+                              <span className="fw-medium">{tenant.fullName}</span>
                             </a>
-                            <small>{user.email}</small>
+                            <small>{tenant.email}</small>
                           </div>
                         </div>
                       </td>
                       <td>
                         <span className="text-truncate d-flex align-items-center text-heading">
-                          <i className="icon-base bx bx-phone-call text-success me-2"></i>{user.contact}
+                          <i className="icon-base bx bx-phone-call text-success me-2"></i>{tenant.contact}
                         </span>
                       </td>
-                      <td>{user.sex}</td>
-                      <td>{user.address}</td>
+                      <td>{tenant.sex}</td>
+                      <td>{tenant.address}</td>
                       <td>
-                        <span className={`badge ${user.role === 'Admin' ? 'bg-label-success' : 'bg-label-primary'}`} text-capitalized="">
-                          {user.role}
+                        <span className="text-truncate d-flex align-items-center text-heading">
+                          <i className="icon-base bx bx-building text-primary me-2"></i>{tenant.building}
+                        </span>
+                      </td>
+                      <td>
+                        <span className="text-truncate d-flex align-items-center text-heading">
+                          <i className="icon-base bx bx-store text-primary me-2"></i>{tenant.stall}
+                        </span>
+                      </td>
+                      <td>
+                        <span className="text-truncate d-flex align-items-center text-heading">
+                          <i className="icon-base bx bx-store text-primary me-2"></i>{tenant.owner}
                         </span>
                       </td>
                       <td>
@@ -149,7 +167,7 @@ const UserTable = ({ users }) => {
           <div className="row mx-3 justify-content-between">
             <div className="d-md-flex justify-content-between align-items-center dt-layout-start col-md-auto me-auto mt-0">
               <div className="dt-info" aria-live="polite" id="DataTables_Table_0_info" role="status">
-                Showing 1 to 10 of {users.length} entries
+                Showing 1 to 10 of {tenants.length} entries
               </div>
             </div>
             <div className="d-md-flex align-items-center dt-layout-end col-md-auto ms-auto d-flex gap-md-4 justify-content-md-between justify-content-center gap-4 flex-wrap mt-0">
@@ -188,9 +206,9 @@ const UserTable = ({ users }) => {
           </div>
         </div>
       </div>
-      <AddUser />
+      <AddTenant />
     </div>
   );
 };
 
-export default UserTable;
+export default TenantsTable;

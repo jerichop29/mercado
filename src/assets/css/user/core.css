@@ -18640,3 +18640,46 @@ div.dt-container .dt-buttons.btn-group .btn {
 .icon-xl, .icon-xl::before {
   font-size: 24px;
 }
+
+/* Default border */
+.form-react-select .react-select__control {
+  border: 1px solid #ced4da !important; /* Default Bootstrap border */
+  border-radius: 5px !important;
+  min-height: 38px !important;
+  transition: border-color 0.3s ease-in-out;
+  box-shadow: none !important;
+}
+
+/* Border color when clicked (focused) */
+.form-react-select .react-select__control--is-focused {
+  border-color: rgba(25, 103, 210) !important; /* Custom blue color */
+  font-size: 0.9375rem;
+  line-height: 1.53;
+  
+}
+
+.react-select__option{
+    font-weight: normal;
+    display: block;
+    padding-block-start: 0px;
+    padding-block-end: 1px;
+    min-block-size: 1.2em;
+    padding-inline: 2px;
+    white-space: nowrap;
+}
+/* Hover effect on options */
+.form-react-select .react-select__option:hover {
+  background-color: rgba(25, 103, 210) !important;
+  color: #fff !important;
+}
+
+/* Selected option styling */
+.form-react-select .react-select__option--is-selected {
+  background-color: rgba(25, 103, 210) !important;
+  color: white !important;
+}
+
+/* Dropdown menu styling */
+.form-react-select .react-select__menu {
+  border-radius: 5px;
+}

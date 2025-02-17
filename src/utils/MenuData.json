@@ -12,7 +12,13 @@
                 "text": "Sub-users",
                 "icon": "bi bi-people",
                 "available": true,
-                "link": "/user/manage-users"
+                "link": "/user/sub-users"
+            },
+            {
+                "text": "Manage Tenants",
+                "icon": "bi bi-person-add",
+                "available": true,
+                "link": "/user/manage-tenants"
             }
         ]
     },
