@@ -1,30 +1,11 @@
 import "./Facility.scss";
 import Calendar from "react-calendar"; // Import react-calendar package
-import { useState, useEffect } from "react";
-import FacilitiesHandler from "../../../../backend/handler_js/FacilitiesHandler";
+import { useState } from "react";
+import { useFacility } from "../../../hooks/useFacility";
 
 export default function Facility({ facility }) {
     const [date, setDate] = useState(new Date());
-    const [pinnedEvents, setPinnedEvents] = useState({});
-    const fetchPinnedEvents = async () => {
-        try {
-            const response = await FacilitiesHandler.getFacilities(facility.id);
-            const events = response.data.reduce((acc, event) => {
-                const dateStr = new Date(event.Event_Date).toLocaleDateString("en-CA");
-                if (!acc[dateStr]) {
-                    acc[dateStr] = [];
-                }
-                acc[dateStr].push(event.Event_Name);
-                return acc;
-            }, {});
-            setPinnedEvents(events);
-        } catch (error) {
-            console.error('Error fetching pinned events:', error);
-        }
-    };
-    useEffect(() => {
-        fetchPinnedEvents();
-    }, []);
+    const {pinnedEvents} = useFacility(facility);
 
     if (!facility) {
         return <h2 className="text-center mt-5">Facility not found</h2>;

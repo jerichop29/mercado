@@ -1,9 +1,8 @@
-class StallHandler {
+class OwnerHandler {
     constructor() {
-        this.baseUrl = `${window.location.protocol}//${window.location.hostname}/mercado/backend/handler_php/stallFunctions.php`;
+        this.baseUrl = `${window.location.protocol}//${window.location.hostname}/mercado/backend/src/handler/php/ownerFunctions.php`; // Dynamic base URL without port
     }
 
-    // Generic fetch method with error handling
     async fetchWithErrorHandling(url, options = {}) {
         try {
             const response = await fetch(url, {
@@ -25,46 +24,48 @@ class StallHandler {
 
             return data;
         } catch (error) {
-            console.error('API Error:', error);
+            //console.error('API Error:', error);
             throw error;
         }
     }
 
-    // Get all stalls
-    async getStalls() {
+    async getOwners() {
         return this.fetchWithErrorHandling(`${this.baseUrl}?action=get`);
     }
 
-    // Add new stall
-    async addStall(stallData) {
-        return this.fetchWithErrorHandling(`${this.baseUrl}?action=add`, {
-            method: 'POST',
-            body: JSON.stringify(stallData)
+    async AuthOwner(ownerData) {
+        return this.fetchWithErrorHandling(`${this.baseUrl}?action=auth`,{
+        method:'POST',
+        body: JSON.stringify(ownerData)
         });
     }
 
-    // Delete stall
-    async deleteStall(stallId) {
-        return this.fetchWithErrorHandling(`${this.baseUrl}?action=delete&id=${stallId}`, {
+    async addOwner(ownerData) {
+        return this.fetchWithErrorHandling(`${this.baseUrl}?action=add`, {
+            method: 'POST',
+            body: JSON.stringify(ownerData)
+        });
+    }
+
+    async deleteOwner(ownerId) {
+        return this.fetchWithErrorHandling(`${this.baseUrl}?action=delete&id=${ownerId}`, {
             method: 'DELETE'
         });
     }
 
-    // Update stall
-    async updateStall(stallId, stallData) {
-        return this.fetchWithErrorHandling(`${this.baseUrl}?action=update&id=${stallId}`, {
+    async updateOwner(ownerId, ownerData) {
+        return this.fetchWithErrorHandling(`${this.baseUrl}?action=update&id=${ownerId}`, {
             method: 'PUT',
-            body: JSON.stringify(stallData)
+            body: JSON.stringify(ownerData)
         });
     }
 
-    // Validate stall data
-    validateStallData(data) {
-        if (!data.stallName?.trim() || !data.buildingName?.trim() || !data.type) {
-            throw new Error('All fields are required');
+    validateOwnerData(data) {
+        if (!data.username?.trim() || !data.password?.trim()) {
+            throw new Error('Username and password are required');
         }
         return true;
     }
 }
 
-export default new StallHandler();
+export default new OwnerHandler(); 

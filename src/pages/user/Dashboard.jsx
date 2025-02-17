@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 
 const DashboardPage = () => {
+    
     useEffect(() => {
         dashboardAnalitics();
     }, [])

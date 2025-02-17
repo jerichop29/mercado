@@ -1,6 +1,6 @@
-class DiscoverHandler {
+class TenantHandler {
     constructor() {
-        this.baseUrl = `${window.location.protocol}//${window.location.hostname}/mercado/backend/handler_php/discoverFunctions.php`; // Update with the correct PHP file
+       this.baseUrl = `${window.location.protocol}//${window.location.hostname}/mercado/backend/src/handler/php/tenantFunctions.php`; // Update with the correct PHP file
     }
 
     async fetchWithErrorHandling(url, options = {}) {
@@ -30,29 +30,29 @@ class DiscoverHandler {
         // ... existing fetchWithErrorHandling method ...
     }
 
-    async getDiscoveries() {
+    async getTenants() {
         return this.fetchWithErrorHandling(`${this.baseUrl}?action=get`);
     }
 
-    async addDiscovery(discoveryData) {
+    async addTenant(tenantData) {
         return this.fetchWithErrorHandling(`${this.baseUrl}?action=add`, {
             method: 'POST',
-            body: JSON.stringify(discoveryData)
+            body: JSON.stringify(tenantData)
         });
     }
 
-    async deleteDiscovery(discoveryId) {
-        return this.fetchWithErrorHandling(`${this.baseUrl}?action=delete&id=${discoveryId}`, {
+    async deleteTenant(tenantId) {
+        return this.fetchWithErrorHandling(`${this.baseUrl}?action=delete&id=${tenantId}`, {
             method: 'DELETE'
         });
     }
 
-    async updateDiscovery(discoveryId, discoveryData) {
-        return this.fetchWithErrorHandling(`${this.baseUrl}?action=update&id=${discoveryId}`, {
+    async updateTenant(tenantId, tenantData) {
+        return this.fetchWithErrorHandling(`${this.baseUrl}?action=update&id=${tenantId}`, {
             method: 'PUT',
-            body: JSON.stringify(discoveryData)
+            body: JSON.stringify(tenantData)
         });
     }
 }
 
-export default new DiscoverHandler(); 
+export default new TenantHandler(); 

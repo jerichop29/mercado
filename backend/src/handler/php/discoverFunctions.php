@@ -1,6 +1,5 @@
 <?php
-require_once __DIR__ . '/../connect_db.php';
-
+require_once __DIR__ . '/../../../config/connect_db.php';
 class DiscoverFunctions {
     private $db;
     private $conn;
@@ -12,7 +11,7 @@ class DiscoverFunctions {
 
     // Get all discoveries
     public function getAllDiscovers() {
-        $sql = "SELECT * FROM discoverTbl";
+        $sql = "SELECT * FROM discovertbl";
         $result = $this->conn->query($sql);
         
         if ($result) {
@@ -24,7 +23,7 @@ class DiscoverFunctions {
 
     // Add new discovery
     public function addDiscover($data) {
-        $sql = "INSERT INTO discoverTbl (Title, Activity, `Description`, Date_start, Date_End, reg_form) VALUES (?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO discovertbl (Title, Activity, `Description`, Date_start, Date_End, reg_form) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("ssssss", $data['title'], $data['activity'], $data['description'], $data['date_start'], $data['date_end'], $data['reg_form']);
         
@@ -37,7 +36,7 @@ class DiscoverFunctions {
 
     // Delete discovery
     public function deleteDiscover($id) {
-        $stmt = $this->conn->prepare("DELETE FROM discoverTbl WHERE discover_Id = ?");
+        $stmt = $this->conn->prepare("DELETE FROM discovertbl WHERE discover_Id = ?");
         $stmt->bind_param("i", $id);
         
         if ($stmt->execute()) {
@@ -49,7 +48,7 @@ class DiscoverFunctions {
 
     // Update discovery
     public function updateDiscover($id, $data) {
-        $sql = "UPDATE discoverTbl SET Title = ?, Activity = ?, `Description` = ?, Date_start = ?, Date_End = ?, reg_form = ? WHERE discover_ID = ?";
+        $sql = "UPDATE discovertbl SET Title = ?, Activity = ?, `Description` = ?, Date_start = ?, Date_End = ?, reg_form = ? WHERE discover_ID = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("ssssssi", $data['title'], $data['activity'], $data['description'], $data['date_start'], $data['date_end'], $data['reg_form'], $id);
         

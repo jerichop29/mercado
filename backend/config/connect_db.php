@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
-require_once __DIR__ . '/handler_php/ErrorHandler.php';
+require_once __DIR__ . '/../src/handler/php/ErrorHandler.php';
 
 class Database {
     private $host = "localhost";

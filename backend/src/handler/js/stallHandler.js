@@ -1,8 +1,9 @@
-class PersonHandler {
+class StallHandler {
     constructor() {
-        this.baseUrl = `${window.location.protocol}//${window.location.hostname}/mercado/backend/handler_php/personFunctions.php`; // Update with the correct PHP file
+        this.baseUrl = `${window.location.protocol}//${window.location.hostname}/mercado/backend/src/handler/php/stallFunctions.php`;
     }
 
+    // Generic fetch method with error handling
     async fetchWithErrorHandling(url, options = {}) {
         try {
             const response = await fetch(url, {
@@ -29,29 +30,41 @@ class PersonHandler {
         }
     }
 
-    async getPersons() {
+    // Get all stalls
+    async getStalls() {
         return this.fetchWithErrorHandling(`${this.baseUrl}?action=get`);
     }
 
-    async addPerson(personData) {
+    // Add new stall
+    async addStall(stallData) {
         return this.fetchWithErrorHandling(`${this.baseUrl}?action=add`, {
             method: 'POST',
-            body: JSON.stringify(personData)
+            body: JSON.stringify(stallData)
         });
     }
 
-    async deletePerson(personId) {
-        return this.fetchWithErrorHandling(`${this.baseUrl}?action=delete&id=${personId}`, {
+    // Delete stall
+    async deleteStall(stallId) {
+        return this.fetchWithErrorHandling(`${this.baseUrl}?action=delete&id=${stallId}`, {
             method: 'DELETE'
         });
     }
 
-    async updatePerson(personId, personData) {
-        return this.fetchWithErrorHandling(`${this.baseUrl}?action=update&id=${personId}`, {
+    // Update stall
+    async updateStall(stallId, stallData) {
+        return this.fetchWithErrorHandling(`${this.baseUrl}?action=update&id=${stallId}`, {
             method: 'PUT',
-            body: JSON.stringify(personData)
+            body: JSON.stringify(stallData)
         });
+    }
+
+    // Validate stall data
+    validateStallData(data) {
+        if (!data.stallName?.trim() || !data.buildingName?.trim() || !data.type) {
+            throw new Error('All fields are required');
+        }
+        return true;
     }
 }
 
-export default new PersonHandler(); 
+export default new StallHandler();

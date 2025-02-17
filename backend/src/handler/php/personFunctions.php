@@ -1,6 +1,5 @@
 <?php
-require_once __DIR__ . '/../connect_db.php';
-
+require_once __DIR__ . '/../../../config/connect_db.php';
 class PersonFunctions {
     private $db;
     private $conn;
@@ -12,7 +11,7 @@ class PersonFunctions {
 
     // Get all persons
     public function getAllPersons() {
-        $sql = "SELECT * FROM OwnerTbl";
+        $sql = "SELECT * FROM ownertbl";
         
         $result = $this->conn->query($sql);
         
@@ -25,7 +24,7 @@ class PersonFunctions {
 
     // Add new person
     public function addPerson($data) {
-        $sql = "INSERT INTO OwnerTbl (FName, 
+        $sql = "INSERT INTO ownertbl (FName, 
                                       LName, 
                                       MName, 
                                       Gender, 
@@ -54,7 +53,7 @@ class PersonFunctions {
 
     // Delete person
     public function deletePerson($id) {
-        $stmt = $this->conn->prepare("DELETE FROM OwnerTbl WHERE Person_Id = ?");
+        $stmt = $this->conn->prepare("DELETE FROM ownertbl WHERE Person_Id = ?");
         $stmt->bind_param("i", $id);
         
         if ($stmt->execute()) {
@@ -66,7 +65,7 @@ class PersonFunctions {
 
     // Update person
     public function updatePerson($id, $data) {
-        $sql = "UPDATE OwnerTbl 
+        $sql = "UPDATE ownertbl 
                 SET FName = ?, 
                     LName = ?, 
                     MName = ?, 

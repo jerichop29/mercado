@@ -1,27 +1,8 @@
-import  React,{ useEffect, useState } from 'react';
+import React from 'react';
 import './Stats.css';
-import stallHandler from '../../../../backend/handler_js/stallHandler';
-import OwnerHandler from '../../../../backend/handler_js/OwnerHandler';
+import { useStats } from '../../../hooks/useStats';
 export default function Stats() {
-  const [stallData,setStallData] = useState();
-  const [ownerData,setOwnerData] = useState();
-     // Fetch initial data when the component mounts
-    useEffect(() => {
-        handleFetchData();
-    }, []);
-
-    // Function to fetch stall data from the server
-    const handleFetchData = async () => {
-        try {
-            const stall = await stallHandler.getStalls();
-            const owner = await OwnerHandler.getOwners();
-            // Send the count of stalls to a function or endpoint
-            setStallData(stall.data.length);
-            setOwnerData(owner.data.length);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
-    };
+  const { stallData, ownerData } = useStats();
 
   return (
     <>
