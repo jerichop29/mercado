@@ -12,7 +12,7 @@ function ThreeEnvironment ( {modelName}){
     return (
 
     <Suspense fallback={null}>
-        <CameraSetup />
+      
         <Scene modelName={modelName} />
 
         {/* Environment lighting */}

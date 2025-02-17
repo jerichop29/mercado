@@ -1,9 +1,8 @@
-class AdminHandler {
+class DiscoverHandler {
     constructor() {
-        this.baseUrl = `${window.location.protocol}//${window.location.hostname}/mercado/backend/handler_php/adminFunctions.php`;// Update with the correct PHP file
-        
+        this.baseUrl = `${window.location.protocol}//${window.location.hostname}/mercado/backend/src/handler/php/discoverFunctions.php`; // Update with the correct PHP file
     }
-    
+
     async fetchWithErrorHandling(url, options = {}) {
         try {
             const response = await fetch(url, {
@@ -25,42 +24,35 @@ class AdminHandler {
 
             return data;
         } catch (error) {
-            //console.error('API Error:', error);
+            console.error('API Error:', error);
             throw error;
         }
         // ... existing fetchWithErrorHandling method ...
     }
 
-    async getAdmins() {
+    async getDiscoveries() {
         return this.fetchWithErrorHandling(`${this.baseUrl}?action=get`);
     }
 
-    async Authadmin(adminData) {
-        return this.fetchWithErrorHandling(`${this.baseUrl}?action=auth`,{
-        method:'POST',
-        body: JSON.stringify(adminData)
-        });
-    }
-
-    async addAdmin(adminData) {
+    async addDiscovery(discoveryData) {
         return this.fetchWithErrorHandling(`${this.baseUrl}?action=add`, {
             method: 'POST',
-            body: JSON.stringify(adminData)
+            body: JSON.stringify(discoveryData)
         });
     }
 
-    async deleteAdmin(adminId) {
-        return this.fetchWithErrorHandling(`${this.baseUrl}?action=delete&id=${adminId}`, {
+    async deleteDiscovery(discoveryId) {
+        return this.fetchWithErrorHandling(`${this.baseUrl}?action=delete&id=${discoveryId}`, {
             method: 'DELETE'
         });
     }
 
-    async updateAdmin(adminId, adminData) {
-        return this.fetchWithErrorHandling(`${this.baseUrl}?action=update&id=${adminId}`, {
+    async updateDiscovery(discoveryId, discoveryData) {
+        return this.fetchWithErrorHandling(`${this.baseUrl}?action=update&id=${discoveryId}`, {
             method: 'PUT',
-            body: JSON.stringify(adminData)
+            body: JSON.stringify(discoveryData)
         });
     }
 }
 
-export default new AdminHandler();
+export default new DiscoverHandler(); 

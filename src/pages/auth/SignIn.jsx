@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import './SignIn.css';
 import LoginImage from '../../assets/img/login.png';
-import OwnerHandler from '../../../backend/handler_js/OwnerHandler';
+import OwnerHandler from '../../../backend/src/handler/js/OwnerHandler';
 import Cookies from 'js-cookie';
 
 const SignInPage = () => {

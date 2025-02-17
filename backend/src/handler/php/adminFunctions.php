@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../connect_db.php';
+require_once __DIR__ . '/../../../config/connect_db.php';
 
 class AdminFunctions {
     private $db;
@@ -12,7 +12,7 @@ class AdminFunctions {
 
     // Get all admins (WITHOUT returning passwords)
     public function getAllAdmins() {
-        $sql = "SELECT Admin_Id, Username, `role` FROM AdminTbl"; 
+        $sql = "SELECT Admin_Id, Username, `role` FROM admintbl"; 
         $result = $this->conn->query($sql);
 
         if ($result) {
@@ -31,7 +31,7 @@ class AdminFunctions {
             return ["status" => "error", "message" => "Username and password are required"];
         }
 
-        $stmt = $this->conn->prepare("SELECT `Password` FROM AdminTbl WHERE Username = ?");
+        $stmt = $this->conn->prepare("SELECT `Password` FROM admintbl WHERE Username = ?");
         $stmt->bind_param("s", $username);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -49,7 +49,7 @@ class AdminFunctions {
     public function addAdmin($data) {
         $hashedPassword = password_hash($data['password'], PASSWORD_ARGON2ID);
 
-        $stmt = $this->conn->prepare("INSERT INTO AdminTbl (Username, `Password`, `role`) VALUES (?, ?, ?)");
+        $stmt = $this->conn->prepare("INSERT INTO admintbl (Username, `Password`, `role`) VALUES (?, ?, ?)");
         $stmt->bind_param("sss", $data['username'], $hashedPassword, $data['role']);
 
         if ($stmt->execute()) {
@@ -62,7 +62,7 @@ class AdminFunctions {
     // Update admin (only hash the password if changed)
     public function updateAdmin($id, $data) {
         $updatePassword = !empty($data['password']);
-        $sql = "UPDATE AdminTbl SET Username = ?, `role` = ?" . ($updatePassword ? ", `Password` = ?" : "") . " WHERE Admin_Id = ?";
+        $sql = "UPDATE admintbl SET Username = ?, `role` = ?" . ($updatePassword ? ", `Password` = ?" : "") . " WHERE Admin_Id = ?";
         $stmt = $this->conn->prepare($sql);
 
         if ($updatePassword) {
@@ -81,7 +81,7 @@ class AdminFunctions {
 
     // Delete admin
     public function deleteAdmin($id) {
-        $stmt = $this->conn->prepare("DELETE FROM AdminTbl WHERE Admin_Id = ?");
+        $stmt = $this->conn->prepare("DELETE FROM admintbl WHERE Admin_Id = ?");
         $stmt->bind_param("i", $id);
 
         if ($stmt->execute()) {

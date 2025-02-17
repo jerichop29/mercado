@@ -1,7 +1,7 @@
 // src/AppRoutes.js
 import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import Loader from "../components/loader/loader";
+import Loader from "../components/loader/Loader";
 import NotFound from "../components/main/ErrorPages/NotFound"; // Import the NotFound component
 import Forbidden from "../components/main/ErrorPages/Forbidden"; // Import the Forbidden component
 import ProtectedRoute from "../components/main/ProtectedRoute/ProtectedRoute"; // Import the ProtectedRoute component
@@ -11,9 +11,9 @@ import useScrollReset from "../hooks/useScrollReset";
 import useLoading from "../hooks/useLoading";
 
 // Layouts
-import MainLayout from "../layouts/MainLayout/MainLayout";
+import MainLayout from "../layouts/mainLayout/MainLayout";
 import AuthLayout from "../layouts/AuthLayout";
-import UserLayout from "../layouts/UserLayout/UserLayout";
+import UserLayout from "../layouts/userLayout/UserLayout";
 
 // Pages
 import SignInPage from "../pages/auth/SignIn";
@@ -114,7 +114,9 @@ const AppRoutes = () => {
               <Route path="manage-discover" element={renderPage(ManageDiscoverPage)} />
               <Route path="Report" element={renderPage(ReportPage)} />
             </Route>
-
+              {/* Catch-all route */}
+              <Route path="forbidden" element={<Forbidden />} />
+              <Route path="*" element={<NotFound />} />
           </Routes>
         </AnimatePresence>
       )}

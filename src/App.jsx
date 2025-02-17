@@ -2,7 +2,7 @@
 import { BrowserRouter as Router } from "react-router-dom";
 import { motion } from "framer-motion"; // Import motion from framer-motion
 import AppRoutes from "./routes/AppRoutes";
-import Loader from "./components/loader/loader"; // Import the loader component
+import Loader from "./components/loader/Loader"; // Import the loader component
 import useStyleLoader from "./hooks/useStyleLoader"; // Import the custom hook
 import NotFound from "./components/main/ErrorPages/NotFound";
 

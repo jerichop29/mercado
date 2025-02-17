@@ -2,11 +2,12 @@ import { useGLTF, Html } from '@react-three/drei'
 import { useState, useEffect } from 'react'
 import * as THREE from 'three'
 import { EffectComposer, Bloom } from '@react-three/postprocessing'
-import stallHandler from '../../../../../backend/handler_js/stallHandler'
+import stallHandler from '../../../../../backend/src/handler/js/stallHandler'
 import Modal from '../../../main/Modal/Modal'
+import { CameraSetup } from '../controls/CameraSetup'
 let ModalOpen = false;
 let stallName = '';
-
+let MeshScale = 1;
 function setModalOpen(open) {
   ModalOpen = open;
 }
@@ -102,7 +103,20 @@ function Model({ url }) {
       window.removeEventListener('keydown', handleKeyPress);
     };
   }, [selectedMesh]); // Dependencies include selectedMesh and additionalInfo
-
+  let totalScale = 0;
+  let meshCount = 0;
+  
+  Object.keys(nodes).forEach((nodeName) => {
+    const mesh = nodes[nodeName];
+    if (mesh.isMesh) {
+      totalScale += (mesh.scale.x + mesh.scale.y + mesh.scale.z) / 3;
+      meshCount++;
+    }
+  });
+  
+  const averageScale = meshCount > 0 ? totalScale / meshCount +.3 : 1;
+  MeshScale = averageScale;
+  console.log(MeshScale);
   return (
     <>
       <EffectComposer>
@@ -133,7 +147,7 @@ function Model({ url }) {
             // Check current state
             const isGlowing = glowingMeshes.has(nodeName);
             const isGreen = greenMeshes.has(nodeName);
-
+           
             // Choose material based on current state
             const materialToUse = isGlowing ? glowMaterial :
               isGreen ? greenMaterial :
@@ -225,7 +239,7 @@ function Model({ url }) {
           return null
         })}
       </group>
-
+        <CameraSetup scale={MeshScale}/>
       {ModalOpen && (
         <Html>
           <div>

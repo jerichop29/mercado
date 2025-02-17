@@ -1,6 +1,5 @@
 <?php
-require_once __DIR__ . '/../connect_db.php';
-
+require_once __DIR__ . '/../../../config/connect_db.php';
 class OwnerFunctions {
     private $db;
     private $conn;
@@ -12,7 +11,7 @@ class OwnerFunctions {
 
     // Get all owners
     public function getAllOwners() {
-        $sql = "SELECT Owner_Id, Person_Id, Admin_Id, Username FROM OwnerTbl";
+        $sql = "SELECT Owner_Id, Person_Id, Admin_Id, Username FROM ownertbl";
         $result = $this->conn->query($sql);
         
         if ($result) {
@@ -31,7 +30,7 @@ class OwnerFunctions {
             return ["status" => "error", "message" => "Username and password are required"];
         }
 
-        $sql = "SELECT `Password` FROM OwnerTbl WHERE Username = ?";
+        $sql = "SELECT `Password` FROM ownertbl WHERE Username = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("s", $username);
         
@@ -52,7 +51,7 @@ class OwnerFunctions {
     public function addOwner($data) {
         $hashedPassword = password_hash($data['password'], PASSWORD_ARGON2ID);
         
-        $sql = "INSERT INTO OwnerTbl (Person_Id, Admin_Id, Username, `Password`) VALUES (?, ?, ?, ?)";
+        $sql = "INSERT INTO ownertbl (Person_Id, Admin_Id, Username, `Password`) VALUES (?, ?, ?, ?)";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("iiss", $data['person_id'], $data['admin_id'], $data['username'], $hashedPassword);
         
@@ -65,7 +64,7 @@ class OwnerFunctions {
 
     // Delete owner
     public function deleteOwner($id) {
-        $stmt = $this->conn->prepare("DELETE FROM OwnerTbl WHERE Owner_Id = ?");
+        $stmt = $this->conn->prepare("DELETE FROM ownertbl WHERE Owner_Id = ?");
         $stmt->bind_param("i", $id);
         
         if ($stmt->execute()) {
@@ -79,11 +78,11 @@ class OwnerFunctions {
     public function updateOwner($id, $data) {
         if (!empty($data['password'])) {
             $hashedPassword = password_hash($data['password'], PASSWORD_ARGON2ID);
-            $sql = "UPDATE OwnerTbl SET Person_Id = ?, Admin_Id = ?, Username = ?, `Password` = ? WHERE Owner_Id = ?";
+            $sql = "UPDATE ownertbl SET Person_Id = ?, Admin_Id = ?, Username = ?, `Password` = ? WHERE Owner_Id = ?";
             $stmt = $this->conn->prepare($sql);
             $stmt->bind_param("iissi", $data['person_id'], $data['admin_id'], $data['username'], $hashedPassword, $id);
         } else {
-            $sql = "UPDATE OwnerTbl SET Person_Id = ?, Admin_Id = ?, Username = ? WHERE Owner_Id = ?";
+            $sql = "UPDATE ownertbl SET Person_Id = ?, Admin_Id = ?, Username = ? WHERE Owner_Id = ?";
             $stmt = $this->conn->prepare($sql);
             $stmt->bind_param("iisi", $data['person_id'], $data['admin_id'], $data['username'], $id);
         }

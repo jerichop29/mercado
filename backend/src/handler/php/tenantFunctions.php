@@ -1,6 +1,5 @@
 <?php
-require_once __DIR__ . '/../connect_db.php';
-
+require_once __DIR__ . '/../../../config/connect_db.php';
 class TenantFunctions {
     private $db;
     private $conn;
@@ -12,7 +11,7 @@ class TenantFunctions {
 
     // Get all tenants
     public function getAllTenants() {
-        $sql = "SELECT * FROM TenantTbl"; 
+        $sql = "SELECT * FROM tenant"; 
         
         $result = $this->conn->query($sql);
         
@@ -25,7 +24,7 @@ class TenantFunctions {
 
     // Add new tenant
     public function addTenant($data) {
-        $sql = "INSERT INTO TenantTbl (Person_Id, Stall_Id, `Market Fee`) VALUES (?, ?, ?)";
+        $sql = "INSERT INTO tenant (Person_Id, Stall_Id, `Market Fee`) VALUES (?, ?, ?)";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("iid", $data['person_id'], $data['stall_id'], $data['market_fee']);
         
@@ -38,7 +37,7 @@ class TenantFunctions {
 
     // Delete tenant
     public function deleteTenant($id) {
-        $stmt = $this->conn->prepare("DELETE FROM TenantTbl WHERE TenantId = ?");
+        $stmt = $this->conn->prepare("DELETE FROM tenant WHERE TenantId = ?");
         $stmt->bind_param("i", $id);
         
         if ($stmt->execute()) {
@@ -50,7 +49,7 @@ class TenantFunctions {
 
     // Update tenant
     public function updateTenant($id, $data) {
-        $sql = "UPDATE TenantTbl SET Person_Id = ?, Stall_Id = ?, `Market Fee` = ? WHERE TenantId = ?";
+        $sql = "UPDATE tenant SET Person_Id = ?, Stall_Id = ?, `Market Fee` = ? WHERE TenantId = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("iidi", $data['person_id'], $data['stall_id'], $data['market_fee'], $id);
         

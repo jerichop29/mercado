@@ -1,6 +1,5 @@
 <?php
-require_once __DIR__ . '/../connect_db.php';
-
+require_once __DIR__ . '/../../../config/connect_db.php';
 class FacilitiesFunctions {
     private $db;
     private $conn;
@@ -12,7 +11,7 @@ class FacilitiesFunctions {
 
     // Get all Facilities
     public function getFacility($id) {
-        $sql = "SELECT * FROM eventTbl WHERE facilities_Id = ?";
+        $sql = "SELECT * FROM eventtbl WHERE facilities_Id = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("i", $id);
         $stmt->execute();
@@ -27,7 +26,7 @@ class FacilitiesFunctions {
 
     // Add new Facility
     public function addFacilities($data) {
-        $sql = "INSERT INTO eventTbl (Event_Name, Event_Date) VALUES (?, ?)";
+        $sql = "INSERT INTO eventtbl (Event_Name, Event_Date) VALUES (?, ?)";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("ss", $data['Event_Name'], $data['Event_Date']);
         
@@ -40,7 +39,7 @@ class FacilitiesFunctions {
 
     // Delete Facility
     public function deleteFacilities($id) {
-        $stmt = $this->conn->prepare("DELETE FROM eventTbl WHERE Event_Id = ?");
+        $stmt = $this->conn->prepare("DELETE FROM eventtbl WHERE Event_Id = ?");
         $stmt->bind_param("i", $id);
         
         if ($stmt->execute()) {
@@ -52,7 +51,7 @@ class FacilitiesFunctions {
 
     // Update Facility
     public function updateFacilities($id, $data) {
-        $sql = "UPDATE eventTbl SET Event_Name = ?, Event_Date = ? WHERE Event_Id = ?";
+        $sql = "UPDATE eventtbl SET Event_Name = ?, Event_Date = ? WHERE Event_Id = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("ssi", $data['Event_Name'], $data['Event_Date'], $id);
         

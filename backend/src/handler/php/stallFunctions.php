@@ -1,6 +1,5 @@
 <?php
-require_once __DIR__ . '/../connect_db.php';
-
+require_once __DIR__ . '/../../../config/connect_db.php';
 class StallFunctions {
     private $db;
     private $conn;
@@ -12,10 +11,10 @@ class StallFunctions {
 
     // Get all stalls
     public function getStalls() {
-        $sql = "SELECT StallTbl.*, BuildingTbl.BuildingName, TypesTbl.Name AS TypeName
-                FROM StallTbl 
-                LEFT JOIN TypesTbl ON StallTbl.Type_Id = TypesTbl.Types_Id
-                LEFT JOIN BuildingTbl ON StallTbl.BuildingName = BuildingTbl.Id";
+        $sql = "SELECT stalltbl.*, buildingtbl.BuildingName, typestbl.Name AS TypeName
+                FROM stalltbl 
+                LEFT JOIN typestbl ON stalltbl.Type_Id = typestbl.Types_Id
+                LEFT JOIN buildingtbl ON stalltbl.BuildingName = buildingtbl.Id";
 
         $result = $this->conn->query($sql);
         
@@ -28,7 +27,7 @@ class StallFunctions {
 
     // Add new stall
     public function addStall($data) {
-        $sql = "INSERT INTO StallTbl (StallName, BuildingName, Type_Id) VALUES (?, ?, ?)";
+        $sql = "INSERT INTO stalltbl (StallName, BuildingName, Type_Id) VALUES (?, ?, ?)";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("sii", $data['stallName'], $data['BuildingName'], $data['type']);
         
@@ -41,7 +40,7 @@ class StallFunctions {
 
     // Delete stall
     public function deleteStall($id) {
-        $stmt = $this->conn->prepare("DELETE FROM StallTbl WHERE Stall_Id = ?");
+        $stmt = $this->conn->prepare("DELETE FROM stalltbl WHERE Stall_Id = ?");
         $stmt->bind_param("i", $id);
         
         if ($stmt->execute()) {
@@ -53,7 +52,7 @@ class StallFunctions {
 
     // Update stall
     public function updateStall($id, $data) {
-        $sql = "UPDATE StallTbl SET StallName = ?, BuildingName = ?, Type_Id = ? WHERE Stall_Id = ?";
+        $sql = "UPDATE stalltbl SET StallName = ?, BuildingName = ?, Type_Id = ? WHERE Stall_Id = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("siii", $data['stallName'], $data['BuildingName'], $data['type'], $id);
         

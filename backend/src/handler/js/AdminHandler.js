@@ -1,8 +1,9 @@
-class OwnerHandler {
+class AdminHandler {
     constructor() {
-        this.baseUrl = `${window.location.protocol}//${window.location.hostname}/mercado/backend/handler_php/ownerFunctions.php`; // Dynamic base URL without port
+        this.baseUrl = `${window.location.protocol}//${window.location.hostname}/mercado/backend/src/handler/php/adminFunctions.php`;// Update with the correct PHP file
+        
     }
-
+    
     async fetchWithErrorHandling(url, options = {}) {
         try {
             const response = await fetch(url, {
@@ -27,45 +28,39 @@ class OwnerHandler {
             //console.error('API Error:', error);
             throw error;
         }
+        // ... existing fetchWithErrorHandling method ...
     }
 
-    async getOwners() {
+    async getAdmins() {
         return this.fetchWithErrorHandling(`${this.baseUrl}?action=get`);
     }
 
-    async AuthOwner(ownerData) {
+    async Authadmin(adminData) {
         return this.fetchWithErrorHandling(`${this.baseUrl}?action=auth`,{
         method:'POST',
-        body: JSON.stringify(ownerData)
+        body: JSON.stringify(adminData)
         });
     }
 
-    async addOwner(ownerData) {
+    async addAdmin(adminData) {
         return this.fetchWithErrorHandling(`${this.baseUrl}?action=add`, {
             method: 'POST',
-            body: JSON.stringify(ownerData)
+            body: JSON.stringify(adminData)
         });
     }
 
-    async deleteOwner(ownerId) {
-        return this.fetchWithErrorHandling(`${this.baseUrl}?action=delete&id=${ownerId}`, {
+    async deleteAdmin(adminId) {
+        return this.fetchWithErrorHandling(`${this.baseUrl}?action=delete&id=${adminId}`, {
             method: 'DELETE'
         });
     }
 
-    async updateOwner(ownerId, ownerData) {
-        return this.fetchWithErrorHandling(`${this.baseUrl}?action=update&id=${ownerId}`, {
+    async updateAdmin(adminId, adminData) {
+        return this.fetchWithErrorHandling(`${this.baseUrl}?action=update&id=${adminId}`, {
             method: 'PUT',
-            body: JSON.stringify(ownerData)
+            body: JSON.stringify(adminData)
         });
-    }
-
-    validateOwnerData(data) {
-        if (!data.username?.trim() || !data.password?.trim()) {
-            throw new Error('Username and password are required');
-        }
-        return true;
     }
 }
 
-export default new OwnerHandler(); 
+export default new AdminHandler();

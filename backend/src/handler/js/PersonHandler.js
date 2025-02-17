@@ -1,6 +1,6 @@
-class TenantHandler {
+class PersonHandler {
     constructor() {
-       this.baseUrl = `${window.location.protocol}//${window.location.hostname}/mercado/backend/handler_php/tenantFunctions.php`; // Update with the correct PHP file
+        this.baseUrl = `${window.location.protocol}//${window.location.hostname}/mercado/backend/src/handler/php/personFunctions.php`; // Update with the correct PHP file
     }
 
     async fetchWithErrorHandling(url, options = {}) {
@@ -27,32 +27,31 @@ class TenantHandler {
             console.error('API Error:', error);
             throw error;
         }
-        // ... existing fetchWithErrorHandling method ...
     }
 
-    async getTenants() {
+    async getPersons() {
         return this.fetchWithErrorHandling(`${this.baseUrl}?action=get`);
     }
 
-    async addTenant(tenantData) {
+    async addPerson(personData) {
         return this.fetchWithErrorHandling(`${this.baseUrl}?action=add`, {
             method: 'POST',
-            body: JSON.stringify(tenantData)
+            body: JSON.stringify(personData)
         });
     }
 
-    async deleteTenant(tenantId) {
-        return this.fetchWithErrorHandling(`${this.baseUrl}?action=delete&id=${tenantId}`, {
+    async deletePerson(personId) {
+        return this.fetchWithErrorHandling(`${this.baseUrl}?action=delete&id=${personId}`, {
             method: 'DELETE'
         });
     }
 
-    async updateTenant(tenantId, tenantData) {
-        return this.fetchWithErrorHandling(`${this.baseUrl}?action=update&id=${tenantId}`, {
+    async updatePerson(personId, personData) {
+        return this.fetchWithErrorHandling(`${this.baseUrl}?action=update&id=${personId}`, {
             method: 'PUT',
-            body: JSON.stringify(tenantData)
+            body: JSON.stringify(personData)
         });
     }
 }
 
-export default new TenantHandler(); 
+export default new PersonHandler(); 
