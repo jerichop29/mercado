@@ -32,8 +32,8 @@ import AllFacilitiesPage from "../pages/main/Facilities/AllFacilities";
 import Facility1Page from "../pages/main/Facilities/Facility1";
 import Facility2Page from "../pages/main/Facilities/Facility2";
 import DashboardPage from "../pages/user/Dashboard";
-import AddUserPage from "../pages/user/SubUsers.jsx/AddUser";
-import ManageUsersPage from "../pages/user/SubUsers.jsx/ManageUsers";
+import SubUsersPage from "../pages/user/SubUsers";
+import ManageTenantsPage from "../pages/user/ManageTenants"
 import AllAppointmentsPage from "../pages/user/Appointments/AllAppointments";
 import RequestAppointmentPage from "../pages/user/Appointments/RequestAppointment";
 import ApprovedAppointmentPage from "../pages/user/Appointments/ApprovedAppointment";
@@ -44,8 +44,8 @@ import ClosedComplaintsPage from "../pages/user/Complaints/ManageComplaints/Clos
 import InProcessComplaintsPage from "../pages/user/Complaints/ManageComplaints/InProcessComplaints";
 import NotForwardedComplaintsPage from "../pages/user/Complaints/ManageComplaints/NotForwardedComplaints";
 import NotProcessComplaintsPage from "../pages/user/Complaints/ManageComplaints/NotProcessComplaints";
-import ManageStallsPage from "../pages/user/ManageProperty/ManageStalls";
-import ManageFacilitiesPage from "../pages/user/ManageProperty/ManageFacilities";
+import ManageStallsPage from "../pages/user/ManageStalls";
+import ManageFacilitiesPage from "../pages/user/ManageFacilities";
 import AddDiscoverPage from "../pages/user/Discover/AddDiscover";
 import ManageDiscoverPage from "../pages/user/Discover/ManageDiscover";
 import ReportPage from "../pages/user/Report/Report";
@@ -96,8 +96,8 @@ const AppRoutes = () => {
             {/* <Route path="user" element={<ProtectedRoute><UserLayout /></ProtectedRoute>}> */}
             <Route path="user" element={<UserLayout />}>
               <Route path="dashboard" element={renderPage(DashboardPage)} />
-              <Route path="add-user" element={renderPage(AddUserPage)} />
-              <Route path="manage-users" element={renderPage(ManageUsersPage)} />
+              <Route path="manage-tenants" element={renderPage(ManageTenantsPage)} />
+              <Route path="sub-users" element={renderPage(SubUsersPage)} />
               <Route path="all-appointments" element={renderPage(AllAppointmentsPage)} />
               <Route path="request-appointment" element={renderPage(RequestAppointmentPage)} />
               <Route path="approved-appointment" element={renderPage(ApprovedAppointmentPage)} />
