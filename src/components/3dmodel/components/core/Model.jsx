@@ -67,10 +67,10 @@ function Model({ url }) {
         stall.Owner_Id === null); // Fallback to an empty array if stall.data is undefined
       let vacantStallNames = ([]);
       if (url && url === '/models/B4_4-v1.glb') {
-        vacantStallNames = vacantStalls.map(stall => stall.StallName);
+        vacantStallNames = vacantStalls.map(stall => stall.StallCode);
       }
       else {// Create an array of StallNames for vacant stalls
-        vacantStallNames = vacantStalls.map(stall => stall.StallName + "_Light");
+        vacantStallNames = vacantStalls.map(stall => stall.StallCode + "_Light");
       }
       // Set the state with the array of vacant stall names
       setVacantStalls(vacantStallNames);

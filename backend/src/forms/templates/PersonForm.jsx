@@ -12,7 +12,7 @@ const StallForm = ({ editData, onClose, onSubmitSuccess }) => {
     useEffect(() => {
         if (editData) {
             setFormData({
-                stallName: editData.StallName || '',
+                stallName: editData.StallCode || '',
                 buildingName: editData.BuildingName || '',
                 type: editData.Name || '',
                 id: editData.Stall_Id

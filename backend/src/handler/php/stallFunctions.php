@@ -27,7 +27,7 @@ class StallFunctions {
 
     // Add new stall
     public function addStall($data) {
-        $sql = "INSERT INTO stalltbl (StallName, BuildingName, Type_Id) VALUES (?, ?, ?)";
+        $sql = "INSERT INTO stalltbl (StallCode, BuildingName, Type_Id) VALUES (?, ?, ?)";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("sii", $data['stallName'], $data['BuildingName'], $data['type']);
         
@@ -52,7 +52,7 @@ class StallFunctions {
 
     // Update stall
     public function updateStall($id, $data) {
-        $sql = "UPDATE stalltbl SET StallName = ?, BuildingName = ?, Type_Id = ? WHERE Stall_Id = ?";
+        $sql = "UPDATE stalltbl SET StallCode = ?, BuildingName = ?, Type_Id = ? WHERE Stall_Id = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("siii", $data['stallName'], $data['BuildingName'], $data['type'], $id);
         
