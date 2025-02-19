@@ -23,7 +23,7 @@ function Modal({ isOpen, stallName, onClose }) {
                     className="stall-preview-image"
                   />
                 </div>
-                <h3 className="stall-title">{data.StallName}</h3>
+                <h3 className="stall-title">{data.StallCode}</h3>
                 <div className="stall-info">
                   <div className="stall-grid">
                     <div className="stall-row">

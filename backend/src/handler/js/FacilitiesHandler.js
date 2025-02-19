@@ -1,3 +1,5 @@
+import EventValidator from "../../forms/validators/facilitiesValidator";
+
 class DiscoverHandler {
     constructor() {
         this.baseUrl = `${window.location.protocol}//${window.location.hostname}/mercado/backend/src/handler/php/facilitiesFunctions.php`; // Update with the correct PHP file
@@ -36,6 +38,7 @@ class DiscoverHandler {
     }
 
     async addFacilities(facilitiesData) {
+        EventValidator.validateEventData(facilitiesData);
         return this.fetchWithErrorHandling(`${this.baseUrl}?action=add`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -51,6 +54,7 @@ class DiscoverHandler {
     }
 
     async updateFacilities(facilitiesId, facilitiesData) {
+        EventValidator.validateEventData(facilitiesData);
         return this.fetchWithErrorHandling(`${this.baseUrl}?action=update&id=${facilitiesId}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },

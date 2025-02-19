@@ -1,3 +1,5 @@
+import DiscoverValidator from "../../forms/validators/discoverValidator";
+
 class DiscoverHandler {
     constructor() {
         this.baseUrl = `${window.location.protocol}//${window.location.hostname}/mercado/backend/src/handler/php/discoverFunctions.php`; // Update with the correct PHP file
@@ -35,6 +37,7 @@ class DiscoverHandler {
     }
 
     async addDiscovery(discoveryData) {
+        DiscoverValidator.validateDiscoverData(discoveryData);
         return this.fetchWithErrorHandling(`${this.baseUrl}?action=add`, {
             method: 'POST',
             body: JSON.stringify(discoveryData)
@@ -48,6 +51,7 @@ class DiscoverHandler {
     }
 
     async updateDiscovery(discoveryId, discoveryData) {
+        DiscoverValidator.validateDiscoverData(discoveryData);
         return this.fetchWithErrorHandling(`${this.baseUrl}?action=update&id=${discoveryId}`, {
             method: 'PUT',
             body: JSON.stringify(discoveryData)

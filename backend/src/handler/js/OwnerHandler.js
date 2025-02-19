@@ -1,3 +1,5 @@
+import OwnerValidator from "../../forms/validators/ownerValidator";
+
 class OwnerHandler {
     constructor() {
         this.baseUrl = `${window.location.protocol}//${window.location.hostname}/mercado/backend/src/handler/php/ownerFunctions.php`; // Dynamic base URL without port
@@ -34,6 +36,7 @@ class OwnerHandler {
     }
 
     async AuthOwner(ownerData) {
+        OwnerValidator.validateUserData(ownerData);
         return this.fetchWithErrorHandling(`${this.baseUrl}?action=auth`,{
         method:'POST',
         body: JSON.stringify(ownerData)
@@ -41,6 +44,7 @@ class OwnerHandler {
     }
 
     async addOwner(ownerData) {
+        OwnerValidator.validateUserData(ownerData);
         return this.fetchWithErrorHandling(`${this.baseUrl}?action=add`, {
             method: 'POST',
             body: JSON.stringify(ownerData)
@@ -54,6 +58,7 @@ class OwnerHandler {
     }
 
     async updateOwner(ownerId, ownerData) {
+        OwnerValidator.validateUserData(ownerData);
         return this.fetchWithErrorHandling(`${this.baseUrl}?action=update&id=${ownerId}`, {
             method: 'PUT',
             body: JSON.stringify(ownerData)

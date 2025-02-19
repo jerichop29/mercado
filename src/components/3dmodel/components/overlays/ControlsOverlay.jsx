@@ -16,7 +16,7 @@ export function ControlsOverlay() {
     
     const timer = setTimeout(() => {
       setIsVisible(false)
-    }, 5000)
+    }, 3000)
     
     return () => {
       clearTimeout(timer)
@@ -40,13 +40,13 @@ export function ControlsOverlay() {
               <>
                 <li>👆 Swipe: Rotate model</li>
                 <li>🤏 Pinch: Zoom in/out</li>
-                <li>👆 Tap object: View details</li>
+                <li>👆 Double Tap object: View details</li>
               </>
             ) : (
               <>
                 <li>🖱️ Left Click + Drag: Rotate </li>
                 <li>🔍 Scroll: Zoom in/Zoom out </li>
-                <li>👆 Click object: View details</li>
+                <li>👆 Double Click object: View details</li>
               </>
             )}
           </ul>

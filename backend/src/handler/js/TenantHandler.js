@@ -1,3 +1,5 @@
+import TenantValidator from "../../forms/validators/tenantValidator";
+
 class TenantHandler {
     constructor() {
        this.baseUrl = `${window.location.protocol}//${window.location.hostname}/mercado/backend/src/handler/php/tenantFunctions.php`; // Update with the correct PHP file
@@ -35,6 +37,7 @@ class TenantHandler {
     }
 
     async addTenant(tenantData) {
+        TenantValidator.validateTenantData(tenantData);
         return this.fetchWithErrorHandling(`${this.baseUrl}?action=add`, {
             method: 'POST',
             body: JSON.stringify(tenantData)

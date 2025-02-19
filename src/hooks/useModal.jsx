@@ -7,7 +7,7 @@ export const useModal = (isOpen,stallName) => {
 const handleFilterData = async () => {
   try {
     const stallData = await stallHandler.getStalls();
-    setData(stallData.data.filter((data) => data.StallName === stallName.replace(/^Stall_/,'')));
+    setData(stallData.data.filter((data) => data.StallCode === stallName.replace(/^Stall_/,'')));
   } catch (e) {
     console.error(e);
   }

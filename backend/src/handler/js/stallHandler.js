@@ -1,8 +1,8 @@
+import StallValidator from "../../forms/validators/stallValidator";
 class StallHandler {
     constructor() {
         this.baseUrl = `${window.location.protocol}//${window.location.hostname}/mercado/backend/src/handler/php/stallFunctions.php`;
     }
-
     // Generic fetch method with error handling
     async fetchWithErrorHandling(url, options = {}) {
         try {
@@ -29,42 +29,38 @@ class StallHandler {
             throw error;
         }
     }
-
     // Get all stalls
     async getStalls() {
         return this.fetchWithErrorHandling(`${this.baseUrl}?action=get`);
     }
-
     // Add new stall
     async addStall(stallData) {
+        StallValidator.validateStallData(stallData);
         return this.fetchWithErrorHandling(`${this.baseUrl}?action=add`, {
             method: 'POST',
             body: JSON.stringify(stallData)
         });
     }
-
     // Delete stall
     async deleteStall(stallId) {
         return this.fetchWithErrorHandling(`${this.baseUrl}?action=delete&id=${stallId}`, {
             method: 'DELETE'
         });
     }
-
     // Update stall
     async updateStall(stallId, stallData) {
+        StallValidator.validateStallData(stallData);
         return this.fetchWithErrorHandling(`${this.baseUrl}?action=update&id=${stallId}`, {
             method: 'PUT',
             body: JSON.stringify(stallData)
         });
     }
-
     // Validate stall data
     validateStallData(data) {
-        if (!data.stallName?.trim() || !data.buildingName?.trim() || !data.type) {
+        if (!data.StallCode?.trim() || !data.buildingName?.trim() || !data.type) {
             throw new Error('All fields are required');
         }
         return true;
     }
 }
-
 export default new StallHandler();
