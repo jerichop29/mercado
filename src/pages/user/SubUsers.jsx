@@ -1,24 +1,9 @@
 import Card from "../../components/user/Card";
 import UserTable from "../../components/user/SubUsers/UserTable"
+import searchFilters from "../../utils/SearchFilterData";
+import CardStats from "../../utils/CardStatsData";
 
 export default function SubUsersPage(){
-    const userStats = [
-        { title: "Users", count: 500, percentage: "100%", description: "Total Users", icon: "fa-solid fa-users"},
-        { title: "Owner", count: 489, percentage: "97.8%", description: "Total Owners", icon: "fa-solid fa-user-tie" },
-        { title: "Admin", count: 10, percentage: "0.2%", description: "Total Admins", icon: "fa-solid fa-users-gear" },
-        { title: "Super Admin", count: 1, percentage: "0.02%", description: "Total Super-Admin", icon: "fa-solid fa-user-secret" }
-    ];
-
-    const searchFilter = [
-        {
-          title: "Select Role",
-          options: [
-            { label: "Admin", value: "Admin" },
-            { label: "Owner", value: "Owner" },
-            { label: "Super Admin", value: "SuperAdmin" }
-          ]
-        }
-      ];
 
     const users = [
         {
@@ -57,11 +42,11 @@ export default function SubUsersPage(){
     return(
         <>
             <div className="row g-6 mb-6 justify-content-center">
-                {userStats.map((stat, index) => (
+                {CardStats.userStats.map((stat, index) => (
                     <Card key={index} {...stat} />
                 ))}
             </div>
-            <UserTable users={users} search={searchFilter} />
+            <UserTable users={users} search={searchFilters.role} />
         </>
     )
 }
