@@ -16,9 +16,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $message = htmlspecialchars($data["message"]);
 
     $mail = new PHPMailer(true);
-
+    include_once __DIR__ . '/../config/email.config.php';
     try {
-    include_once __DIR__'/../config/email.config.php';
+    
         $mail->send();
         echo json_encode(["status" => "success", "message" => "Email sent successfully"]);
     } catch (Exception $e) {
