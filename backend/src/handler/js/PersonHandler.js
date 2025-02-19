@@ -1,3 +1,5 @@
+import PersonValidator from "../../forms/validators/personValidator";
+
 class PersonHandler {
     constructor() {
         this.baseUrl = `${window.location.protocol}//${window.location.hostname}/mercado/backend/src/handler/php/personFunctions.php`; // Update with the correct PHP file
@@ -34,6 +36,7 @@ class PersonHandler {
     }
 
     async addPerson(personData) {
+        PersonValidator.validatePersonData(personData);
         return this.fetchWithErrorHandling(`${this.baseUrl}?action=add`, {
             method: 'POST',
             body: JSON.stringify(personData)
@@ -47,6 +50,7 @@ class PersonHandler {
     }
 
     async updatePerson(personId, personData) {
+        PersonValidator.validatePersonData(personData);
         return this.fetchWithErrorHandling(`${this.baseUrl}?action=update&id=${personId}`, {
             method: 'PUT',
             body: JSON.stringify(personData)

@@ -1,3 +1,5 @@
+import AdminValidator from "../../forms/validators/adminValidator";
+
 class AdminHandler {
     constructor() {
         this.baseUrl = `${window.location.protocol}//${window.location.hostname}/mercado/backend/src/handler/php/adminFunctions.php`;// Update with the correct PHP file
@@ -36,6 +38,7 @@ class AdminHandler {
     }
 
     async Authadmin(adminData) {
+        AdminValidator.validateAdminData(adminData);
         return this.fetchWithErrorHandling(`${this.baseUrl}?action=auth`,{
         method:'POST',
         body: JSON.stringify(adminData)
@@ -43,6 +46,7 @@ class AdminHandler {
     }
 
     async addAdmin(adminData) {
+        AdminValidator.validateAdminData(adminData);
         return this.fetchWithErrorHandling(`${this.baseUrl}?action=add`, {
             method: 'POST',
             body: JSON.stringify(adminData)
@@ -56,6 +60,7 @@ class AdminHandler {
     }
 
     async updateAdmin(adminId, adminData) {
+        AdminValidator.validateAdminData(adminData);
         return this.fetchWithErrorHandling(`${this.baseUrl}?action=update&id=${adminId}`, {
             method: 'PUT',
             body: JSON.stringify(adminData)
