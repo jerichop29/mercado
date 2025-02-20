@@ -164,7 +164,27 @@
                             "link": "/user/manage-category"
                         }
                 ]
-            }               
+            },
+            {
+                "text": "Sub-Category",
+                "icon": "bx bx-category-alt",
+                "available": true,
+                "link": "",
+                "submenu": [
+                        {
+                            "text": "Add Sub-Category",
+                            "icon": "bx bx-duplicate",
+                            "available": true,
+                            "link": "/user/add-sub-category"
+                        },
+                        {
+                            "text": "Manage Sub-Category",
+                            "icon": "fa-solid fa-list-check",
+                            "available": true,
+                            "link": "/user/manage-sub-category"
+                        }
+                ]
+            }                              
         ]
     },
     {

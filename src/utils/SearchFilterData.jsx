@@ -41,6 +41,28 @@ const searchFilters = {
                 { label: "Unavailable", value: "Unavailable" },
             ]
         }
+    ],
+        stalls: [
+        {
+            title: "Select Stalls Status",
+            options: [
+                { label: "Occupied", value: "Occupied" },
+                { label: "Reserved", value: "Reserved" },
+                { label: "Available", value: "Available" },
+                { label: "Unavailable", value: "Unavailable" },
+            ]
+        }
+    ],
+    category: [
+        {
+            title: "Select Stalls Status",
+            options: [
+                { label: "Stall Maintenance Issues", value: "Stall Maintenance Issues" },
+                { label: "Stall Maintenance Issues", value: "Stall Maintenance Issues" },
+                { label: "Stall Maintenance Issues", value: "Stall Maintenance Issues" },
+                { label: "Stall Maintenance Issues", value: "Stall Maintenance Issues" },
+            ]
+        }
     ]
 };
 
