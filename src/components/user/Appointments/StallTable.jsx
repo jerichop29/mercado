@@ -1,24 +1,28 @@
-export default function StallAppointmentsTable({ StallAppointments, search }) {
+import { useLocation } from "react-router-dom";
+
+export default function StallAppointmentsTable({ StallAppointments }) {
+    const location = useLocation();
+
+    const getTitle = () => {
+        switch (location.pathname) {
+            case "/user/stall-approved-appointment":
+                return "Approved Appointment";
+            case "/user/stall-request-appointment":
+                return "Request Appointment";
+            case "/user/stall-cancelled-appointment":
+                return "Cancelled Appointment";
+            default:
+                return null; // No title for other paths
+        }
+    };
+
+    const title = getTitle(); 
     return (
         <>
             <div className="card">
                 <div className="card-header border-bottom">
-                    <h5 className="card-title mb-0">Search Filters</h5>
-                    <div className="d-flex justify-content-flex-start align-items-center row pt-4 gap-md-0 g-6">
-                        {/* Loop through search filters */}
-                        {search.map((filter, index) => (
-                            <div key={index} className="col-md-4 user_role">
-                                <select id={`filter-${index}`} className="form-select text-capitalize">
-                                    <option value="">{filter.title}</option>
-                                    {filter.options.map((option, idx) => (
-                                        <option key={idx} value={option.value}>{option.label}</option>
-                                    ))}
-                                </select>
-                            </div>
-                        ))}
-                    </div>
+                    {title && <h5 className="card-title mb-0">{title}</h5>}
                 </div>
-
                 <div className="card-datatable">
                     <div id="DataTables_Table_0_wrapper" className="dt-container dt-bootstrap5 dt-empty-footer">
                         <div className="row mx-3 my-0 justify-content-between">
