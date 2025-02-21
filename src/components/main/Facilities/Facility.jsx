@@ -61,7 +61,7 @@ export default function Facility({ facility }) {
                             <p>{facility.description}</p>
 
                             {/* Back Button */}
-                            <a href="#" className="facility-card-btny btn--with-icon"><i className="btn-icon fa fa-long-arrow-right"></i>Make an appointment</a>
+                            <a href="#" className="facility-card-btny btn--with-icon"><i className="btn-icon fa fa-long-arrow-right"></i> Inquire For Reservation</a>
                         </div>
                     </article>
                 </div>

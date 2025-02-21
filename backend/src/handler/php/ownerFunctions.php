@@ -11,7 +11,8 @@ class OwnerFunctions {
 
     // Get all owners
     public function getAllOwners() {
-        $sql = "SELECT Owner_Id, Person_Id, Admin_Id, Username FROM ownertbl";
+        $sql = "SELECT ownertbl.*,persontbl.* FROM ownertbl 
+                LEFT JOIN persontbl ON persontbl.Person_Id = ownertbl.Person_Id; ";
         $result = $this->conn->query($sql);
         
         if ($result) {
@@ -49,7 +50,7 @@ class OwnerFunctions {
 
     // Add new owner
     public function addOwner($data) {
-        $hashedPassword = password_hash($data['password'], PASSWORD_ARGON2ID);
+        $hashedPassword = password_hash($data['password'], PASSWORD_BCRYPT);
         
         $sql = "INSERT INTO ownertbl (Person_Id, Admin_Id, Username, `Password`) VALUES (?, ?, ?, ?)";
         $stmt = $this->conn->prepare($sql);
@@ -77,7 +78,7 @@ class OwnerFunctions {
     // Update owner
     public function updateOwner($id, $data) {
         if (!empty($data['password'])) {
-            $hashedPassword = password_hash($data['password'], PASSWORD_ARGON2ID);
+            $hashedPassword = password_hash($data['password'], PASSWORD_BCRYPT);
             $sql = "UPDATE ownertbl SET Person_Id = ?, Admin_Id = ?, Username = ?, `Password` = ? WHERE Owner_Id = ?";
             $stmt = $this->conn->prepare($sql);
             $stmt->bind_param("iissi", $data['person_id'], $data['admin_id'], $data['username'], $hashedPassword, $id);

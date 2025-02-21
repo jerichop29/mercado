@@ -11,7 +11,23 @@ class TenantFunctions {
 
     // Get all tenants
     public function getAllTenants() {
-        $sql = "SELECT * FROM tenant"; 
+        $sql = "SELECT 
+                    tenanttbl.TenantId,
+                    tenanttbl.Date_Start,
+                    tenanttbl.`Market Fee`, 
+                    persontbl.*, 
+                    stalltbl.StallCode,
+                    stalltbl.BuildingName, 
+                    ownertbl.Person_Id AS Owner_Person_Id, 
+                    ownerpersontbl.FName AS Owner_FName,
+                    ownerpersontbl.MName AS Owner_MName,
+                    ownerpersontbl.LName AS Owner_LName
+                FROM tenanttbl
+                LEFT JOIN persontbl ON persontbl.Person_Id = tenanttbl.Person_Id
+                LEFT JOIN stalltbl ON stalltbl.Stall_Id = tenanttbl.Stall_Id
+                LEFT JOIN ownertbl ON ownertbl.Owner_Id = tenanttbl.Owner_Id
+                LEFT JOIN persontbl AS ownerpersontbl ON ownerpersontbl.Person_Id = ownertbl.Person_Id
+                "; 
         
         $result = $this->conn->query($sql);
         
@@ -24,7 +40,7 @@ class TenantFunctions {
 
     // Add new tenant
     public function addTenant($data) {
-        $sql = "INSERT INTO tenant (Person_Id, Stall_Id, `Market Fee`) VALUES (?, ?, ?)";
+        $sql = "INSERT INTO tenanttbl (Person_Id, Stall_Id, `Market Fee`) VALUES (?, ?, ?)";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("iid", $data['person_id'], $data['stall_id'], $data['market_fee']);
         
@@ -37,7 +53,7 @@ class TenantFunctions {
 
     // Delete tenant
     public function deleteTenant($id) {
-        $stmt = $this->conn->prepare("DELETE FROM tenant WHERE TenantId = ?");
+        $stmt = $this->conn->prepare("DELETE FROM tenanttbl WHERE TenantId = ?");
         $stmt->bind_param("i", $id);
         
         if ($stmt->execute()) {
@@ -49,7 +65,7 @@ class TenantFunctions {
 
     // Update tenant
     public function updateTenant($id, $data) {
-        $sql = "UPDATE tenant SET Person_Id = ?, Stall_Id = ?, `Market Fee` = ? WHERE TenantId = ?";
+        $sql = "UPDATE tenanttbl SET Person_Id = ?, Stall_Id = ?, `Market Fee` = ? WHERE TenantId = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("iidi", $data['person_id'], $data['stall_id'], $data['market_fee'], $id);
         

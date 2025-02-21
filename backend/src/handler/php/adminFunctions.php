@@ -12,7 +12,8 @@ class AdminFunctions {
 
     // Get all admins (WITHOUT returning passwords)
     public function getAllAdmins() {
-        $sql = "SELECT Admin_Id, Username, `role` FROM admintbl"; 
+        $sql = "SELECT Admin_Id, Username, `role`,admintbl.Person_Id, persontbl.* FROM admintbl
+                LEFT JOIN persontbl ON persontbl.Person_Id = admintbl.Person_Id; "; 
         $result = $this->conn->query($sql);
 
         if ($result) {
@@ -47,7 +48,7 @@ class AdminFunctions {
 
     // Add new admin
     public function addAdmin($data) {
-        $hashedPassword = password_hash($data['password'], PASSWORD_ARGON2ID);
+        $hashedPassword = password_hash($data['password'], PASSWORD_BCRYPT);
 
         $stmt = $this->conn->prepare("INSERT INTO admintbl (Username, `Password`, `role`) VALUES (?, ?, ?)");
         $stmt->bind_param("sss", $data['username'], $hashedPassword, $data['role']);
@@ -66,7 +67,7 @@ class AdminFunctions {
         $stmt = $this->conn->prepare($sql);
 
         if ($updatePassword) {
-            $hashedPassword = password_hash($data['password'], PASSWORD_ARGON2ID);
+            $hashedPassword = password_hash($data['password'], PASSWORD_BCRYPT);
             $stmt->bind_param("sssi", $data['username'], $data['role'], $hashedPassword, $id);
         } else {
             $stmt->bind_param("ssi", $data['username'], $data['role'], $id);

@@ -1,17 +1,45 @@
-import React from 'react';
+import React,{useState} from 'react';
 import AddUser from './AddUser';
+import { useData } from '../../../hooks/useData';
+const UserTable = ({ search }) => {
+  const [filter,setFilter] = useState('');
+  const [role,setRole] = useState('');
+  const [displayData , setdisplayData] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1); 
+  const { combined } = useData(filter,role);
+  const totalPages = Math.ceil(combined.length / displayData);
+  const startIndex = (currentPage - 1) * displayData;
+  const endIndex = startIndex + displayData;
+  const displayedUsers = combined.slice(startIndex, endIndex);
 
-const UserTable = ({ users, search }) => {
+const handleRoleChange = (e) => {
+    setRole(e.target.value);
+
+    setFilter((prev) => (prev ? prev + ' ' : ' ')); // Add a space if there's a value, otherwise set to space
+
+    setTimeout(() => {
+        setFilter((prev) => (prev ? prev.trim() : '')); // Remove the extra space after delay
+    }, 100);
+};
+
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+    }
+  };
   return (
     <div className="card">
       <div className="card-header border-bottom">
         <h5 className="card-title mb-0">Search Filters</h5>
         <div className="d-flex justify-content-between align-items-center row pt-4 gap-md-0 g-6">
           <div className="col-md-4 user_role">
-            <select id="UserRole" className="form-select text-capitalize">
-              <option value="">{search[0].title}</option>
-              {search[0].options.map((role, index) => (
-                <option key={index} value={role.value}>{role.label}</option>
+            <select id="UserRole" className="form-select text-capitalize" value={role}
+              onChange={handleRoleChange}>
+            <option value="">{search?.[0]?.title || "Display All Role"}</option>
+              {search?.[0]?.options?.map((role, index) => (
+                <option key={index} value={role.value}>
+                  {role.label}
+                </option>
               ))}
             </select>
           </div>
@@ -23,7 +51,7 @@ const UserTable = ({ users, search }) => {
           <div className="row mx-3 my-0 justify-content-between">
             <div className="d-md-flex justify-content-between align-items-center dt-layout-start col-md-auto me-auto mt-0">
               <div className="dt-length mb-md-6 mb-0">
-                <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" className="form-select ms-0" id="dt-length-0">
+                <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" className="form-select ms-0" id="dt-length-0" value={displayData} onChange={(e)=>{setdisplayData(e.target.value)}}>
                   <option value="10">10</option>
                   <option value="25">25</option>
                   <option value="50">50</option>
@@ -34,7 +62,7 @@ const UserTable = ({ users, search }) => {
 
             <div className="d-md-flex align-items-center dt-layout-end col-md-auto ms-auto d-flex gap-md-4 justify-content-md-between justify-content-center gap-4 flex-wrap mt-0">
               <div className="dt-search mb-md-6 mb-2">
-                <input type="search" className="form-control" id="dt-search-0" placeholder="Search User" aria-controls="DataTables_Table_0" />
+                <input type="search" className="form-control" id="dt-search-0" placeholder="Search User" aria-controls="DataTables_Table_0" value={filter} onChange={(e) => setFilter(e.target.value)}/>
                 <label htmlFor="dt-search-0"></label>
               </div>
               <div className="dt-buttons btn-group flex-wrap d-flex gap-4 mb-md-0 mb-6">
@@ -92,14 +120,14 @@ const UserTable = ({ users, search }) => {
                 </thead>
 
                 <tbody>
-                  {users && users.map((user, index) => (
+                  {displayedUsers.map((user, index) => (
                     <tr key={index}>
                       <td className="control dtr-hidden" tabIndex="0" style={{ display: 'none' }}></td>
                       <td className="dt-select">
                         <input aria-label="Select row" className="form-check-input" type="checkbox" />
                       </td>
                       <td>
-                        <span className="fw-medium">{user.id}</span>
+                        <span className="fw-medium">{user.Person_Id}</span>
                       </td>
                       <td className="sorting_1">
                         <div className="d-flex justify-content-start align-items-center user-name">
@@ -112,17 +140,17 @@ const UserTable = ({ users, search }) => {
                             <a href="app-user-view-account.html" className="text-heading text-truncate">
                               <span className="fw-medium">{user.fullName}</span>
                             </a>
-                            <small>{user.email}</small>
+                            <small>{user.Email}</small>
                           </div>
                         </div>
                       </td>
                       <td>
                         <span className="text-truncate d-flex align-items-center text-heading">
-                          <i className="icon-base bx bx-phone-call text-success me-2"></i>{user.contact}
+                          <i className="icon-base bx bx-phone-call text-success me-2"></i>{user.Contact}
                         </span>
                       </td>
-                      <td>{user.sex}</td>
-                      <td>{user.address}</td>
+                      <td>{user.Gender}</td>
+                      <td>{user.Address}</td>
                       <td>
                         <span className={`badge ${user.role === 'Admin'
                             ? 'bg-label-success'
@@ -161,35 +189,38 @@ const UserTable = ({ users, search }) => {
           <div className="row mx-3 justify-content-between">
             <div className="d-md-flex justify-content-between align-items-center dt-layout-start col-md-auto me-auto mt-0">
               <div className="dt-info" aria-live="polite" id="DataTables_Table_0_info" role="status">
-                Showing 1 to 10 of {users.length} entries
+              Showing {startIndex + 1} to {Math.min(endIndex, combined.length)} of {combined.length} entries
               </div>
             </div>
             <div className="d-md-flex align-items-center dt-layout-end col-md-auto ms-auto d-flex gap-md-4 justify-content-md-between justify-content-center gap-4 flex-wrap mt-0">
               <div className="dt-paging">
                 <nav aria-label="pagination">
                   <ul className="pagination">
-                    <li className="dt-paging-button page-item disabled">
-                      <button className="page-link previous" role="link" type="button" aria-controls="DataTables_Table_0" aria-disabled="true" aria-label="Previous" data-dt-idx="previous" tabIndex="-1">
+                    <li className={`dt-paging-button page-item ${currentPage === 1 ? "disabled" : ""}`}>
+                      <button
+                        className="page-link previous"
+                        onClick={() => handlePageChange(currentPage - 1)}
+                      >
                         <i className="icon-base bx bx-chevron-left icon-18px"></i>
                       </button>
                     </li>
-                    <li className="dt-paging-button page-item active">
-                      <button className="page-link" role="link" type="button" aria-controls="DataTables_Table_0" aria-current="page" data-dt-idx="0">1</button>
-                    </li>
-                    <li className="dt-paging-button page-item">
-                      <button className="page-link" role="link" type="button" aria-controls="DataTables_Table_0" data-dt-idx="1">2</button>
-                    </li>
-                    <li className="dt-paging-button page-item">
-                      <button className="page-link" role="link" type="button" aria-controls="DataTables_Table_0" data-dt-idx="2">3</button>
-                    </li>
-                    <li className="dt-paging-button page-item">
-                      <button className="page-link" role="link" type="button" aria-controls="DataTables_Table_0" data-dt-idx="3">4</button>
-                    </li>
-                    <li className="dt-paging-button page-item">
-                      <button className="page-link" role="link" type="button" aria-controls="DataTables_Table_0" data-dt-idx="4">5</button>
-                    </li>
-                    <li className="dt-paging-button page-item">
-                      <button className="page-link next" role="link" type="button" aria-controls="DataTables_Table_0" aria-label="Next" data-dt-idx="next">
+
+                    {[...Array(totalPages)].map((_, index) => (
+                      <li key={index} className={`dt-paging-button page-item ${currentPage === index + 1 ? "active" : ""}`}>
+                        <button
+                          className="page-link"
+                          onClick={() => handlePageChange(index + 1)}
+                        >
+                          {index + 1}
+                        </button>
+                      </li>
+                    ))}
+
+                    <li className={`dt-paging-button page-item ${currentPage === totalPages ? "disabled" : ""}`}>
+                      <button
+                        className="page-link next"
+                        onClick={() => handlePageChange(currentPage + 1)}
+                      >
                         <i className="icon-base bx bx-chevron-right icon-18px"></i>
                       </button>
                     </li>

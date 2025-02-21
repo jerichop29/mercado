@@ -1,14 +1,31 @@
-import React from 'react';
+import React,{ useState } from 'react';
 import AddTenant from './AddTenant';
-
-const TenantsTable = ({ tenants, search }) => {
+import { useData } from '../../../hooks/useData';
+const TenantsTable = ({ search }) => {
+  const [filter,setFilter] = useState('');
+  const [building,setBuilding] = useState('');
+  const {tenant} = useData(filter,building);
+  const [displayData , setdisplayData] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1); 
+  const totalPages = Math.ceil(tenant.length / displayData);
+  const startIndex = (currentPage - 1) * displayData;
+  const endIndex = startIndex + displayData;
+  const displayedUsers = tenant.slice(startIndex, endIndex);
+  const handleBuildingChange = (e) => {
+    setBuilding(e.target.value);
+  };
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+    }
+  };
   return (
     <div className="card">
       <div className="card-header border-bottom">
         <h5 className="card-title mb-0">Search Filters</h5>
         <div className="d-flex justify-content-between align-items-center row pt-4 gap-md-0 g-6">
           <div className="col-md-4 user_role">
-            <select id="UserRole" className="form-select text-capitalize">
+            <select id="UserRole" className="form-select text-capitalize" value={building} onChange={handleBuildingChange}>
               <option value="">{search[0].title}</option>
               {search[0].options.map((role, index) => (
               <option key={index} value={role.value}>{role.label}</option>
@@ -23,7 +40,7 @@ const TenantsTable = ({ tenants, search }) => {
           <div className="row mx-3 my-0 justify-content-between">
             <div className="d-md-flex justify-content-between align-items-center dt-layout-start col-md-auto me-auto mt-0">
               <div className="dt-length mb-md-6 mb-0">
-                <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" className="form-select ms-0" id="dt-length-0">
+                <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" className="form-select ms-0" id="dt-length-0" value={displayData} onChange={(e)=>{setdisplayData(e.target.value)}}>
                   <option value="10">10</option>
                   <option value="25">25</option>
                   <option value="50">50</option>
@@ -34,7 +51,7 @@ const TenantsTable = ({ tenants, search }) => {
 
             <div className="d-md-flex align-items-center dt-layout-end col-md-auto ms-auto d-flex gap-md-4 justify-content-md-between justify-content-center gap-4 flex-wrap mt-0">
               <div className="dt-search mb-md-6 mb-2">
-                <input type="search" className="form-control" id="dt-search-0" placeholder="Search User" aria-controls="DataTables_Table_0"/>
+                <input type="search" className="form-control" id="dt-search-0" placeholder="Search User" aria-controls="DataTables_Table_0"value={filter} onChange={(e) => setFilter(e.target.value)}/>
                 <label htmlFor="dt-search-0"></label>
               </div>
               <div className="dt-buttons btn-group flex-wrap d-flex gap-4 mb-md-0 mb-6">
@@ -96,7 +113,7 @@ const TenantsTable = ({ tenants, search }) => {
                 </thead>
 
                 <tbody>
-                  {tenants && tenants.map((tenant, index) => (
+                  {tenant.map((tenant, index) => (
                     <tr key={index}>
                       <td className="control dtr-hidden" tabIndex="0" style={{ display: 'none' }}></td>
                       <td className="dt-select">
@@ -111,7 +128,7 @@ const TenantsTable = ({ tenants, search }) => {
                           </div>
                           <div className="d-flex flex-column">
                             <a href="app-user-view-account.html" className="text-heading text-truncate">
-                              <span className="fw-medium">{tenant.fullName}</span>
+                              <span className="fw-medium">{tenant.FName} {tenant.MName} {tenant.LName} </span>
                             </a>
                             <small>{tenant.email}</small>
                           </div>
@@ -119,24 +136,24 @@ const TenantsTable = ({ tenants, search }) => {
                       </td>
                       <td>
                         <span className="text-truncate d-flex align-items-center text-heading">
-                          <i className="icon-base bx bx-phone-call text-success me-2"></i>{tenant.contact}
+                          <i className="icon-base bx bx-phone-call text-success me-2"></i>{tenant.Contact}
                         </span>
                       </td>
-                      <td>{tenant.sex}</td>
-                      <td>{tenant.address}</td>
+                      <td>{tenant.Gender}</td>
+                      <td>{tenant.Address}</td>
                       <td>
                         <span className="text-truncate d-flex align-items-center text-heading">
-                          <i className="icon-base bx bx-building text-primary me-2"></i>{tenant.building}
-                        </span>
-                      </td>
-                      <td>
-                        <span className="text-truncate d-flex align-items-center text-heading">
-                          <i className="icon-base bx bx-store text-primary me-2"></i>{tenant.stall}
+                          <i className="icon-base bx bx-building text-primary me-2"></i>{tenant.BuildingName}
                         </span>
                       </td>
                       <td>
                         <span className="text-truncate d-flex align-items-center text-heading">
-                          <i className="icon-base bx bx-store text-primary me-2"></i>{tenant.owner}
+                          <i className="icon-base bx bx-store text-primary me-2"></i>{tenant.StallCode}
+                        </span>
+                      </td>
+                      <td>
+                        <span className="text-truncate d-flex align-items-center text-heading">
+                          <i className="icon-base bx bx-store text-primary me-2"></i>{tenant.Owner_FName} {tenant.Owner_MName} {tenant.Owner_LName}
                         </span>
                       </td>
                       <td>
@@ -167,35 +184,38 @@ const TenantsTable = ({ tenants, search }) => {
           <div className="row mx-3 justify-content-between">
             <div className="d-md-flex justify-content-between align-items-center dt-layout-start col-md-auto me-auto mt-0">
               <div className="dt-info" aria-live="polite" id="DataTables_Table_0_info" role="status">
-                Showing 1 to 10 of {tenants.length} entries
+              Showing {startIndex + 1} to {Math.min(endIndex, tenant.length)} of {tenant.length} entries
               </div>
             </div>
             <div className="d-md-flex align-items-center dt-layout-end col-md-auto ms-auto d-flex gap-md-4 justify-content-md-between justify-content-center gap-4 flex-wrap mt-0">
               <div className="dt-paging">
-                <nav aria-label="pagination">
+              <nav aria-label="pagination">
                   <ul className="pagination">
-                    <li className="dt-paging-button page-item disabled">
-                      <button className="page-link previous" role="link" type="button" aria-controls="DataTables_Table_0" aria-disabled="true" aria-label="Previous" data-dt-idx="previous" tabIndex="-1">
+                    <li className={`dt-paging-button page-item ${currentPage === 1 ? "disabled" : ""}`}>
+                      <button
+                        className="page-link previous"
+                        onClick={() => handlePageChange(currentPage - 1)}
+                      >
                         <i className="icon-base bx bx-chevron-left icon-18px"></i>
                       </button>
                     </li>
-                    <li className="dt-paging-button page-item active">
-                      <button className="page-link" role="link" type="button" aria-controls="DataTables_Table_0" aria-current="page" data-dt-idx="0">1</button>
-                    </li>
-                    <li className="dt-paging-button page-item">
-                      <button className="page-link" role="link" type="button" aria-controls="DataTables_Table_0" data-dt-idx="1">2</button>
-                    </li>
-                    <li className="dt-paging-button page-item">
-                      <button className="page-link" role="link" type="button" aria-controls="DataTables_Table_0" data-dt-idx="2">3</button>
-                    </li>
-                    <li className="dt-paging-button page-item">
-                      <button className="page-link" role="link" type="button" aria-controls="DataTables_Table_0" data-dt-idx="3">4</button>
-                    </li>
-                    <li className="dt-paging-button page-item">
-                      <button className="page-link" role="link" type="button" aria-controls="DataTables_Table_0" data-dt-idx="4">5</button>
-                    </li>
-                    <li className="dt-paging-button page-item">
-                      <button className="page-link next" role="link" type="button" aria-controls="DataTables_Table_0" aria-label="Next" data-dt-idx="next">
+
+                    {[...Array(totalPages)].map((_, index) => (
+                      <li key={index} className={`dt-paging-button page-item ${currentPage === index + 1 ? "active" : ""}`}>
+                        <button
+                          className="page-link"
+                          onClick={() => handlePageChange(index + 1)}
+                        >
+                          {index + 1}
+                        </button>
+                      </li>
+                    ))}
+
+                    <li className={`dt-paging-button page-item ${currentPage === totalPages ? "disabled" : ""}`}>
+                      <button
+                        className="page-link next"
+                        onClick={() => handlePageChange(currentPage + 1)}
+                      >
                         <i className="icon-base bx bx-chevron-right icon-18px"></i>
                       </button>
                     </li>

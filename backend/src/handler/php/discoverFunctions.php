@@ -23,9 +23,9 @@ class DiscoverFunctions {
 
     // Add new discovery
     public function addDiscover($data) {
-        $sql = "INSERT INTO discovertbl (Title, Activity, `Description`, Date_start, Date_End, reg_form) VALUES (?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO discovertbl (Title, Activity, `Description`, Date_start, Date_End, Link) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("ssssss", $data['title'], $data['activity'], $data['description'], $data['date_start'], $data['date_end'], $data['reg_form']);
+        $stmt->bind_param("ssssss", $data['title'], $data['activity'], $data['description'], $data['date_start'], $data['date_end'], $data['Link']);
         
         if ($stmt->execute()) {
             return ["status" => "success", "message" => "Discovery added successfully"];
@@ -48,9 +48,9 @@ class DiscoverFunctions {
 
     // Update discovery
     public function updateDiscover($id, $data) {
-        $sql = "UPDATE discovertbl SET Title = ?, Activity = ?, `Description` = ?, Date_start = ?, Date_End = ?, reg_form = ? WHERE discover_ID = ?";
+        $sql = "UPDATE discovertbl SET Title = ?, Activity = ?, `Description` = ?, Date_start = ?, Date_End = ?, Link = ? WHERE discover_ID = ?";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("ssssssi", $data['title'], $data['activity'], $data['description'], $data['date_start'], $data['date_end'], $data['reg_form'], $id);
+        $stmt->bind_param("ssssssi", $data['title'], $data['activity'], $data['description'], $data['date_start'], $data['date_end'], $data['Link'], $id);
         
         if ($stmt->execute()) {
             return ["status" => "success", "message" => "Discovery updated successfully"];
