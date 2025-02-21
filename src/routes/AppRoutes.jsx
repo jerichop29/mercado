@@ -44,6 +44,8 @@ import FacilityCancelledAppointmentPage from "../pages/user/Appointments/Facilit
 import FacilityRequestAppointmentPage from "../pages/user/Appointments/Facility/RequestAppointment"
 import AddCategoryPage from "../pages/user/Complaints/Category/AddCategory";
 import ManageCategoryPage from "../pages/user/Complaints/Category/ManageCategory";
+import AddSubCategoryPage from "../pages/user/Complaints/SubCategory/AddSubCategory"
+import ManageSubCategoryPage from "../pages/user/Complaints/SubCategory/ManageSubCategory"
 import ClosedComplaintsPage from "../pages/user/Complaints/ManageComplaints/ClosedComplaints";
 import InProcessComplaintsPage from "../pages/user/Complaints/ManageComplaints/InProcessComplaints";
 import NotForwardedComplaintsPage from "../pages/user/Complaints/ManageComplaints/NotForwardedComplaints";
@@ -112,6 +114,8 @@ const AppRoutes = () => {
               <Route path="facility-cancelled-appointment" element={renderPage(FacilityCancelledAppointmentPage)} />
               <Route path="add-category" element={renderPage(AddCategoryPage)} />
               <Route path="manage-category" element={renderPage(ManageCategoryPage)} />
+              <Route path="add-sub-category" element={renderPage(AddSubCategoryPage)} />
+              <Route path="manage-sub-category" element={renderPage(ManageSubCategoryPage)} />
               <Route path="closed-complaints" element={renderPage(ClosedComplaintsPage)} />
               <Route path="in-process-complaints" element={renderPage(InProcessComplaintsPage)} />
               <Route path="not-forwarded-complaints" element={renderPage(NotForwardedComplaintsPage)} />

@@ -1,5 +1,4 @@
 import StallAppointmentsTable from "../../../../components/user/Appointments/StallTable";
-import searchFilters from "../../../../utils/SearchFilterData";
 
 export default function ApprovedAppointmentsPage() {
 
@@ -15,7 +14,7 @@ export default function ApprovedAppointmentsPage() {
     ];
     return (
         <>
-            <StallAppointmentsTable StallAppointments={StallAppointments} search={searchFilters.status} />
+            <StallAppointmentsTable StallAppointments={StallAppointments}/>
         </>
     )
 }

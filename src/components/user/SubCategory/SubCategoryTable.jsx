@@ -1,28 +1,21 @@
-import { useLocation } from "react-router-dom";
-
-export default function StallAppointmentsTable({ StallAppointments }) {
-    const location = useLocation();
-
-    const getTitle = () => {
-        switch (location.pathname) {
-            case "/user/stall-approved-appointment":
-                return "Approved Appointment";
-            case "/user/stall-request-appointment":
-                return "Request Appointment";
-            case "/user/stall-cancelled-appointment":
-                return "Cancelled Appointment";
-            default:
-                return null; // No title for other paths
-        }
-    };
-
-    const title = getTitle(); 
+export default function SubCategoryTable({ SubCategory, search }) {
     return (
         <>
             <div className="card">
                 <div className="card-header border-bottom">
-                    {title && <h5 className="card-title mb-0">{title}</h5>}
+                <h5 className="card-title mb-0">Search Filters</h5>
+        <div className="d-flex justify-content-between align-items-center row pt-4 gap-md-0 g-6">
+          <div className="col-md-4 user_role">
+            <select id="UserRole" className="form-select text-capitalize">
+              <option value="">{search[0].title}</option>
+              {search[0].options.map((role, index) => (
+                <option key={index} value={role.value}>{role.label}</option>
+              ))}
+            </select>
+          </div>
+        </div>
                 </div>
+
                 <div className="card-datatable">
                     <div id="DataTables_Table_0_wrapper" className="dt-container dt-bootstrap5 dt-empty-footer">
                         <div className="row mx-3 my-0 justify-content-between">
@@ -39,7 +32,7 @@ export default function StallAppointmentsTable({ StallAppointments }) {
 
                             <div className="d-md-flex align-items-center dt-layout-end col-md-auto ms-auto d-flex gap-md-4 justify-content-md-between justify-content-center gap-4 flex-wrap mt-0">
                                 <div className="dt-search mb-md-6 mb-2">
-                                    <input type="search" className="form-control" id="dt-search-0" placeholder="Search Appointment" aria-controls="DataTables_Table_0" />
+                                    <input type="search" className="form-control" id="dt-search-0" placeholder="Search Sub Category" aria-controls="DataTables_Table_0" />
                                     <label htmlFor="dt-search-0"></label>
                                 </div>
                             </div>
@@ -50,13 +43,11 @@ export default function StallAppointmentsTable({ StallAppointments }) {
                                 <table className="datatables-users table border-top dataTable dtr-column collapsed" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" style={{ width: '100%' }}>
                                     <colgroup>
                                         <col data-dt-column="1" style={{ width: '50px' }} />
-                                        <col data-dt-column="2" style={{ width: '50px' }} />
+                                        <col data-dt-column="2" style={{ width: '100px' }} />
                                         <col data-dt-column="3" style={{ width: '150px' }} />
-                                        <col data-dt-column="4" style={{ width: '200px' }} />
-                                        <col data-dt-column="5" style={{ width: '150px' }} />
-                                        <col data-dt-column="6" style={{ width: '200px' }} />
-                                        <col data-dt-column="7" style={{ width: '100px' }} />
-                                        <col data-dt-column="8" style={{ width: '150px' }} />
+                                        <col data-dt-column="4" style={{ width: '150px' }} />
+                                        <col data-dt-column="5" style={{ width: '300px' }} />
+                                        <col data-dt-column="6" style={{ width: '150px' }} />
                                     </colgroup>
                                     <thead>
                                         <tr>
@@ -68,62 +59,47 @@ export default function StallAppointmentsTable({ StallAppointments }) {
                                                 <span className="dt-column-title" role="button">ID</span>
                                             </th>
                                             <th data-dt-column="3" className="dt-orderable-asc dt-orderable-desc">
-                                                <span className="dt-column-title" role="button">Full Name</span>
+                                                <span className="dt-column-title" role="button">Category</span>
                                             </th>
                                             <th data-dt-column="4" className="dt-orderable-asc dt-orderable-desc">
-                                                <span className="dt-column-title" role="button">Email</span>
+                                                <span className="dt-column-title" role="button">Title</span>
                                             </th>
                                             <th data-dt-column="5" className="dt-orderable-asc dt-orderable-desc">
-                                                <span className="dt-column-title" role="button">Contact</span>
+                                                <span className="dt-column-title" role="button">Description</span>
                                             </th>
-                                            <th data-dt-column="6" className="dt-orderable-asc dt-orderable-desc">
-                                                <span className="dt-column-title" role="button">Proof of Identification</span>
-                                            </th>
-                                            <th data-dt-column="7" className="dt-orderable-asc dt-orderable-desc">
-                                                <span className="dt-column-title" role="button">Status</span>
-                                            </th>
-                                            <th data-dt-column="8" className="dt-orderable-none">
+                                            <th data-dt-column="6" className="dt-orderable-none">
                                                 <span className="dt-column-title">Actions</span>
                                             </th>
                                         </tr>
                                     </thead>
 
                                     <tbody>
-                                        {StallAppointments && StallAppointments.map((StallAppointments, index) => (
+                                        {SubCategory && SubCategory.map((SubCategory, index) => (
                                             <tr key={index}>
                                                 <td className="control dtr-hidden" tabIndex="0" style={{ display: 'none' }}></td>
                                                 <td className="dt-select">
                                                     <input aria-label="Select row" className="form-check-input" type="checkbox" />
                                                 </td>
                                                 <td>
-                                                    <span className="fw-medium">{StallAppointments.id}</span>
-                                                </td>
-                                                <td>
                                                     <span className="fw-medium">
-                                                        {StallAppointments.fullName}
+                                                    {SubCategory.id}
                                                     </span>
                                                 </td>
                                                 <td>
                                                     <span className="fw-medium">
-                                                        {StallAppointments.email}
+                                                    <i className="icon-base bi bi-bookmark text-primary me-2"></i>{SubCategory.category}
                                                     </span>
                                                 </td>
                                                 <td>
                                                     <span className="fw-medium">
-                                                    <i className="icon-base bx bx-phone-call text-success me-2"></i>{StallAppointments.contact}
+                                                    <i className="icon-base fa-solid fa-triangle-exclamation text-warning me-2"></i>{SubCategory.title}
                                                     </span>
                                                 </td>
                                                 <td>
-                                                    <div className="fw-medium">
-                                                        <img src={StallAppointments.proofOfIdentity} alt="Proof of Identity" width="150" height="100" />
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <span className={`badge ${StallAppointments.status === 'Approved' ? 'bg-label-success' : StallAppointments.status === 'Cancelled' ? 'bg-label-danger' : 'bg-label-primary'}`}>
-                                                        {StallAppointments.status}
+                                                    <span className="fw-medium">
+                                                    <i className="icon-base bi bi-chat-left-text-fill text-secondary me-2"></i>{SubCategory.description}
                                                     </span>
                                                 </td>
-
                                                 <td>
                                                     <div className="d-flex align-items-center">
                                                         <a href="" className="btn btn-icon delete-record">
@@ -151,7 +127,7 @@ export default function StallAppointmentsTable({ StallAppointments }) {
                         <div className="row mx-3 justify-content-between">
                             <div className="d-md-flex justify-content-between align-items-center dt-layout-start col-md-auto me-auto mt-0">
                                 <div className="dt-info" aria-live="polite" id="DataTables_Table_0_info" role="status">
-                                    Showing 1 to 10 of {StallAppointments.length} entries
+                                    Showing 1 to 10 of {SubCategory.length} entries
                                 </div>
                             </div>
                             <div className="d-md-flex align-items-center dt-layout-end col-md-auto ms-auto d-flex gap-md-4 justify-content-md-between justify-content-center gap-4 flex-wrap mt-0">
