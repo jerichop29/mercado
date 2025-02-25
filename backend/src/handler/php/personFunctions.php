@@ -11,7 +11,7 @@ class PersonFunctions {
 
     // Get all persons
     public function getAllPersons() {
-        $sql = "SELECT * FROM ownertbl";
+        $sql = "SELECT * FROM persontbl";
         
         $result = $this->conn->query($sql);
         
@@ -24,25 +24,19 @@ class PersonFunctions {
 
     // Add new person
     public function addPerson($data) {
-        $sql = "INSERT INTO ownertbl (FName, 
-                                      LName, 
-                                      MName, 
-                                      Gender, 
-                                      `Address`, 
-                                      Contact, 
-                                      Email, 
-                                      Birthdate) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO `persontbl` 
+                (`Person_Id`, `FName`, `LName`, `MName`, `Gender`, `Address`, `Contact`, `Email`, `Birthdate`) 
+                VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?);";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("ssssssss", 
-                          $data['fname'], 
-                          $data['lname'], 
-                          $data['mname'], 
-                          $data['gender'], 
-                          $data['address'], 
-                          $data['contact'], 
-                          $data['email'], 
-                          $data['birthdate']);
+                          $data['FName'], 
+                          $data['LName'], 
+                          $data['MName'], 
+                          $data['Gender'], 
+                          $data['Address'], 
+                          $data['Contact'], 
+                          $data['Email'], 
+                          $data['Birthdate']);
         
         if ($stmt->execute()) {
             return ["status" => "success", "message" => "Person added successfully"];
@@ -53,7 +47,7 @@ class PersonFunctions {
 
     // Delete person
     public function deletePerson($id) {
-        $stmt = $this->conn->prepare("DELETE FROM ownertbl WHERE Person_Id = ?");
+        $stmt = $this->conn->prepare("DELETE FROM persontbl WHERE Person_Id = ?");
         $stmt->bind_param("i", $id);
         
         if ($stmt->execute()) {
@@ -65,7 +59,7 @@ class PersonFunctions {
 
     // Update person
     public function updatePerson($id, $data) {
-        $sql = "UPDATE ownertbl 
+        $sql = "UPDATE persontbl 
                 SET FName = ?, 
                     LName = ?, 
                     MName = ?, 
@@ -77,14 +71,14 @@ class PersonFunctions {
                 WHERE Person_Id = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("ssssssssi",
-                    $data['fname'],
-                    $data['lname'], 
-                    $data['mname'], 
-                    $data['gender'], 
-                    $data['address'], 
-                    $data['contact'], 
-                    $data['email'], 
-                    $data['birthdate'], 
+                    $data['FName'],
+                    $data['LName'], 
+                    $data['MName'], 
+                    $data['Gender'], 
+                    $data['Address'], 
+                    $data['Contact'], 
+                    $data['Email'], 
+                    $data['Birthdate'], 
                     $id);
         
         if ($stmt->execute()) {

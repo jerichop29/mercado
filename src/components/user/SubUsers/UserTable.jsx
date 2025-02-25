@@ -1,6 +1,8 @@
 import React,{useState} from 'react';
 import AddUser from './AddUser';
 import { useData } from '../../../hooks/useData';
+import useDeleteUserModel from '../../../../backend/src/forms/templates/deleteUserModel';
+
 const UserTable = ({ search }) => {
   const [filter,setFilter] = useState('');
   const [role,setRole] = useState('');
@@ -11,6 +13,13 @@ const UserTable = ({ search }) => {
   const startIndex = (currentPage - 1) * displayData;
   const endIndex = startIndex + displayData;
   const displayedUsers = combined.slice(startIndex, endIndex);
+  const { handleDelete, message } = useDeleteUserModel(() => {
+    // Refresh the user list after successful deletion
+    console.log(message);
+    setFilter((prev) => prev + ' ');
+    setTimeout(() => setFilter((prev) => prev.trim()), 100);
+  });
+  const [editData, setEditData] = useState(null);
 
 const handleRoleChange = (e) => {
     setRole(e.target.value);
@@ -27,6 +36,35 @@ const handleRoleChange = (e) => {
       setCurrentPage(newPage);
     }
   };
+
+  const handleDeleteClick = async (e, user) => {
+    e.preventDefault();
+    if (window.confirm('Are you sure you want to delete this user?')) {
+      await handleDelete(user);
+    }
+  };
+
+  const handleEditClick = (e, user) => {
+    e.preventDefault();
+    setEditData({
+      FName: user.FName,
+      MName: user.MName,
+      LName: user.LName,
+      Gender: user.Gender,
+      Address: user.Address,
+      Contact: user.Contact,
+      Email: user.Email,
+      Birthdate: user.Birthdate,
+      role: user.role,
+      Stall_Id: user.Stall_Id,
+      id: user.Person_Id
+    });
+    // Open the offcanvas
+    const offcanvasElement = document.getElementById('offcanvasAddUser');
+    const offcanvas = new bootstrap.Offcanvas(offcanvasElement);
+    offcanvas.show();
+  };
+
   return (
     <div className="card">
       <div className="card-header border-bottom">
@@ -152,9 +190,10 @@ const handleRoleChange = (e) => {
                       <td>{user.Gender}</td>
                       <td>{user.Address}</td>
                       <td>
-                        <span className={`badge ${user.role === 'Admin'
+                        <span className={`badge ${
+                          user.role.toLowerCase() === 'admin'
                             ? 'bg-label-success'
-                            : user.role === 'Owner'
+                            : user.role.toLowerCase() === 'owner'
                               ? 'bg-label-danger'
                               : 'bg-label-primary'
                           }`} text-capitalized="">
@@ -163,7 +202,11 @@ const handleRoleChange = (e) => {
                       </td>
                       <td>
                         <div className="d-flex align-items-center">
-                          <a href="" className="btn btn-icon delete-record">
+                          <a 
+                            href="#" 
+                            className="btn btn-icon delete-record"
+                            onClick={(e) => handleDeleteClick(e, user)}
+                          >
                             <i className="icon-base bx bx-trash icon-md icon-lg"></i>
                           </a>
                           <a href="app-user-view-account.html" className="btn btn-icon">
@@ -173,7 +216,13 @@ const handleRoleChange = (e) => {
                             <i className="icon-base bx bx-dots-vertical-rounded icon-md icon-lg"></i>
                           </a>
                           <div className="dropdown-menu dropdown-menu-end m-0">
-                            <a href="" className="dropdown-item">Edit</a>
+                            <a 
+                              href="#" 
+                              className="dropdown-item"
+                              onClick={(e) => handleEditClick(e, user)}
+                            >
+                              Edit
+                            </a>
                             <a href="" className="dropdown-item">Suspend</a>
                           </div>
                         </div>
@@ -231,7 +280,15 @@ const handleRoleChange = (e) => {
           </div>
         </div>
       </div>
-      <AddUser />
+      <AddUser 
+        onClose={() => setEditData(null)} 
+        onSubmitSuccess={() => {
+          setEditData(null);
+          setFilter((prev) => prev + ' ');
+          setTimeout(() => setFilter((prev) => prev.trim()), 100);
+        }}
+        edit={editData}
+      />
     </div>
   );
 };

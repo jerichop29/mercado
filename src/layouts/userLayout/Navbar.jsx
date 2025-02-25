@@ -1,5 +1,14 @@
 import getGreetingMessage from '../../utils/GreetingHandler';
+import { useNavigate } from 'react-router-dom';
+import { logout } from '../../utils/auth';
 const Navbar = () => {
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    logout(); // Clear auth data
+    navigate('/', { replace: true }); // Redirect to login page with replace
+    window.location.reload(); 
+  };
+
   return (
     <nav
       className="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
@@ -57,7 +66,7 @@ const Navbar = () => {
                 <div className="dropdown-divider"></div>
               </li>
               <li>
-                <a aria-label='click to log out' className="dropdown-item" href="#">
+                <a onClick={handleLogout} aria-label='click to log out' className="dropdown-item" href="#">
                   <i className="bx bx-power-off me-2"></i>
                   <span className="align-middle">Log Out</span>
                 </a>

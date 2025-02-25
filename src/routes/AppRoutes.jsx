@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import Loader from "../components/loader/Loader";
 import NotFound from "../components/main/ErrorPages/NotFound"; // Import the NotFound component
 import Forbidden from "../components/main/ErrorPages/Forbidden"; // Import the Forbidden component
-import ProtectedRoute from "../components/main/ProtectedRoute/ProtectedRoute"; // Import the ProtectedRoute component
+import ProtectedRoute from "./ProtectedRoute"; // Import the ProtectedRoute component
 
 // Hooks
 import useScrollReset from "../hooks/useScrollReset";
@@ -99,8 +99,8 @@ const AppRoutes = () => {
             </Route>
 
             {/* User Layout Routes */}
-            {/* <Route path="user" element={<ProtectedRoute><UserLayout /></ProtectedRoute>}> */}
-            <Route path="user" element={<UserLayout />}>
+            <Route path="user" element={<ProtectedRoute><UserLayout /></ProtectedRoute>}>
+            {/* <Route path="user" element={<UserLayout />}> */}
               <Route path="dashboard" element={renderPage(DashboardPage)} />
               <Route path="manage-tenants" element={renderPage(ManageTenantsPage)} />
               <Route path="sub-users" element={renderPage(SubUsersPage)} />

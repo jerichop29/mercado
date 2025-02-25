@@ -45,13 +45,11 @@ class AdminFunctions {
         }
         return ["status" => "error", "message" => "Invalid Username or Password"];
     }
-
     // Add new admin
     public function addAdmin($data) {
         $hashedPassword = password_hash($data['password'], PASSWORD_BCRYPT);
-
-        $stmt = $this->conn->prepare("INSERT INTO admintbl (Username, `Password`, `role`) VALUES (?, ?, ?)");
-        $stmt->bind_param("sss", $data['username'], $hashedPassword, $data['role']);
+        $stmt = $this->conn->prepare("INSERT INTO admintbl (Username, `Password`, `role`,Person_Id) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("ssss", $data['username'], $hashedPassword, $data['role'], $data['Person_Id']);
 
         if ($stmt->execute()) {
             return ["status" => "success", "message" => "Admin added successfully"];

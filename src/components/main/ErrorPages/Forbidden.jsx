@@ -13,7 +13,15 @@ const Forbidden = () => {
           <p className="not-found-subtitle">Forbidden</p>
           <p className="not-found-message mb-2" > 
           You do not have permission to access this page.</p>
-          <Link to="/" className="not-found-button">
+          <Link 
+            to="/" 
+            className="not-found-button"
+            onClick={() => {
+              setTimeout(() => {
+                window.location.reload();
+              }, 100);
+            }}
+          >
             Go to Homepage
           </Link>
         </div>

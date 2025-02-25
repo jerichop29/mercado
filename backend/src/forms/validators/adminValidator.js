@@ -2,12 +2,12 @@ class AdminValidator {
     static validateAdminData(data) {
         const errors = [];
 
-        if (!data.Username || typeof data.Username !== 'string' || !data.Username.trim()) {
-            errors.push('Username is required and must be a non-empty string.');
+        if (!data.username || typeof data.username !== 'string' || !data.username.trim()) {
+            errors.push('username is required and must be a non-empty string.');
         }
 
-        if (!data.Password || typeof data.Password !== 'string' || data.Password.length < 8) {
-            errors.push('Password is required and must be at least 6 characters long.');
+        if (!data.password || typeof data.password !== 'string' || data.password.length < 8) {
+            errors.push('password is required and must be at least 6 characters long.');
         }
 
         if (!data.role || typeof data.role !== 'string' || !data.role.trim()) {

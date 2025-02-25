@@ -23,11 +23,11 @@ const searchFilters = {
         {
             title: "Select Building",
             options: [
-                { label: "Building 1", value: "Building1" },
-                { label: "Building 2", value: "Building2" },
-                { label: "Building 3", value: "Building3" },
-                { label: "Building 4", value: "Building4" },
-                { label: "Building 5", value: "Building5" },
+                { label: "Building 1", value: "1" },
+                { label: "Building 2", value: "2" },
+                { label: "Building 3", value: "3" },
+                { label: "Building 4", value: "4" },
+                { label: "Building 5", value: "5" },
             ]
         }
     ],

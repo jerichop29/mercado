@@ -1,14 +1,17 @@
 import { useEffect, useState } from 'react';
 import './SignIn.css';
 import LoginImage from '../../assets/img/login.png';
-import OwnerHandler from '../../../backend/src/handler/js/OwnerHandler';
+import AdminHandler from '../../../backend/src/handler/js/AdminHandler';
 import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
+import { setAuth } from '../../utils/auth'; // Import the auth utility
 
 const SignInPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const savedUsername = Cookies.get('username');
@@ -26,8 +29,23 @@ const SignInPage = () => {
       if (!username || !password) {
         throw new Error('Username and password are required');
       }
-      const response = await OwnerHandler.AuthOwner({username,password});
-      console.log('Authentication successful:', response);
+      const response = await AdminHandler.Authadmin({username, password});
+      
+      if (response.status === 'success') {
+        // Store authentication data
+        setAuth(response.token, response.user);
+        
+        // Handle remember me
+        if (rememberMe) {
+          Cookies.set('username', username, { expires: 7 });
+        } else {
+          Cookies.remove('username');
+        }
+        
+        navigate('/user/dashboard');
+      } else {
+        throw new Error(response.message || 'Authentication failed');
+      }
 
       if (rememberMe) {
         Cookies.set('username', username, { expires: 7 });

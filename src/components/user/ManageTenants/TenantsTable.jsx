@@ -11,9 +11,17 @@ const TenantsTable = ({ search }) => {
   const startIndex = (currentPage - 1) * displayData;
   const endIndex = startIndex + displayData;
   const displayedUsers = tenant.slice(startIndex, endIndex);
-  const handleBuildingChange = (e) => {
-    setBuilding(e.target.value);
-  };
+  
+const handleBuildingChange = (e) => {
+  console.log(e.target.value);
+  setBuilding(e.target.value);
+
+  setFilter((prev) => (prev ? prev + ' ' : ' ')); // Add a space if there's a value, otherwise set to space
+
+  setTimeout(() => {
+      setFilter((prev) => (prev ? prev.trim() : '')); // Remove the extra space after delay
+  }, 100);
+};
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= totalPages) {
       setCurrentPage(newPage);

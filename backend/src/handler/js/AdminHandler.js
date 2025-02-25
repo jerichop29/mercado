@@ -38,7 +38,6 @@ class AdminHandler {
     }
 
     async Authadmin(adminData) {
-        AdminValidator.validateAdminData(adminData);
         return this.fetchWithErrorHandling(`${this.baseUrl}?action=auth`,{
         method:'POST',
         body: JSON.stringify(adminData)

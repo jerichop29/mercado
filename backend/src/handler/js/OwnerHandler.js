@@ -36,7 +36,6 @@ class OwnerHandler {
     }
 
     async AuthOwner(ownerData) {
-        OwnerValidator.validateUserData(ownerData);
         return this.fetchWithErrorHandling(`${this.baseUrl}?action=auth`,{
         method:'POST',
         body: JSON.stringify(ownerData)

@@ -52,9 +52,15 @@ class OwnerFunctions {
     public function addOwner($data) {
         $hashedPassword = password_hash($data['password'], PASSWORD_BCRYPT);
         
-        $sql = "INSERT INTO ownertbl (Person_Id, Admin_Id, Username, `Password`) VALUES (?, ?, ?, ?)";
+        $sql = "INSERT INTO ownertbl (Person_Id, Admin_Id, Username, `Password`,`role` , Date_Start ) VALUES (?, ?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("iiss", $data['person_id'], $data['admin_id'], $data['username'], $hashedPassword);
+        $stmt->bind_param("iissss", 
+                    $data['Person_Id'], 
+                    $data['Admin_Id'], 
+                    $data['username'], 
+                    $hashedPassword,
+                    $data['role'],
+                    $data['Date_Start']);
         
         if ($stmt->execute()) {
             return ["status" => "success", "message" => "Owner added successfully"];

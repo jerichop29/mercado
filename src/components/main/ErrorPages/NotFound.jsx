@@ -14,7 +14,14 @@ const NotFound = () => {
           <p className="not-found-message mb-2" > 
             The page you're looking for doesn't exist. It might have been removed or moved to another location.
           </p>
-          <Link to="/" className="not-found-button">
+          <Link to="/" 
+                className="not-found-button" 
+                onClick={() => {
+                setTimeout(() => {
+                  window.location.reload();
+                }, 100);
+              }}
+              >
             Go to Homepage
           </Link>
         </div>
