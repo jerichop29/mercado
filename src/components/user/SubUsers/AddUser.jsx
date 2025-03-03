@@ -1,10 +1,24 @@
+import Select from 'react-select';
 import { useState } from "react";
 import useAddUserModel from "../../../../backend/src/forms/templates/addUserModel";
 import { useData } from "../../../hooks/useData";
 export default function AddUser({ onClose, onSubmitSuccess ,edit}) {
+const {stall}=useData("","");
 
-    const [filteredStall,setFilteredStalls] = useState("");
-    const {stall}=useData(filteredStall,"");
+// State for managing selected stall
+   
+        
+    // Handle stall selection or input change
+    const handleStallChange = (selectedOption) => {
+        setSelectedStall(selectedOption);
+        if (selectedOption) {
+            // Update formData with the selected stall ID
+            handleChange({ target: { name: 'Stall_Id', value: selectedOption.value } });
+        } else {
+            handleChange({ target: { name: 'Stall_Id', value: '' } });
+        }
+    };
+
     const {
         formData,
         message,
@@ -12,10 +26,15 @@ export default function AddUser({ onClose, onSubmitSuccess ,edit}) {
         handleSubmit,
         resetForm
     } = useAddUserModel(edit, onSubmitSuccess);
+    const stallOptions = stall.filter(s => s.Status === "Available").map((s) => ({
+        value: s.Stall_Id,
+        label: s.StallCode
+    }));
+    const [selectedStall, setSelectedStall] = useState(edit ? stallOptions.find(option => option.value === formData.Stall_Id) : null);
+    
+    // Stall options for the dropdown
+ 
     const [errors, setErrors] = useState({});
-    const [showSelect, setShowSelect] = useState(false);
-    const [searchValue, setSearchValue] = useState('');
-
     const validateForm = () => {
         const newErrors = {};
         Object.keys(formData).forEach((key) => {
@@ -33,12 +52,12 @@ export default function AddUser({ onClose, onSubmitSuccess ,edit}) {
         }
         
     };
-
+    const title = edit ?"Edit User": "Add User";
     return (
         <>
             <div className="offcanvas offcanvas-end" tabIndex="-1" id="offcanvasAddUser" aria-labelledby="offcanvasAddUserLabel">
                 <div className="offcanvas-header border-bottom">
-                    <h5 id="offcanvasAddUserLabel" className="offcanvas-title">Add User</h5>
+                    <h5 id="offcanvasAddUserLabel" className="offcanvas-title">{title}</h5>
                     <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
                 <div className="offcanvas-body mx-0 flex-grow-0 p-6 h-100">
@@ -121,47 +140,24 @@ export default function AddUser({ onClose, onSubmitSuccess ,edit}) {
                                 <option value="Owner">Owner</option>
                                 <option value="Admin">Admin</option>
                             </select>
-                        </div>
+                        </div> 
 
-                        {/* Conditional Stall ID field */}
                         {formData.role === 'Owner' && (
+                            
                             <div className="mb-6">
                                 <label className="form-label" htmlFor="stall-id">Stall ID</label>
-                                <div className="position-relative">
-                                    <input 
-                                        type="text"
-                                        className="form-control mb-2"
-                                        placeholder="Search stall..."
-                                        value={searchValue}
-                                        onChange={(e) => {
-                                            setSearchValue(e.target.value);
-                                            setFilteredStalls(e.target.value.toLowerCase());
-                                            setShowSelect(true);
-                                        }}
+                                <div className="mb-6">
+                                    <Select
+                                        id="add-tenant-stall"
+                                        value={selectedStall}
+                                        className="form-react-select"
+                                        classNamePrefix="react-select"
+                                        onChange={handleStallChange}
+                                        options={stallOptions}
+                                        isClearable
+                                        isSearchable
+                                        placeholder="Select or type a Stall"
                                     />
-                                    {showSelect &&(<select 
-                                        id="stall-id" 
-                                        className={`form-control ${errors.Stall_Id ? 'border-danger' : ''}`} 
-                                        name="Stall_Id" 
-                                        value={formData.Stall_Id || ''} 
-                                        onChange={(e) => {
-                                            handleChange(e);
-                                            const selectedStall = stall?.find(s => s.Stall_Id === e.target.value);
-                                            if (selectedStall) {
-                                                setSearchValue(selectedStall.StallCode);
-                                                setShowSelect(false);
-                                            }
-                                        }}
-                                        required={formData.role === 'Owner'}
-                                        size="5"
-                                    >
-                                        <option value="" disabled>Select Stall</option>
-                                        {stall?.map((stall) => (
-                                            <option key={stall.Stall_Id} value={stall.Stall_Id}>
-                                                {stall.StallCode}
-                                            </option>
-                                        ))}
-                                    </select>)}
                                 </div>
                                 {errors.Stall_Id && (
                                     <div className="text-danger small mt-1">
@@ -169,7 +165,11 @@ export default function AddUser({ onClose, onSubmitSuccess ,edit}) {
                                     </div>
                                 )}
                             </div>
+                            
                         )}
+
+                         
+
                         
                         <div className="mb-6">
                             <label className="form-label" htmlFor="add-user-address">Address</label>
@@ -220,7 +220,7 @@ export default function AddUser({ onClose, onSubmitSuccess ,edit}) {
                             <label className="form-label" htmlFor="add-user-birthdate">Birthdate</label>
                             <input 
                                 type="date" 
-                                id="add-user-birthdate" 
+                                id="add-user-birthdate"     
                                 name="Birthdate" 
                                 className={`form-control ${errors.Birthdate ? 'border-danger' : ''}`} 
                                 value={formData.Birthdate} 

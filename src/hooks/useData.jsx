@@ -3,11 +3,13 @@ import ownerHandler from "../../backend/src/handler/js/OwnerHandler.js";
 import adminHandler from "../../backend/src/handler/js/AdminHandler.js";
 import tenantHandler from "../../backend/src/handler/js/TenantHandler.js";
 import stallHandler from "../../backend/src/handler/js/stallHandler.js";
+
 export const useData = (search , role) => {
     const [owner, setOwner] = useState([]);
     const [admin, setAdmin] = useState([]);
     const [tenant, setTenant] = useState([]);
     const [combined, setCombined] = useState([]);
+    const [stallFilter, setStallFilter] = useState([]);
     const [stall,setStall]=useState([]);
     const handleFilterData = async () => {
         try {
@@ -88,13 +90,21 @@ export const useData = (search , role) => {
 
             const filteredStalls = stallData.data.filter(data => {
                 // Skip filtering if no search term
-                if (!search) return true;
+                if (!search && !role) return true;
                 
                 // Normalize search and stall code once
-                const searchLower = search.toLowerCase();
+                const searchLower = search?.toLowerCase() || '';
+                const roleLower = role?.toLowerCase() || '';
+
                 const stallCode = data?.StallCode?.toLowerCase() || '';
+                const stallBuilding = data?.BuildingName?.toLowerCase() || '';
+                const stallStatus = data?.Status?.toLowerCase() || ''; // Assuming Status is the field for StallStatus
                 
-                return stallCode.includes(searchLower);
+                // Check status and building match if role exists
+                const statusMatch = !role || stallStatus.includes(roleLower);
+                const bldgMatch = !role || stallBuilding.includes(roleLower);
+
+                return stallCode.includes(searchLower) && statusMatch || stallCode.includes(searchLower) && bldgMatch;
             });
             setStall(filteredStalls);
         } catch (e) {

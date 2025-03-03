@@ -11,10 +11,20 @@ class StallFunctions {
 
     // Get all stalls
     public function getStalls() {
-        $sql = "SELECT stalltbl.*, buildingtbl.BuildingName, typestbl.Name AS TypeName
+        $sql = "SELECT 
+                    stalltbl.*, 
+                    buildingtbl.BuildingName, 
+                    typestbl.Name AS TypeName, 
+                    ownertbl.Date_Start,
+                    statustbl.Status,
+                    CONCAT(persontbl.FName, ' ', persontbl.MName, ' ', persontbl.LName) AS OwnerName 
                 FROM stalltbl 
-                LEFT JOIN typestbl ON stalltbl.Type_Id = typestbl.Types_Id
-                LEFT JOIN buildingtbl ON stalltbl.BuildingName = buildingtbl.Id";
+                LEFT JOIN typestbl ON stalltbl.Type_Id = typestbl.Types_Id 
+                LEFT JOIN buildingtbl ON stalltbl.BuildingName = buildingtbl.Id 
+                LEFT JOIN ownertbl ON stalltbl.Owner_Id = ownertbl.Owner_Id 
+                LEFT JOIN persontbl ON ownertbl.Person_Id = persontbl.Person_Id
+                LEFT JOIN statustbl ON stalltbl.Status_Id = statustbl.Status_Id;
+                        ";
 
         $result = $this->conn->query($sql);
         
@@ -52,9 +62,9 @@ class StallFunctions {
 
     // Update stall
     public function updateStall($id, $data) {
-        $sql = "UPDATE stalltbl SET StallCode = ?, BuildingName = ?, Type_Id = ? WHERE Stall_Id = ?";
+        $sql = "UPDATE stalltbl SET StallCode = ?, BuildingName = ?, Type_Id = ?, Status_Id =? WHERE Stall_Id = ?";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("siii", $data['stallName'], $data['BuildingName'], $data['type'], $id);
+        $stmt->bind_param("siiii", $data['stallName'], $data['BuildingName'], $data['type'], $data['Status_Id'], $id);
         
         if ($stmt->execute()) {
             return ["status" => "success", "message" => "Stall updated successfully"];
@@ -62,6 +72,33 @@ class StallFunctions {
         error_log("Failed to update stall");
         return ["status" => "error", "message" => "Failed to update stall"];
     }
+
+     // Update stall
+     public function updateStallStatus($id, $data) {
+        $sql = "UPDATE stalltbl SET  Status_Id =?, Owner_Id =? WHERE Stall_Id = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("iii",$data['Status_Id'], $data['Owner_Id'], $id);
+        
+        if ($stmt->execute()) {
+            return ["status" => "success", "message" => "Stall status updated successfully"];
+        }
+        error_log("Failed to update stall");
+        return ["status" => "error", "message" => "Failed to update stall status"];
+    }
+
+    // Update all stalls with the same owner
+    public function updateAllStallsByOwner($ownerId, $data) {
+        $sql = "UPDATE stalltbl SET Status_Id = ? , Owner_Id = NULL WHERE Owner_Id = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("ii", $data['Status_Id'] , $ownerId);
+        
+        if ($stmt->execute()) {
+            return ["status" => "success", "message" => "All stalls updated successfully"];
+        }
+        error_log("Failed to update stalls for owner ID: $ownerId");
+        return ["status" => "error", "message" => "Failed to update stalls"];
+    }
+
 }
 
 // Handle incoming requests
@@ -75,7 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 $stallFunctions = new StallFunctions();
 $action = $_GET['action'] ?? '';
 
-$allowedActions = ['get', 'add', 'delete', 'update'];
+$allowedActions = ['get', 'add', 'delete', 'update', 'status', 'updateAllByOwner'];
 if (!in_array($action, $allowedActions, true)) {
     echo json_encode(["status" => "error", "message" => "Invalid action"]);
     exit();
@@ -109,6 +146,24 @@ try {
                 exit();
             }
             echo json_encode($stallFunctions->updateStall($id, $data));
+            break;
+
+        case 'status':
+            $id = isset($_GET['id']) ? (int)$_GET['id'] : null;
+            if (!$id) {
+            echo json_encode(["status" => "error", "message" => "Missing or invalid ID"]);
+            exit();
+            }
+            echo json_encode($stallFunctions->updateStallStatus($id, $data));
+            break;
+
+        case 'updateAllByOwner':
+            $ownerId = isset($_GET['ownerId']) ? (int)$_GET['ownerId'] : null;
+            if (!$ownerId) {
+                echo json_encode(["status" => "error", "message" => "Missing or invalid Owner ID"]);
+                exit();
+            }
+            echo json_encode($stallFunctions->updateAllStallsByOwner($ownerId, $data));
             break;
     }
 } catch (Exception $e) {

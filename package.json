@@ -4,8 +4,8 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "concurrently \"vite\" \"nodemon backend/config/database_setup.js\"",
-    "build": "concurrently \"vite build\" \"node backend/config/database_setup.js\"",
+    "dev": "concurrently \"NODE_ENV=development vite\" \"nodemon backend/config/database_setup.js\"",
+    "build": "concurrently \"NODE_ENV=production vite build\" \"node backend/config/database_setup.js\"",
     "lint": "eslint .",
     "preview": "vite preview"
   },
@@ -35,6 +35,7 @@
     "react": "^18.3.1",
     "react-bootstrap": "^2.10.8",
     "react-calendar": "^5.1.0",
+    "react-datepicker": "^8.1.0",
     "react-dom": "^18.3.1",
     "react-icons": "^5.4.0",
     "react-perfect-scrollbar": "^1.5.8",

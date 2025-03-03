@@ -64,7 +64,7 @@ function Model({ url }) {
 
       // Filter stalls where Owner_Id is null
       const vacantStalls = stall.data.filter(stall =>
-        stall.Owner_Id === null); // Fallback to an empty array if stall.data is undefined
+        stall.Status !== "Occupied"); // Fallback to an empty array if stall.data is undefined
       let vacantStallNames = ([]);
       if (url && url === '/models/B4_4-v1.glb') {
         vacantStallNames = vacantStalls.map(stall => stall.StallCode);

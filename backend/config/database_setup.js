@@ -41,7 +41,7 @@ connection.query(`SHOW DATABASES LIKE ?`, [databaseName], (err, results) => {
         multipleStatements: true,
       });
 
-      const sqlFile = fs.readFileSync(`${databaseName}.sql`, "utf8");
+      const sqlFile = fs.readFileSync(`backend/config/${databaseName}.sql`, "utf8");
       dbConnection.query(sqlFile, (error) => {
         if (error) {
           console.error("Error executing SQL file:", error);

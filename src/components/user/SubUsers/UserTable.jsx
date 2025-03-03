@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{ useState } from 'react';
 import AddUser from './AddUser';
 import { useData } from '../../../hooks/useData';
 import useDeleteUserModel from '../../../../backend/src/forms/templates/deleteUserModel';
@@ -12,14 +12,17 @@ const UserTable = ({ search }) => {
   const totalPages = Math.ceil(combined.length / displayData);
   const startIndex = (currentPage - 1) * displayData;
   const endIndex = startIndex + displayData;
-  const displayedUsers = combined.slice(startIndex, endIndex);
+  const displayedUsers = combined
+    .sort((a, b) => a.Person_Id - b.Person_Id) // Sort by ID
+    .slice(startIndex, endIndex);
   const { handleDelete, message } = useDeleteUserModel(() => {
-    // Refresh the user list after successful deletion
-    console.log(message);
     setFilter((prev) => prev + ' ');
-    setTimeout(() => setFilter((prev) => prev.trim()), 100);
+    setTimeout(() => {
+      setFilter((prev) => (prev ? prev.trim() : '')); 
+  }, 100);
   });
   const [editData, setEditData] = useState(null);
+  const [selectedUsers, setSelectedUsers] = useState([]);
 
 const handleRoleChange = (e) => {
     setRole(e.target.value);
@@ -27,7 +30,7 @@ const handleRoleChange = (e) => {
     setFilter((prev) => (prev ? prev + ' ' : ' ')); // Add a space if there's a value, otherwise set to space
 
     setTimeout(() => {
-        setFilter((prev) => (prev ? prev.trim() : '')); // Remove the extra space after delay
+        setFilter((prev) => (prev ? prev.trim() : '')); 
     }, 100);
 };
 
@@ -38,6 +41,7 @@ const handleRoleChange = (e) => {
   };
 
   const handleDeleteClick = async (e, user) => {
+    console.log("Selected Users for Deletion:",  user);
     e.preventDefault();
     if (window.confirm('Are you sure you want to delete this user?')) {
       await handleDelete(user);
@@ -63,6 +67,27 @@ const handleRoleChange = (e) => {
     const offcanvasElement = document.getElementById('offcanvasAddUser');
     const offcanvas = new bootstrap.Offcanvas(offcanvasElement);
     offcanvas.show();
+  };
+
+  const handleSelectUser = (user) => {
+    setSelectedUsers((prevSelected) => {
+      if (prevSelected.some(selectedUser => selectedUser.Person_Id === user.Person_Id)) {
+        return prevSelected.filter(selectedUser => selectedUser.Person_Id !== user.Person_Id); // Deselect user
+      } else {
+        return [...prevSelected, user]; // Select user
+      }
+    });
+  };
+
+  const handleDeleteSelected = async () => {
+    if (window.confirm('Are you sure you want to delete the selected users?')) {
+      
+      for (const user of selectedUsers) {
+        console.log(user);
+        await handleDelete(user); // Assuming handleDelete can take the entire user object
+      }
+      setSelectedUsers([]); // Clear selection after deletion
+    }
   };
 
   return (
@@ -104,6 +129,11 @@ const handleRoleChange = (e) => {
                 <label htmlFor="dt-search-0"></label>
               </div>
               <div className="dt-buttons btn-group flex-wrap d-flex gap-4 mb-md-0 mb-6">
+                {selectedUsers.length > 0 && (
+                  <button className="btn btn-danger" onClick={handleDeleteSelected}>
+                    Delete Selected
+                  </button>
+                )}
                 <button className="btn add-new tbl-btn-primary" tabIndex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddUser">
                   <span className="d-flex justify-content-between align-item-center">
                     <i className="icon-base bx bx-plus icon-lg me-0 me-sm-2"></i>
@@ -162,10 +192,16 @@ const handleRoleChange = (e) => {
                     <tr key={index}>
                       <td className="control dtr-hidden" tabIndex="0" style={{ display: 'none' }}></td>
                       <td className="dt-select">
-                        <input aria-label="Select row" className="form-check-input" type="checkbox" />
+                        <input 
+                          aria-label="Select row" 
+                          className="form-check-input" 
+                          type="checkbox" 
+                          checked={selectedUsers.some(selectedUser => selectedUser.Person_Id === user.Person_Id)} 
+                          onChange={() => handleSelectUser(user)} 
+                        />
                       </td>
                       <td>
-                        <span className="fw-medium">{user.Person_Id}</span>
+                        <span className="fw-medium">{startIndex + index + 1}</span>
                       </td>
                       <td className="sorting_1">
                         <div className="d-flex justify-content-start align-items-center user-name">
@@ -212,19 +248,9 @@ const handleRoleChange = (e) => {
                           <a href="app-user-view-account.html" className="btn btn-icon">
                             <i className="icon-base bx bx-show icon-md icon-lg"></i>
                           </a>
-                          <a href="" className="btn btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                            <i className="icon-base bx bx-dots-vertical-rounded icon-md icon-lg"></i>
+                          <a href="" className="btn btn-icon" onClick={(e) => handleEditClick(e, user)}>
+                             <i className="icon-base bx bx-edit icon-md icon-lg"></i>
                           </a>
-                          <div className="dropdown-menu dropdown-menu-end m-0">
-                            <a 
-                              href="#" 
-                              className="dropdown-item"
-                              onClick={(e) => handleEditClick(e, user)}
-                            >
-                              Edit
-                            </a>
-                            <a href="" className="dropdown-item">Suspend</a>
-                          </div>
                         </div>
                       </td>
                     </tr>
@@ -254,16 +280,20 @@ const handleRoleChange = (e) => {
                       </button>
                     </li>
 
-                    {[...Array(totalPages)].map((_, index) => (
-                      <li key={index} className={`dt-paging-button page-item ${currentPage === index + 1 ? "active" : ""}`}>
-                        <button
-                          className="page-link"
-                          onClick={() => handlePageChange(index + 1)}
-                        >
-                          {index + 1}
-                        </button>
-                      </li>
-                    ))}
+                    {[...Array(Math.min(5, totalPages))].map((_, index) => {
+                                            const pageNumber = currentPage + index - 2; // Center the current page in the range
+                                            if (pageNumber < 1 || pageNumber > totalPages) return null; // Skip out-of-bounds pages
+                                            return (
+                                                <li key={pageNumber} className={`dt-paging-button page-item ${currentPage === pageNumber ? "active" : ""}`}>
+                                                    <button
+                                                        className="page-link"
+                                                        onClick={() => handlePageChange(pageNumber)}
+                                                    >
+                                                        {pageNumber}
+                                                    </button>
+                                                </li>
+                                            );
+                                        })}
 
                     <li className={`dt-paging-button page-item ${currentPage === totalPages ? "disabled" : ""}`}>
                       <button

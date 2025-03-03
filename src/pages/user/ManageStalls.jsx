@@ -1,10 +1,10 @@
 import Card from "../../components/user/Card";
 import StallsTable from "../../components/user/ManageStalls/StallsTable";
 import searchFilters from "../../utils/SearchFilterData";
-import CardStats from "../../utils/CardStatsData";
+import { CardStats } from "../../utils/CardStatsData";
 
 export default function ManageStallsPage() {
-
+    const {stallStats} = CardStats();
     const stalls = [
         {
             id: 1,
@@ -34,7 +34,7 @@ export default function ManageStallsPage() {
 
 
         {
-            id: 2,
+            id: 3,
             avatar: 'https://cdn-icons-png.flaticon.com/512/9203/9203764.png',
             fullName: 'Jericho Pecho',
             email: 'jerichopecho@gmail.com',
@@ -48,7 +48,7 @@ export default function ManageStallsPage() {
 
 
         {
-            id: 2,
+            id:4,
             avatar: 'https://cdn-icons-png.flaticon.com/512/9203/9203764.png',
             fullName: 'Jericho Pecho',
             email: 'jerichopecho@gmail.com',
@@ -60,7 +60,7 @@ export default function ManageStallsPage() {
             due: 'May 01, 2025'
         },
         {
-            id: 2,
+            id: 5,
             avatar: 'https://cdn-icons-png.flaticon.com/512/9203/9203764.png',
             fullName: 'Jericho Pecho',
             email: 'jerichopecho@gmail.com',
@@ -76,7 +76,7 @@ export default function ManageStallsPage() {
     return (
         <>
             <div className="row g-6 mb-6 justify-content-center">
-                {CardStats.stallStats.map((stat, index) => (
+                {stallStats.map((stat, index) => (
                     <Card key={index} {...stat} />
                 ))}
             </div>

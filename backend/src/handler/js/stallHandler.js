@@ -55,6 +55,19 @@ class StallHandler {
             body: JSON.stringify(stallData)
         });
     }
+    
+    async updateStallStatus(stallId, stallData) {
+        return this.fetchWithErrorHandling(`${this.baseUrl}?action=status&id=${stallId}`, {
+            method: 'PUT',
+            body: JSON.stringify(stallData)
+        });
+    }
+    async updateAllStallsByOwner(ownerId, stallData) {
+        return this.fetchWithErrorHandling(`${this.baseUrl}?action=updateAllByOwner&ownerId=${ownerId}`, {
+            method: 'PUT',
+            body: JSON.stringify(stallData)
+        });
+    }
     // Validate stall data
     validateStallData(data) {
         if (!data.StallCode?.trim() || !data.buildingName?.trim() || !data.type) {

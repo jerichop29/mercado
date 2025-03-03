@@ -36,11 +36,11 @@ function Modal({ isOpen, stallName, onClose }) {
                     </div>
                     <div className="stall-row">
                       <span className="label">Type ID:</span>
-                      <span className="value">{data.Type_Id ?? 'N/A'}</span>
+                      <span className="value">{data.TypeName ?? 'N/A'}</span>
                     </div>
                     <div className="stall-row">
                       <span className="label">Owner ID:</span>
-                      <span className="value">{data.Owner_Id ?? 'None'}</span>
+                      <span className="value">{data.OwnerName ?? 'None'}</span>
                     </div>
                   </div>
                 </div>

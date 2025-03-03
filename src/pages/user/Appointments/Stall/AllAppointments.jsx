@@ -1,7 +1,8 @@
 import Card from "../../../../components/user/Card"
 import StallAppointmentsTable from "../../../../components/user/Appointments/StallTable";
 import searchFilters from "../../../../utils/SearchFilterData";
-import CardStats from "../../../../utils/CardStatsData";
+import { useData } from "../../../../hooks/useData";
+
 
 export default function StallAllAppointmentsPage() {
 

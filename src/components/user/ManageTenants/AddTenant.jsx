@@ -1,19 +1,23 @@
 import React, { useState } from 'react';
 import Select from 'react-select';
-
+import { useData } from '../../../hooks/useData';
 export default function AddTenant() {
     // State for managing selected stall
     const [selectedStall, setSelectedStall] = useState(null);
-
+    const [selectedBuilding,setSelectedBuilding] = useState('');
+    const {stall}=useData("","");
     // Stall options for the dropdown
-    const stallOptions = [
-        { value: 'Stall 1', label: 'Stall 1' },
-        { value: 'Stall 2', label: 'Stall 2' },
-        { value: 'Stall 3', label: 'Stall 3' },
-        { value: 'Stall 4', label: 'Stall 4' },
-        { value: 'Stall 5', label: 'Stall 5' },
-    ]
-
+    const stallOptions = stall
+        .filter(s => s.Status === "Occupied" &&( !selectedBuilding || s.BuildingName === selectedBuilding))
+        .map((s) => ({
+            value: s.Stall_Id,
+            label: s.StallCode
+        }));
+        console.log(stallOptions)
+    const handleSelectedBuilding = (selectedBuilding) => {
+        console.log(selectedBuilding)
+        setSelectedBuilding(selectedBuilding);
+    }
     // Handle stall selection or input change
     const handleStallChange = (selectedOption) => {
         setSelectedStall(selectedOption);
@@ -37,8 +41,16 @@ export default function AddTenant() {
                     {/* Single form wrapping all the input elements */}
                     <form className="add-new-user pt-0 fv-plugins-bootstrap5 fv-plugins-framework" id="addNewUserForm" onSubmit={handleSubmit} noValidate="novalidate">
                         <div className="mb-6 form-control-validation fv-plugins-icon-container">
-                            <label className="form-label" htmlFor="add-user-fullname">Full Name</label>
-                            <input type="text" className="form-control" id="add-user-fullname" placeholder="Full Name" name="userFullname" aria-label="Full Name" />
+                            <label className="form-label" htmlFor="add-user-fullname">First Name</label>
+                            <input type="text" className="form-control" id="add-user-firstname" placeholder="First Name" name="userFullname" aria-label="First Name" />
+                        </div>
+                        <div className="mb-6 form-control-validation fv-plugins-icon-container">
+                            <label className="form-label" htmlFor="add-user-middlename">Middle Name</label>
+                            <input type="text" className="form-control" id="add-user-middlename" placeholder="Middle Name" name="userFullname" aria-label="Middle Name" />
+                        </div>
+                        <div className="mb-6 form-control-validation fv-plugins-icon-container">
+                            <label className="form-label" htmlFor="add-user-lastname">Last Name</label>
+                            <input type="text" className="form-control" id="add-user-lastname" placeholder="Last Name" name="userFullname" aria-label="Last Name" />
                         </div>
                         <div className="mb-6 form-control-validation fv-plugins-icon-container">
                             <label className="form-label" htmlFor="add-user-email">Email</label>
@@ -61,12 +73,13 @@ export default function AddTenant() {
                         </div>
                         <div className="mb-6">
                             <label className="form-label" htmlFor="user-role">Building</label>
-                            <select id="user-role" className="form-select">
-                                <option value="1">Building 1</option>
-                                <option value="2">Building 2</option>
-                                <option value="3">Building 3</option>
-                                <option value="4">Building 4</option>
-                                <option value="5">Building 5</option>
+                            <select id="user-role" className="form-select" onChange={(e)=>(handleSelectedBuilding(e.target.value))}>
+                                <option value="">All Buildings</option>
+                                <option value="Building 1">Building 1</option>
+                                <option value="Building 2">Building 2</option>
+                                <option value="Building 3">Building 3</option>
+                                <option value="Building 4">Building 4</option>
+                                <option value="Building 5">Building 5</option>
                             </select>
                         </div>
                         <div className="mb-6">

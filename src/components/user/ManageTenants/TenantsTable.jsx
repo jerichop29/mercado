@@ -121,7 +121,7 @@ const handleBuildingChange = (e) => {
                 </thead>
 
                 <tbody>
-                  {tenant.map((tenant, index) => (
+                  {displayedUsers.map((tenant, index) => (
                     <tr key={index}>
                       <td className="control dtr-hidden" tabIndex="0" style={{ display: 'none' }}></td>
                       <td className="dt-select">
@@ -207,17 +207,20 @@ const handleBuildingChange = (e) => {
                         <i className="icon-base bx bx-chevron-left icon-18px"></i>
                       </button>
                     </li>
-
-                    {[...Array(totalPages)].map((_, index) => (
-                      <li key={index} className={`dt-paging-button page-item ${currentPage === index + 1 ? "active" : ""}`}>
-                        <button
-                          className="page-link"
-                          onClick={() => handlePageChange(index + 1)}
-                        >
-                          {index + 1}
-                        </button>
-                      </li>
-                    ))}
+                    {[...Array(Math.min(5, totalPages))].map((_, index) => {
+                                            const pageNumber = currentPage + index - 2; // Center the current page in the range
+                                            if (pageNumber < 1 || pageNumber > totalPages) return null; // Skip out-of-bounds pages
+                                            return (
+                                                <li key={pageNumber} className={`dt-paging-button page-item ${currentPage === pageNumber ? "active" : ""}`}>
+                                                    <button
+                                                        className="page-link"
+                                                        onClick={() => handlePageChange(pageNumber)}
+                                                    >
+                                                        {pageNumber}
+                                                    </button>
+                                                </li>
+                                            );
+                                        })}
 
                     <li className={`dt-paging-button page-item ${currentPage === totalPages ? "disabled" : ""}`}>
                       <button

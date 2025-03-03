@@ -1,6 +1,49 @@
-import React from 'react';
+import React,{useState} from 'react';
+import { useData } from '../../../hooks/useData';
+import EditStall from './EditStall';
 
-const StallsTable = ({ stalls, search }) => {
+const StallsTable = ({ search }) => {
+  const [filter,setFilter] = useState('');
+  const [ChangeFilter,setChangeFilter] = useState('');
+  const {stall} = useData(filter,ChangeFilter);
+  const [displayData , setdisplayData] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1); 
+  const [selectedStall, setSelectedStall] = useState(null);
+  const totalPages = Math.ceil(stall.length / displayData);
+  const startIndex = (currentPage - 1) * displayData;
+  const endIndex = startIndex + displayData;
+  const displayedUsers = stall.slice(startIndex, endIndex);
+  
+const handleChange = (e) => {
+  console.log(e.target.value);
+  setChangeFilter(e.target.value);
+
+  setFilter((prev) => (prev ? prev + ' ' : ' ')); // Add a space if there's a value, otherwise set to space
+
+  setTimeout(() => {
+      setFilter((prev) => (prev ? prev.trim() : '')); // Remove the extra space after delay
+  }, 100);
+};
+
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+    }
+  };
+
+  const handleEditClick = (stall) => {
+    setSelectedStall(stall);
+  };
+
+  const handleCloseEdit = () => {
+    setSelectedStall(null);
+  };
+
+  const handleSubmitSuccess = (updatedStall) => {
+    console.log('Updated Stall:', updatedStall);
+    handleCloseEdit();
+  };
+
     return (
         <div className="card">
             <div className="card-header border-bottom">
@@ -9,7 +52,7 @@ const StallsTable = ({ stalls, search }) => {
                     {/* Loop through search filters */}
                     {search.map((filter, index) => (
                         <div key={index} className="col-md-4 user_role">
-                            <select id={`filter-${index}`} className="form-select text-capitalize">
+                            <select id={`filter-${index}`} className="form-select text-capitalize"value={ChangeFilter} onChange={handleChange}>
                                 <option value="">{filter.title}</option>
                                 {filter.options.map((option, idx) => (
                                     <option key={idx} value={option.value}>{option.label}</option>
@@ -25,7 +68,7 @@ const StallsTable = ({ stalls, search }) => {
                     <div className="row mx-3 my-0 justify-content-between">
                         <div className="d-md-flex justify-content-between align-items-center dt-layout-start col-md-auto me-auto mt-0">
                             <div className="dt-length mb-md-6 mb-0">
-                                <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" className="form-select ms-0" id="dt-length-0">
+                                <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" className="form-select ms-0" id="dt-length-0" value={displayData} onChange={(e)=>{setdisplayData(e.target.value)}}>
                                     <option value="10">10</option>
                                     <option value="25">25</option>
                                     <option value="50">50</option>
@@ -36,7 +79,7 @@ const StallsTable = ({ stalls, search }) => {
 
                         <div className="d-md-flex align-items-center dt-layout-end col-md-auto ms-auto d-flex gap-md-4 justify-content-md-between justify-content-center gap-4 flex-wrap mt-0">
                             <div className="dt-search mb-md-6 mb-2">
-                                <input type="search" className="form-control" id="dt-search-0" placeholder="Search Stall" aria-controls="DataTables_Table_0" />
+                                <input type="search" className="form-control" id="dt-search-0" placeholder="Search Stall" aria-controls="DataTables_Table_0" onChange={(e) =>{setFilter(e.target.value)}} />
                                 <label htmlFor="dt-search-0"></label>
                             </div>
                         </div>
@@ -48,14 +91,14 @@ const StallsTable = ({ stalls, search }) => {
                                 <colgroup>
                                     <col data-dt-column="1" style={{ width: '50px' }} />
                                     <col data-dt-column="2" style={{ width: '50px' }} />
-                                    <col data-dt-column="3" style={{ width: '130px' }} />
-                                    <col data-dt-column="4" style={{ width: '100px' }} />
-                                    <col data-dt-column="5" style={{ width: '400px' }} />
+                                    <col data-dt-column="3" style={{ width: '50px' }} />
+                                    <col data-dt-column="4" style={{ width: '80px' }} />
+                                    <col data-dt-column="5" style={{ width: '120px' }} />
                                     <col data-dt-column="6" style={{ width: '20px' }} />
                                     <col data-dt-column="7" style={{ width: '100px' }} />
-                                    <col data-dt-column="8" style={{ width: '150px' }} />
-                                    <col data-dt-column="9" style={{ width: '150px' }} />
-                                    <col data-dt-column="10" style={{ width: '150px' }} />
+                                    <col data-dt-column="8" style={{ width: '120px' }} />
+                                    <col data-dt-column="9" style={{ width: '120px' }} />
+                                    <col data-dt-column="10" style={{ width: '80px' }} />
                                 </colgroup>
                                 <thead>
                                     <tr>
@@ -94,42 +137,41 @@ const StallsTable = ({ stalls, search }) => {
                                 </thead>
 
                                 <tbody>
-                                    {stalls && stalls.map((stalls, index) => (
+                                    {displayedUsers.map((stalls, index) => (
                                         <tr key={index}>
                                             <td className="control dtr-hidden" tabIndex="0" style={{ display: 'none' }}></td>
                                             <td className="dt-select">
                                                 <input aria-label="Select row" className="form-check-input" type="checkbox" />
                                             </td>
                                             <td>
-                                                <span className="fw-medium">{stalls.id}</span>
+                                                <span className="fw-medium">{stalls.Stall_Id}</span>
                                             </td>
-                                            <td>{stalls.code}</td>
+                                            <td>{stalls.StallCode}</td>
                                             <td>
                                                 <span className="text-truncate d-flex align-items-center text-heading">
-                                                    {stalls.type === "Fish" && (
+                                                    {stalls.TypeName === "Fish" && (
                                                         <i className="icon-base fa-solid fa-fish text-primary me-2"></i>
                                                     )}
-                                                    {stalls.type === "Meat" && (
+                                                    {stalls.TypeName === "Meat" && (
                                                         <i className="icon-base fa-solid fa-drumstick-bite text-danger me-2"></i>
                                                     )}
-                                                    {stalls.type === "Vegetable" && (
+                                                    {stalls.TypeName === "Vegetables" && (
                                                         <i className="icon-base bx bxs-leaf text-success me-2"></i>
                                                     )}
-                                                    {stalls.type === "Variety" && (
+                                                    {stalls.TypeName === "Variety" && (
                                                         <i className="icon-base fa-solid fa-basket-shopping text-info me-2"></i>
                                                     )}
-                                                    {stalls.type === "Others" && (
+                                                    {stalls.TypeName === "Other" && (
                                                         <i className="icon-base fa-solid fa-pizza-slice text-warning me-2"></i>
                                                     )}
-                                                    {stalls.type}
+                                                    {stalls.TypeName}
                                                 </span>
                                             </td>
                                             <td>
                                                 <span className="text-truncate d-flex align-items-center text-heading">
-                                                    <i className="icon-base fa-solid fa-building text-primary me-2"></i>{stalls.building}
+                                                    <i className="icon-base fa-solid fa-building text-primary me-2"></i>{stalls.BuildingName}
                                                 </span>
                                             </td>
-
                                             <td className="sorting_1">
                                                 <div className="d-flex justify-content-start align-items-center user-name">
                                                     <div className="avatar-wrapper">
@@ -139,26 +181,26 @@ const StallsTable = ({ stalls, search }) => {
                                                     </div>
                                                     <div className="d-flex flex-column">
                                                         <a href="app-user-view-account.html" className="text-heading text-truncate">
-                                                            <span className="fw-medium">{stalls.fullName}</span>
+                                                            <span className="fw-medium">{stalls.OwnerName??"None"}</span>
                                                         </a>
                                                         <small>{stalls.email}</small>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td>
-                                                <span className={`badge ${stalls.status === 'Available'
+                                                <span className={`badge ${stalls.Status === 'Available'
                                                     ? 'bg-label-success'
-                                                    : stalls.status === 'Occupied' || stalls.status === 'Unavailable'
+                                                    : stalls.Status === 'Occupied' || stalls.Status === 'Unavailable'
                                                         ? 'bg-label-danger' :
-                                                        stalls.status === 'Reserved' ? 'bg-label-warning'
+                                                        stalls.Status === 'Reserved' ? 'bg-label-warning'
                                                             : 'bg-label-primary'
                                                     }`} text-capitalized="">
-                                                    {stalls.status}
+                                                    {stalls.Status}
                                                 </span>
                                             </td>
                                             <td>
                                                 <span className="text-truncate d-flex align-items-center text-heading">
-                                                    <i className="icon-base bi bi-calendar-check-fill text-success me-2"></i>{stalls.start}
+                                                    <i className="icon-base bi bi-calendar-check-fill text-success me-2"></i>{stalls.Date_Start}
                                                 </span>
                                             </td>
                                             <td>
@@ -168,18 +210,16 @@ const StallsTable = ({ stalls, search }) => {
                                             </td>
                                             <td>
                                                 <div className="d-flex align-items-center">
-                                                    <a href="" className="btn btn-icon delete-record">
-                                                        <i className="icon-base bx bx-trash icon-md icon-lg"></i>
-                                                    </a>
+                                                    
                                                     <a href="app-user-view-account.html" className="btn btn-icon">
                                                         <i className="icon-base bx bx-show icon-md icon-lg"></i>
                                                     </a>
-                                                    <a href="" className="btn btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                                        <i className="icon-base bx bx-dots-vertical-rounded icon-md icon-lg"></i>
-                                                    </a>
-                                                    <div className="dropdown-menu dropdown-menu-end m-0">
-                                                        <a href="" className="dropdown-item">Edit</a>
-                                                    </div>
+                                                    <button 
+                                                        className="btn btn-icon" 
+                                                        onClick={() => handleEditClick(stalls)}
+                                                    >
+                                                        <i className="icon-base bx bx-edit icon-md icon-lg"></i>
+                                                    </button>
                                                 </div>
                                             </td>
                                         </tr>
@@ -193,35 +233,43 @@ const StallsTable = ({ stalls, search }) => {
                     <div className="row mx-3 justify-content-between">
                         <div className="d-md-flex justify-content-between align-items-center dt-layout-start col-md-auto me-auto mt-0">
                             <div className="dt-info" aria-live="polite" id="DataTables_Table_0_info" role="status">
-                                Showing 1 to 10 of {stalls.length} entries
+                              Showing {startIndex + 1} to {Math.min(endIndex, stall.length)} of {stall.length} entries
                             </div>
                         </div>
                         <div className="d-md-flex align-items-center dt-layout-end col-md-auto ms-auto d-flex gap-md-4 justify-content-md-between justify-content-center gap-4 flex-wrap mt-0">
                             <div className="dt-paging">
                                 <nav aria-label="pagination">
                                     <ul className="pagination">
-                                        <li className="dt-paging-button page-item disabled">
-                                            <button className="page-link previous" role="link" type="button" aria-controls="DataTables_Table_0" aria-disabled="true" aria-label="Previous" data-dt-idx="previous" tabIndex="-1">
+                                        <li className={`dt-paging-button page-item ${currentPage === 1 ? "disabled" : ""}`}>
+                                            <button
+                                                className="page-link previous"
+                                                onClick={() => handlePageChange(currentPage - 1)}
+                                            >
                                                 <i className="icon-base bx bx-chevron-left icon-18px"></i>
                                             </button>
                                         </li>
-                                        <li className="dt-paging-button page-item active">
-                                            <button className="page-link" role="link" type="button" aria-controls="DataTables_Table_0" aria-current="page" data-dt-idx="0">1</button>
-                                        </li>
-                                        <li className="dt-paging-button page-item">
-                                            <button className="page-link" role="link" type="button" aria-controls="DataTables_Table_0" data-dt-idx="1">2</button>
-                                        </li>
-                                        <li className="dt-paging-button page-item">
-                                            <button className="page-link" role="link" type="button" aria-controls="DataTables_Table_0" data-dt-idx="2">3</button>
-                                        </li>
-                                        <li className="dt-paging-button page-item">
-                                            <button className="page-link" role="link" type="button" aria-controls="DataTables_Table_0" data-dt-idx="3">4</button>
-                                        </li>
-                                        <li className="dt-paging-button page-item">
-                                            <button className="page-link" role="link" type="button" aria-controls="DataTables_Table_0" data-dt-idx="4">5</button>
-                                        </li>
-                                        <li className="dt-paging-button page-item">
-                                            <button className="page-link next" role="link" type="button" aria-controls="DataTables_Table_0" aria-label="Next" data-dt-idx="next">
+
+                                        {/* Limit the number of page buttons to 5 */}
+                                        {[...Array(Math.min(5, totalPages))].map((_, index) => {
+                                            const pageNumber = currentPage + index - 2; // Center the current page in the range
+                                            if (pageNumber < 1 || pageNumber > totalPages) return null; // Skip out-of-bounds pages
+                                            return (
+                                                <li key={pageNumber} className={`dt-paging-button page-item ${currentPage === pageNumber ? "active" : ""}`}>
+                                                    <button
+                                                        className="page-link"
+                                                        onClick={() => handlePageChange(pageNumber)}
+                                                    >
+                                                        {pageNumber}
+                                                    </button>
+                                                </li>
+                                            );
+                                        })}
+
+                                        <li className={`dt-paging-button page-item ${currentPage === totalPages ? "disabled" : ""}`}>
+                                            <button
+                                                className="page-link next"
+                                                onClick={() => handlePageChange(currentPage + 1)}
+                                            >
                                                 <i className="icon-base bx bx-chevron-right icon-18px"></i>
                                             </button>
                                         </li>
@@ -232,6 +280,14 @@ const StallsTable = ({ stalls, search }) => {
                     </div>
                 </div>
             </div>
+
+            {selectedStall && (
+                <EditStall 
+                    stall={selectedStall} 
+                    onClose={handleCloseEdit} 
+                    onSubmitSuccess={handleSubmitSuccess} 
+                />
+            )}
         </div>
     );
 };

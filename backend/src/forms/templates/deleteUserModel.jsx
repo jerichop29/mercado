@@ -2,21 +2,24 @@ import { useState } from 'react';
 import PersonHandler from '../../handler/js/PersonHandler';
 import OwnerHandler from '../../handler/js/OwnerHandler';
 import AdminHandler from '../../handler/js/AdminHandler';
+import stallHandler from '../../handler/js/stallHandler';
 
 const useDeleteUserModel = (onDeleteSuccess) => {
   const [message, setMessage] = useState({ text: "", type: "" });
 
   const handleDelete = async (userData) => {
     setMessage({ text: "", type: "" });
-    
     try {
       // First, delete the user account based on role
+
       let userResult;
-      if (userData.role.toLowerCase() === "owner") {
-        userResult = await OwnerHandler.deleteOwner(userData.Owner_Id);
-      } else if (userData.role.toLowerCase() === "admin") {
+      if (userData.role.toLowerCase() === "owner") {   
+      let statusUpdate;
+        statusUpdate = await stallHandler.updateAllStallsByOwner(userData.Owner_Id,{Status_Id:"1"});
+         if(statusUpdate.status === "success"){userResult = await OwnerHandler.deleteOwner(userData.Owner_Id);}
+        }
+      else if (userData.role.toLowerCase() === "admin") {
         userResult = await AdminHandler.deleteAdmin(userData.Admin_Id);
-        console.log(userResult.status)
       }
 
       // Only after successfully deleting the user role record, delete the person

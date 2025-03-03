@@ -132,36 +132,43 @@ export default function SubCategoryTable({ SubCategory, search }) {
                             </div>
                             <div className="d-md-flex align-items-center dt-layout-end col-md-auto ms-auto d-flex gap-md-4 justify-content-md-between justify-content-center gap-4 flex-wrap mt-0">
                                 <div className="dt-paging">
-                                    <nav aria-label="pagination">
-                                        <ul className="pagination">
-                                            <li className="dt-paging-button page-item disabled">
-                                                <button className="page-link previous" role="link" type="button" aria-controls="DataTables_Table_0" aria-disabled="true" aria-label="Previous" data-dt-idx="previous" tabIndex="-1">
-                                                    <i className="icon-base bx bx-chevron-left icon-18px"></i>
-                                                </button>
-                                            </li>
-                                            <li className="dt-paging-button page-item active">
-                                                <button className="page-link" role="link" type="button" aria-controls="DataTables_Table_0" aria-current="page" data-dt-idx="0">1</button>
-                                            </li>
-                                            <li className="dt-paging-button page-item">
-                                                <button className="page-link" role="link" type="button" aria-controls="DataTables_Table_0" data-dt-idx="1">2</button>
-                                            </li>
-                                            <li className="dt-paging-button page-item">
-                                                <button className="page-link" role="link" type="button" aria-controls="DataTables_Table_0" data-dt-idx="2">3</button>
-                                            </li>
-                                            <li className="dt-paging-button page-item">
-                                                <button className="page-link" role="link" type="button" aria-controls="DataTables_Table_0" data-dt-idx="3">4</button>
-                                            </li>
-                                            <li className="dt-paging-button page-item">
-                                                <button className="page-link" role="link" type="button" aria-controls="DataTables_Table_0" data-dt-idx="4">5</button>
-                                            </li>
-                                            <li className="dt-paging-button page-item">
-                                                <button className="page-link next" role="link" type="button" aria-controls="DataTables_Table_0" aria-label="Next" data-dt-idx="next">
-                                                    <i className="icon-base bx bx-chevron-right icon-18px"></i>
-                                                </button>
-                                            </li>
-                                        </ul>
+                                <nav aria-label="pagination">
+                                    <ul className="pagination">
+                                        <li className={`dt-paging-button page-item ${currentPage === 1 ? "disabled" : ""}`}>
+                                        <button
+                                            className="page-link previous"
+                                            onClick={() => handlePageChange(currentPage - 1)}
+                                        >
+                                            <i className="icon-base bx bx-chevron-left icon-18px"></i>
+                                        </button>
+                                        </li>
+
+                                        {[...Array(Math.min(5, totalPages))].map((_, index) => {
+                                                                const pageNumber = currentPage + index - 2; // Center the current page in the range
+                                                                if (pageNumber < 1 || pageNumber > totalPages) return null; // Skip out-of-bounds pages
+                                                                return (
+                                                                    <li key={pageNumber} className={`dt-paging-button page-item ${currentPage === pageNumber ? "active" : ""}`}>
+                                                                        <button
+                                                                            className="page-link"
+                                                                            onClick={() => handlePageChange(pageNumber)}
+                                                                        >
+                                                                            {pageNumber}
+                                                                        </button>
+                                                                    </li>
+                                                                );
+                                                            })}
+
+                                        <li className={`dt-paging-button page-item ${currentPage === totalPages ? "disabled" : ""}`}>
+                                        <button
+                                            className="page-link next"
+                                            onClick={() => handlePageChange(currentPage + 1)}
+                                        >
+                                            <i className="icon-base bx bx-chevron-right icon-18px"></i>
+                                        </button>
+                                        </li>
+                                    </ul>
                                     </nav>
-                                </div>
+                                  </div>
                             </div>
                         </div>
                     </div>

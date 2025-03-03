@@ -38,10 +38,6 @@ import StallAllAppointmentPage from "../pages/user/Appointments/Stall/AllAppoint
 import StallApprovedAppointmentPage from "../pages/user/Appointments/Stall/ApprovedAppointment"
 import StallCancelledAppointmentPage from "../pages/user/Appointments/Stall/CancelledAppointment"
 import StallRequestAppointmentPage from "../pages/user/Appointments/Stall/RequestAppointment"
-import FacilityAllAppointmentPage from "../pages/user/Appointments/Facility/AllAppointments"
-import FacilityApprovedAppointmentPage from "../pages/user/Appointments/Facility/ApprovedAppointment"
-import FacilityCancelledAppointmentPage from "../pages/user/Appointments/Facility/CancelledAppointment"
-import FacilityRequestAppointmentPage from "../pages/user/Appointments/Facility/RequestAppointment"
 import AddCategoryPage from "../pages/user/Complaints/Category/AddCategory";
 import ManageCategoryPage from "../pages/user/Complaints/Category/ManageCategory";
 import AddSubCategoryPage from "../pages/user/Complaints/SubCategory/AddSubCategory"
@@ -108,10 +104,6 @@ const AppRoutes = () => {
               <Route path="stall-request-appointment" element={renderPage(StallRequestAppointmentPage)} />
               <Route path="stall-approved-appointment" element={renderPage(StallApprovedAppointmentPage)} />
               <Route path="stall-cancelled-appointment" element={renderPage(StallCancelledAppointmentPage)} />
-              <Route path="facility-all-appointments" element={renderPage(FacilityAllAppointmentPage)} />
-              <Route path="facility-request-appointment" element={renderPage(FacilityRequestAppointmentPage)} />
-              <Route path="facility-approved-appointment" element={renderPage(FacilityApprovedAppointmentPage)} />
-              <Route path="facility-cancelled-appointment" element={renderPage(FacilityCancelledAppointmentPage)} />
               <Route path="add-category" element={renderPage(AddCategoryPage)} />
               <Route path="manage-category" element={renderPage(ManageCategoryPage)} />
               <Route path="add-sub-category" element={renderPage(AddSubCategoryPage)} />

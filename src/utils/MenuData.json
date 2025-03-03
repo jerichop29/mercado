@@ -75,39 +75,8 @@
                             "link": "/user/stall-request-appointment"
                         }
                 ]
-            },
-            {
-                "text": "Facility Appointments",
-                "icon": "bx bx-calendar",
-                "available": true,
-                "link": "",
-                "submenu": [
-                        {
-                            "text": "All Appointments",
-                            "icon": "bi bi-calendar3",
-                            "available": true,
-                            "link": "/user/facility-all-appointments"
-                        },
-                        {
-                            "text": "Approved Appointment",
-                            "icon": "bx bx-check-circle",
-                            "available": true,
-                            "link": "/user/facility-approved-appointment"
-                        },
-                        {
-                            "text": "Cancelled Appointment",
-                            "icon": "bx bx-x-circle",
-                            "available": true,
-                            "link": "/user/facility-cancelled-appointment"
-                        },
-                        {
-                            "text": "Request Appointment",
-                            "icon": "bx bx-calendar-check",
-                            "available": true,
-                            "link": "/user/facility-request-appointment"
-                        }
-                ]
-            }                        
+            }
+            
         ]
     },
     {

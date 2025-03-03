@@ -3,6 +3,7 @@ import PersonHandler from '../../handler/js/PersonHandler';
 import PersonValidator from '../validators/personValidator';
 import OwnerHandler from '../../handler/js/OwnerHandler';
 import AdminHandler from '../../handler/js/AdminHandler';
+import stallHandler from '../../handler/js/stallHandler';
 
 const useAddUserModel = (editData, onSubmitSuccess) => {
   const initialFormState = {
@@ -51,23 +52,36 @@ const useAddUserModel = (editData, onSubmitSuccess) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage({ text: "", type: "" });
-    
     try {
        PersonValidator.validatePersonData(formData);
-      
+      if (editData){
+        const persons = await PersonHandler.getPersons();
+        
+        const person = persons.data.filter((p) => 
+          p.FName === formData.FName && 
+          p.MName === formData.MName && 
+          p.LName === formData.LName &&
+          p.Email === formData.Email
+        );
+        const owners = await OwnerHandler.getOwners();
+
+        const owner = owners.data.filter((o) =>
+        o.Person_Id === person[0].Person_Id
+        );
+        await stallHandler.updateStallStatus(formData.Stall_Id,{Status_Id:"4",Owner_Id:owner[0].Owner_Id}); 
+      } 
+
+
+
       const result = editData
         ? await PersonHandler.updatePerson(editData.id, formData)
         : await PersonHandler.addPerson(formData);
       
       setMessage({ text: result.message, type: "success" });
       if (onSubmitSuccess) onSubmitSuccess();
-      
-      if (!editData) {
-        resetForm();
-      }
 
       // After successful person creation/update
-      if (result) {
+      if (result && !editData) {
         // Get all persons and filter
         const persons = await PersonHandler.getPersons();
         
@@ -110,14 +124,23 @@ const useAddUserModel = (editData, onSubmitSuccess) => {
             password: password,
             role: formData.role
           }
-          let userResult;
+          let userResult
+          let stallupdate;
           if(formData.role == "Owner"){// Create user account
             userResult = await OwnerHandler.addOwner(createUserAccount);
+        
+            const owners = await OwnerHandler.getOwners();
+
+            const owner = owners.data.filter((o) =>
+            o.Person_Id === person[0].Person_Id
+            );
+
+            stallupdate =await stallHandler.updateStallStatus(formData.Stall_Id,{Status_Id:"4",Owner_Id:owner[0].Owner_Id}); 
           }
           else{
             userResult = await AdminHandler.addAdmin(createUserAccount);
           }
-          if (userResult) {
+          if (userResult&&stallupdate) {
             console.log('Generated credentials:');
             console.log('Username:', username);
             console.log('Password:', password);
@@ -125,6 +148,9 @@ const useAddUserModel = (editData, onSubmitSuccess) => {
           }
         }
       }
+
+        resetForm();
+      
     } catch (error) {
       setMessage({ text: error.message, type: "error" });
     }
