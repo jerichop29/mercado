@@ -1,7 +1,7 @@
 import React,{ useState } from 'react';
 import AddUser from './AddUser';
 import { useData } from '../../../hooks/useData';
-import useDeleteUserModel from '../../../../backend/src/forms/templates/deleteUserModel';
+import useDeleteUserModel from '../../../../backend/src/forms/templates/User/deleteUserModel';
 
 const UserTable = ({ search }) => {
   const [filter,setFilter] = useState('');

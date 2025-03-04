@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-
+import { useData } from "../../hooks/useData";
 const DashboardPage = () => {
-    
+    const { owner ,stall} = useData();
     useEffect(() => {
         dashboardAnalitics();
     }, [])
@@ -75,7 +75,7 @@ const DashboardPage = () => {
                                         </div>
                                     </div>
                                     <span className="fw-medium d-block mb-1">Users</span>
-                                    <h3 className="card-title mb-2">300</h3>
+                                    <h3 className="card-title mb-2">{owner.length}</h3>
                                     <small className="text-success fw-medium">
                                         <i className="bx bx-up-arrow-alt"></i>stall owner's
                                     </small>
