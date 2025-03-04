@@ -1,19 +1,18 @@
 import SubCategoryTable from "../../../../components/user/SubCategory/SubCategoryTable";
-import searchFilters from "../../../../utils/SearchFilterData";
 
-export default function ManageSubCategoryPage() {
+export default function ManageCategoryPage() {
 
     const SubCategory = [
         {
-            id: 2,
-            category: "Maintainance Issue",
-            title: "Stall Maintenance Issues",
-            description: "Stall maintenance issues refer to any structural, functional, or operational problems related to a rented or owned stall space.",
-        },
+            id: 3,
+            type: "Stall Maintenance Issues",
+            title: "Plumbing problem",
+            description: "Issues such as leaking pipes, clogged drains, or malfunctioning water supply systems that affect the stall’s operations.",
+        }
     ];
     return (
         <>
-            <SubCategoryTable SubCategory={SubCategory} search={searchFilters.category}/>
+            <SubCategoryTable SubCategory={SubCategory} />
         </>
     )
 }

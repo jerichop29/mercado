@@ -1,4 +1,4 @@
-import StallAppointmentsTable from "../../../../components/user/Appointments/StallTable";
+import StallAppointmentsTable from "../../../../components/user/StallAppointments/AppointmentTable";
 import searchFilters from "../../../../utils/SearchFilterData";
 
 export default function RequestAppointmentsPage() {

@@ -6,14 +6,7 @@ const Footer = () => {
                 ©
                   {(new Date().getFullYear())}
                 , made by&nbsp;
-                <a aria-label="Link to About the Department" href="https://www.calambacity.gov.ph/Users/DepartmentHome/City_planning_and_development_office" target="_blank" rel='noreferrer' className="footer-link fw-medium">City Planning and Development Office <span style={{color: 'rgb(105, 108, 255)'}}>ICT Department</span></a>
-              </div>
-              <div className="d-none d-lg-inline-block">
-                <a aria-label="go to themeselection license" href="" className="footer-link me-4" target="_blank" rel='noreferrer' >License</a>
-                <a aria-label="go to themeselection Documentation" href=""
-                  target="_blank" rel='noreferrer' className="footer-link me-4">Documentation</a>
-                <a aria-label="go to themeselection Support" href="" target="_blank" rel='noreferrer'
-                  className="footer-link">Support</a>
+                <a aria-label="Link to About the Department" href="https://www.calambacity.gov.ph/Users/DepartmentHome/City_planning_and_development_office" target="_blank" rel='noreferrer' className="footer-link fw-medium">City Planning and Development Office <span style={{color: 'rgb(105, 108, 255)'}}>Information and Communication Technology</span></a>
               </div>
             </div>
           </footer>

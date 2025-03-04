@@ -1,5 +1,5 @@
 import Card from "../../../../components/user/Card"
-import StallAppointmentsTable from "../../../../components/user/Appointments/StallTable";
+import StallAppointmentsTable from "../../../../components/user/StallAppointments/AppointmentTable";
 import searchFilters from "../../../../utils/SearchFilterData";
 import { useData } from "../../../../hooks/useData";
 

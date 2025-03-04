@@ -1,6 +1,6 @@
 
 import useQuillEditor from '../../../hooks/useQuillEditor';
-export default function AddCategory() {
+export default function AddDiscover() {
 
     const quill = useQuillEditor();
 
@@ -8,34 +8,34 @@ export default function AddCategory() {
         <>
             <div className="container-xxl flex-grow-1 container-p-y">
                 <div className="app-ecommerce">
-                    {/* Add Category */}
+                    {/* Add Discover */}
                     <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-6 row-gap-4">
                         <div className="d-flex flex-column justify-content-center">
-                            <h4 className="mb-1">Add a new Category</h4>
-                            <p className="mb-0">Organize complaints efficiently with categorized submissions.</p>
+                            <h4 className="mb-1">Add a new Discover</h4>
+                            <p className="mb-0">create and publish announcements, events, or important updates that will be displayed in the Discover section.</p>
                         </div>
                     </div>
                     <div className="row">
                         {/* First column */}
                         <div className="col-12">
-                            {/* Category Information */}
+                            {/* Discover Information */}
                             <div className="card mb-6">
                                 <div className="card-header">
-                                    <h5 className="card-tile mb-0">Category information</h5>
+                                    <h5 className="card-tile mb-0">Discover information</h5>
                                 </div>
                                 <div className="card-body">
                                     <form>
                                         <div className="mb-6">
-                                            <label className="form-label" htmlFor="ecommerce-category-name">
+                                            <label className="form-label" htmlFor="ecommerce-Discover-name">
                                                 Title
                                             </label>
                                             <input
                                                 type="text"
                                                 className="form-control"
-                                                id="category"
-                                                placeholder="Category title"
-                                                name="categoryTitle"
-                                                aria-label="Category title"
+                                                id="Discover"
+                                                placeholder="Discover title"
+                                                name="DiscoverTitle"
+                                                aria-label="Discover title"
                                             />
                                         </div>
 
@@ -47,11 +47,33 @@ export default function AddCategory() {
                                                 <div ref={quill} />
                                             </div>
                                         </div>
+                                        
 
-                                        {/* Add Category Button Inside the Form */}
+                                        <div className="mb-6">
+                                            <label className="mb-1" htmlFor="ecommerce-Discover-name">
+                                                Publish Date and Time
+                                            </label>
+                                            <input className="form-control" type="datetime-local" id="html5-datetime-local-input"/>
+                                        </div>
+
+                                        <div className="mb-6">
+                                            <label className="mb-1" htmlFor="ecommerce-Discover-name">
+                                                End Date and Time
+                                            </label>
+                                            <input className="form-control" type="datetime-local" id="html5-datetime-local-input"/>
+                                        </div>
+
+                                        <div className="mb-6">
+                                            <label className="mb-1" htmlFor="ecommerce-Discover-name">
+                                                Background Image
+                                            </label>
+                                            <input className="form-control" type="file" id="formValidationFile" name="formValidationFile"></input>
+                                        </div>
+
+                                        {/* Add Discover Button Inside the Form */}
                                         <div className="d-flex align-content-center flex-wrap gap-4">
                                             <button type="submit" className="btn add-new tbl-btn-primary">
-                                                Add Category
+                                                Add Discover
                                             </button>
                                         </div>
                                     </form>

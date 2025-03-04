@@ -1,4 +1,4 @@
-import StallAppointmentsTable from "../../../../components/user/Appointments/StallTable";
+import StallAppointmentsTable from "../../../../components/user/StallAppointments/AppointmentTable";
 
 export default function ApprovedAppointmentsPage() {
 
