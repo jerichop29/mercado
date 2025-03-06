@@ -67,6 +67,14 @@ const useAddUserModel = (editData, onSubmitSuccess) => {
         const owner = owners.data.filter((o) =>
         o.Person_Id === person[0].Person_Id
         );
+        const stalls = await stallHandler.getStalls();
+
+        const stall = stalls.data.filter((s) =>
+        s.Owner_Id === owner[0].Owner_Id
+        );
+        for (const s of stall) {
+          await stallHandler.updateStallStatus(s.Stall_Id, { Status_Id: "1", Owner_Id: null });
+      }
         await stallHandler.updateStallStatus(formData.Stall_Id,{Status_Id:"4",Owner_Id:owner[0].Owner_Id}); 
       } 
 

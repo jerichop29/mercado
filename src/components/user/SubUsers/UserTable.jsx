@@ -22,6 +22,7 @@ const UserTable = ({ search }) => {
   }, 100);
   });
   const [editData, setEditData] = useState(null);
+  const [selectAll, setSelectAll] = useState(false);
   const [selectedUsers, setSelectedUsers] = useState([]);
 
 const handleRoleChange = (e) => {
@@ -87,6 +88,16 @@ const handleRoleChange = (e) => {
         await handleDelete(user); // Assuming handleDelete can take the entire user object
       }
       setSelectedUsers([]); // Clear selection after deletion
+    }
+  };
+
+  const handleSelectAllChange = (event) => {
+    const isChecked = event.target.checked;
+    setSelectAll(isChecked);
+    if (isChecked) {
+      setSelectedUsers(displayedUsers);
+    } else {
+      setSelectedUsers([]);
     }
   };
 
@@ -161,7 +172,13 @@ const handleRoleChange = (e) => {
                   <tr>
                     <th data-dt-column="0" className="control dt-orderable-none dtr-hidden" style={{ display: 'none' }}></th>
                     <th data-dt-column="1" className="dt-select dt-orderable-none">
-                      <input className="form-check-input" type="checkbox" aria-label="Select all rows" />
+                      <input 
+                        className="form-check-input" 
+                        type="checkbox" 
+                        aria-label="Select all rows" 
+                        checked={selectAll}
+                        onChange={handleSelectAllChange}
+                      />
                     </th>
                     <th data-dt-column="2" className="dt-orderable-asc dt-orderable-desc dt-ordering-desc">
                       <span className="dt-column-title" role="button">ID</span>
