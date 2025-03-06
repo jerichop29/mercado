@@ -1,7 +1,7 @@
 import Card from "../../../../components/user/Card"
 import ComplaintsTable from "../../../../components/user/Complaints/ComplaintsTable";
 import searchFilters from "../../../../utils/SearchFilterData";
-import CardStats from "../../../../utils/CardStatsData";
+import {CardStats} from "../../../../utils/CardStatsData";
 import { useData } from "../../../../hooks/useData";
 
 

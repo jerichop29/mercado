@@ -236,7 +236,7 @@ const { stall }=useData();
                         )}
 
                         <div className="mt-4">
-                            <button type="submit" className="btn btn-primary me-3">Submit</button>
+                            <button type="submit" className="btn tbl-btn-primary me-3">Submit</button>
                             <button 
                                 type="button" 
                                 className="btn btn-label-danger" 
