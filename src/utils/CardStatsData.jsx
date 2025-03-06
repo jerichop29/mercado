@@ -75,39 +75,13 @@ export const CardStats = () => {
             { title: "New Tenants", count: newTenants, percentage: `${((newTenants / totalTenants) * 100).toFixed(0)}%`, description: "number of new tenants this year", icon: "fa-solid fa-user-plus" },
             { title: "Long term Tenants", count: longTermTenants, percentage: `${((longTermTenants / totalTenants) * 100).toFixed(0)}%`, description: "number of old tenants", icon: "bi bi-person-heart" },
         ],
-        stallAppointmentStats: [
-            {
-                title: "Stall Appointments",
-                count: 0,
-                percentage: "0%",
-                description: "Total Appointments",
-                icon: "fa-solid fa-calendar-check",
-                bgColor: "bg-label-info"
-            }
-        ],
         stallStats: [
             { title: "Occupied Stalls", count: occupiedStalls, percentage: `${((occupiedStalls / totalStalls) * 100).toFixed(2)}%`, description: "number of stalls of building 1", icon: "bx bx-lock-alt" },
             { title: "Reserved Stalls", count: reservedStalls, percentage: `${((reservedStalls / totalStalls) * 100).toFixed(2)}%`, description: "number of stalls of building 2", icon: "fa-solid fa-hourglass-half" },
             { title: "Available Stalls", count: availableStalls, percentage: `${((availableStalls / totalStalls) * 100).toFixed(2)}%`, description: "number of stalls of building 3", icon: "bx bx-door-open" },
             { title: "Unavailable", count: unavailableStalls, percentage: `${((unavailableStalls / totalStalls) * 100).toFixed(2)}%`, description: "Total Tenants", icon: "bx bx-x" },
         ],
-        facilityAppointmentStats: [
-            {
-                title: "Facility Bookings",
-                count: 0,
-                percentage: "0%",
-                description: "Total Bookings",
-                icon: "fa-solid fa-building",
-                bgColor: "bg-label-warning"
-            }
-        ],
         stallAppointmentStats: [
-            { title: "New", count: 20, description: "new appointments this week", icon: "bi bi-calendar3" },
-            { title: "Approved", count: 20, description: "Approved Appointments", icon: "bx bx-check-circle" },
-            { title: "Cancelled", count: 20, description: "Cancelled Appointments", icon: "bx bx-x-circle" },
-            { title: "Request", count: 500, description: "Request Appointments", icon: "bx bx-calendar-check" },
-        ],
-        facilityAppointmentStats: [
             { title: "New", count: 20, description: "new appointments this week", icon: "bi bi-calendar3" },
             { title: "Approved", count: 20, description: "Approved Appointments", icon: "bx bx-check-circle" },
             { title: "Cancelled", count: 20, description: "Cancelled Appointments", icon: "bx bx-x-circle" },

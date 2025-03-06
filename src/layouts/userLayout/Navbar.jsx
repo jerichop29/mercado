@@ -9,6 +9,7 @@ const Navbar = () => {
     window.location.reload(); 
   };
 
+  
   return (
     <nav
       className="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
@@ -51,15 +52,9 @@ const Navbar = () => {
                 <div className="dropdown-divider"></div>
               </li>
               <li>
-                <a aria-label='go to profile' className="dropdown-item" href="#">
+              <a className="dropdown-item" onClick={() => navigate('/user/my-profile')} style={{ cursor: "pointer" }}>
                   <i className="bx bx-user me-2"></i>
                   <span className="align-middle">My Profile</span>
-                </a>
-              </li>
-              <li>
-                <a aria-label='go to setting' className="dropdown-item" href="#">
-                  <i className="bx bx-cog me-2"></i>
-                  <span className="align-middle">Settings</span>
                 </a>
               </li>
               <li>

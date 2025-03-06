@@ -42,17 +42,6 @@ const searchFilters = {
             ]
         }
     ],
-        stalls: [
-        {
-            title: "Select Stalls Status",
-            options: [
-                { label: "Occupied", value: "Occupied" },
-                { label: "Reserved", value: "Reserved" },
-                { label: "Available", value: "Available" },
-                { label: "Unavailable", value: "Unavailable" },
-            ]
-        }
-    ],
     category: [
         {
             title: "Select Stalls Status",
