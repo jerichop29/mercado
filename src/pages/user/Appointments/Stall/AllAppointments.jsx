@@ -1,10 +1,11 @@
 import Card from "../../../../components/user/Card"
-import StallAppointmentsTable from "../../../../components/user/Appointments/StallTable";
+import StallAppointmentsTable from "../../../../components/user/StallAppointments/AppointmentTable";
 import searchFilters from "../../../../utils/SearchFilterData";
+import {CardStats} from "../../../../utils/CardStatsData";
 import { CardStats } from "../../../../utils/CardStatsData";
 
 export default function StallAllAppointmentsPage() {
-
+  
   const { stallAppointmentStats } = CardStats();
 
   const StallAppointments = [

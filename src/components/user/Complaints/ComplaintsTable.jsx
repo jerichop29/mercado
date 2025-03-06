@@ -1,24 +1,28 @@
-export default function FacilityAppointmentsTable({ FacilityAppointments, search }) {
+import { useLocation } from "react-router-dom";
+
+export default function ComplaintsTable({ Complaints }) {
+    const location = useLocation();
+
+    const getTitle = () => {
+        switch (location.pathname) {
+            case "/user/closed-complaints":
+                return "Closed Complaints";
+            case "/user/in-process-complaints":
+                return "In Process Complaints";
+            case "/user/not-process-complaints":
+                return "Not Process Complaints";
+            default:
+                return null; // No title for other paths
+        }
+    };
+
+    const title = getTitle();
     return (
         <>
             <div className="card">
                 <div className="card-header border-bottom">
-                    <h5 className="card-title mb-0">Search Filters</h5>
-                    <div className="d-flex justify-content-flex-start align-items-center row pt-4 gap-md-0 g-6">
-                        {/* Loop through search filters */}
-                        {search.map((filter, index) => (
-                            <div key={index} className="col-md-4 user_role">
-                                <select id={`filter-${index}`} className="form-select text-capitalize">
-                                    <option value="">{filter.title}</option>
-                                    {filter.options.map((option, idx) => (
-                                        <option key={idx} value={option.value}>{option.label}</option>
-                                    ))}
-                                </select>
-                            </div>
-                        ))}
-                    </div>
+                    {title && <h5 className="card-title mb-0">{title}</h5>}
                 </div>
-
                 <div className="card-datatable">
                     <div id="DataTables_Table_0_wrapper" className="dt-container dt-bootstrap5 dt-empty-footer">
                         <div className="row mx-3 my-0 justify-content-between">
@@ -45,16 +49,14 @@ export default function FacilityAppointmentsTable({ FacilityAppointments, search
                             <div className="d-md-flex justify-content-between align-items-center dt-layout-full table-responsive">
                                 <table className="datatables-users table border-top dataTable dtr-column collapsed" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" style={{ width: '100%' }}>
                                     <colgroup>
-                                        <col data-dt-column="1" style={{ width: '10px' }} />
-                                        <col data-dt-column="2" style={{ width: '0px' }} />
-                                        <col data-dt-column="3" style={{ width: '50px' }} />
-                                        <col data-dt-column="4" style={{ width: '100px' }} />
-                                        <col data-dt-column="5" style={{ width: '200px' }} />
-                                        <col data-dt-column="6" style={{ width: '250px' }} />
-                                        <col data-dt-column="7" style={{ width: '150px' }} />
-                                        <col data-dt-column="8" style={{ width: '140px' }} />
-                                        <col data-dt-column="9" style={{ width: '150px' }} />
-                                        <col data-dt-column="10" style={{ width: '150px' }} />
+                                        <col data-dt-column="1" style={{ width: '50px' }} />
+                                        <col data-dt-column="2" style={{ width: '50px' }} />
+                                        <col data-dt-column="3" style={{ width: '150px' }} />
+                                        <col data-dt-column="4" style={{ width: '200px' }} />
+                                        <col data-dt-column="5" style={{ width: '150px' }} />
+                                        <col data-dt-column="6" style={{ width: '200px' }} />
+                                        <col data-dt-column="7" style={{ width: '100px' }} />
+                                        <col data-dt-column="8" style={{ width: '150px' }} />
                                     </colgroup>
                                     <thead>
                                         <tr>
@@ -65,76 +67,71 @@ export default function FacilityAppointmentsTable({ FacilityAppointments, search
                                             <th data-dt-column="2" className="dt-orderable-asc dt-orderable-desc dt-ordering-desc">
                                                 <span className="dt-column-title" role="button">ID</span>
                                             </th>
+                                            <th data-dt-column="6" className="dt-orderable-asc dt-orderable-desc">
+                                                <span className="dt-column-title" role="button">Complainant</span>
+                                            </th>
                                             <th data-dt-column="3" className="dt-orderable-asc dt-orderable-desc">
-                                                <span className="dt-column-title" role="button">Full Name</span>
+                                                <span className="dt-column-title" role="button">Category</span>
                                             </th>
                                             <th data-dt-column="4" className="dt-orderable-asc dt-orderable-desc">
-                                                <span className="dt-column-title" role="button">Email</span>
+                                                <span className="dt-column-title" role="button">Sub-Category</span>
                                             </th>
                                             <th data-dt-column="5" className="dt-orderable-asc dt-orderable-desc">
-                                                <span className="dt-column-title" role="button">Contact</span>
+                                                <span className="dt-column-title" role="button">Message</span>
                                             </th>
-                                            <th data-dt-column="6" className="dt-orderable-asc dt-orderable-desc">
-                                                <span className="dt-column-title" role="button">Proof of Identification</span>
+                                            <th data-dt-column="5" className="dt-orderable-asc dt-orderable-desc">
+                                                <span className="dt-column-title" role="button">Image Optional</span>
                                             </th>
                                             <th data-dt-column="7" className="dt-orderable-asc dt-orderable-desc">
-                                                <span className="dt-column-title" role="button">Reservation Start Request</span>
-                                            </th>
-                                            <th data-dt-column="8" className="dt-orderable-asc dt-orderable-desc">
-                                                <span className="dt-column-title" role="button">Reservation Due Request</span>
-                                            </th>
-                                            <th data-dt-column="9" className="dt-orderable-asc dt-orderable-desc">
                                                 <span className="dt-column-title" role="button">Status</span>
                                             </th>
-                                            <th data-dt-column="10" className="dt-orderable-none">
+                                            <th data-dt-column="8" className="dt-orderable-none">
                                                 <span className="dt-column-title">Actions</span>
                                             </th>
                                         </tr>
                                     </thead>
 
                                     <tbody>
-                                        {FacilityAppointments && FacilityAppointments.map((FacilityAppointments, index) => (
+                                        {Complaints && Complaints.map((Complaints, index) => (
                                             <tr key={index}>
                                                 <td className="control dtr-hidden" tabIndex="0" style={{ display: 'none' }}></td>
                                                 <td className="dt-select">
                                                     <input aria-label="Select row" className="form-check-input" type="checkbox" />
                                                 </td>
                                                 <td>
-                                                    <span className="fw-medium">{FacilityAppointments.id}</span>
+                                                    <span className="fw-medium">{Complaints.id}</span>
                                                 </td>
                                                 <td>
                                                     <span className="fw-medium">
-                                                        {FacilityAppointments.fullName}
+                                                        <i className="icon-base bi bi-person-fill-exclamation text-primary me-2"></i>{Complaints.complainant}
                                                     </span>
                                                 </td>
                                                 <td>
                                                     <span className="fw-medium">
-                                                        {FacilityAppointments.email}
+                                                        <i className="icon-base bx bx-category text-warning me-2"></i>{Complaints.category}
                                                     </span>
                                                 </td>
                                                 <td>
                                                     <span className="fw-medium">
-                                                        <i className="icon-base bx bx-phone-call text-success me-2"></i>{FacilityAppointments.contact}
+                                                        <i className="icon-base bx bx-category-alt text-danger me-2"></i>{Complaints.subCategory}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span className="fw-medium">
+                                                        <i className="icon-base bx bxs-message text-info me-2"></i>{Complaints.message}
                                                     </span>
                                                 </td>
                                                 <td>
                                                     <div className="fw-medium">
-                                                        <img src={FacilityAppointments.proofOfIdentity} alt="Proof of Identity" width="150" height="100" />
+                                                        <img src={Complaints.image} alt="error image" width="150" height="100" />
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <span className="text-truncate d-flex align-items-center text-heading">
-                                                        <i className="icon-base bi bi-calendar-check-fill text-success me-2"></i>{FacilityAppointments.reservationStartRequest}
-                                                    </span>
-                                                </td>
-                                                <td>
-                                                    <span className="text-truncate d-flex align-items-center text-heading">
-                                                        <i className="icon-base bi bi-calendar-x text-danger me-2"></i>{FacilityAppointments.reservationDueRequest}
-                                                    </span>
-                                                </td>
-                                                <td>
-                                                    <span className={`badge ${FacilityAppointments.status === 'Approved' ? 'bg-label-success' : FacilityAppointments.status === 'Cancelled' ? 'bg-label-danger' : 'bg-label-primary'}`}>
-                                                        {FacilityAppointments.status}
+                                                    <span className={`badge ${Complaints.status === 'Closed' ? 'bg-label-success' :
+                                                            Complaints.status === 'In-Process' ? 'bg-label-warning' :
+                                                                'bg-label-danger'
+                                                        }`}>
+                                                        {Complaints.status}
                                                     </span>
                                                 </td>
 
@@ -165,7 +162,7 @@ export default function FacilityAppointmentsTable({ FacilityAppointments, search
                         <div className="row mx-3 justify-content-between">
                             <div className="d-md-flex justify-content-between align-items-center dt-layout-start col-md-auto me-auto mt-0">
                                 <div className="dt-info" aria-live="polite" id="DataTables_Table_0_info" role="status">
-                                    Showing 1 to 10 of {FacilityAppointments.length} entries
+                                    Showing 1 to 10 of {Complaints.length} entries
                                 </div>
                             </div>
                             <div className="d-md-flex align-items-center dt-layout-end col-md-auto ms-auto d-flex gap-md-4 justify-content-md-between justify-content-center gap-4 flex-wrap mt-0">

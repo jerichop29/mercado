@@ -22,7 +22,6 @@
             }
         ]
     },
-
     {
         "header": "Properties",
         "items": [
@@ -31,16 +30,9 @@
                 "icon": "bx bx-store",
                 "available": true,
                 "link": "/user/manage-stalls"
-            },
-            {
-                "text": "Manage Facilities",
-                "icon": "bx bx-building",
-                "available": true,
-                "link": "/user/manage-facilities"
             }
         ]
     },
-
     {
         "header": "Appointments",
         "items": [
@@ -50,33 +42,32 @@
                 "available": true,
                 "link": "",
                 "submenu": [
-                        {
-                            "text": "All Appointments",
-                            "icon": "bi bi-calendar3",
-                            "available": true,
-                            "link": "/user/stall-all-appointments"
-                        },
-                        {
-                            "text": "Approved Appointment",
-                            "icon": "bx bx-check-circle",
-                            "available": true,
-                            "link": "/user/stall-approved-appointment"
-                        },
-                        {
-                            "text": "Cancelled Appointment",
-                            "icon": "bx bx-x-circle",
-                            "available": true,
-                            "link": "/user/stall-cancelled-appointment"
-                        },
-                        {
-                            "text": "Request Appointment",
-                            "icon": "bx bx-calendar-check",
-                            "available": true,
-                            "link": "/user/stall-request-appointment"
-                        }
+                    {
+                        "text": "All Appointments",
+                        "icon": "bi bi-calendar3",
+                        "available": true,
+                        "link": "/user/stall-all-appointments"
+                    },
+                    {
+                        "text": "Approved Appointment",
+                        "icon": "bx bx-check-circle",
+                        "available": true,
+                        "link": "/user/stall-approved-appointment"
+                    },
+                    {
+                        "text": "Cancelled Appointment",
+                        "icon": "bx bx-x-circle",
+                        "available": true,
+                        "link": "/user/stall-cancelled-appointment"
+                    },
+                    {
+                        "text": "Request Appointment",
+                        "icon": "bx bx-calendar-check",
+                        "available": true,
+                        "link": "/user/stall-request-appointment"
+                    }
                 ]
             }
-            
         ]
     },
     {
@@ -88,30 +79,30 @@
                 "available": true,
                 "link": "",
                 "submenu": [
-                        {
-                            "text": "Closed Complaints",
-                            "icon": "bx bx-lock",
-                            "available": true,
-                            "link": "/user/closed-complaints"
-                        },
-                        {
-                            "text": "In Process Complaints",
-                            "icon": "bx bx-loader-circle",
-                            "available": true,
-                            "link": "/user/in-process-complaints"
-                        },
-                        {
-                            "text": "Not Forwarded Complaints",
-                            "icon": "bx bx-block",
-                            "available": true,
-                            "link": "/user/not-forwarded-complaints"
-                        },
-                        {
-                            "text": "Not Processed Complaints",
-                            "icon": "bx bx-time",
-                            "available": true,
-                            "link": "/user/not-process-complaints"
-                        }
+                    {
+                        "text": "All Complaints",
+                        "icon": "bx bx-alarm-exclamation",
+                        "available": true,
+                        "link": "/user/all-complaints"
+                    },
+                    {
+                        "text": "Closed Complaints",
+                        "icon": "bx bx-lock",
+                        "available": true,
+                        "link": "/user/closed-complaints"
+                    },
+                    {
+                        "text": "In Process Complaints",
+                        "icon": "bx bx-loader-circle",
+                        "available": true,
+                        "link": "/user/in-process-complaints"
+                    },
+                    {
+                        "text": "Not Processed Complaints",
+                        "icon": "bx bx-time",
+                        "available": true,
+                        "link": "/user/not-process-complaints"
+                    }
                 ]
             },
             {
@@ -120,18 +111,18 @@
                 "available": true,
                 "link": "",
                 "submenu": [
-                        {
-                            "text": "Add Category",
-                            "icon": "bx bx-book-add",
-                            "available": true,
-                            "link": "/user/add-category"
-                        },
-                        {
-                            "text": "Manage Category",
-                            "icon": "bx bx-cog",
-                            "available": true,
-                            "link": "/user/manage-category"
-                        }
+                    {
+                        "text": "Add Category",
+                        "icon": "bx bx-book-add",
+                        "available": true,
+                        "link": "/user/add-category"
+                    },
+                    {
+                        "text": "Manage Category",
+                        "icon": "bx bx-cog",
+                        "available": true,
+                        "link": "/user/manage-category"
+                    }
                 ]
             },
             {
@@ -140,20 +131,20 @@
                 "available": true,
                 "link": "",
                 "submenu": [
-                        {
-                            "text": "Add Sub-Category",
-                            "icon": "bx bx-duplicate",
-                            "available": true,
-                            "link": "/user/add-sub-category"
-                        },
-                        {
-                            "text": "Manage Sub-Category",
-                            "icon": "fa-solid fa-list-check",
-                            "available": true,
-                            "link": "/user/manage-sub-category"
-                        }
+                    {
+                        "text": "Add Sub-Category",
+                        "icon": "bx bx-duplicate",
+                        "available": true,
+                        "link": "/user/add-sub-category"
+                    },
+                    {
+                        "text": "Manage Sub-Category",
+                        "icon": "fa-solid fa-list-check",
+                        "available": true,
+                        "link": "/user/manage-sub-category"
+                    }
                 ]
-            }                              
+            }
         ]
     },
     {

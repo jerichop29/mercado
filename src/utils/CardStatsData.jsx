@@ -1,6 +1,8 @@
 import {useData} from '../hooks/useData';
 
 export const CardStats = () => {
+    const { admin, owner, tenant, stall } = useData();
+
     const {admin, owner, tenant, stall} = useData();
 
     // Calculate user stats
@@ -62,48 +64,29 @@ const uniqueTenantsByStall = [...new Set(tenant.map(t => t.Stall_Id))].length ||
                 description: "Total Owners",
                 icon: "fa-solid fa-user-tie",
                 bgColor: "bg-label-danger"
-            }, {
-                title: "Admin",
-                count: totalAdmins,
-                percentage: `${adminPercentage}%`,
-                description: "Total Admins",
+            },
+            { 
+                title: "Admin", 
+                count: totalAdmins, 
+                percentage: `${adminPercentage}%`, 
+                description: "Total Admins", 
                 icon: "fa-solid fa-users-gear",
                 bgColor: "bg-label-success"
-            }, {
+            },
+            {
                 title: "Super Admin",
                 count: 1,
-                percentage: `${ (1 / totalUsers * 100).toFixed(0)}%`,
+                percentage: `${(1 / totalUsers * 100).toFixed(0)}%`,
                 description: "Total Super-Admin",
                 icon: "fa-solid fa-user-secret",
                 bgColor: "bg-label-warning"
             }
         ],
         tenantStats: [
-            {
-                title: "Total",
-                count: totalTenants,
-                percentage: "100%",
-                description: "Total Tenants",
-                icon: "fa-solid fa-users"
-            }, {
-                title: "Stalls",
-                count: uniqueTenantsByStall,
-                percentage: stallOccupancyRate,
-                description: "number of stalls with tenants",
-                icon: "fa-solid fa-store"
-            }, {
-                title: "New Tenants",
-                count: newTenants,
-                percentage: `${ ((newTenants / totalTenants) * 100).toFixed(0)}%`,
-                description: "number of new tenants this year",
-                icon: "fa-solid fa-user-plus"
-            }, {
-                title: "Long term Tenants",
-                count: longTermTenants,
-                percentage: `${ ((longTermTenants / totalTenants) * 100).toFixed(0)}%`,
-                description: "number of old tenants",
-                icon: "bi bi-person-heart"
-            }
+            { title: "Total", count: totalTenants, percentage: "100%", description: "Total Tenants", icon: "fa-solid fa-users"},
+            { title: "Stalls", count: totalStalls, percentage: stallOccupancyRate, description: "number of stalls with tenants", icon: "fa-solid fa-store" },
+            { title: "New Tenants", count: newTenants, percentage: `${((newTenants/totalTenants)*100).toFixed(0)}%`, description: "number of new tenants this year", icon: "fa-solid fa-user-plus" },
+            { title: "Long term Tenants", count: longTermTenants, percentage: `${((longTermTenants/totalTenants)*100).toFixed(0)}%`, description: "number of old tenants", icon: "bi bi-person-heart" },
         ],
         stallAppointmentStats: [
             {
@@ -116,31 +99,10 @@ const uniqueTenantsByStall = [...new Set(tenant.map(t => t.Stall_Id))].length ||
             }
         ],
         stallStats: [
-            {
-                title: "Occupied Stalls",
-                count: occupiedStalls,
-                percentage: `${ ((occupiedStalls / totalStalls) * 100).toFixed(2)}%`,
-                description: "number of stalls of building 1",
-                icon: "bx bx-lock-alt"
-            }, {
-                title: "Reserved Stalls",
-                count: reservedStalls,
-                percentage: `${ ((reservedStalls / totalStalls) * 100).toFixed(2)}%`,
-                description: "number of stalls of building 2",
-                icon: "fa-solid fa-hourglass-half"
-            }, {
-                title: "Available Stalls",
-                count: availableStalls,
-                percentage: `${ ((availableStalls / totalStalls) * 100).toFixed(2)}%`,
-                description: "number of stalls of building 3",
-                icon: "bx bx-door-open"
-            }, {
-                title: "Unavailable",
-                count: unavailableStalls,
-                percentage: `${ ((unavailableStalls / totalStalls) * 100).toFixed(2)}%`,
-                description: "Total Tenants",
-                icon: "bx bx-x"
-            }
+            { title: "Occupied Stalls", count: occupiedStalls, percentage: `${((occupiedStalls / totalStalls) * 100).toFixed(2)}%`, description: "number of stalls of building 1", icon: "bx bx-lock-alt" },
+            { title: "Reserved Stalls", count: reservedStalls, percentage: `${((reservedStalls / totalStalls) * 100).toFixed(2)}%`, description: "number of stalls of building 2", icon: "fa-solid fa-hourglass-half" },
+            { title: "Available Stalls", count: availableStalls, percentage: `${((availableStalls / totalStalls) * 100).toFixed(2)}%`, description: "number of stalls of building 3", icon: "bx bx-door-open" },
+            { title: "Unavailable", count: unavailableStalls, percentage: `${((unavailableStalls / totalStalls) * 100).toFixed(2)}%`, description: "Total Tenants", icon: "bx bx-x" },
         ],
         facilityAppointmentStats: [
             {

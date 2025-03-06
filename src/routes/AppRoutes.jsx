@@ -44,10 +44,10 @@ import AddSubCategoryPage from "../pages/user/Complaints/SubCategory/AddSubCateg
 import ManageSubCategoryPage from "../pages/user/Complaints/SubCategory/ManageSubCategory"
 import ClosedComplaintsPage from "../pages/user/Complaints/ManageComplaints/ClosedComplaints";
 import InProcessComplaintsPage from "../pages/user/Complaints/ManageComplaints/InProcessComplaints";
-import NotForwardedComplaintsPage from "../pages/user/Complaints/ManageComplaints/NotForwardedComplaints";
+import AllComplaintsPage from "../pages/user/Complaints/ManageComplaints/AllComplaints";
 import NotProcessComplaintsPage from "../pages/user/Complaints/ManageComplaints/NotProcessComplaints";
 import ManageStallsPage from "../pages/user/ManageStalls";
-import ManageFacilitiesPage from "../pages/user/ManageFacilities";
+
 import AddDiscoverPage from "../pages/user/Discover/AddDiscover";
 import ManageDiscoverPage from "../pages/user/Discover/ManageDiscover";
 import ReportPage from "../pages/user/Report/Report";
@@ -110,10 +110,9 @@ const AppRoutes = () => {
               <Route path="manage-sub-category" element={renderPage(ManageSubCategoryPage)} />
               <Route path="closed-complaints" element={renderPage(ClosedComplaintsPage)} />
               <Route path="in-process-complaints" element={renderPage(InProcessComplaintsPage)} />
-              <Route path="not-forwarded-complaints" element={renderPage(NotForwardedComplaintsPage)} />
+              <Route path="all-complaints" element={renderPage(AllComplaintsPage)} />
               <Route path="not-process-complaints" element={renderPage(NotProcessComplaintsPage)} />
               <Route path="manage-stalls" element={renderPage(ManageStallsPage)} />
-              <Route path="manage-facilities" element={renderPage(ManageFacilitiesPage)} />
               <Route path="add-discover" element={renderPage(AddDiscoverPage)} />
               <Route path="manage-discover" element={renderPage(ManageDiscoverPage)} />
               <Route path="Report" element={renderPage(ReportPage)} />

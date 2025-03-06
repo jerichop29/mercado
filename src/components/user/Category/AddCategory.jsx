@@ -1,34 +1,8 @@
-import React, { useEffect, useRef } from 'react';
-import Quill from 'quill';
-import 'quill/dist/quill.snow.css'; // Import Quill's styles
 
+import useQuillEditor from '../../../hooks/useQuillEditor';
 export default function AddCategory() {
-    const quillRef = useRef(null);
 
-    useEffect(() => {
-        if (quillRef.current && !quillRef.current.quill) {
-            // Initialize Quill only once
-            const quill = new Quill(quillRef.current, {
-                theme: 'snow',
-                modules: {
-                    toolbar: [
-                        ['bold', 'italic', 'underline'],
-                        [{ list: 'ordered' }, { list: 'bullet' }],
-                        ['link', 'image'],
-                    ],
-                },
-                placeholder: 'Category Description',
-            });
-
-            // Store the Quill instance in the ref for future access
-            quillRef.current.quill = quill;
-
-            // Optionally, handle changes in the editor
-            quill.on('text-change', () => {
-                console.log(quill.root.innerHTML);
-            });
-        }
-    }, []);
+    const quill = useQuillEditor();
 
     return (
         <>
@@ -70,7 +44,7 @@ export default function AddCategory() {
                                             <label className="mb-1">Description (Optional)</label>
                                             <div className="form-control p-0">
                                                 {/* Quill Editor Container */}
-                                                <div ref={quillRef} />
+                                                <div ref={quill} />
                                             </div>
                                         </div>
 

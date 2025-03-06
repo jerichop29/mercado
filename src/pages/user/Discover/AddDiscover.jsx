@@ -1,7 +1,9 @@
+import AddDiscover from "../../../components/user/Discover/AddDiscover"
+
 export default function AddDiscoverPage(){
     return(
         <>
-        Add Discover Page
+            <AddDiscover />
         </>
     )
 }
