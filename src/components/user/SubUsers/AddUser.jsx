@@ -1,6 +1,6 @@
 import Select from 'react-select';
 import { useState } from "react";
-import useAddUserModel from "../../../../backend/src/forms/templates/addUserModel";
+import useAddUserModel from "../../../../backend/src/forms/templates/User/addUserModel";
 import { useData } from "../../../hooks/useData";
 export default function AddUser({ onClose, onSubmitSuccess ,edit}) {
 const {stall}=useData("","");

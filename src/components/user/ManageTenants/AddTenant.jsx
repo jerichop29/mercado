@@ -1,35 +1,38 @@
 import React, { useState } from 'react';
 import Select from 'react-select';
 import { useData } from '../../../hooks/useData';
-export default function AddTenant() {
+import useAddTenantModel from '../../../../backend/src/forms/templates/Tenants/addTenantModel';
+export default function AddTenant( onClose, onSubmitSuccess ,edit) {
     // State for managing selected stall
     const [selectedStall, setSelectedStall] = useState(null);
-    const [selectedBuilding,setSelectedBuilding] = useState('');
-    const {stall}=useData("","");
-    // Stall options for the dropdown
+    const [selectedBuilding, setSelectedBuilding] = useState('');
+    const { stall } = useData("", "");
+
+    // Handle building selection
+    const handleSelectedBuilding = (selectedBuilding) => {
+        setSelectedBuilding(selectedBuilding);
+    };
+
+    // Stall options for the dropdown, filtered by selected building
     const stallOptions = stall
-        .filter(s => s.Status === "Occupied" &&( !selectedBuilding || s.BuildingName === selectedBuilding))
+        .filter(s => s.Status === "Occupied" && (!selectedBuilding || s.BuildingName === selectedBuilding))
         .map((s) => ({
             value: s.Stall_Id,
             label: s.StallCode
         }));
-        console.log(stallOptions)
-    const handleSelectedBuilding = (selectedBuilding) => {
-        console.log(selectedBuilding)
-        setSelectedBuilding(selectedBuilding);
-    }
+
     // Handle stall selection or input change
     const handleStallChange = (selectedOption) => {
         setSelectedStall(selectedOption);
     };
 
-    // Handle form submission
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // You can add logic to handle form submission here
-        console.log("Form submitted");
-    };
-
+    const { formData,
+        message,
+        handleChange,
+        handleSubmit,
+        setFormData,
+        setMessage,
+        resetForm } = useAddTenantModel(edit, onSubmitSuccess);
     return (
         <>
             <div className="offcanvas offcanvas-end" tabIndex="-1" id="offcanvasAddUser" aria-labelledby="offcanvasAddUserLabel">
@@ -38,7 +41,6 @@ export default function AddTenant() {
                     <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
                 <div className="offcanvas-body mx-0 flex-grow-0 p-6 h-100">
-                    {/* Single form wrapping all the input elements */}
                     <form className="add-new-user pt-0 fv-plugins-bootstrap5 fv-plugins-framework" id="addNewUserForm" onSubmit={handleSubmit} noValidate="novalidate">
                         <div className="mb-6 form-control-validation fv-plugins-icon-container">
                             <label className="form-label" htmlFor="add-user-fullname">First Name</label>
@@ -58,7 +60,7 @@ export default function AddTenant() {
                         </div>
                         <div className="mb-6">
                             <label className="form-label" htmlFor="add-user-contact">Contact</label>
-                            <input type="text" id="add-user-contact" className="form-control phone-mask" placeholder="+1 (609) 988-44-11" aria-label="Contact" name="userContact" />
+                            <input type="text" id="add-user-contact" maxLength={11} minLength={11} pattern="^(09\d{9}|\+63\s9\d{8}|9\d{9})$" className="form-control phone-mask" placeholder="09884411221" aria-label="Contact" name="userContact" />
                         </div>
                         <div className="mb-6">
                             <label className="form-label" htmlFor="user-role">Sex</label>
@@ -72,8 +74,12 @@ export default function AddTenant() {
                             <input type="text" id="add-tenant-address" className="form-control" placeholder="Address" aria-label="Address" name="address" />
                         </div>
                         <div className="mb-6">
+                            <label className="form-label" htmlFor="add-tenant-marketfee">Market Fee</label>
+                            <input type="text" id="add-tenant-marketfee" className="form-control" placeholder="3000" aria-label="marketfee" name="marketfee" />
+                        </div>
+                        <div className="mb-6">
                             <label className="form-label" htmlFor="user-role">Building</label>
-                            <select id="user-role" className="form-select" onChange={(e)=>(handleSelectedBuilding(e.target.value))}>
+                            <select id="user-role" className="form-select" onChange={(e) => handleSelectedBuilding(e.target.value)}>
                                 <option value="">All Buildings</option>
                                 <option value="Building 1">Building 1</option>
                                 <option value="Building 2">Building 2</option>
@@ -94,10 +100,22 @@ export default function AddTenant() {
                                 isClearable
                                 isSearchable
                                 placeholder="Select or type a Stall"
-                                />
+                            />
                         </div>
-                        <button type="submit" className="btn btn-primary me-3 data-submit">Submit</button>
-                        <button type="reset" className="btn btn-label-danger" data-bs-dismiss="offcanvas">Cancel</button>
+                        <div className="mt-4">
+                            <button type="submit" className="btn btn-primary me-3">Submit</button>
+                            <button 
+                                type="button" 
+                                className="btn btn-label-danger" 
+                                data-bs-dismiss="offcanvas" 
+                                onClick={() => {
+                                    resetForm();
+                                    if (onClose) onClose();
+                                }}
+                            >
+                                Cancel
+                            </button>
+                        </div>
                     </form>
                 </div>
             </div>

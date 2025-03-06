@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
-import PersonHandler from '../../handler/js/PersonHandler';
-import PersonValidator from '../validators/personValidator';
-import OwnerHandler from '../../handler/js/OwnerHandler';
-import AdminHandler from '../../handler/js/AdminHandler';
-import stallHandler from '../../handler/js/stallHandler';
-
+import PersonHandler from '../../../handler/js/PersonHandler';
+import PersonValidator from '../../validators/personValidator';
+import OwnerHandler from '../../../handler/js/OwnerHandler';
+import AdminHandler from '../../../handler/js/AdminHandler';
+import stallHandler from '../../../handler/js/stallHandler';
 const useAddUserModel = (editData, onSubmitSuccess) => {
   const initialFormState = {
     FName: "",
@@ -91,7 +90,6 @@ const useAddUserModel = (editData, onSubmitSuccess) => {
           p.LName === formData.LName &&
           p.Email === formData.Email
         );
-        console.log (person[0].Person_Id)
         if (person) {
           // Generate username from name parts
           const username = `${formData.FName.toLowerCase()}_${formData.LName.toLowerCase()}`;
