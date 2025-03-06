@@ -40,9 +40,9 @@ class TenantFunctions {
 
     // Add new tenant
     public function addTenant($data) {
-        $sql = "INSERT INTO tenanttbl (Person_Id, Stall_Id, `Market Fee`) VALUES (?, ?, ?)";
+        $sql = "INSERT INTO tenanttbl ( Date_Start, Owner_Id, Person_Id, Stall_Id, `Market Fee`) VALUES (?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("iid", $data['person_id'], $data['stall_id'], $data['market_fee']);
+        $stmt->bind_param("siiii",$data['Date_Start'], $data['Owner_Id'], $data['Person_Id'], $data['Stall_Id'], $data['Market_Fee']);
         
         if ($stmt->execute()) {
             return ["status" => "success", "message" => "Tenant added successfully"];

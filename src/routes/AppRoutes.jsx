@@ -95,8 +95,8 @@ const AppRoutes = () => {
             </Route>
 
             {/* User Layout Routes */}
-            <Route path="user" element={<ProtectedRoute><UserLayout /></ProtectedRoute>}>
-            {/* <Route path="user" element={<UserLayout />}> */}
+            {/* <Route path="user" element={<ProtectedRoute><UserLayout /></ProtectedRoute>}> */}
+            <Route path="user" element={<UserLayout />}>
               <Route path="dashboard" element={renderPage(DashboardPage)} />
               <Route path="manage-tenants" element={renderPage(ManageTenantsPage)} />
               <Route path="sub-users" element={renderPage(SubUsersPage)} />

@@ -3,7 +3,7 @@ import { useState } from "react";
 import useAddUserModel from "../../../../backend/src/forms/templates/User/addUserModel";
 import { useData } from "../../../hooks/useData";
 export default function AddUser({ onClose, onSubmitSuccess ,edit}) {
-const {stall}=useData("","");
+const { stall }=useData();
 
 // State for managing selected stall
    

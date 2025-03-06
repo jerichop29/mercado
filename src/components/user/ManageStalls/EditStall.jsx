@@ -58,6 +58,7 @@ const EditStall = ({ stall, onClose, onSubmitSuccess }) => {
                             value={formData.StallCode}
                             onChange={handleChange}
                             required
+                            readOnly
                         />
                     </div>
                     <div className="mb-3">

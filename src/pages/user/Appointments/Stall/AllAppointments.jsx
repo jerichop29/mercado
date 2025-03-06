@@ -1,10 +1,11 @@
 import Card from "../../../../components/user/Card"
 import StallAppointmentsTable from "../../../../components/user/Appointments/StallTable";
 import searchFilters from "../../../../utils/SearchFilterData";
-import { useData } from "../../../../hooks/useData";
-
+import { CardStats } from "../../../../utils/CardStatsData";
 
 export default function StallAllAppointmentsPage() {
+
+  const { stallAppointmentStats } = CardStats();
 
   const StallAppointments = [
     {
@@ -35,7 +36,7 @@ export default function StallAllAppointmentsPage() {
   return (
     <>
       <div className="row g-6 mb-6 justify-content-center">
-        {CardStats.stallAppointmentStats.map((stat, index) => (
+        {stallAppointmentStats.map((stat, index) => (
           <Card key={index} {...stat} />
         ))}
       </div>

@@ -2,16 +2,17 @@ import React, { useState } from 'react';
 import Select from 'react-select';
 import { useData } from '../../../hooks/useData';
 import useAddTenantModel from '../../../../backend/src/forms/templates/Tenants/addTenantModel';
-export default function AddTenant( onClose, onSubmitSuccess ,edit) {
+export default function AddTenant({ onClose, onSubmitSuccess, edit }) {
     // State for managing selected stall
     const [selectedStall, setSelectedStall] = useState(null);
     const [selectedBuilding, setSelectedBuilding] = useState('');
-    const { stall } = useData("", "");
-
+    const { stall } = useData();
+    const { formData, message, handleChange, handleSubmit, resetForm } = useAddTenantModel(edit, onSubmitSuccess);
     // Handle building selection
     const handleSelectedBuilding = (selectedBuilding) => {
         setSelectedBuilding(selectedBuilding);
     };
+    
 
     // Stall options for the dropdown, filtered by selected building
     const stallOptions = stall
@@ -21,18 +22,18 @@ export default function AddTenant( onClose, onSubmitSuccess ,edit) {
             label: s.StallCode
         }));
 
-    // Handle stall selection or input change
-    const handleStallChange = (selectedOption) => {
+     // Handle stall selection or input change
+     const handleStallChange = (selectedOption) => {
         setSelectedStall(selectedOption);
+        if (selectedOption) {
+            // Update formData with the selected stall ID
+            handleChange({ target: { name: 'Stall_Id', value: selectedOption.value } });
+        } else {
+            handleChange({ target: { name: 'Stall_Id', value: '' } });
+        }
     };
 
-    const { formData,
-        message,
-        handleChange,
-        handleSubmit,
-        setFormData,
-        setMessage,
-        resetForm } = useAddTenantModel(edit, onSubmitSuccess);
+
     return (
         <>
             <div className="offcanvas offcanvas-end" tabIndex="-1" id="offcanvasAddUser" aria-labelledby="offcanvasAddUserLabel">
@@ -44,38 +45,85 @@ export default function AddTenant( onClose, onSubmitSuccess ,edit) {
                     <form className="add-new-user pt-0 fv-plugins-bootstrap5 fv-plugins-framework" id="addNewUserForm" onSubmit={handleSubmit} noValidate="novalidate">
                         <div className="mb-6 form-control-validation fv-plugins-icon-container">
                             <label className="form-label" htmlFor="add-user-fullname">First Name</label>
-                            <input type="text" className="form-control" id="add-user-firstname" placeholder="First Name" name="userFullname" aria-label="First Name" />
+                            <input  type="text" 
+                                className="form-control"
+                                placeholder="First Name"
+                                id="add-user-fname" 
+                                name="FName" 
+                                value={formData.FName} 
+                                onChange={handleChange} 
+                                required />
                         </div>
                         <div className="mb-6 form-control-validation fv-plugins-icon-container">
                             <label className="form-label" htmlFor="add-user-middlename">Middle Name</label>
-                            <input type="text" className="form-control" id="add-user-middlename" placeholder="Middle Name" name="userFullname" aria-label="Middle Name" />
+                            <input 
+                                    type="text" 
+                                    className="form-control"
+                                    id="add-user-middlename"
+                                    placeholder="Middle Name"
+                                    name="MName"
+                                    onChange={handleChange} 
+                                    value={formData.MName} 
+                                    aria-label="Middle Name" 
+                                    required
+                                    />
                         </div>
                         <div className="mb-6 form-control-validation fv-plugins-icon-container">
                             <label className="form-label" htmlFor="add-user-lastname">Last Name</label>
-                            <input type="text" className="form-control" id="add-user-lastname" placeholder="Last Name" name="userFullname" aria-label="Last Name" />
+                            <input type="text" 
+                                   className="form-control" 
+                                   id="add-user-lastname" 
+                                   placeholder="Last Name" 
+                                   name="LName" 
+                                   onChange={handleChange} 
+                                   value={formData.LName} 
+                                   aria-label="Last Name" 
+                                   required
+                                   />
+                        </div>
+                        <div className="mb-6">
+                            <label className="form-label" htmlFor="add-user-birthdate">Birthdate</label>
+                            <input 
+                                type="date" 
+                                id="add-user-birthdate"     
+                                name="Birthdate" 
+                                className="form-control "
+                                value={formData.Birthdate} 
+                                onChange={handleChange} 
+                                required
+                            />
                         </div>
                         <div className="mb-6 form-control-validation fv-plugins-icon-container">
                             <label className="form-label" htmlFor="add-user-email">Email</label>
-                            <input type="text" id="add-user-email" className="form-control" placeholder="user@example.com" aria-label="User@example.com" name="userEmail" />
+                            <input type="text" id="add-user-email" className="form-control" placeholder="user@example.com" onChange={handleChange} value={formData.Email} aria-label="User@example.com" name="Email" />
                         </div>
                         <div className="mb-6">
                             <label className="form-label" htmlFor="add-user-contact">Contact</label>
-                            <input type="text" id="add-user-contact" maxLength={11} minLength={11} pattern="^(09\d{9}|\+63\s9\d{8}|9\d{9})$" className="form-control phone-mask" placeholder="09884411221" aria-label="Contact" name="userContact" />
+                            <input type="text" id="add-user-contact" maxLength={11} minLength={11} pattern="^(09\d{9}|\+63\s9\d{8}|9\d{9})$" onChange={handleChange} value={formData.Contact} className="form-control phone-mask" placeholder="09884411221" aria-label="Contact" name="Contact" />
                         </div>
                         <div className="mb-6">
-                            <label className="form-label" htmlFor="user-role">Sex</label>
-                            <select id="user-role" className="form-select">
-                                <option value="subscriber">Male</option>
-                                <option value="editor">Female</option>
+                            <label className="form-label" htmlFor="user-gender">Gender</label>
+                            <select 
+                                id="user-gender" 
+                                className="form-control"
+                                name="Gender" 
+                                value={formData.Gender} 
+                                onChange={handleChange}
+                                required
+                            >
+                                <option value="" disabled>Select Gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
                             </select>
                         </div>
                         <div className="mb-6">
-                            <label className="form-label" htmlFor="add-tenant-address">Address</label>
-                            <input type="text" id="add-tenant-address" className="form-control" placeholder="Address" aria-label="Address" name="address" />
+                            <label className="form-label" htmlFor="add-tenant-address" >Address</label>
+                            <input type="text" id="add-tenant-address" className="form-control" onChange={handleChange} value={formData.Address} placeholder="Address" aria-label="Address" name="Address" />
                         </div>
                         <div className="mb-6">
                             <label className="form-label" htmlFor="add-tenant-marketfee">Market Fee</label>
-                            <input type="text" id="add-tenant-marketfee" className="form-control" placeholder="3000" aria-label="marketfee" name="marketfee" />
+                            <input type="text" id="add-tenant-marketfee" className="form-control" onChange={handleChange} value={formData.Market_Fee} placeholder="3000" aria-label="marketfee" name="Market_Fee" />
                         </div>
                         <div className="mb-6">
                             <label className="form-label" htmlFor="user-role">Building</label>

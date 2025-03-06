@@ -1,8 +1,8 @@
-import { useData } from '../hooks/useData';
+import {useData} from '../hooks/useData';
 
 export const CardStats = () => {
-    const { admin, owner, tenant, stall } = useData();
-    
+    const {admin, owner, tenant, stall} = useData();
+
     // Calculate user stats
     const totalAdmins = admin.length || 0;
     const totalOwners = owner.length || 0;
@@ -28,52 +28,82 @@ export const CardStats = () => {
 
     // Calculate stall stats
     const totalStalls = stall.length || 0;
-    const occupiedStalls = stall.filter(stall => stall.Status_Id === "4" ).length || 0;
-    const availableStalls = stall.filter(stall => stall.Status_Id === "1" ).length || 0;
-    const unavailableStalls = stall.filter(stall => stall.Status_Id === "2" ).length || 0;
-    const reservedStalls = stall.filter(stall => stall.Status_Id === "3" ).length || 0;
-    const stallOccupancyRate = totalStalls ? `${((occupiedStalls / totalStalls) * 100).toFixed(2)}%` : "0";
+    const occupiedStalls = stall
+        .filter(stall => stall.Status_Id === "4")
+        .length || 0;
+    const availableStalls = stall
+        .filter(stall => stall.Status_Id === "1")
+        .length || 0;
+    const unavailableStalls = stall
+        .filter(stall => stall.Status_Id === "2")
+        .length || 0;
+    const reservedStalls = stall
+        .filter(stall => stall.Status_Id === "3")
+        .length || 0;
+    const stallOccupancyRate = totalStalls
+        ? `${ ((occupiedStalls / totalStalls) * 100).toFixed(2)}%`
+        : "0";
+// New calculation for unique tenants by Stall_Id
+const uniqueTenantsByStall = [...new Set(tenant.map(t => t.Stall_Id))].length || 0;
 
     return {
         userStats: [
-            { 
-                title: "Users", 
-                count: totalUsers, 
-                percentage: "100%", 
-                description: "Total Users", 
+            {
+                title: "Users",
+                count: totalUsers,
+                percentage: "100%",
+                description: "Total Users",
                 icon: "fa-solid fa-users",
                 bgColor: "bg-label-primary"
-            },
-            { 
-                title: "Owner", 
-                count: totalOwners, 
-                percentage: `${ownerPercentage}%`, 
-                description: "Total Owners", 
+            }, {
+                title: "Owner",
+                count: totalOwners,
+                percentage: `${ownerPercentage}%`,
+                description: "Total Owners",
                 icon: "fa-solid fa-user-tie",
                 bgColor: "bg-label-danger"
-            },
-            { 
-                title: "Admin", 
-                count: totalAdmins, 
-                percentage: `${adminPercentage}%`, 
-                description: "Total Admins", 
+            }, {
+                title: "Admin",
+                count: totalAdmins,
+                percentage: `${adminPercentage}%`,
+                description: "Total Admins",
                 icon: "fa-solid fa-users-gear",
                 bgColor: "bg-label-success"
-            },
-            { 
-                title: "Super Admin", 
-                count: 1, 
-                percentage: `${(1 / totalUsers * 100).toFixed(0)}%`, 
-                description: "Total Super-Admin", 
+            }, {
+                title: "Super Admin",
+                count: 1,
+                percentage: `${ (1 / totalUsers * 100).toFixed(0)}%`,
+                description: "Total Super-Admin",
                 icon: "fa-solid fa-user-secret",
                 bgColor: "bg-label-warning"
             }
         ],
         tenantStats: [
-            { title: "Total", count: totalTenants, percentage: "100%", description: "Total Tenants", icon: "fa-solid fa-users"},
-            { title: "Stalls", count: totalStalls, percentage: stallOccupancyRate, description: "number of stalls with tenants", icon: "fa-solid fa-store" },
-            { title: "New Tenants", count: newTenants, percentage: `${((newTenants/totalTenants)*100).toFixed(0)}%`, description: "number of new tenants this year", icon: "fa-solid fa-user-plus" },
-            { title: "Long term Tenants", count: longTermTenants, percentage: `${((longTermTenants/totalTenants)*100).toFixed(0)}%`, description: "number of old tenants", icon: "bi bi-person-heart" },
+            {
+                title: "Total",
+                count: totalTenants,
+                percentage: "100%",
+                description: "Total Tenants",
+                icon: "fa-solid fa-users"
+            }, {
+                title: "Stalls",
+                count: uniqueTenantsByStall,
+                percentage: stallOccupancyRate,
+                description: "number of stalls with tenants",
+                icon: "fa-solid fa-store"
+            }, {
+                title: "New Tenants",
+                count: newTenants,
+                percentage: `${ ((newTenants / totalTenants) * 100).toFixed(0)}%`,
+                description: "number of new tenants this year",
+                icon: "fa-solid fa-user-plus"
+            }, {
+                title: "Long term Tenants",
+                count: longTermTenants,
+                percentage: `${ ((longTermTenants / totalTenants) * 100).toFixed(0)}%`,
+                description: "number of old tenants",
+                icon: "bi bi-person-heart"
+            }
         ],
         stallAppointmentStats: [
             {
@@ -86,10 +116,31 @@ export const CardStats = () => {
             }
         ],
         stallStats: [
-            { title: "Occupied Stalls", count: occupiedStalls, percentage: `${((occupiedStalls/totalStalls)*100).toFixed(2)}%`, description: "number of stalls of building 1", icon: "bx bx-lock-alt" },
-            { title: "Reserved Stalls", count: reservedStalls, percentage: `${((reservedStalls/totalStalls)*100).toFixed(2)}%`, description: "number of stalls of building 2", icon: "fa-solid fa-hourglass-half" },
-            { title: "Available Stalls", count: availableStalls, percentage: `${((availableStalls/totalStalls)*100).toFixed(2)}%`, description: "number of stalls of building 3", icon: "bx bx-door-open" },
-            { title: "Unavailable", count: unavailableStalls, percentage: `${((unavailableStalls/totalStalls)*100).toFixed(2)}%`, description: "Total Tenants", icon: "bx bx-x" },
+            {
+                title: "Occupied Stalls",
+                count: occupiedStalls,
+                percentage: `${ ((occupiedStalls / totalStalls) * 100).toFixed(2)}%`,
+                description: "number of stalls of building 1",
+                icon: "bx bx-lock-alt"
+            }, {
+                title: "Reserved Stalls",
+                count: reservedStalls,
+                percentage: `${ ((reservedStalls / totalStalls) * 100).toFixed(2)}%`,
+                description: "number of stalls of building 2",
+                icon: "fa-solid fa-hourglass-half"
+            }, {
+                title: "Available Stalls",
+                count: availableStalls,
+                percentage: `${ ((availableStalls / totalStalls) * 100).toFixed(2)}%`,
+                description: "number of stalls of building 3",
+                icon: "bx bx-door-open"
+            }, {
+                title: "Unavailable",
+                count: unavailableStalls,
+                percentage: `${ ((unavailableStalls / totalStalls) * 100).toFixed(2)}%`,
+                description: "Total Tenants",
+                icon: "bx bx-x"
+            }
         ],
         facilityAppointmentStats: [
             {
@@ -100,26 +151,38 @@ export const CardStats = () => {
                 icon: "fa-solid fa-building",
                 bgColor: "bg-label-warning"
             }
+        ],
+
+        stallAppointmentStats: [
+            {
+                title: "New",
+                count: 20,
+                description: "new appointments this week",
+                icon: "bi bi-calendar3"
+            }, {
+                title: "Approved",
+                count: 20,
+                description: "Approved Appointments",
+                icon: "bx bx-check-circle"
+            }, {
+                title: "Cancelled",
+                count: 20,
+                description: "Cancelled Appointments",
+                icon: "bx bx-x-circle"
+            }, {
+                title: "Request",
+                count: 500,
+                description: "Request Appointments",
+                icon: "bx bx-calendar-check"
+            }
         ]
     };
 };
 
-// const CardStats = {
-
-
-
-//     stallAppointmentStats: [
-//         { title: "New", count: 20, description: "new appointments this week", icon: "bi bi-calendar3" },
-//         { title: "Approved", count: 20, description: "Approved Appointments", icon: "bx bx-check-circle" },
-//         { title: "Cancelled", count: 20, description: "Cancelled Appointments", icon: "bx bx-x-circle" },
-//         { title: "Request", count: 500, description: "Request Appointments", icon: "bx bx-calendar-check" },
-//     ],
-//     facilityAppointmentStats: [
-//         { title: "New", count: 20, description: "new appointments this week", icon: "bi bi-calendar3" },
-//         { title: "Approved", count: 20, description: "Approved Appointments", icon: "bx bx-check-circle" },
-//         { title: "Cancelled", count: 20, description: "Cancelled Appointments", icon: "bx bx-x-circle" },
-//         { title: "Request", count: 500, description: "Request Appointments", icon: "bx bx-calendar-check" },
-//     ],
-// };
-
-// export default CardStats;
+// const CardStats = {     facilityAppointmentStats: [         { title: "New",
+// count: 20, description: "new appointments this week", icon: "bi bi-calendar3"
+// },         { title: "Approved", count: 20, description: "Approved
+// Appointments", icon: "bx bx-check-circle" },         { title: "Cancelled",
+// count: 20, description: "Cancelled Appointments", icon: "bx bx-x-circle" },
+//       { title: "Request", count: 500, description: "Request Appointments",
+// icon: "bx bx-calendar-check" },     ], }; export default CardStats;

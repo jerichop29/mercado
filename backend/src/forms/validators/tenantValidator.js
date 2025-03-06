@@ -18,7 +18,7 @@ class TenantValidator {
             errors.push('Date_Start is required and must be a valid date.');
         }
 
-        if (data["Market Fee"] === undefined || typeof data["Market Fee"] !== 'number' || data["Market Fee"] < 0) {
+        if (data["Market_Fee"] === undefined || typeof data["Market_Fee"] !== 'string' || !data["Market_Fee"].trim() || isNaN(Number(data["Market_Fee"])) || Number(data["Market_Fee"]) < 0) {
             errors.push('Market Fee is required and must be a non-negative number.');
         }
 
