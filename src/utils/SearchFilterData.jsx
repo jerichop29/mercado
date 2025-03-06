@@ -63,6 +63,16 @@ const searchFilters = {
                 { label: "Stall Maintenance Issues", value: "Stall Maintenance Issues" },
             ]
         }
+    ],
+    complaints: [
+        {
+            title: "Select Complaints Status",
+            options: [
+                { label: "Closed Complaints", value: "Closed Complaints" },
+                { label: "In Process Complaints", value: "In Process Complaints" },
+                { label: "Not Process Complaints", value: "Not Process Complaints" },
+            ]
+        }
     ]
 };
 

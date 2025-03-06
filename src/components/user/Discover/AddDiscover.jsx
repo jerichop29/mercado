@@ -26,7 +26,7 @@ export default function AddDiscover() {
                                 <div className="card-body">
                                     <form>
                                         <div className="mb-6">
-                                            <label className="form-label" htmlFor="ecommerce-Discover-name">
+                                            <label className="form-label" htmlFor="Discover-title">
                                                 Title
                                             </label>
                                             <input
@@ -50,24 +50,38 @@ export default function AddDiscover() {
                                         
 
                                         <div className="mb-6">
-                                            <label className="mb-1" htmlFor="ecommerce-Discover-name">
+                                            <label className="mb-1" htmlFor="Discover-publish">
                                                 Publish Date and Time
                                             </label>
                                             <input className="form-control" type="datetime-local" id="html5-datetime-local-input"/>
                                         </div>
 
                                         <div className="mb-6">
-                                            <label className="mb-1" htmlFor="ecommerce-Discover-name">
+                                            <label className="mb-1" htmlFor="Discover-end">
                                                 End Date and Time
                                             </label>
                                             <input className="form-control" type="datetime-local" id="html5-datetime-local-input"/>
                                         </div>
 
                                         <div className="mb-6">
-                                            <label className="mb-1" htmlFor="ecommerce-Discover-name">
+                                            <label className="mb-1" htmlFor="Discover-background">
                                                 Background Image
                                             </label>
                                             <input className="form-control" type="file" id="formValidationFile" name="formValidationFile"></input>
+                                        </div>
+
+                                        <div className="mb-6">
+                                            <label className="form-label" htmlFor="Discover-link">
+                                                Link
+                                            </label>
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                id="Discover"
+                                                placeholder="Discover link"
+                                                name="DiscoverLink"
+                                                aria-label="Discover link"
+                                            />
                                         </div>
 
                                         {/* Add Discover Button Inside the Form */}
