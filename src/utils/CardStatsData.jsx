@@ -3,8 +3,6 @@ import {useData} from '../hooks/useData';
 export const CardStats = () => {
     const { admin, owner, tenant, stall } = useData();
 
-    const {admin, owner, tenant, stall} = useData();
-
     // Calculate user stats
     const totalAdmins = admin.length || 0;
     const totalOwners = owner.length || 0;
