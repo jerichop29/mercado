@@ -1,8 +1,10 @@
 
+import MyProfile from "../../components/user/MyProfile"
+
 export default function MyProfilePage(){
     return(
         <>
-        <h1>My Profile Page</h1>
+        <MyProfile />
         </>
     )
 }

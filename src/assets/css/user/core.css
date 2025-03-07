@@ -3382,8 +3382,8 @@ fieldset:disabled .btn {
 }
 .nav-pills .nav-link.active,
 .nav-pills .show > .nav-link {
-  color: var(--bs-nav-pills-link-active-color);
-  background-color: var(--bs-nav-pills-link-active-bg);
+  color: #fcfdfd; 
+  background-color: #0d3e94;
 }
 
 .nav-underline {

@@ -47,7 +47,7 @@ import InProcessComplaintsPage from "../pages/user/Complaints/ManageComplaints/I
 import AllComplaintsPage from "../pages/user/Complaints/ManageComplaints/AllComplaints";
 import NotProcessComplaintsPage from "../pages/user/Complaints/ManageComplaints/NotProcessComplaints";
 import ManageStallsPage from "../pages/user/ManageStalls";
-
+import MyProfilePage from "../pages/user/MyProfile";
 import AddDiscoverPage from "../pages/user/Discover/AddDiscover";
 import ManageDiscoverPage from "../pages/user/Discover/ManageDiscover";
 import ReportPage from "../pages/user/Report/Report";
@@ -116,6 +116,7 @@ const AppRoutes = () => {
               <Route path="add-discover" element={renderPage(AddDiscoverPage)} />
               <Route path="manage-discover" element={renderPage(ManageDiscoverPage)} />
               <Route path="Report" element={renderPage(ReportPage)} />
+              <Route path="my-profile" element={renderPage(MyProfilePage)} />
             </Route>
               {/* Catch-all route */}
               <Route path="forbidden" element={<Forbidden />} />
