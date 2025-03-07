@@ -22,7 +22,6 @@ const useAddTenantModel = (editData, onSubmitSuccess) => {
     };
     const [formData, setFormData] = useState(initialFormState);
     const [message, setMessage] = useState({text: "", type: ""});
-
     useEffect(() => {
         if (editData  ) {
             setFormData({
@@ -62,8 +61,20 @@ const useAddTenantModel = (editData, onSubmitSuccess) => {
         setMessage({text: "", type: ""});
         try {
             PersonValidator.validatePersonData(formData);
+            
+            if(editData){
+                const persons = await PersonHandler.getPersons();
+                const person = persons.data.filter((p) => 
+                    p.FName === formData.FName && 
+                    p.MName === formData.MName && 
+                    p.LName === formData.LName &&
+                    p.Email === formData.Email
+                );
+                
+            }
+
             const result = editData
-                ? await TenantHandler.updateTenant(editData.TenantId, formData)
+                ? await TenantHandler.updateTenant(formData.id, formData)
                 : await PersonHandler.addPerson(formData);
 
             setMessage({text: result.message, type: "success"});

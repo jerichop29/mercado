@@ -4,6 +4,7 @@ import axios from 'axios';
  const isAuthenticated = () => {
     const token = sessionStorage.getItem('authToken');
     const user = sessionStorage.getItem('user');
+    const role = sessionStorage.getItem('role')
     return !!token && !!user;
 };
 

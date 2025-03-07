@@ -1,11 +1,15 @@
-import React, { useState, useEffect } from 'react';
-
-const EditStall = ({ stall, onClose, onSubmitSuccess }) => {
-    const [formData, setFormData] = useState({
+import React, {useState, useEffect} from 'react';
+import Select from 'react-select';
+const EditStall = ({stall, onClose, onSubmitSuccess}) => {
+    const [formData,
+        setFormData] = useState({
         StallCode: '',
         TypeName: '',
         BuildingName: '',
-        OwnerName: '',
+        Owner_Id:"",
+        OwnerFname:  "",
+        OwnerMname:  "",
+        OwnerLname:  "",
         Status: '',
         Date_Start: '',
         due: ''
@@ -17,7 +21,10 @@ const EditStall = ({ stall, onClose, onSubmitSuccess }) => {
                 StallCode: stall.StallCode,
                 TypeName: stall.TypeName,
                 BuildingName: stall.BuildingName,
-                OwnerName: stall.OwnerName,
+                Owner_Id: stall.Owner_Id || "",
+                OwnerFname: stall.OwnerFname || "",
+                OwnerMname: stall.OwnerMname || "",
+                OwnerLname: stall.OwnerLname || "",
                 Status: stall.Status,
                 Date_Start: stall.Date_Start,
                 due: stall.due
@@ -26,7 +33,7 @@ const EditStall = ({ stall, onClose, onSubmitSuccess }) => {
     }, [stall]);
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
+        const {name, value} = e.target;
         setFormData((prevData) => ({
             ...prevData,
             [name]: value
@@ -41,10 +48,17 @@ const EditStall = ({ stall, onClose, onSubmitSuccess }) => {
     };
 
     return (
-        <div className="offcanvas offcanvas-end show" tabIndex="-1" aria-labelledby="offcanvasEditStallLabel">
+        <div
+            className="offcanvas offcanvas-end"
+            id="offcanvasEditStall"
+            aria-labelledby="offcanvasEditStallLabel">
             <div className="offcanvas-header border-bottom">
-                <h5 id="offcanvasEditStallLabel" className="offcanvas-title">Edit Stall</h5>
-                <button type="button" className="btn-close text-reset" onClick={onClose} aria-label="Close"></button>
+                <h5 id="offcanvasEditStall" className="offcanvas-title">Edit Stall</h5>
+                <button
+                    type="button"
+                    className="btn-close text-reset"
+                    onClick={onClose}
+                    aria-label="Close"></button>
             </div>
             <div className="offcanvas-body">
                 <form onSubmit={handleSubmit}>
@@ -58,44 +72,54 @@ const EditStall = ({ stall, onClose, onSubmitSuccess }) => {
                             value={formData.StallCode}
                             onChange={handleChange}
                             required
-                            readOnly
-                        />
+                            disabled/>
                     </div>
                     <div className="mb-3">
-                        <label htmlFor="typeName" className="form-label">Type</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            id="typeName"
+                        <label className="form-label" htmlFor="typeName">Type</label>
+                        <select
+                            id="TypeName"
                             name="TypeName"
+                            className="form-select"
                             value={formData.TypeName}
                             onChange={handleChange}
                             required
-                        />
+                            disabled>
+                            <option value="None">None</option>
+                            <option value="Meat">Meat</option>
+                            <option value="Fish">Fish</option>
+                            <option value="Vegetable">Vegetable</option>
+                            <option value="Variety">Variety</option>
+                            <option value="Other">Other</option>
+                        </select>
                     </div>
                     <div className="mb-3">
-                        <label htmlFor="buildingName" className="form-label">Building</label>
-                        <input
-                            type="text"
-                            className="form-control"
+                        <label className="form-label" htmlFor="buildingName">Building</label>
+                        <select
                             id="buildingName"
                             name="BuildingName"
                             value={formData.BuildingName}
+                            className="form-select"
                             onChange={handleChange}
                             required
-                        />
+                            disabled>
+                            <option value="">All Buildings</option>
+                            <option value="Building 1">Building 1</option>
+                            <option value="Building 2">Building 2</option>
+                            <option value="Building 3">Building 3</option>
+                            <option value="Building 4">Building 4</option>
+                            <option value="Building 5">Building 5</option>
+                        </select>
                     </div>
                     <div className="mb-3">
-                        <label htmlFor="ownerName" className="form-label">Owner</label>
+                        <label htmlFor="OwnerFname" className="form-label">Owner</label>
                         <input
                             type="text"
                             className="form-control"
-                            id="ownerName"
-                            name="OwnerName"
-                            value={formData.OwnerName}
+                            id="OwnerFname"
+                            name="OwnerFname"
+                            value={formData.Owner_Id}
                             onChange={handleChange}
-                            required
-                        />
+                            required/>
                     </div>
                     <div className="mb-3">
                         <label htmlFor="status" className="form-label">Status</label>
@@ -106,8 +130,7 @@ const EditStall = ({ stall, onClose, onSubmitSuccess }) => {
                             name="Status"
                             value={formData.Status}
                             onChange={handleChange}
-                            required
-                        />
+                            required/>
                     </div>
                     <div className="mb-3">
                         <label htmlFor="dateStart" className="form-label">Start Date</label>
@@ -118,8 +141,7 @@ const EditStall = ({ stall, onClose, onSubmitSuccess }) => {
                             name="Date_Start"
                             value={formData.Date_Start}
                             onChange={handleChange}
-                            required
-                        />
+                            required/>
                     </div>
                     <div className="mb-3">
                         <label htmlFor="dueDate" className="form-label">Due Date</label>
@@ -130,14 +152,20 @@ const EditStall = ({ stall, onClose, onSubmitSuccess }) => {
                             name="due"
                             value={formData.due}
                             onChange={handleChange}
-                            required
-                        />
+                            required/>
                     </div>
-                    <button type="submit" className="btn btn-primary">Save Changes</button>
+                    <div className='row mt-4'>
+                        <div className='col-6'>
+                                <button type="submit" className="btn btn-primary">Save Changes</button>
+                        </div>
+                        <div className='col-6'>
+                                <button type="submit" className="btn btn-primary">Clear Stall</button>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
     );
 };
 
-export default EditStall; 
+export default EditStall;

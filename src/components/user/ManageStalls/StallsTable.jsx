@@ -14,12 +14,11 @@ const StallsTable = ({ search }) => {
   const endIndex = startIndex + displayData;
   const displayedUsers = stall.slice(startIndex, endIndex);
   
+  console.log(displayedUsers)
 const handleChange = (e) => {
-  console.log(e.target.value);
   setChangeFilter(e.target.value);
-
   setFilter((prev) => (prev ? prev + ' ' : ' ')); // Add a space if there's a value, otherwise set to space
-
+  setCurrentPage(1); // Reset to the first page when the filter changes
   setTimeout(() => {
       setFilter((prev) => (prev ? prev.trim() : '')); // Remove the extra space after delay
   }, 100);
@@ -31,8 +30,27 @@ const handleChange = (e) => {
     }
   };
 
-  const handleEditClick = (stall) => {
-    setSelectedStall(stall);
+  const handleEditClick = (e, stall) => {
+    e.preventDefault();
+    setSelectedStall({
+        Owner_Id: stall.Owner_Id || "",
+        StallCode: stall.StallCode || "",
+        TypeName: stall.TypeName || "",
+        BuildingName: stall.BuildingName || "",
+        OwnerFname: stall.OwnerFname || "",
+        OwnerMname: stall.OwnerMname || "",
+        OwnerLname: stall.OwnerLname || "",
+        Status: stall.Status || "",
+        Date_Start: stall.Date_Start || "",
+        due: stall.due || "",
+        Stall_Id: stall.Stall_Id || "",
+        // Add any other fields you need to edit
+    });
+
+    // Show the AddTenant component for editing
+    const offcanvasElement = document.getElementById('offcanvasEditStall'); // Adjust this ID if necessary
+    const offcanvas = new bootstrap.Offcanvas(offcanvasElement);
+    offcanvas.show();
   };
 
   const handleCloseEdit = () => {
@@ -181,13 +199,13 @@ const handleChange = (e) => {
                                                     </div>
                                                     <div className="d-flex flex-column">
                                                         <a href="app-user-view-account.html" className="text-heading text-truncate">
-                                                            <span className="fw-medium">{stalls.OwnerName??"None"}</span>
+                                                            <span className="fw-medium">{stalls.OwnerFname? stalls.OwnerFname +" "+ stalls.OwnerMname +" " +stalls.OwnerLname:"None"}</span>
                                                         </a>
                                                         <small>{stalls.email}</small>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>
+                                            <td  >
                                                 <span className={`badge ${stalls.Status === 'Available'
                                                     ? 'bg-label-success'
                                                     : stalls.Status === 'Occupied' || stalls.Status === 'Unavailable'
@@ -198,15 +216,15 @@ const handleChange = (e) => {
                                                     {stalls.Status}
                                                 </span>
                                             </td>
-                                            <td>
-                                                <span className="text-truncate d-flex align-items-center text-heading">
+                                            <td>    
+                                            {stalls.Date_Start &&(<span className="text-truncate d-flex align-items-center text-heading">
                                                     <i className="icon-base bi bi-calendar-check-fill text-success me-2"></i>{stalls.Date_Start}
-                                                </span>
+                                                </span>)}
                                             </td>
                                             <td>
-                                                <span className="text-truncate d-flex align-items-center text-heading">
+                                                {stalls.due &&(<span className="text-truncate d-flex align-items-center text-heading">
                                                     <i className="icon-base bi bi-calendar-x text-danger me-2"></i>{stalls.due}
-                                                </span>
+                                                </span>)}
                                             </td>
                                             <td>
                                                 <div className="d-flex align-items-center">
@@ -216,7 +234,7 @@ const handleChange = (e) => {
                                                     </a>
                                                     <button 
                                                         className="btn btn-icon" 
-                                                        onClick={() => handleEditClick(stalls)}
+                                                        onClick={(e) => handleEditClick(e, stalls)}
                                                     >
                                                         <i className="icon-base bx bx-edit icon-md icon-lg"></i>
                                                     </button>
@@ -280,14 +298,11 @@ const handleChange = (e) => {
                     </div>
                 </div>
             </div>
-
-            {selectedStall && (
                 <EditStall 
                     stall={selectedStall} 
                     onClose={handleCloseEdit} 
                     onSubmitSuccess={handleSubmitSuccess} 
                 />
-            )}
         </div>
     );
 };
