@@ -31,7 +31,7 @@ class OwnerFunctions {
             return ["status" => "error", "message" => "Username and password are required"];
         }
 
-        $sql = "SELECT `Password` FROM ownertbl WHERE Username = ?";
+        $sql = "SELECT Username,`Password`,`role` FROM ownertbl WHERE Username = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("s", $username);
         
@@ -39,8 +39,9 @@ class OwnerFunctions {
             $result = $stmt->get_result();
             if ($result->num_rows > 0) {
                 $owner = $result->fetch_assoc();
+                $token = bin2hex(random_bytes(16));
                 if (password_verify($password, $owner['Password'])) {
-                    return ["status" => "success", "message" => "Authentication successful"];
+                    return ["status" => "success", "message" => "Authentication successful","user" => $owner['Username'], "role" => $owner['role'],"token" => $token];
                 }
             }
             return ["status" => "error", "message" => "Invalid Username or Password"];

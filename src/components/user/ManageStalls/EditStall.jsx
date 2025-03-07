@@ -1,12 +1,30 @@
 import React, {useState, useEffect} from 'react';
 import Select from 'react-select';
+import { useData } from '../../../hooks/useData';
 const EditStall = ({stall, onClose, onSubmitSuccess}) => {
+      const {owner} = useData();
+      // Stall options for the dropdown, filtered by selected building
+      const ownerOptions = owner
+      .map((o) => ({
+          value: o.Owner_Id,
+          label: o.FName+" "+o.MName+" "+o.LName
+      }));
+
+      const handleOwnerChange = (selectedOption) => {
+        setSelectedStall(selectedOption);
+        if (selectedOption) {
+            // Update formData with the selected stall ID
+            handleChange({ target: { name: 'Owner_Id', value: selectedOption.value } });
+        } else {
+            handleChange({ target: { name: 'Owner_Id', value: '' } });
+        }
+    };
     const [formData,
         setFormData] = useState({
+        Owner_Id:"",
         StallCode: '',
         TypeName: '',
         BuildingName: '',
-        Owner_Id:"",
         OwnerFname:  "",
         OwnerMname:  "",
         OwnerLname:  "",
@@ -18,10 +36,10 @@ const EditStall = ({stall, onClose, onSubmitSuccess}) => {
     useEffect(() => {
         if (stall) {
             setFormData({
+                Owner_Id:stall.Owner_Id || "",
                 StallCode: stall.StallCode,
                 TypeName: stall.TypeName,
                 BuildingName: stall.BuildingName,
-                Owner_Id: stall.Owner_Id || "",
                 OwnerFname: stall.OwnerFname || "",
                 OwnerMname: stall.OwnerMname || "",
                 OwnerLname: stall.OwnerLname || "",
@@ -54,11 +72,7 @@ const EditStall = ({stall, onClose, onSubmitSuccess}) => {
             aria-labelledby="offcanvasEditStallLabel">
             <div className="offcanvas-header border-bottom">
                 <h5 id="offcanvasEditStall" className="offcanvas-title">Edit Stall</h5>
-                <button
-                    type="button"
-                    className="btn-close text-reset"
-                    onClick={onClose}
-                    aria-label="Close"></button>
+                <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div className="offcanvas-body">
                 <form onSubmit={handleSubmit}>
@@ -111,15 +125,20 @@ const EditStall = ({stall, onClose, onSubmitSuccess}) => {
                         </select>
                     </div>
                     <div className="mb-3">
-                        <label htmlFor="OwnerFname" className="form-label">Owner</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            id="OwnerFname"
-                            name="OwnerFname"
-                            value={formData.Owner_Id}
-                            onChange={handleChange}
-                            required/>
+                        <label htmlFor="OwnerName" className="form-label">Owner Name</label>
+                        <div className="mb-6">
+                                    <Select
+                                        id="add-owner-name"
+                                        value={ownerOptions.find(option => option.value === formData.Owner_Id) || null}
+                                        className="form-react-select"
+                                        classNamePrefix="react-select"
+                                        onChange={handleOwnerChange}
+                                        options={ownerOptions}
+                                        isClearable
+                                        isSearchable
+                                        placeholder="Select or type the Owner"
+                                    />
+                                </div>
                     </div>
                     <div className="mb-3">
                         <label htmlFor="status" className="form-label">Status</label>

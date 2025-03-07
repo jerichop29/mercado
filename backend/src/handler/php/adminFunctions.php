@@ -32,15 +32,16 @@ class AdminFunctions {
             return ["status" => "error", "message" => "Username and password are required"];
         }
 
-        $stmt = $this->conn->prepare("SELECT `Password` FROM admintbl WHERE Username = ?");
+        $stmt = $this->conn->prepare("SELECT Username,`Password`,`role` FROM admintbl WHERE Username = ?");
         $stmt->bind_param("s", $username);
         $stmt->execute();
         $result = $stmt->get_result();
 
         if ($result->num_rows > 0) {
             $admin = $result->fetch_assoc();
+            $token = bin2hex(random_bytes(16));
             if (password_verify($password, $admin['Password'])) {
-                return ["status" => "success", "message" => "Authentication successful"];
+                return ["status" => "success", "message" => "Authentication successful","user" => $admin['Username'], "role" => $admin['role'],"token" => $token];
             }
         }
         return ["status" => "error", "message" => "Invalid Username or Password"];

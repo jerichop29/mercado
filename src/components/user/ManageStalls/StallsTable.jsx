@@ -14,7 +14,7 @@ const StallsTable = ({ search }) => {
   const endIndex = startIndex + displayData;
   const displayedUsers = stall.slice(startIndex, endIndex);
   
-  console.log(displayedUsers)
+
 const handleChange = (e) => {
   setChangeFilter(e.target.value);
   setFilter((prev) => (prev ? prev + ' ' : ' ')); // Add a space if there's a value, otherwise set to space
@@ -33,7 +33,7 @@ const handleChange = (e) => {
   const handleEditClick = (e, stall) => {
     e.preventDefault();
     setSelectedStall({
-        Owner_Id: stall.Owner_Id || "",
+        Owner_Id:stall.Owner_Id || "",
         StallCode: stall.StallCode || "",
         TypeName: stall.TypeName || "",
         BuildingName: stall.BuildingName || "",
@@ -53,12 +53,12 @@ const handleChange = (e) => {
     offcanvas.show();
   };
 
+
   const handleCloseEdit = () => {
     setSelectedStall(null);
   };
 
   const handleSubmitSuccess = (updatedStall) => {
-    console.log('Updated Stall:', updatedStall);
     handleCloseEdit();
   };
 
@@ -199,9 +199,9 @@ const handleChange = (e) => {
                                                     </div>
                                                     <div className="d-flex flex-column">
                                                         <a href="app-user-view-account.html" className="text-heading text-truncate">
-                                                            <span className="fw-medium">{stalls.OwnerFname? stalls.OwnerFname +" "+ stalls.OwnerMname +" " +stalls.OwnerLname:"None"}</span>
+                                                            <span className="fw-medium">{stalls.OwnerFname? stalls.OwnerFname +" "+ stalls.OwnerMname +" "+ stalls.OwnerLname:"None"}</span>
                                                         </a>
-                                                        <small>{stalls.email}</small>
+                                                        <small>{stalls.Email}</small>
                                                     </div>
                                                 </div>
                                             </td>
@@ -300,7 +300,9 @@ const handleChange = (e) => {
             </div>
                 <EditStall 
                     stall={selectedStall} 
-                    onClose={handleCloseEdit} 
+                    onClose={() => {
+                        setEditData(null);
+                    }}
                     onSubmitSuccess={handleSubmitSuccess} 
                 />
         </div>
