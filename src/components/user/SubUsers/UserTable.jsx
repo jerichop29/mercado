@@ -8,7 +8,8 @@ const UserTable = ({ search }) => {
   const [role,setRole] = useState('');
   const [displayData , setdisplayData] = useState(10);
   const [currentPage, setCurrentPage] = useState(1); 
-  const { combined } = useData(filter,role);
+  const { combined  } = useData(filter,role);
+  const { stall  } = useData();
   const totalPages = Math.ceil(combined.length / displayData);
   const startIndex = (currentPage - 1) * displayData;
   const endIndex = startIndex + displayData;
@@ -51,6 +52,7 @@ const handleRoleChange = (e) => {
 
   const handleEditClick = (e, user) => {
     e.preventDefault();
+    const stallid = stall.filter((s)=>s.Owner_Id === user.Owner_Id)
     setEditData({
       FName: user.FName,
       MName: user.MName,
@@ -61,7 +63,7 @@ const handleRoleChange = (e) => {
       Email: user.Email,
       Birthdate: user.Birthdate,
       role: user.role,
-      Stall_Id: user.Stall_Id,
+      Stall_Id: stallid[0].Stall_Id,
       id: user.Person_Id
     });
     // Open the offcanvas
@@ -84,7 +86,6 @@ const handleRoleChange = (e) => {
     if (window.confirm('Are you sure you want to delete the selected users?')) {
       
       for (const user of selectedUsers) {
-        console.log(user);
         await handleDelete(user); // Assuming handleDelete can take the entire user object
       }
       setSelectedUsers([]); // Clear selection after deletion

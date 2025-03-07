@@ -30,6 +30,10 @@ const { stall }=useData();
         value: s.Stall_Id,
         label: s.StallCode
     }));
+    const OccupiedStall = stall.filter(s => s.Status === "Occupied").map((s) => ({
+        value: s.Stall_Id,
+        label: s.StallCode
+    }));
     const [selectedStall, setSelectedStall] = useState(edit ? stallOptions.find(option => option.value === formData.Stall_Id) : null);
     
     // Stall options for the dropdown
@@ -141,7 +145,6 @@ const { stall }=useData();
                                 <option value="Admin">Admin</option>
                             </select>
                         </div> 
-
                         {formData.role === 'Owner' && (
                             
                             <div className="mb-6">
@@ -149,7 +152,7 @@ const { stall }=useData();
                                 <div className="mb-6">
                                     <Select
                                         id="add-tenant-stall"
-                                        value={selectedStall}
+                                        value={OccupiedStall.find(option => option.value === formData.Stall_Id) || null}
                                         className="form-react-select"
                                         classNamePrefix="react-select"
                                         onChange={handleStallChange}
