@@ -168,10 +168,16 @@
         "header": "Report",
         "items": [
             {
-                "text": "Report",
+                "text": "Complaint List",
+                "icon": "bx bx-list-ul",
+                "available": true,
+                "link": "/user/detailed-complaint-list-report"
+            },
+            {
+                "text": "Complaint Summary",
                 "icon": "bx bxs-report",
                 "available": true,
-                "link": "/user/report"
+                "link": "/user/complaint-summary-report"
             }
         ]
     }

@@ -50,7 +50,10 @@ import ManageStallsPage from "../pages/user/ManageStalls";
 import MyProfilePage from "../pages/user/MyProfile";
 import AddDiscoverPage from "../pages/user/Discover/AddDiscover";
 import ManageDiscoverPage from "../pages/user/Discover/ManageDiscover";
-import ReportPage from "../pages/user/Report/Report";
+import DetailedComplaintListPage from "../components/user/Report/DetailedComplaintList";
+import ComplaintSummaryPage from "../components/user/Report/ComplaintSummary";
+import ListReportPage from "../pages/user/Report/ListReport";
+import SummaryReportPage from "../pages/user/Report/SummaryReport";
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -115,7 +118,10 @@ const AppRoutes = () => {
               <Route path="manage-stalls" element={renderPage(ManageStallsPage)} />
               <Route path="add-discover" element={renderPage(AddDiscoverPage)} />
               <Route path="manage-discover" element={renderPage(ManageDiscoverPage)} />
-              <Route path="Report" element={renderPage(ReportPage)} />
+              <Route path="detailed-complaint-list-report" element={renderPage(DetailedComplaintListPage)} />
+              <Route path="complaint-summary-report" element={renderPage(ComplaintSummaryPage)} />
+              <Route path="list-report" element={renderPage(ListReportPage)} />
+              <Route path="summary-report" element={renderPage(SummaryReportPage)} />
               <Route path="my-profile" element={renderPage(MyProfilePage)} />
             </Route>
               {/* Catch-all route */}

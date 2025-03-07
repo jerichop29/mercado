@@ -133,7 +133,7 @@ const EditStall = ({ stall, onClose, onSubmitSuccess }) => {
                             required
                         />
                     </div>
-                    <button type="submit" className="btn btn-primary">Save Changes</button>
+                    <button type="submit" className="btn tbl-btn-primary">Save Changes</button>
                 </form>
             </div>
         </div>
