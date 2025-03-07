@@ -58,7 +58,7 @@ const useAddUserModel = (editData, onSubmitSuccess) => {
         
         const person = persons.data.filter((p) => 
           p.FName === formData.FName && 
-          p.MName === formData.MName && 
+          p.MName === formData.MName &&   
           p.LName === formData.LName &&
           p.Email === formData.Email
         );
@@ -70,11 +70,13 @@ const useAddUserModel = (editData, onSubmitSuccess) => {
         const stalls = await stallHandler.getStalls();
 
         const stall = stalls.data.filter((s) =>
-        s.Owner_Id === owner[0].Owner_Id
+        s.Owner_Id === owner[0].Owner_Id 
         );
-        for (const s of stall) {
-          await stallHandler.updateStallStatus(s.Stall_Id, { Status_Id: "1", Owner_Id: null });
-      }
+        const editStall = stalls.data.filter((s)=> s.Stall_Id === stall[0].Stall_Id);
+        
+        console.log(editStall)
+        await stallHandler.updateStallStatus(stall[0].Stall_Id, { Status_Id: "1", Owner_Id: null });
+
         await stallHandler.updateStallStatus(formData.Stall_Id,{Status_Id:"4",Owner_Id:owner[0].Owner_Id}); 
       } 
 

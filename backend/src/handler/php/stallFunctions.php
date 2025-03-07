@@ -17,7 +17,9 @@ class StallFunctions {
                     typestbl.Name AS TypeName, 
                     ownertbl.Date_Start,
                     statustbl.Status,
-                    CONCAT(persontbl.FName, ' ', persontbl.MName, ' ', persontbl.LName) AS OwnerName 
+                    persontbl.FName AS OwnerFname,
+                    persontbl.MName AS OwnerMname,
+                    persontbl.LName AS OwnerLname 
                 FROM stalltbl 
                 LEFT JOIN typestbl ON stalltbl.Type_Id = typestbl.Types_Id 
                 LEFT JOIN buildingtbl ON stalltbl.BuildingName = buildingtbl.Id 

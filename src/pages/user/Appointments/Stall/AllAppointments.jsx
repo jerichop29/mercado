@@ -5,8 +5,10 @@ import {CardStats} from "../../../../utils/CardStatsData";
 
 
 export default function StallAllAppointmentsPage() {
-  
+
   const { stallAppointmentStats } = CardStats();
+  
+
 
   const StallAppointments = [
     {
