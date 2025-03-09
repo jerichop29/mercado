@@ -1,11 +1,10 @@
-import OwnerPaymentValidator from "../../forms/validators/ownerPaymentValidator";
+import DiscoverValidator from "../../forms/validators/discoverValidator";
 
-class OwnerPaymentHandler {
+class DiscoverHandler {
     constructor() {
-        this.baseUrl = `${window.location.protocol}//${window.location.hostname}/mercado/backend/src/handler/php/ownerPaymentFunctions.php`;// Update with the correct PHP file
-        
+        this.baseUrl = `${window.location.protocol}//${window.location.hostname}/mercado/backend/src/models/php/discoverFunctions.php`; // Update with the correct PHP file
     }
-    
+
     async fetchWithErrorHandling(url, options = {}) {
         try {
             const response = await fetch(url, {
@@ -27,38 +26,37 @@ class OwnerPaymentHandler {
 
             return data;
         } catch (error) {
-            //console.error('API Error:', error);
+            console.error('API Error:', error);
             throw error;
         }
         // ... existing fetchWithErrorHandling method ...
     }
 
-    async getAllPayments() {
+    async getDiscoveries() {
         return this.fetchWithErrorHandling(`${this.baseUrl}?action=get`);
     }
 
-
-    async addPayment(paymentData) {
-        OwnerPaymentValidator.validatePaymentData(paymentData);
+    async addDiscovery(discoveryData) {
+        DiscoverValidator.validateDiscoverData(discoveryData);
         return this.fetchWithErrorHandling(`${this.baseUrl}?action=add`, {
             method: 'POST',
-            body: JSON.stringify(adminData)
+            body: JSON.stringify(discoveryData)
         });
     }
 
-    async deketePayment(paymentData) {
-        return this.fetchWithErrorHandling(`${this.baseUrl}?action=delete&id=${adminId}`, {
+    async deleteDiscovery(discoveryId) {
+        return this.fetchWithErrorHandling(`${this.baseUrl}?action=delete&id=${discoveryId}`, {
             method: 'DELETE'
         });
     }
 
-    async updatePayment(paymentId, paymentData) {
-        OwnerPaymentValidator.validatePaymentData(paymentData);
-        return this.fetchWithErrorHandling(`${this.baseUrl}?action=update&id=${adminId}`, {
+    async updateDiscovery(discoveryId, discoveryData) {
+        DiscoverValidator.validateDiscoverData(discoveryData);
+        return this.fetchWithErrorHandling(`${this.baseUrl}?action=update&id=${discoveryId}`, {
             method: 'PUT',
-            body: JSON.stringify(adminData)
+            body: JSON.stringify(discoveryData)
         });
     }
 }
 
-export default new OwnerPaymentHandler();
+export default new DiscoverHandler(); 

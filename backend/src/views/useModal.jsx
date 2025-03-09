@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import stallHandler from '../../backend/src/controllers/js/stallHandler';
+import stallHandler from '../controllers/js/stallHandler';
 
 export const useModal = (isOpen,stallName) => {
     const [stall, setData] = useState([]);

@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import PersonHandler from '../../../handler/js/PersonHandler';
-import TenantHandler from '../../../handler/js/TenantHandler';
+import PersonHandler from '../../../controllers/js/PersonHandler';
+import TenantHandler from '../../../controllers/js/TenantHandler';
 
 const useDeleteUserModel = (onDeleteSuccess) => {
   const [message, setMessage] = useState({ text: "", type: "" });

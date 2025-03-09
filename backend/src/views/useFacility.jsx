@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import FacilitiesHandler from "../../backend/src/controllers/js/FacilitiesHandler";
+import FacilitiesHandler from "../controllers/js/FacilitiesHandler";
 export const useFacility =(facility)=>{
     const [pinnedEvents, setPinnedEvents] = useState({});
     const fetchPinnedEvents = async () => {

@@ -1,9 +1,10 @@
-class TenantPaymentHandler {
+import PersonValidator from "../../forms/validators/personValidator";
+
+class PersonHandler {
     constructor() {
-        this.baseUrl = `${window.location.protocol}//${window.location.hostname}/mercado/backend/src/handler/php/tenantPaymentFunctions.php`;// Update with the correct PHP file
-        
+        this.baseUrl = `${window.location.protocol}//${window.location.hostname}/mercado/backend/src/models/php/personFunctions.php`; // Update with the correct PHP file
     }
-    
+
     async fetchWithErrorHandling(url, options = {}) {
         try {
             const response = await fetch(url, {
@@ -25,38 +26,36 @@ class TenantPaymentHandler {
 
             return data;
         } catch (error) {
-            //console.error('API Error:', error);
+            console.error('API Error:', error);
             throw error;
         }
-        // ... existing fetchWithErrorHandling method ...
     }
 
-    async getAllPayments() {
+    async getPersons() {
         return this.fetchWithErrorHandling(`${this.baseUrl}?action=get`);
     }
 
-
-    async addPayment(paymentData) {
-        TenantPaymentValidator.validatePaymentData(paymentData);
+    async addPerson(personData) {
+        PersonValidator.validatePersonData(personData);
         return this.fetchWithErrorHandling(`${this.baseUrl}?action=add`, {
             method: 'POST',
-            body: JSON.stringify(adminData)
+            body: JSON.stringify(personData)
         });
     }
 
-    async deketePayment(paymentId) {
-        return this.fetchWithErrorHandling(`${this.baseUrl}?action=delete&id=${paymentId}`, {
+    async deletePerson(personId) {
+        return this.fetchWithErrorHandling(`${this.baseUrl}?action=delete&id=${personId}`, {
             method: 'DELETE'
         });
     }
 
-    async updatePayment(paymentId, paymentData) {
-        TenantPaymentValidator.validatePaymentData(paymentData);
-        return this.fetchWithErrorHandling(`${this.baseUrl}?action=update&id=${paymentId}`, {
+    async updatePerson(personId, personData) {
+        PersonValidator.validatePersonData(personData);
+        return this.fetchWithErrorHandling(`${this.baseUrl}?action=update&id=${personId}`, {
             method: 'PUT',
-            body: JSON.stringify(adminData)
+            body: JSON.stringify(personData)
         });
     }
 }
 
-export default new TenantPaymentHandler();
+export default new PersonHandler(); 
