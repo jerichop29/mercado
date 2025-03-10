@@ -3,7 +3,7 @@ import * as XLSX from 'xlsx';
 export default function SummaryReport() {
     // Example data for the Excel file
     const complaintData = [
-        { "Total Complaints": 23, "Not Process Yet": 10, "In Process": 5, "Closed Complaints": 8 }
+        { "Total Complaints": 23, "Not Process Yet": 10, "In Process": 5, "Resolved Complaints": 8 }
     ];
 
     // Example dates for the filename
@@ -37,7 +37,7 @@ export default function SummaryReport() {
                                     <th>Total Complaints</th>
                                     <th>Not Process Yet</th>
                                     <th>In Process</th>
-                                    <th>Closed Complaints</th>
+                                    <th>Resolved Complaints</th>
                                 </tr>
                             </thead>
                             <tbody>

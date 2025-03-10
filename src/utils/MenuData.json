@@ -86,10 +86,10 @@
                         "link": "/user/all-complaints"
                     },
                     {
-                        "text": "Closed Complaints",
-                        "icon": "bx bx-lock",
+                        "text": "Resolved Complaints",
+                        "icon": "fa-solid fa-clipboard-check",
                         "available": true,
-                        "link": "/user/closed-complaints"
+                        "link": "/user/resolved-complaints"
                     },
                     {
                         "text": "In Process Complaints",

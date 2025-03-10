@@ -11,7 +11,7 @@ const ListReport = ({ startDate, endDate }) => {
             subCategory: "Software Issue",
             message: "Unable to login to the system.",
             image: "image1.png",
-            status: "Closed"
+            status: "Resolved"
         },
         {
             id: 2,
@@ -38,7 +38,7 @@ const ListReport = ({ startDate, endDate }) => {
             subCategory: "Service Feedback",
             message: "Great service, but room for improvement.",
             image: "image4.png",
-            status: "Closed"
+            status: "Resolved"
         },
         {
             id: 5,
@@ -55,7 +55,7 @@ const ListReport = ({ startDate, endDate }) => {
     // Function to determine status color
     const getStatusColor = (status) => {
         switch (status) {
-            case "Closed":
+            case "Resolved":
                 return "bg-label-success";
             case "In-Process":
                 return "bg-label-warning";

@@ -5,8 +5,8 @@ export default function ComplaintsTable({ Complaints }) {
 
     const getTitle = () => {
         switch (location.pathname) {
-            case "/user/closed-complaints":
-                return "Closed Complaints";
+            case "/user/resolved-complaints":
+                return "Resolved Complaints";
             case "/user/in-process-complaints":
                 return "In Process Complaints";
             case "/user/not-process-complaints":
@@ -67,25 +67,31 @@ export default function ComplaintsTable({ Complaints }) {
                                             <th data-dt-column="2" className="dt-orderable-asc dt-orderable-desc dt-ordering-desc">
                                                 <span className="dt-column-title" role="button">ID</span>
                                             </th>
-                                            <th data-dt-column="6" className="dt-orderable-asc dt-orderable-desc">
+                                            <th data-dt-column="3" className="dt-orderable-asc dt-orderable-desc">
                                                 <span className="dt-column-title" role="button">Complainant</span>
                                             </th>
-                                            <th data-dt-column="3" className="dt-orderable-asc dt-orderable-desc">
+                                            <th data-dt-column="4" className="dt-orderable-asc dt-orderable-desc">
                                                 <span className="dt-column-title" role="button">Category</span>
                                             </th>
-                                            <th data-dt-column="4" className="dt-orderable-asc dt-orderable-desc">
+                                            <th data-dt-column="5" className="dt-orderable-asc dt-orderable-desc">
                                                 <span className="dt-column-title" role="button">Sub-Category</span>
                                             </th>
-                                            <th data-dt-column="5" className="dt-orderable-asc dt-orderable-desc">
+                                            <th data-dt-column="6" className="dt-orderable-asc dt-orderable-desc">
                                                 <span className="dt-column-title" role="button">Message</span>
                                             </th>
-                                            <th data-dt-column="5" className="dt-orderable-asc dt-orderable-desc">
+                                            <th data-dt-column="7" className="dt-orderable-asc dt-orderable-desc">
                                                 <span className="dt-column-title" role="button">Image Optional</span>
                                             </th>
-                                            <th data-dt-column="7" className="dt-orderable-asc dt-orderable-desc">
+                                            <th data-dt-column="8" className="dt-orderable-asc dt-orderable-desc">
+                                                <span className="dt-column-title" role="button">Reported Date</span>
+                                            </th>
+                                            <th data-dt-column="9" className="dt-orderable-asc dt-orderable-desc">
+                                                <span className="dt-column-title" role="button">Resolved Date</span>
+                                            </th>
+                                            <th data-dt-column="10" className="dt-orderable-asc dt-orderable-desc">
                                                 <span className="dt-column-title" role="button">Status</span>
                                             </th>
-                                            <th data-dt-column="8" className="dt-orderable-none">
+                                            <th data-dt-column="11" className="dt-orderable-none">
                                                 <span className="dt-column-title">Actions</span>
                                             </th>
                                         </tr>
@@ -127,7 +133,17 @@ export default function ComplaintsTable({ Complaints }) {
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <span className={`badge ${Complaints.status === 'Closed' ? 'bg-label-success' :
+                                                    <span className="fw-medium">
+                                                        <i className="icon-base fa-solid fa-person-circle-exclamation text-danger me-2"></i>{Complaints.reportedDate}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span className="fw-medium">
+                                                        <i className="icon-base fa-solid fa-clipboard-check text-success me-2"></i>{Complaints.resolvedDate}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span className={`badge ${Complaints.status === 'Resolved' ? 'bg-label-success' :
                                                             Complaints.status === 'In-Process' ? 'bg-label-warning' :
                                                                 'bg-label-danger'
                                                         }`}>
