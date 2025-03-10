@@ -199,7 +199,7 @@ export const CardStats = () => {
                 description: "Request Complaints",
                 icon: "bx bx-calendar-check"
             }
-        ]
+        ],
     };
 };
 

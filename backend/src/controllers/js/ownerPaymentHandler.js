@@ -1,8 +1,8 @@
-import AdminValidator from "../../forms/validators/adminValidator";
+import OwnerPaymentValidator from "../../forms/validators/ownerPaymentValidator";
 
-class AdminHandler {
+class OwnerPaymentHandler {
     constructor() {
-        this.baseUrl = `${window.location.protocol}//${window.location.hostname}/mercado/backend/src/handler/php/adminFunctions.php`;// Update with the correct PHP file
+        this.baseUrl = `${window.location.protocol}//${window.location.hostname}/mercado/backend/src/models/php/ownerPaymentFunctions.php`;// Update with the correct PHP file
         
     }
     
@@ -33,33 +33,27 @@ class AdminHandler {
         // ... existing fetchWithErrorHandling method ...
     }
 
-    async getAdmins() {
+    async getAllPayments() {
         return this.fetchWithErrorHandling(`${this.baseUrl}?action=get`);
     }
 
-    async Authadmin(adminData) {
-        return this.fetchWithErrorHandling(`${this.baseUrl}?action=auth`,{
-        method:'POST',
-        body: JSON.stringify(adminData)
-        });
-    }
 
-    async addAdmin(adminData) {
-        AdminValidator.validateAdminData(adminData);
+    async addPayment(paymentData) {
+        OwnerPaymentValidator.validatePaymentData(paymentData);
         return this.fetchWithErrorHandling(`${this.baseUrl}?action=add`, {
             method: 'POST',
             body: JSON.stringify(adminData)
         });
     }
 
-    async deleteAdmin(adminId) {
+    async deketePayment(paymentData) {
         return this.fetchWithErrorHandling(`${this.baseUrl}?action=delete&id=${adminId}`, {
             method: 'DELETE'
         });
     }
 
-    async updateAdmin(adminId, adminData) {
-        AdminValidator.validateAdminData(adminData);
+    async updatePayment(paymentId, paymentData) {
+        OwnerPaymentValidator.validatePaymentData(paymentData);
         return this.fetchWithErrorHandling(`${this.baseUrl}?action=update&id=${adminId}`, {
             method: 'PUT',
             body: JSON.stringify(adminData)
@@ -67,4 +61,4 @@ class AdminHandler {
     }
 }
 
-export default new AdminHandler();
+export default new OwnerPaymentHandler();

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import stallHandler from '../../backend/src/controllers/js/stallHandler';
-import OwnerHandler from '../../backend/src/controllers/js/OwnerHandler';
-import DiscoverHandler from '../../backend/src/controllers/js/DiscoverHandler';
+import stallHandler from '../controllers/js/stallHandler';
+import OwnerHandler from '../controllers/js/OwnerHandler';
+import DiscoverHandler from '../controllers/js/DiscoverHandler';
 export const  useStats = () =>{
   const [stallData,setStallData] = useState();
   const [ownerData,setOwnerData] = useState();

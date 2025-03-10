@@ -1,7 +1,7 @@
 import StallValidator from "../../forms/validators/stallValidator";
 class StallHandler {
     constructor() {
-        this.baseUrl = `${window.location.protocol}//${window.location.hostname}/mercado/backend/src/handler/php/stallFunctions.php`;
+        this.baseUrl = `${window.location.protocol}//${window.location.hostname}/mercado/backend/src/models/php/stallFunctions.php`;
     }
     // Generic fetch method with error handling
     async fetchWithErrorHandling(url, options = {}) {

@@ -2,7 +2,7 @@ import EventValidator from "../../forms/validators/facilitiesValidator";
 
 class DiscoverHandler {
     constructor() {
-        this.baseUrl = `${window.location.protocol}//${window.location.hostname}/mercado/backend/src/handler/php/facilitiesFunctions.php`; // Update with the correct PHP file
+        this.baseUrl = `${window.location.protocol}//${window.location.hostname}/mercado/backend/src/models/php/facilitiesFunctions.php`; // Update with the correct PHP file
     }
 
     async fetchWithErrorHandling(url, options = {}) {

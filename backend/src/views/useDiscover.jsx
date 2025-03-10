@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import DiscoverHandler from '../../backend/src/controllers/js/DiscoverHandler';
+import DiscoverHandler from '../controllers/js/DiscoverHandler';
 
 export const useDiscover = () => {
   const [filteredData, setFilteredData] = useState(new Set());

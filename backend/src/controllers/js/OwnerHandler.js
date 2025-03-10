@@ -2,7 +2,7 @@ import OwnerValidator from "../../forms/validators/ownerValidator";
 
 class OwnerHandler {
     constructor() {
-        this.baseUrl = `${window.location.protocol}//${window.location.hostname}/mercado/backend/src/handler/php/ownerFunctions.php`; // Dynamic base URL without port
+        this.baseUrl = `${window.location.protocol}//${window.location.hostname}/mercado/backend/src/models/php/ownerFunctions.php`; // Dynamic base URL without port
     }
 
     async fetchWithErrorHandling(url, options = {}) {

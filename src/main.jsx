@@ -7,6 +7,8 @@ import "glightbox/dist/css/glightbox.min.css";
 import "react-calendar/dist/Calendar.css";
 import "boxicons/css/boxicons.min.css";
 import "react-perfect-scrollbar/dist/css/styles.css";
+import 'jspdf-autotable'; 
+import "apexcharts"
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>

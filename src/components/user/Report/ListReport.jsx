@@ -1,137 +1,143 @@
 import React from 'react';
+import * as XLSX from 'xlsx'; // For Excel generation
 
-const ListReport = () => {
-    // Data for the table
-    const tableData = [
+const ListReport = ({ startDate, endDate }) => {
+    // Complaint data
+    const complaintData = [
         {
             id: 1,
-            project: { name: "Sketch Project", icon: "bx bxl-sketch", color: "text-warning" },
-            client: "Ronnie Shane",
-            users: ["2.png", "3.png", "4.png"],
-            status: { label: "Active", color: "bg-label-primary" },
-            actions: ["Edit", "Delete"]
+            complainant: "John Doe",
+            category: "Technical",
+            subCategory: "Software Issue",
+            message: "Unable to login to the system.",
+            image: "image1.png",
+            status: "Closed"
         },
         {
             id: 2,
-            project: { name: "React Project", icon: "bx bxl-react", color: "text-info" },
-            client: "Barry Hunter",
-            users: ["2.png", "3.png", "4.png"],
-            status: { label: "Completed", color: "bg-label-success" },
-            actions: ["Edit", "Delete"]
+            complainant: "Jane Smith",
+            category: "Billing",
+            subCategory: "Overcharge",
+            message: "Charged twice for the same service.",
+            image: "image2.png",
+            status: "In-Process"
         },
         {
             id: 3,
-            project: { name: "Angular Project", icon: "bx bxl-angular", color: "text-danger" },
-            client: "Albert Cook",
-            users: ["2.png", "3.png", "4.png"],
-            status: { label: "Active", color: "bg-label-primary" },
-            actions: ["Edit", "Delete"]
+            complainant: "Alice Johnson",
+            category: "Support",
+            subCategory: "Hardware Issue",
+            message: "Laptop not turning on.",
+            image: "image3.png",
+            status: "Not Processed"
         },
         {
             id: 4,
-            project: { name: "VueJs Project", icon: "bx bxl-vuejs", color: "text-success" },
-            client: "Trevor Baker",
-            users: ["2.png", "3.png", "4.png"],
-            status: { label: "Scheduled", color: "bg-label-info" },
-            actions: ["Edit", "Delete"]
+            complainant: "Bob Brown",
+            category: "Feedback",
+            subCategory: "Service Feedback",
+            message: "Great service, but room for improvement.",
+            image: "image4.png",
+            status: "Closed"
         },
         {
             id: 5,
-            project: { name: "Bootstrap Project", icon: "bx bxl-bootstrap", color: "text-primary" },
-            client: "Jerry Milton",
-            users: ["2.png", "3.png", "4.png"],
-            status: { label: "Pending", color: "bg-label-warning" },
-            actions: ["Edit", "Delete"]
-        },
-        {
-            id: 6,
-            project: { name: "Sketch Project", icon: "bx bxl-sketch", color: "text-warning" },
-            client: "Sarah Banks",
-            users: ["2.png", "3.png", "4.png"],
-            status: { label: "Active", color: "bg-label-primary" },
-            actions: ["Edit", "Delete"]
-        },
-        {
-            id: 7,
-            project: { name: "React Custom", icon: "bx bxl-react", color: "text-info" },
-            client: "Ted Richer",
-            users: ["2.png", "3.png", "4.png"],
-            status: { label: "Scheduled", color: "bg-label-info" },
-            actions: ["Edit", "Delete"]
-        },
-        {
-            id: 8,
-            project: { name: "Latest Bootstrap", icon: "bx bxl-bootstrap", color: "text-primary" },
-            client: "Perry Parker",
-            users: ["2.png", "3.png", "4.png"],
-            status: { label: "Pending", color: "bg-label-warning" },
-            actions: ["Edit", "Delete"]
-        },
-        {
-            id: 9,
-            project: { name: "Angular UI", icon: "bx bxl-angular", color: "text-danger" },
-            client: "Ana Bell",
-            users: ["2.png", "3.png", "4.png"],
-            status: { label: "Completed", color: "bg-label-success" },
-            actions: ["Edit", "Delete"]
-        },
-        {
-            id: 10,
-            project: { name: "Bootstrap UI", icon: "bx bxl-bootstrap", color: "text-primary" },
-            client: "Jerry Milton",
-            users: ["2.png", "3.png", "4.png"],
-            status: { label: "Completed", color: "bg-label-success" },
-            actions: ["Edit", "Delete"]
+            complainant: "Charlie Davis",
+            category: "Technical",
+            subCategory: "Network Issue",
+            message: "Internet connection is unstable.",
+            image: "image5.png",
+            status: "In-Process"
         }
     ];
 
+    // Function to determine status color
+    const getStatusColor = (status) => {
+        switch (status) {
+            case "Closed":
+                return "bg-label-success";
+            case "In-Process":
+                return "bg-label-warning";
+            case "Not Processed":
+                return "bg-label-danger";
+            default:
+                return "bg-label-secondary";
+        }
+    };
+
+    // Generate Excel
+    const generateExcel = () => {
+        const worksheet = XLSX.utils.json_to_sheet(complaintData);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Complaint Report');
+        XLSX.writeFile(workbook, `Complaint_Report_${startDate}_to_${endDate}.xlsx`);
+    };
+
+    // Copy to Clipboard
+    const copyToClipboard = () => {
+        const tableData = complaintData.map(item => ({
+            ID: item.id,
+            Complainant: item.complainant,
+            Category: item.category,
+            'Sub-Category': item.subCategory,
+            Message: item.message,
+            Status: item.status
+        }));
+        const text = JSON.stringify(tableData, null, 2);
+        navigator.clipboard.writeText(text).then(() => {
+            alert('Data copied to clipboard!');
+        });
+    };
+
     return (
         <div className="card">
-            <h5 className="card-header">Contextual Classes</h5>
+            <h5 className="card-header">
+                Complaint Report from {startDate} to {endDate}
+                <div className="float-end">
+                    <button className="btn btn-sm btn-outline-secondary me-2" onClick={generateExcel}>
+                        <i className="bx bxs-file-excel"></i> Download Excel
+                    </button>
+                    <button className="btn btn-sm btn-outline-secondary" onClick={copyToClipboard}>
+                        <i className="bx bxs-copy"></i> Copy
+                    </button>
+                </div>
+            </h5>
             <div className="table-responsive text-nowrap">
                 <table className="table">
                     <thead>
                         <tr>
-                            <th>Project</th>
-                            <th>Client</th>
-                            <th>Users</th>
+                            <th>ID</th>
+                            <th>Complainant</th>
+                            <th>Category</th>
+                            <th>Sub-Category</th>
+                            <th>Message</th>
+                            <th>Image</th>
                             <th>Status</th>
-                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody className="table-border-bottom-0">
-                        {tableData.map((item) => (
-                            <tr key={item.id} className={`table-${item.status.color.replace('bg-label-', '')}`}>
+                        {complaintData.map((item) => (
+                            <tr key={item.id}>
+                                <td>{item.id}</td>
+                                <td>{item.complainant}</td>
+                                <td>{item.category}</td>
+                                <td>{item.subCategory}</td>
+                                <td>{item.message}</td>
                                 <td>
-                                    <i className={`icon-base ${item.project.icon} icon-md ${item.project.color} me-4`}></i>
-                                    <span>{item.project.name}</span>
+                                    {item.image && (
+                                        <img
+                                            src={`../assets/img/${item.image}`}
+                                            alt="Complaint"
+                                            className="rounded-circle"
+                                            width="50"
+                                            height="50"
+                                        />
+                                    )}
                                 </td>
-                                <td>{item.client}</td>
                                 <td>
-                                    <ul className="list-unstyled m-0 avatar-group d-flex align-items-center">
-                                        {item.users.map((user, index) => (
-                                            <li key={index} data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" className="avatar avatar-xs pull-up" aria-label="Lilian Fuller" data-bs-original-title="Lilian Fuller">
-                                                <img src={`../assets/img/avatars/${user}`} alt="Avatar" className="rounded-circle" />
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </td>
-                                <td>
-                                    <span className={`badge ${item.status.color} me-1`}>{item.status.label}</span>
-                                </td>
-                                <td>
-                                    <div className="dropdown">
-                                        <button type="button" className="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                            <i className="icon-base bx bx-dots-vertical-rounded"></i>
-                                        </button>
-                                        <div className="dropdown-menu">
-                                            {item.actions.map((action, index) => (
-                                                <a key={index} className="dropdown-item" href="javascript:void(0);">
-                                                    <i className={`icon-base bx bx-${action.toLowerCase()} me-1`}></i> {action}
-                                                </a>
-                                            ))}
-                                        </div>
-                                    </div>
+                                    <span className={`badge ${getStatusColor(item.status)} me-1`}>
+                                        {item.status}
+                                    </span>
                                 </td>
                             </tr>
                         ))}
