@@ -43,7 +43,7 @@ const TenantsTable = ({search}) => {
             id: tenant.TenantId
         });
 
-        const offcanvasElement = document.getElementById('offcanvasAddTenant');
+        const offcanvasElement = document.getElementById('offcanvasAddUser');
         const offcanvas = new bootstrap.Offcanvas(offcanvasElement);
         offcanvas.show();
     };

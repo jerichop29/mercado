@@ -7,7 +7,7 @@ const ProtectedRoute = ({ children }) => {
   const isAuth = isAuthenticated();
   const isExpired = isTokenExpired();
   if (!isAuth || !isExpired) {
-    return <Navigate to="/forbidden" />;
+    return <Navigate to="/auth/signin" />;
   }
 
   return children;

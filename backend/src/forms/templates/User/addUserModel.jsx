@@ -148,7 +148,7 @@ const useAddUserModel = (editData, onSubmitSuccess) => {
           else{
             userResult = await AdminHandler.addAdmin(createUserAccount);
           }
-          if (userResult&&stallupdate) {
+          if (userResult) {
             console.log('Generated credentials:');
             console.log('Username:', username);
             console.log('Password:', password);

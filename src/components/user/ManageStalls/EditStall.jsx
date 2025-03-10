@@ -97,7 +97,7 @@ const EditStall = ({stall, onClose, onSubmitSuccess}) => {
                             value={formData.TypeName}
                             onChange={handleChange}
                             required
-                            disabled>
+                            >
                             <option value="None">None</option>
                             <option value="Meat">Meat</option>
                             <option value="Fish">Fish</option>

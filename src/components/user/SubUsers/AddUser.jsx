@@ -152,7 +152,7 @@ const { stall }=useData();
                                 <div className="mb-6">
                                     <Select
                                         id="add-tenant-stall"
-                                        value={OccupiedStall.find(option => option.value === formData.Stall_Id) || null}
+                                        value={OccupiedStall.find(option => option.value === formData.Stall_Id) || stallOptions.find(option => option.value === formData.Stall_Id)|| null}
                                         className="form-react-select"
                                         classNamePrefix="react-select"
                                         onChange={handleStallChange}
