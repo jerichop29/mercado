@@ -50,6 +50,7 @@ const ListReport = ({ startDate, endDate }) => {
             status: "In-Process"
         }
     ];
+    
 
     // Function to determine status color
     const getStatusColor = (status) => {

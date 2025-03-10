@@ -1,11 +1,9 @@
-import SummaryReportGraph from "../../../components/user/Report/SummaryReportGraph"
-import SummaryReportCard from "../../../components/user/Report/SummaryReportCard"
+import SummaryReport from "../../../components/user/Report/SummaryReport"
 
 export default function SummaryReportPage(){
     return(
         <div className="row g-4 m-4">
-        <SummaryReportCard />
-        <SummaryReportGraph />
+        <SummaryReport />
         </div>
     )
 }
