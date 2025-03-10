@@ -9,7 +9,6 @@ export const useData = (search , role) => {
     const [admin, setAdmin] = useState([]);
     const [tenant, setTenant] = useState([]);
     const [combined, setCombined] = useState([]);
-    const [stallFilter, setStallFilter] = useState([]);
     const [stall,setStall]=useState([]);
     const handleFilterData = async () => {
         try {
