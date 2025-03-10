@@ -2,7 +2,7 @@ import { useGLTF, Html } from '@react-three/drei'
 import { useState, useEffect } from 'react'
 import * as THREE from 'three'
 import { EffectComposer, Bloom } from '@react-three/postprocessing'
-import stallHandler from '../../../../../backend/src/handler/js/stallHandler'
+import stallHandler from '../../../../../backend/src/controllers/js/stallHandler'
 import Modal from '../../../main/Modal/Modal'
 import { CameraSetup } from '../controls/CameraSetup'
 let ModalOpen = false;

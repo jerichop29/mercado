@@ -1,6 +1,6 @@
 class AppointmentHandler {
     constructor() {
-        this.baseUrl = `${window.location.protocol}//${window.location.hostname}/mercado/backend/src/handler/php/appointmentFunctions.php`;
+        this.baseUrl = `${window.location.protocol}//${window.location.hostname}/mercado/backend/src/models/php/appointmentFunctions.php`;
     }
     // Generic fetch method with error handling
     async fetchWithErrorHandling(url, options = {}) {

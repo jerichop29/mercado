@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import ownerHandler from "../../backend/src/controllers/js/OwnerHandler.js";
-import adminHandler from "../../backend/src/controllers/js/AdminHandler.js";
-import tenantHandler from "../../backend/src/controllers/js/TenantHandler.js";
-import stallHandler from "../../backend/src/controllers/js/stallHandler.js";
+import ownerHandler from "../controllers/js/OwnerHandler.js";
+import adminHandler from "../controllers/js/AdminHandler.js";
+import tenantHandler from "../controllers/js/TenantHandler.js";
+import stallHandler from "../controllers/js/stallHandler.js";
 
 export const useData = (search , role) => {
     const [owner, setOwner] = useState([]);

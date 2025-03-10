@@ -7,12 +7,11 @@ This document provides a comprehensive guide to the optimized backend file struc
 Root Directory Structure
 
 backend/
-├── app/
+├── src/
 │   ├── controllers/
 │   ├── models/
 │   ├── views/
 │   ├── services/
-│   ├── middleware/
 │   └── helpers/
 ├── config/
 ├── public/
@@ -20,14 +19,13 @@ backend/
 ├── tests/
 └── utils/
 
-1. App Directory (MVC Core)
+1. Source Directory (MVC Core)
 
-app/
+src/
 ├── controllers/
 ├── models/
 ├── views/
 ├── services/
-├── middleware/
 └── helpers/
 
 Controllers Directory
@@ -46,11 +44,13 @@ Interfaces with the database
 
 Example: User.php, Post.php
 
+
 Views Directory
 
 Contains templates for rendering the UI
 
 Example: user-profile.view.php, dashboard.view.php
+
 
 Services Directory
 
@@ -60,6 +60,7 @@ Handles authentication, email sending, and external API integrations
 
 Example: AuthService.php, EmailService.php
 
+
 Middleware Directory
 
 Contains middleware for request processing
@@ -67,6 +68,7 @@ Contains middleware for request processing
 Handles authentication, logging, and CORS
 
 Example: AuthMiddleware.php, LoggerMiddleware.php
+
 
 Helpers Directory
 
@@ -90,7 +92,9 @@ Manages application constants
 
 Components
 
+
 database.php: Database connection settings
+
 
 constants.php: Application-wide constants
 

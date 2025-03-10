@@ -1,9 +1,9 @@
 import {useState, useEffect} from 'react';
-import PersonHandler from '../../../handler/js/PersonHandler';
+import PersonHandler from '../../../controllers/js/PersonHandler';
 import PersonValidator from '../../validators/personValidator';
-import TenantHandler from '../../../handler/js/TenantHandler';
-import OwnerHandler from '../../../handler/js/OwnerHandler';
-import stallHandler from '../../../handler/js/stallHandler';
+import TenantHandler from '../../../controllers/js/TenantHandler';
+import OwnerHandler from '../../../controllers/js/OwnerHandler';
+import stallHandler from '../../../controllers/js/stallHandler';
 
 const useAddTenantModel = (editData, onSubmitSuccess) => {
     const initialFormState = {

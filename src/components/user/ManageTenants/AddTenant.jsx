@@ -36,9 +36,9 @@ export default function AddTenant({ onClose, onSubmitSuccess, edit }) {
 
     return (
         <>
-            <div className="offcanvas offcanvas-end" tabIndex="-1" id="offcanvasAddTenant" aria-labelledby="offcanvasAddTenantLabel">
+            <div className="offcanvas offcanvas-end" tabIndex="-1" id="offcanvasAddUser" aria-labelledby="offcanvasAddUserLabel">
                 <div className="offcanvas-header border-bottom">
-                    <h5 id="offcanvasAddTenantLabel" className="offcanvas-title">Add Tenant</h5>
+                    <h5 id="offcanvasAddUserLabel" className="offcanvas-title">Add Tenant</h5>
                     <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
                 <div className="offcanvas-body mx-0 flex-grow-0 p-6 h-100">
@@ -151,7 +151,7 @@ export default function AddTenant({ onClose, onSubmitSuccess, edit }) {
                             />
                         </div>
                         <div className="mt-4">
-                            <button type="submit" className="btn tbl-btn-primary me-3">Submit</button>
+                            <button type="submit" className="btn btn-primary me-3">Submit</button>
                             <button 
                                 type="button" 
                                 className="btn btn-label-danger" 

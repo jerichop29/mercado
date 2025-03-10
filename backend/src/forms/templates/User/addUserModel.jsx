@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import PersonHandler from '../../../handler/js/PersonHandler';
+import PersonHandler from '../../../controllers/js/PersonHandler';
 import PersonValidator from '../../validators/personValidator';
-import OwnerHandler from '../../../handler/js/OwnerHandler';
-import AdminHandler from '../../../handler/js/AdminHandler';
-import stallHandler from '../../../handler/js/stallHandler';
+import OwnerHandler from '../../../controllers/js/OwnerHandler';
+import AdminHandler from '../../../controllers/js/AdminHandler';
+import stallHandler from '../../../controllers/js/stallHandler';
 const useAddUserModel = (editData, onSubmitSuccess) => {
   const initialFormState = {
     FName: "",
@@ -148,7 +148,7 @@ const useAddUserModel = (editData, onSubmitSuccess) => {
           else{
             userResult = await AdminHandler.addAdmin(createUserAccount);
           }
-          if (userResult&&stallupdate) {
+          if (userResult) {
             console.log('Generated credentials:');
             console.log('Username:', username);
             console.log('Password:', password);
