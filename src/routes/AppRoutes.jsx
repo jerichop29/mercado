@@ -54,6 +54,9 @@ import DetailedComplaintListPage from "../components/user/Report/DetailedComplai
 import ComplaintSummaryPage from "../components/user/Report/ComplaintSummary";
 import ListReportPage from "../pages/user/Report/ListReport";
 import SummaryReportPage from "../pages/user/Report/SummaryReport";
+import OwnerDashboardPage from "../pages/user/OwnerDashboard";
+import LadgeComplaintPage from "../pages/user/LadgeComplaint";
+import ComplaintHistoryPage from "../pages/user/ComplaintHistory";
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -123,6 +126,9 @@ const AppRoutes = () => {
               <Route path="list-report" element={renderPage(ListReportPage)} />
               <Route path="summary-report" element={renderPage(SummaryReportPage)} />
               <Route path="my-profile" element={renderPage(MyProfilePage)} />
+              <Route path="owner-dashboard" element={renderPage(OwnerDashboardPage)} />
+              <Route path="ladge-complaint" element={renderPage(LadgeComplaintPage)} />
+              <Route path="complaint-history" element={renderPage(ComplaintHistoryPage)} />
             </Route>
               {/* Catch-all route */}
               <Route path="forbidden" element={<Forbidden />} />

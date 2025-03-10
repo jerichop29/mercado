@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useData } from "../../../hooks/useData";
 
-const UserDashboard = () => {
+const OwnerDashboard = () => {
     const { owner } = useData();
     useEffect(() => {
         dashboardAnalitics();
@@ -209,4 +209,4 @@ const UserDashboard = () => {
         </>
     );
 };
-export default UserDashboard;
+export default OwnerDashboard;
