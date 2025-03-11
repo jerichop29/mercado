@@ -8,7 +8,7 @@ const StallsTable = ({ search }) => {
   const {stall} = useData(filter,ChangeFilter);
   const [displayData , setdisplayData] = useState(10);
   const [currentPage, setCurrentPage] = useState(1); 
-  const [selectedStall, setSelectedStall] = useState(null);
+  const [selectedStall, setSelectedStall] = useState({});
   const totalPages = Math.ceil(stall.length / displayData);
   const startIndex = (currentPage - 1) * displayData;
   const endIndex = startIndex + displayData;
@@ -301,7 +301,7 @@ const handleChange = (e) => {
                 <EditStall 
                     stall={selectedStall} 
                     onClose={() => {
-                        setEditData(null);
+                        setSelectedStall(null);
                     }}
                     onSubmitSuccess={handleSubmitSuccess} 
                 />

@@ -3,6 +3,7 @@ import PersonHandler from '../../../controllers/js/PersonHandler';
 import stallHandler from '../../../controllers/js/stallHandler';
 
 const useStallUpdate = (editData, onSubmitSuccess) => {
+
     const initialFormState = {
         Owner_Id: "",
         StallCode: "",
@@ -51,13 +52,14 @@ const useStallUpdate = (editData, onSubmitSuccess) => {
         console.log(formData)
         setMessage({text: "", type: ""});
         try {
-            
+            const stall = stallHandler.updateStall(formData.id,formData)
 
 
+            setMessage({text: result.message, type: "success"});
+            if(stall.status === 'success'){
+                alert('Stall Edited');
+            }
 
-
-
-            
             resetForm();
 
         } catch (error) {
@@ -76,4 +78,4 @@ const useStallUpdate = (editData, onSubmitSuccess) => {
     };
 };
 
-export default useaddTenant;
+export default useStallUpdate;

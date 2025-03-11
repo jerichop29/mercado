@@ -5,7 +5,7 @@ import TenantHandler from '../../../controllers/js/TenantHandler';
 import OwnerHandler from '../../../controllers/js/OwnerHandler';
 import stallHandler from '../../../controllers/js/stallHandler';
 
-const useaddTenant = (editData, onSubmitSuccess) => {
+const useaddTenant = (editData,) => {
     const initialFormState = {
         FName: "",
         MName: "",
@@ -78,6 +78,7 @@ const useaddTenant = (editData, onSubmitSuccess) => {
                 : await PersonHandler.addPerson(formData);
 
             setMessage({text: result.message, type: "success"});
+            if (onSubmitSuccess) onSubmitSuccess();
             // if (onSubmitSuccess) 
             //     onSubmitSuccess();
             

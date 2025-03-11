@@ -1,15 +1,17 @@
 import React, {useState, useEffect} from 'react';
 import Select from 'react-select';
 import { useData } from '../../../../backend/src/views/useData';
+import useStallUpdate from '../../../../backend/src/forms/templates/Stall/editStall';
 const EditStall = ({stall, onClose, onSubmitSuccess}) => {
       const {owner} = useData();
+      const [selectedStall,setSelectedStall] = useState();
+      const { formData, message, handleChange, handleSubmit, resetForm } = useStallUpdate(stall, onSubmitSuccess);
       // Stall options for the dropdown, filtered by selected building
       const ownerOptions = owner
       .map((o) => ({
           value: o.Owner_Id,
           label: o.FName+" "+o.MName+" "+o.LName
       }));
-
       const handleOwnerChange = (selectedOption) => {
         setSelectedStall(selectedOption);
         if (selectedOption) {
@@ -19,48 +21,7 @@ const EditStall = ({stall, onClose, onSubmitSuccess}) => {
             handleChange({ target: { name: 'Owner_Id', value: '' } });
         }
     };
-    const [formData,
-        setFormData] = useState({
-        Owner_Id:"",
-        StallCode: '',
-        TypeName: '',
-        BuildingName: '',
-        OwnerFname:  "",
-        OwnerMname:  "",
-        OwnerLname:  "",
-        Status: '',
-    });
-
-    useEffect(() => {
-        if (stall) {
-            setFormData({
-                Owner_Id:stall.Owner_Id || "",
-                StallCode: stall.StallCode,
-                TypeName: stall.TypeName,
-                BuildingName: stall.BuildingName,
-                OwnerFname: stall.OwnerFname || "",
-                OwnerMname: stall.OwnerMname || "",
-                OwnerLname: stall.OwnerLname || "",
-                Status: stall.Status,
-            });
-        }
-    }, [stall]);
-
-    const handleChange = (e) => {
-        const {name, value} = e.target;
-        setFormData((prevData) => ({
-            ...prevData,
-            [name]: value
-        }));
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Call the onSubmitSuccess with the updated formData
-        onSubmitSuccess(formData);
-        onClose(); // Close the modal after submission
-    };
-
+    
     return (
         <div
             className="offcanvas offcanvas-end"
