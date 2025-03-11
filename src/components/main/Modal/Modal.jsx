@@ -1,5 +1,5 @@
 import "./Modal.css";
-import { useModal } from "../../../hooks/useModal";
+import { useModal } from "../../../../backend/src/views/useModal";
 
 function Modal({ isOpen, stallName, onClose }) {
   const { stall } = useModal(isOpen,stallName);

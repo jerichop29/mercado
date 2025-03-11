@@ -4,9 +4,9 @@
 
 'use strict';
 
-function dashboardAnalitics() {
-  let cardColor, headingColor, axisColor, shadeColor, borderColor;
+function dashboardAnalitics(pie,bar,complaint) {
 
+  let cardColor, headingColor, axisColor, shadeColor, borderColor;
   cardColor = config.colors.cardColor;
   headingColor = config.colors.headingColor;
   axisColor = config.colors.axisColor;
@@ -19,7 +19,7 @@ function dashboardAnalitics() {
       series: [
         {
           name: '2025',
-          data: [7, 15, 5, 10, 20, 10, 7]
+          data: bar??[7, 15, 5, 10, 20, 10, 7]
         },
       ],
       chart: {
@@ -274,7 +274,7 @@ function dashboardAnalitics() {
   // --------------------------------------------------------------------
   const growthChartEl = document.querySelector('#growthChart'),
     growthChartOptions = {
-      series: [80],
+      series: pie??[86],
       labels: ['Stalls Occupied'],
       chart: {
         height: 240,
@@ -356,7 +356,7 @@ function dashboardAnalitics() {
   const complaintReportChartEl = document.querySelector('#complaintReportChart'),
   complaintReportChartConfig = {
       chart: {
-        height: 80,
+        height: 100,
         // width: 175,
         type: 'line',
         toolbar: {
@@ -390,7 +390,7 @@ function dashboardAnalitics() {
       },
       series: [
         {
-          data: [110, 270, 145, 245, 205, 285]
+          data: complaint??[40, 270, 145, 285, 205, 285]
         }
       ],
       xaxis: {

@@ -1,7 +1,6 @@
 import Card from "../../components/user/Card";
 import UserTable from "../../components/user/SubUsers/UserTable";
 import searchFilters from "../../utils/SearchFilterData";
-import { useData } from "../../hooks/useData";
 import {CardStats} from "../../utils/CardStatsData";
 
 export default function SubUsersPage() {

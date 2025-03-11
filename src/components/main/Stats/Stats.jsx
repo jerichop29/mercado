@@ -1,6 +1,6 @@
 import React from 'react';
 import './Stats.css';
-import { useStats } from '../../../hooks/useStats';
+import { useStats } from '../../../../backend/src/views/useStats';
 export default function Stats() {
   const { stallData, ownerData } = useStats();
 

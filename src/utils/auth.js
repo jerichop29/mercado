@@ -9,8 +9,17 @@ const getCurrentTimestamp = () => Date.now();
 const isAuthenticated = () => {
     const token = sessionStorage.getItem('authToken');
     const user = sessionStorage.getItem('user');
-    const role = sessionStorage.getItem('role')
-    return !!token && !!user;
+    const expiry = sessionStorage.getItem('expiry');
+
+    if (!token || !user || !expiry) return false;
+
+    // Check if the session has expired
+    if (getCurrentTimestamp() > parseInt(expiry)) {
+        logout(); // Clear expired session
+        return false;
+    }
+
+    return true;
 };
 
 // Get the authentication token
@@ -22,9 +31,16 @@ const getToken = () => {
 // Get the user data
 const getUser = () => {
     if (isSessionExpired()) return null;
-    const user = sessionStorage.getItem('user');
-    return user ? JSON.parse(user) : null;
+    try {
+        const user = sessionStorage.getItem('username');
+        console.log(user)
+        return user ? user?.replace(/^"|"$/g, "") : null;
+    } catch (error) {
+        console.error("Error parsing user data:", error);
+        return null;
+    }
 };
+
 
 const isSessionExpired = () => {
     const expiry = sessionStorage.getItem('expiry');
@@ -49,6 +65,7 @@ async function storeHashedData(user, role) {
     const roleHash = await hashData(role);
 
     sessionStorage.setItem("user", userHash);
+    sessionStorage.setItem("username", user);
     sessionStorage.setItem("role", roleHash);
 }
 
@@ -68,6 +85,7 @@ const setAuth = (token, user, role) => {
 const logout = () => {
     sessionStorage.removeItem('authToken');
     sessionStorage.removeItem('user');
+    sessionStorage.removeItem('username');
     sessionStorage.removeItem('role');
     sessionStorage.removeItem('expiry');
     delete axios.defaults.headers.common['Authorization'];
@@ -115,6 +133,29 @@ async function checkUser(inputUser, inputRole) {
     } else {
         console.log("Verification failed.");
     }
+};
+
+async function checkRole(inputRole) {
+    if (isSessionExpired()) {
+        console.log("Session expired.");
+        return false;
+    }
+    const storedRoleHash = sessionStorage.getItem("role");
+    const isRoleValid = await verifyData(inputRole, storedRoleHash);
+
+    if (isRoleValid) {
+        console.log("Role verification successful!");
+
+        const allowedRoles = ["superadmin", "admin"];
+        if (allowedRoles.includes(inputRole.toLowerCase())) {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        console.log("Role verification failed.");
+        return false;
+    }
 }
 
-export { isAuthenticated, initializeAuth, isTokenExpired, logout, setAuth, getUser, getToken };
+export {isAuthenticated, initializeAuth,isTokenExpired,logout,setAuth,getUser,getToken}

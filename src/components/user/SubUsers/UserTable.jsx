@@ -1,6 +1,6 @@
 import React,{ useState } from 'react';
 import AddUser from './AddUser';
-import { useData } from '../../../hooks/useData';
+import { useData } from '../../../../backend/src/views/useData';
 import useDeleteUserModel from '../../../../backend/src/forms/templates/User/deleteUserModel';
 
 const UserTable = ({ search }) => {

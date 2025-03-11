@@ -1,9 +1,16 @@
 import { useEffect } from "react";
-import { useData } from "../../hooks/useData";
+import { useData } from "../../../backend/src/views/useData";
+import { getUser } from "../../utils/auth";
+import { CardStats } from "../../utils/CardStatsData";
+
 const DashboardPage = () => {
-    const { owner ,stall} = useData();
-    useEffect(() => {
-        dashboardAnalitics();
+    const { owner } = useData();
+    const {stallsOccupied } = CardStats(); 
+    const pie = parseInt(stallsOccupied);
+
+    useEffect(() => { 
+        dashboardAnalitics([22],null,null)
+        
     }, [])
     return (
         <>
@@ -14,7 +21,7 @@ const DashboardPage = () => {
                             <div className="col-sm-7">
                                 <div className="card-body">
                                     <h5 className="card-title text-primary">
-                                        Welcome Jericho! 🎉
+                                        Welcome {getUser ? getUser() : "Guest"}! 🎉
                                     </h5>
                                     <p className="mb-4">
                                         You are logged in as <span className="fw-medium">Account type</span> description about account type

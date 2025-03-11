@@ -14,7 +14,7 @@ class TenantFunctions {
         $sql = "SELECT 
                     tenanttbl.TenantId,
                     tenanttbl.Date_Start,
-                    tenanttbl.`Market Fee`, 
+                    tenanttbl.`Market Fee` AS Market_Fee, 
                     persontbl.*, 
                     stalltbl.StallCode,
                     stalltbl.BuildingName, 
@@ -67,7 +67,7 @@ class TenantFunctions {
     public function updateTenant($id, $data) {
         $sql = "UPDATE tenanttbl SET Person_Id = ?, Stall_Id = ?, `Market Fee` = ? WHERE TenantId = ?";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("iidi", $data['person_id'], $data['stall_id'], $data['market_fee'], $id);
+        $stmt->bind_param("iidi", $data['Person_Id'], $data['Stall_Id'], $data['Market_Fee'], $id);
         
         if ($stmt->execute()) {
             return ["status" => "success", "message" => "Tenant updated successfully"];

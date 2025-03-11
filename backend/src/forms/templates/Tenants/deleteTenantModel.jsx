@@ -2,7 +2,7 @@ import { useState } from 'react';
 import PersonHandler from '../../../controllers/js/PersonHandler';
 import TenantHandler from '../../../controllers/js/TenantHandler';
 
-const useDeleteUserModel = (onDeleteSuccess) => {
+const useDeleteTenantModel = (onDeleteSuccess) => {
   const [message, setMessage] = useState({ text: "", type: "" });
 
   const handleDelete = async (userData) => {
@@ -37,4 +37,4 @@ const useDeleteUserModel = (onDeleteSuccess) => {
   };
 };
 
-export default useDeleteUserModel; 
+export default useDeleteTenantModel; 

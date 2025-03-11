@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import Select from 'react-select';
-import { useData } from '../../../hooks/useData';
+import { useData } from '../../../../backend/src/views/useData';
 const EditStall = ({stall, onClose, onSubmitSuccess}) => {
       const {owner} = useData();
       // Stall options for the dropdown, filtered by selected building
@@ -29,8 +29,6 @@ const EditStall = ({stall, onClose, onSubmitSuccess}) => {
         OwnerMname:  "",
         OwnerLname:  "",
         Status: '',
-        Date_Start: '',
-        due: ''
     });
 
     useEffect(() => {
@@ -44,8 +42,6 @@ const EditStall = ({stall, onClose, onSubmitSuccess}) => {
                 OwnerMname: stall.OwnerMname || "",
                 OwnerLname: stall.OwnerLname || "",
                 Status: stall.Status,
-                Date_Start: stall.Date_Start,
-                due: stall.due
             });
         }
     }, [stall]);
@@ -80,7 +76,7 @@ const EditStall = ({stall, onClose, onSubmitSuccess}) => {
                         <label htmlFor="stallCode" className="form-label">Stall Code</label>
                         <input
                             type="text"
-                            className="form-control"
+                            className="form-control "
                             id="stallCode"
                             name="StallCode"
                             value={formData.StallCode}
@@ -138,40 +134,24 @@ const EditStall = ({stall, onClose, onSubmitSuccess}) => {
                                         isSearchable
                                         placeholder="Select or type the Owner"
                                     />
-                                </div>
+                                
                     </div>
                     <div className="mb-3">
-                        <label htmlFor="status" className="form-label">Status</label>
-                        <input
-                            type="text"
-                            className="form-control"
+                        <label className="form-label" htmlFor="buildingName">Status</label>
+                        <select
                             id="status"
                             name="Status"
                             value={formData.Status}
+                            className="form-select"
                             onChange={handleChange}
-                            required/>
+                            required>
+                            <option value="1">Available</option>
+                            <option value="2">Unavailable</option>
+                            <option value="3">Reserved</option>
+                            <option value="4">Occupied</option>
+                            <option value="5">Maintenance</option>
+                        </select>
                     </div>
-                    <div className="mb-3">
-                        <label htmlFor="dateStart" className="form-label">Start Date</label>
-                        <input
-                            type="date"
-                            className="form-control"
-                            id="dateStart"
-                            name="Date_Start"
-                            value={formData.Date_Start}
-                            onChange={handleChange}
-                            required/>
-                    </div>
-                    <div className="mb-3">
-                        <label htmlFor="dueDate" className="form-label">Due Date</label>
-                        <input
-                            type="date"
-                            className="form-control"
-                            id="dueDate"
-                            name="due"
-                            value={formData.due}
-                            onChange={handleChange}
-                            required/>
                     </div>
                     <div className='row mt-4'>
                         <div className='col-6'>

@@ -1,7 +1,7 @@
 import "./Facility.scss";
 import Calendar from "react-calendar"; // Import react-calendar package
 import { useState } from "react";
-import { useFacility } from "../../../hooks/useFacility";
+import { useFacility } from "../../../../backend/src/views/useFacility";
 
 export default function Facility({ facility }) {
     const [date, setDate] = useState(new Date());

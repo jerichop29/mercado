@@ -5,11 +5,11 @@ import tenantHandler from "../controllers/js/TenantHandler.js";
 import stallHandler from "../controllers/js/stallHandler.js";
 
 export const useData = (search , role) => {
+    const [username,setUsername] = useState([]);
     const [owner, setOwner] = useState([]);
     const [admin, setAdmin] = useState([]);
     const [tenant, setTenant] = useState([]);
     const [combined, setCombined] = useState([]);
-    const [stallFilter, setStallFilter] = useState([]);
     const [stall,setStall]=useState([]);
     const handleFilterData = async () => {
         try {
@@ -18,6 +18,21 @@ export const useData = (search , role) => {
             const ownerData = await ownerHandler.getOwners();
             const adminData = await adminHandler.getAdmins();
             const stallData = await stallHandler.getStalls();
+
+
+            const filteredUsername = ownerData.data.filter(data => {
+                if (!search && !role) return null;
+                const username = data?.Username?.toLowerCase()||'';
+                return username
+            });
+         
+
+            const filteredUsernameAdmin = adminData.data.filter(data => {
+                if (!search && !role) return null;
+                const username = data?.Username?.toLowerCase()||'';
+                return username
+            });
+            setCombined([...filteredUsername, ...filteredUsernameAdmin]);
 
             if (!ownerData?.data|| !adminData?.data || !tenantData?.data) return;
             // Filter owners based on search
@@ -38,6 +53,7 @@ export const useData = (search , role) => {
 
 
             setOwner(filteredOwners);
+
             // Filter owners based on search
             const filteredAdmin = adminData.data.filter(data => {
                 // Skip filtering if no search criteria
@@ -85,7 +101,6 @@ export const useData = (search , role) => {
                 
                 return nameMatch && bldgMatch;
             });
-            
             setTenant(filteredTenants);
 
             const filteredStalls = stallData.data.filter(data => {
@@ -116,5 +131,5 @@ export const useData = (search , role) => {
         handleFilterData();
     }, [search]); // Re-run effect when search changes
 
-    return { owner , admin , combined , tenant , stall };
+    return { owner , admin , combined , tenant , stall , username};
 };

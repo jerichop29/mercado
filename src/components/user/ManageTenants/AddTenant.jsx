@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import Select from 'react-select';
-import { useData } from '../../../hooks/useData';
-import useAddTenantModel from '../../../../backend/src/forms/templates/Tenants/addTenantModel';
+import { useData } from '../../../../backend/src/views/useData';
+import useaddTenant from '../../../../backend/src/forms/templates/Tenants/addTenant';
 export default function AddTenant({ onClose, onSubmitSuccess, edit }) {
     // State for managing selected stall
     const [selectedStall, setSelectedStall] = useState(null);
     const [selectedBuilding, setSelectedBuilding] = useState('');
     const { stall } = useData();
-    const { formData, message, handleChange, handleSubmit, resetForm } = useAddTenantModel(edit, onSubmitSuccess);
+    const { formData, message, handleChange, handleSubmit, resetForm } = useaddTenant(edit, onSubmitSuccess);
     // Handle building selection
     const handleSelectedBuilding = (selectedBuilding) => {
         setSelectedBuilding(selectedBuilding);
@@ -38,7 +38,7 @@ export default function AddTenant({ onClose, onSubmitSuccess, edit }) {
         <>
             <div className="offcanvas offcanvas-end" tabIndex="-1" id="offcanvasAddUser" aria-labelledby="offcanvasAddUserLabel">
                 <div className="offcanvas-header border-bottom">
-                    <h5 id="offcanvasAddUserLabel" className="offcanvas-title">Add Tenant</h5>
+                    <h5 id="offcanvasAddUserLabel" className="offcanvas-title">{edit?"Edit":"Add"} Tenant</h5>
                     <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
                 <div className="offcanvas-body mx-0 flex-grow-0 p-6 h-100">

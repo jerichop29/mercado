@@ -1,6 +1,6 @@
 import React from 'react';
 import './Discover.css';
-import { useDiscover } from '../../../hooks/useDiscover';
+import { useDiscover } from '../../../../backend/src/views/useDiscover';
 
 export default function Discover() {
   const { filteredData, formatDateWMonth } = useDiscover();

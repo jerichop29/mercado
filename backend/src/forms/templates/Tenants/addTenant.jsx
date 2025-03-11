@@ -5,7 +5,7 @@ import TenantHandler from '../../../controllers/js/TenantHandler';
 import OwnerHandler from '../../../controllers/js/OwnerHandler';
 import stallHandler from '../../../controllers/js/stallHandler';
 
-const useAddTenantModel = (editData, onSubmitSuccess) => {
+const useaddTenant = (editData, onSubmitSuccess) => {
     const initialFormState = {
         FName: "",
         MName: "",
@@ -130,4 +130,4 @@ const useAddTenantModel = (editData, onSubmitSuccess) => {
     };
 };
 
-export default useAddTenantModel;
+export default useaddTenant;

@@ -2,18 +2,18 @@ import AdminValidator from "../../forms/validators/adminValidator";
 
 class AdminHandler {
     constructor() {
-        this.baseUrl = `${window.location.protocol}//${window.location.hostname}/mercado/backend/src/models/php/adminFunctions.php`;// Update with the correct PHP file
-        
+        this.baseUrl = `${window.location.protocol}//${window.location.hostname}/mercado/backend/src/models/php/adminFunctions.php`; // Update with the correct PHP file
+
     }
-    
+
     async fetchWithErrorHandling(url, options = {}) {
         try {
             const response = await fetch(url, {
                 ...options,
                 headers: {
                     'Content-Type': 'application/json',
-                    ...options.headers,
-                },
+                    ...options.headers
+                }
             });
 
             if (!response.ok) {
@@ -38,9 +38,9 @@ class AdminHandler {
     }
 
     async Authadmin(adminData) {
-        return this.fetchWithErrorHandling(`${this.baseUrl}?action=auth`,{
-        method:'POST',
-        body: JSON.stringify(adminData)
+        return this.fetchWithErrorHandling(`${this.baseUrl}?action=auth`, {
+            method: 'POST',
+            body: JSON.stringify(adminData)
         });
     }
 
@@ -53,9 +53,7 @@ class AdminHandler {
     }
 
     async deleteAdmin(adminId) {
-        return this.fetchWithErrorHandling(`${this.baseUrl}?action=delete&id=${adminId}`, {
-            method: 'DELETE'
-        });
+        return this.fetchWithErrorHandling(`${this.baseUrl}?action=delete&id=${adminId}`, {method: 'DELETE'});
     }
 
     async updateAdmin(adminId, adminData) {

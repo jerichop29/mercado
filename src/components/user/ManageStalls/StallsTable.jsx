@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import { useData } from '../../../hooks/useData';
+import { useData } from '../../../../backend/src/views/useData';
 import EditStall from './EditStall';
 
 const StallsTable = ({ search }) => {
@@ -40,7 +40,7 @@ const handleChange = (e) => {
         OwnerFname: stall.OwnerFname || "",
         OwnerMname: stall.OwnerMname || "",
         OwnerLname: stall.OwnerLname || "",
-        Status: stall.Status || "",
+        Status: stall.Status_Id || "",
         Date_Start: stall.Date_Start || "",
         due: stall.due || "",
         Stall_Id: stall.Stall_Id || "",
@@ -182,7 +182,7 @@ const handleChange = (e) => {
                                                     {stalls.TypeName === "Other" && (
                                                         <i className="icon-base fa-solid fa-pizza-slice text-warning me-2"></i>
                                                     )}
-                                                    {stalls.TypeName}
+                                                    {stalls.TypeName === "None"? "": stalls.TypeName}
                                                 </span>
                                             </td>
                                             <td>
@@ -198,8 +198,8 @@ const handleChange = (e) => {
                                                         </div>
                                                     </div>
                                                     <div className="d-flex flex-column">
-                                                        <a href="app-user-view-account.html" className="text-heading text-truncate">
-                                                            <span className="fw-medium">{stalls.OwnerFname? stalls.OwnerFname +" "+ stalls.OwnerMname +" "+ stalls.OwnerLname:"None"}</span>
+                                                        <a href="#" className="text-heading text-truncate">
+                                                            <span className="fw-medium">{stalls.OwnerFname? stalls.OwnerFname +" "+ stalls.OwnerMname +" "+ stalls.OwnerLname:" "}</span>
                                                         </a>
                                                         <small>{stalls.Email}</small>
                                                     </div>

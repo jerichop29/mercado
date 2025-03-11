@@ -1,4 +1,4 @@
-import {useData} from '../hooks/useData';
+import { useData } from '../../backend/src/views/useData';
 
 export const CardStats = () => {
     const {admin, owner, tenant, stall} = useData();
@@ -44,8 +44,11 @@ export const CardStats = () => {
         ? `${ ((occupiedStalls / totalStalls) * 100).toFixed(2)}%`
         : "0";
     const uniqueStallCount = new Set(tenant.map(t => t.stall_Id)).size || 0;
-
+    const stallsOccupied  = ((occupiedStalls / totalStalls) * 10000).toFixed(2);  
     return {
+        stallsOccupied:stallsOccupied,
+        totalStalls:totalStalls,
+        occupiedStalls:occupiedStalls,
         userStats: [
             {
                 title: "Users",
@@ -81,25 +84,25 @@ export const CardStats = () => {
             {
                 title: "Total",
                 count: totalTenants,
-                percentage: "100%",
+                percentage: `${totalTenants == 0? '0' :((totalTenants / totalTenants) * 100).toFixed(0)}%`,
                 description: "Total Tenants",
                 icon: "fa-solid fa-users"
             }, {
                 title: "Stalls",
                 count: uniqueStallCount,
-                percentage: stallOccupancyRate,
+                percentage: `${uniqueStallCount == 0? '0' :((uniqueStallCount / totalStalls) * 100).toFixed(2)}%`,
                 description: "number of stalls with tenants",
                 icon: "fa-solid fa-store"
             }, {
                 title: "New Tenants",
                 count: newTenants,
-                percentage: `${ ((newTenants / totalTenants) * 100).toFixed(0)}%`,
+                percentage: `${newTenants == 0? '0' :((newTenants / totalTenants) * 100).toFixed(0)}%`,
                 description: "number of new tenants this year",
                 icon: "fa-solid fa-user-plus"
             }, {
                 title: "Long term Tenants",
                 count: longTermTenants,
-                percentage: `${ ((longTermTenants / totalTenants) * 100).toFixed(0)}%`,
+                percentage: `${longTermTenants == 0? '0' :((longTermTenants / totalTenants) * 100).toFixed(0)}%`,
                 description: "number of old tenants",
                 icon: "bi bi-person-heart"
             }

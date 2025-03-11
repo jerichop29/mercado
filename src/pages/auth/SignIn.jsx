@@ -34,7 +34,6 @@ const SignInPage = () => {
       if (response.status === 'success') {
         // Store authentication data
         setAuth(response.token, response.user , response.role);
-        
         // Handle remember me
         if (rememberMe) {
           Cookies.set('username', username, { expires: 7 });

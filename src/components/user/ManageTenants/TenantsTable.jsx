@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import AddTenant from './AddTenant';
-import {useData} from '../../../hooks/useData';
-import useDeleteUserModel from '../../../../backend/src/forms/templates/Tenants/deleteUserModel';
+import {useData} from '../../../../backend/src/views/useData';
+import useDeleteTenantModel from '../../../../backend/src/forms/templates/Tenants/deleteTenantModel';
 
 const TenantsTable = ({search}) => {
     const [filter,
@@ -22,7 +22,7 @@ const TenantsTable = ({search}) => {
     const [selectedTenants,
         setSelectedTenants] = useState([]);
 
-    const {handleDelete, message} = useDeleteUserModel(() => {
+    const {handleDelete, message} = useDeleteTenantModel(() => {
         console.log("Tenant deleted successfully");
     });
 
@@ -42,14 +42,12 @@ const TenantsTable = ({search}) => {
             Market_Fee: tenant.Market_Fee || "",
             id: tenant.TenantId
         });
-
         const offcanvasElement = document.getElementById('offcanvasAddUser');
         const offcanvas = new bootstrap.Offcanvas(offcanvasElement);
         offcanvas.show();
     };
 
     const handleDeleteClick = async(tenant) => {
-        console.log("Selected Users for Deletion:", tenant);
         if (window.confirm('Are you sure you want to delete this user?')) {
             await handleDelete({TenantId: tenant.TenantId, Person_Id: tenant.Person_Id});
         }
@@ -281,6 +279,7 @@ const TenantsTable = ({search}) => {
 
                                 <tbody>
                                     {displayedUsers.map((tenant, index) => (
+                                        
                                         <tr key={index}>
                                             <td
                                                 className="control dtr-hidden"
