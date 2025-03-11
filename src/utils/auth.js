@@ -108,84 +108,48 @@ const initializeAuth = () => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     }
 };
-
-async function verifyData(input, storedHash) {
-    const inputHash = await hashData(input);
-    return inputHash === storedHash;
-}
-
-// Example Usage
-async function checkUser(inputUser, inputRole) {
-    if (isSessionExpired()) {
-        console.log("Session expired.");
-        return;
-    }
-
-    const storedUserHash = sessionStorage.getItem("user");
-    const storedRoleHash = sessionStorage.getItem("role");
-
-    const isUserValid = await verifyData(inputUser, storedUserHash);
-    const isRoleValid = await verifyData(inputRole, storedRoleHash);
-
-    if (isUserValid && isRoleValid) {
-        console.log("User verification successful!");
-    } else {
-        console.log("Verification failed.");
-    }
-};
-
-async function checkRole() {
+ async function checkRole() {
     if (isSessionExpired()) {
         console.log("Session expired.");
         return false;
     }
     
     const storedRoleHash = sessionStorage.getItem("role");
-    const role = '"admin"';
-    const role2 = '"superadmin"';
-    const hashrole = await hashData(role);
-    const hashrole2 = await hashData(role2);
-    const isRoleValid = hashrole == storedRoleHash || hashrole2 == storedRoleHash ?true:false;
-
+    const adminRole = '"admin"';
+    const superadminRole = '"superadmin"';
+    const hashAdminRole = await hashData(adminRole);
+    const hashSuperadminRole = await hashData(superadminRole);
+    
+    const isRoleValid = (hashAdminRole === storedRoleHash || hashSuperadminRole === storedRoleHash);
+    
     if (isRoleValid) {
         console.log("Role verification successful!");
-        const allowedRoles = ["superadmin", "admin"];
-        if (allowedRoles.includes(role.toLowerCase())) {
-            return true;
-        } else {
-            return false;
-        }
+        return true;
     } else {
         console.log("Role verification failed.");
         return false;
     }
 }
-async function checkRoleisOwner() {
+
+// Function to check if user has Owner role
+ async function checkRoleisOwner() {
     if (isSessionExpired()) {
         console.log("Session expired.");
         return false;
     }
-    
     const storedRoleHash = sessionStorage.getItem("role");
-    console.log(storedRoleHash);
-    const role = '"Owner"';
-    const hashrole = await hashData(role);
-    console.log(storedRoleHash+" \n" + hashrole);
-    const isRoleValid = hashrole == storedRoleHash ? true :false;
+    const ownerRole = '"Owner"';
+    const hashOwnerRole = await hashData(ownerRole);
+    const isRoleValid = hashOwnerRole === storedRoleHash;
 
     if (isRoleValid) {
         console.log("Role verification successful!");
-
-        const allowedRoles = ["Owner"];
-        if (allowedRoles.includes(role.toLowerCase())) {
-            return true;
-        } else {
-            return false;
-        }
+        return true;
     } else {
         console.log("Role verification failed.");
         return false;
     }
 }
+
 
 export {isAuthenticated, initializeAuth,isTokenExpired,logout,setAuth,getUser,getToken,checkRole,checkRoleisOwner}

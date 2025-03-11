@@ -1,11 +1,21 @@
-import React from 'react';
+import React ,{ useEffect , useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import  { MenuData }  from '../../utils/MenuData.jsx'
 import Logo from '../../assets/img/logo.png';
-import {checkRoleisOwner} from '../../utils/auth.js';
 const Sidebar = () => {
-    console.log(checkRoleisOwner());
-    const { Data }= MenuData();
+    const [menuItems, setMenuItems] = useState({ Data: [] });
+    useEffect(() => {
+        const fetchMenuData = async () => {
+            try {
+                const data = await MenuData();
+                setMenuItems(data);
+            } catch (error) {
+                console.error("Error fetching menu data:", error);
+            } 
+        };
+
+        fetchMenuData();
+    }, []);
     return (
         <aside id="layout-menu" className="layout-menu menu-vertical menu bg-menu-theme">
             <div className="app-brand demo">
@@ -23,7 +33,7 @@ const Sidebar = () => {
             <div className="menu-inner-shadow"></div>
 
             <ul className="menu-inner py-1">
-                {Data.map((section) => (
+                {menuItems.Data.map((section) => (
                     <React.Fragment key={section.header}>
                         {section.header && (
                             <li className="menu-header small text-uppercase">
