@@ -1,28 +1,11 @@
-import { useLocation } from "react-router-dom";
-
-export default function ComplaintsTable({ Complaints }) {
-    const location = useLocation();
-
-    const getTitle = () => {
-        switch (location.pathname) {
-            case "/user/resolved-complaints":
-                return "Resolved Complaints";
-            case "/user/in-process-complaints":
-                return "In Process Complaints";
-            case "/user/not-process-complaints":
-                return "Not Process Complaints";
-            default:
-                return null; // No title for other paths
-        }
-    };
-
-    const title = getTitle();
+export default function ComplaintHistory({ History }) {
     return (
         <>
             <div className="card">
                 <div className="card-header border-bottom">
-                    {title && <h5 className="card-title mb-0">{title}</h5>}
+                    <h5 className="card-title mb-0">History Announcements</h5>
                 </div>
+
                 <div className="card-datatable">
                     <div id="DataTables_Table_0_wrapper" className="dt-container dt-bootstrap5 dt-empty-footer">
                         <div className="row mx-3 my-0 justify-content-between">
@@ -39,7 +22,7 @@ export default function ComplaintsTable({ Complaints }) {
 
                             <div className="d-md-flex align-items-center dt-layout-end col-md-auto ms-auto d-flex gap-md-4 justify-content-md-between justify-content-center gap-4 flex-wrap mt-0">
                                 <div className="dt-search mb-md-6 mb-2">
-                                    <input type="search" className="form-control" id="dt-search-0" placeholder="Search Appointment" aria-controls="DataTables_Table_0" />
+                                    <input type="search" className="form-control" id="dt-search-0" placeholder="Search History" aria-controls="DataTables_Table_0" />
                                     <label htmlFor="dt-search-0"></label>
                                 </div>
                             </div>
@@ -51,12 +34,11 @@ export default function ComplaintsTable({ Complaints }) {
                                     <colgroup>
                                         <col data-dt-column="1" style={{ width: '50px' }} />
                                         <col data-dt-column="2" style={{ width: '50px' }} />
-                                        <col data-dt-column="3" style={{ width: '150px' }} />
-                                        <col data-dt-column="4" style={{ width: '200px' }} />
-                                        <col data-dt-column="5" style={{ width: '150px' }} />
-                                        <col data-dt-column="6" style={{ width: '200px' }} />
-                                        <col data-dt-column="7" style={{ width: '100px' }} />
-                                        <col data-dt-column="8" style={{ width: '150px' }} />
+                                        <col data-dt-column="3" style={{ width: '200px' }} />
+                                        <col data-dt-column="4" style={{ width: '150px' }} />
+                                        <col data-dt-column="5" style={{ width: '300px' }} />
+                                        <col data-dt-column="6" style={{ width: '150px' }} />
+                                        <col data-dt-column="7" style={{ width: '150px' }} />
                                     </colgroup>
                                     <thead>
                                         <tr>
@@ -65,92 +47,58 @@ export default function ComplaintsTable({ Complaints }) {
                                                 <input className="form-check-input" type="checkbox" aria-label="Select all rows" />
                                             </th>
                                             <th data-dt-column="2" className="dt-orderable-asc dt-orderable-desc dt-ordering-desc">
-                                                <span className="dt-column-title" role="button">ID</span>
+                                                <span className="dt-column-title" role="button">Complaint Number</span>
                                             </th>
                                             <th data-dt-column="3" className="dt-orderable-asc dt-orderable-desc">
-                                                <span className="dt-column-title" role="button">Complainant</span>
+                                                <span className="dt-column-title" role="button">Complaint Category</span>
                                             </th>
                                             <th data-dt-column="4" className="dt-orderable-asc dt-orderable-desc">
-                                                <span className="dt-column-title" role="button">Category</span>
+                                                <span className="dt-column-title" role="button">Complaint Type</span>
                                             </th>
                                             <th data-dt-column="5" className="dt-orderable-asc dt-orderable-desc">
-                                                <span className="dt-column-title" role="button">Sub-Category</span>
+                                                <span className="dt-column-title" role="button">Complaint Details</span>
                                             </th>
                                             <th data-dt-column="6" className="dt-orderable-asc dt-orderable-desc">
-                                                <span className="dt-column-title" role="button">Message</span>
+                                                <span className="dt-column-title" role="button">Complaint Related Doc(if any)</span>
                                             </th>
-                                            <th data-dt-column="7" className="dt-orderable-asc dt-orderable-desc">
-                                                <span className="dt-column-title" role="button">Image Optional</span>
-                                            </th>
-                                            <th data-dt-column="8" className="dt-orderable-asc dt-orderable-desc">
-                                                <span className="dt-column-title" role="button">Reported Date</span>
-                                            </th>
-                                            <th data-dt-column="9" className="dt-orderable-asc dt-orderable-desc">
-                                                <span className="dt-column-title" role="button">Resolved Date</span>
-                                            </th>
-                                            <th data-dt-column="10" className="dt-orderable-asc dt-orderable-desc">
-                                                <span className="dt-column-title" role="button">Status</span>
-                                            </th>
-                                            <th data-dt-column="11" className="dt-orderable-none">
+                                            <th data-dt-column="7" className="dt-orderable-none">
                                                 <span className="dt-column-title">Actions</span>
                                             </th>
                                         </tr>
                                     </thead>
 
                                     <tbody>
-                                        {Complaints && Complaints.map((Complaints, index) => (
+                                        {History && History.map((History, index) => (
                                             <tr key={index}>
                                                 <td className="control dtr-hidden" tabIndex="0" style={{ display: 'none' }}></td>
                                                 <td className="dt-select">
                                                     <input aria-label="Select row" className="form-check-input" type="checkbox" />
                                                 </td>
                                                 <td>
-                                                    <span className="fw-medium">{Complaints.id}</span>
-                                                </td>
-                                                <td>
                                                     <span className="fw-medium">
-                                                        <i className="icon-base bi bi-person-fill-exclamation text-primary me-2"></i>{Complaints.complainant}
+                                                    {History.id}
                                                     </span>
                                                 </td>
                                                 <td>
                                                     <span className="fw-medium">
-                                                        <i className="icon-base bx bx-category text-warning me-2"></i>{Complaints.category}
+                                                    <i className="icon-base fa-solid fa-triangle-exclamation text-warning me-2"></i>{History.category}
                                                     </span>
                                                 </td>
                                                 <td>
                                                     <span className="fw-medium">
-                                                        <i className="icon-base bx bx-category-alt text-danger me-2"></i>{Complaints.subCategory}
+                                                    <i className="icon-base fa-solid fa-circle-exclamation text-danger me-2"></i>{History.subCategory}
                                                     </span>
                                                 </td>
                                                 <td>
                                                     <span className="fw-medium">
-                                                        <i className="icon-base bx bxs-message text-info me-2"></i>{Complaints.message}
-                                                    </span>
-                                                </td>
-                                                <td>
-                                                    <div className="fw-medium">
-                                                        <img src={Complaints.image} alt="error image" width="150" height="100" />
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <span className="fw-medium">
-                                                        <i className="icon-base fa-solid fa-person-circle-exclamation text-danger me-2"></i>{Complaints.reportedDate}
+                                                    <i className="icon-base bi bi-chat-left-text-fill text-secondary me-2"></i>{History.details}
                                                     </span>
                                                 </td>
                                                 <td>
                                                     <span className="fw-medium">
-                                                        <i className="icon-base fa-solid fa-clipboard-check text-success me-2"></i>{Complaints.resolvedDate}
+                                                    <i className="icon-base bx bxs-file-blank text-info me-2"></i>{History.file}
                                                     </span>
                                                 </td>
-                                                <td>
-                                                    <span className={`badge ${Complaints.status === 'Resolved' ? 'bg-label-success' :
-                                                            Complaints.status === 'In-Process' ? 'bg-label-warning' :
-                                                                'bg-label-danger'
-                                                        }`}>
-                                                        {Complaints.status}
-                                                    </span>
-                                                </td>
-
                                                 <td>
                                                     <div className="d-flex align-items-center">
                                                         <a href="" className="btn btn-icon delete-record">
@@ -178,7 +126,7 @@ export default function ComplaintsTable({ Complaints }) {
                         <div className="row mx-3 justify-content-between">
                             <div className="d-md-flex justify-content-between align-items-center dt-layout-start col-md-auto me-auto mt-0">
                                 <div className="dt-info" aria-live="polite" id="DataTables_Table_0_info" role="status">
-                                    Showing 1 to 10 of {Complaints.length} entries
+                                    Showing 1 to 10 of {History.length} entries
                                 </div>
                             </div>
                             <div className="d-md-flex align-items-center dt-layout-end col-md-auto ms-auto d-flex gap-md-4 justify-content-md-between justify-content-center gap-4 flex-wrap mt-0">

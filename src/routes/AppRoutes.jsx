@@ -42,7 +42,7 @@ import AddCategoryPage from "../pages/user/Complaints/Category/AddCategory";
 import ManageCategoryPage from "../pages/user/Complaints/Category/ManageCategory";
 import AddSubCategoryPage from "../pages/user/Complaints/SubCategory/AddSubCategory"
 import ManageSubCategoryPage from "../pages/user/Complaints/SubCategory/ManageSubCategory"
-import ClosedComplaintsPage from "../pages/user/Complaints/ManageComplaints/ClosedComplaints";
+import ResolvedComplaintsPage from "../pages/user/Complaints/ManageComplaints/ResolvedComplaints";
 import InProcessComplaintsPage from "../pages/user/Complaints/ManageComplaints/InProcessComplaints";
 import AllComplaintsPage from "../pages/user/Complaints/ManageComplaints/AllComplaints";
 import NotProcessComplaintsPage from "../pages/user/Complaints/ManageComplaints/NotProcessComplaints";
@@ -54,6 +54,9 @@ import DetailedComplaintListPage from "../components/user/Report/DetailedComplai
 import ComplaintSummaryPage from "../components/user/Report/ComplaintSummary";
 import ListReportPage from "../pages/user/Report/ListReport";
 import SummaryReportPage from "../pages/user/Report/SummaryReport";
+import OwnerDashboardPage from "../pages/user/OwnerDashboard";
+import LadgeComplaintPage from "../pages/user/LadgeComplaint";
+import ComplaintHistoryPage from "../pages/user/ComplaintHistory";
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -98,8 +101,8 @@ const AppRoutes = () => {
             </Route>
 
             {/* User Layout Routes */}
-            <Route path="user" element={<ProtectedRoute><UserLayout /></ProtectedRoute>}>
-            {/* <Route path="user" element={<UserLayout />}> */}
+            {/* <Route path="user" element={<ProtectedRoute><UserLayout /></ProtectedRoute>}> */}
+            <Route path="user" element={<UserLayout />}>
               <Route path="dashboard" element={renderPage(DashboardPage)} />
               <Route path="manage-tenants" element={renderPage(ManageTenantsPage)} />
               <Route path="sub-users" element={renderPage(SubUsersPage)} />
@@ -111,7 +114,7 @@ const AppRoutes = () => {
               <Route path="manage-category" element={renderPage(ManageCategoryPage)} />
               <Route path="add-sub-category" element={renderPage(AddSubCategoryPage)} />
               <Route path="manage-sub-category" element={renderPage(ManageSubCategoryPage)} />
-              <Route path="closed-complaints" element={renderPage(ClosedComplaintsPage)} />
+              <Route path="resolved-complaints" element={renderPage(ResolvedComplaintsPage)} />
               <Route path="in-process-complaints" element={renderPage(InProcessComplaintsPage)} />
               <Route path="all-complaints" element={renderPage(AllComplaintsPage)} />
               <Route path="not-process-complaints" element={renderPage(NotProcessComplaintsPage)} />
@@ -123,6 +126,9 @@ const AppRoutes = () => {
               <Route path="list-report" element={renderPage(ListReportPage)} />
               <Route path="summary-report" element={renderPage(SummaryReportPage)} />
               <Route path="my-profile" element={renderPage(MyProfilePage)} />
+              <Route path="owner-dashboard" element={renderPage(OwnerDashboardPage)} />
+              <Route path="ladge-complaint" element={renderPage(LadgeComplaintPage)} />
+              <Route path="complaint-history" element={renderPage(ComplaintHistoryPage)} />
             </Route>
               {/* Catch-all route */}
               <Route path="forbidden" element={<Forbidden />} />

@@ -52,11 +52,13 @@ export default function StallAppointmentsTable({ StallAppointments }) {
                                         <col data-dt-column="1" style={{ width: '50px' }} />
                                         <col data-dt-column="2" style={{ width: '50px' }} />
                                         <col data-dt-column="3" style={{ width: '150px' }} />
-                                        <col data-dt-column="4" style={{ width: '200px' }} />
-                                        <col data-dt-column="5" style={{ width: '150px' }} />
-                                        <col data-dt-column="6" style={{ width: '200px' }} />
+                                        <col data-dt-column="4" style={{ width: '300px' }} /> 
+                                        <col data-dt-column="6" style={{ width: '300px' }} />
                                         <col data-dt-column="7" style={{ width: '100px' }} />
                                         <col data-dt-column="8" style={{ width: '150px' }} />
+                                        <col data-dt-column="9" style={{ width: '150px' }} />
+                                        <col data-dt-column="10" style={{ width: '150px' }} />
+                                        <col data-dt-column="1" style={{ width: '150px' }} />
                                     </colgroup>
                                     <thead>
                                         <tr>
@@ -80,9 +82,18 @@ export default function StallAppointmentsTable({ StallAppointments }) {
                                                 <span className="dt-column-title" role="button">Proof of Identification</span>
                                             </th>
                                             <th data-dt-column="7" className="dt-orderable-asc dt-orderable-desc">
+                                                <span className="dt-column-title" role="button">Requested Date</span>
+                                            </th>
+                                            <th data-dt-column="8" className="dt-orderable-asc dt-orderable-desc">
+                                                <span className="dt-column-title" role="button">Appointment Start</span>
+                                            </th>
+                                            <th data-dt-column="9" className="dt-orderable-asc dt-orderable-desc">
+                                                <span className="dt-column-title" role="button">Appointment End</span>
+                                            </th>
+                                            <th data-dt-column="10" className="dt-orderable-asc dt-orderable-desc">
                                                 <span className="dt-column-title" role="button">Status</span>
                                             </th>
-                                            <th data-dt-column="8" className="dt-orderable-none">
+                                            <th data-dt-column="11" className="dt-orderable-none">
                                                 <span className="dt-column-title">Actions</span>
                                             </th>
                                         </tr>
@@ -110,13 +121,28 @@ export default function StallAppointmentsTable({ StallAppointments }) {
                                                 </td>
                                                 <td>
                                                     <span className="fw-medium">
-                                                    <i className="icon-base bx bx-phone-call text-success me-2"></i>{StallAppointments.contact}
+                                                    <i className="icon-base bx bx-phone-call text-primary me-2"></i>{StallAppointments.contact}
                                                     </span>
                                                 </td>
                                                 <td>
                                                     <div className="fw-medium">
-                                                        <img src={StallAppointments.proofOfIdentity} alt="Proof of Identity" width="150" height="100" />
+                                                        <img src={StallAppointments.proofOfIdentity} alt="Proof of Identity" width="100" height="70" />
                                                     </div>
+                                                </td>
+                                                <td>
+                                                    <span className="fw-medium">
+                                                    <i className="icon-base fa-solid fa-calendar-day text-info me-2"></i>{StallAppointments.requestedAppointment}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span className="fw-medium">
+                                                    <i className="icon-base fa-solid fa-calendar-check text-success me-2"></i>{StallAppointments.startAppointment}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span className="fw-medium">
+                                                    <i className="icon-base fa-solid fa-calendar-xmark text-danger me-2"></i>{StallAppointments.endAppointment}
+                                                    </span>
                                                 </td>
                                                 <td>
                                                     <span className={`badge ${StallAppointments.status === 'Approved' ? 'bg-label-success' : StallAppointments.status === 'Cancelled' ? 'bg-label-danger' : 'bg-label-primary'}`}>

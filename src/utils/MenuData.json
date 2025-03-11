@@ -86,10 +86,10 @@
                         "link": "/user/all-complaints"
                     },
                     {
-                        "text": "Closed Complaints",
-                        "icon": "bx bx-lock",
+                        "text": "Resolved Complaints",
+                        "icon": "fa-solid fa-clipboard-check",
                         "available": true,
-                        "link": "/user/closed-complaints"
+                        "link": "/user/resolved-complaints"
                     },
                     {
                         "text": "In Process Complaints",
@@ -178,6 +178,29 @@
                 "icon": "bx bxs-report",
                 "available": true,
                 "link": "/user/complaint-summary-report"
+            }
+        ]
+    },
+    {
+        "header": "Owner Pages",
+        "items": [
+            {
+                "text": "Dashboard",
+                "icon": "bx bx-home",
+                "available": true,
+                "link": "/user/owner-dashboard"
+            },
+            {
+                "text": "Ladge Complaint",
+                "icon": "fa-solid fa-file-circle-exclamation",
+                "available": true,
+                "link": "/user/ladge-complaint"
+            },
+            {
+                "text": "Complaint History",
+                "icon": "fa-solid fa-clock-rotate-left",
+                "available": true,
+                "link": "/user/complaint-history"
             }
         ]
     }
