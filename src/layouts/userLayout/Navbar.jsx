@@ -1,6 +1,7 @@
 import getGreetingMessage from '../../utils/GreetingHandler';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../../utils/auth';
+import { getUser } from '../../utils/auth';
 const Navbar = () => {
   const navigate = useNavigate();
   const handleLogout = () => {
@@ -21,7 +22,7 @@ const Navbar = () => {
       </div>
 
       <div className="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-        {getGreetingMessage('Jericho')}
+        {getGreetingMessage(getUser? getUser():"Guest")}
         <ul className="navbar-nav flex-row align-items-center ms-auto">
           <li>
             <i className='menu-icon bx bx-bell'></i>
@@ -42,7 +43,7 @@ const Navbar = () => {
                       </div>
                     </div>
                     <div className="flex-grow-1">
-                      <span className="fw-medium d-block">Jericho Pecho</span>
+                      <span className="fw-medium d-block">{getUser? getUser():"Guest"}</span>
                       <small className="text-muted">Admin</small>
                     </div>
                   </div>
