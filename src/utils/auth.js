@@ -9,17 +9,8 @@ const getCurrentTimestamp = () => Date.now();
 const isAuthenticated = () => {
     const token = sessionStorage.getItem('authToken');
     const user = sessionStorage.getItem('user');
-    const expiry = sessionStorage.getItem('expiry');
-
-    if (!token || !user || !expiry) return false;
-
-    // Check if the session has expired
-    if (getCurrentTimestamp() > parseInt(expiry)) {
-        logout(); // Clear expired session
-        return false;
-    }
-
-    return true;
+    const role = sessionStorage.getItem('role')
+    return !!token && !!user;
 };
 
 // Get the authentication token
