@@ -17,6 +17,7 @@ import UserLayout from "../layouts/userLayout/UserLayout";
 
 // Pages
 import SignInPage from "../pages/auth/SignIn";
+import AdminSignInPage from "../pages/admin/SignIn";
 import HomePage from "../pages/main/Home";
 import AboutPage from "../pages/main/About";
 import ServicesPage from "../pages/main/Services";
@@ -98,6 +99,7 @@ const AppRoutes = () => {
             {/* Authentication Layout Routes */}
             <Route path="auth" element={<AuthLayout />}>
               <Route path="signin" element={renderPage(SignInPage)} />
+              <Route path="admin" element={renderPage(AdminSignInPage)} />
             </Route>
 
             {/* User Layout Routes */}

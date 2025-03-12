@@ -1,10 +1,11 @@
 import React from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import MenuData from '../../utils/MenuData.json'
+import  { MenuData }  from '../../utils/MenuData.jsx'
 import Logo from '../../assets/img/logo.png';
-
-
+import {checkRoleisOwner} from '../../utils/auth.js';
 const Sidebar = () => {
+    console.log(checkRoleisOwner());
+    const { Data }= MenuData();
     return (
         <aside id="layout-menu" className="layout-menu menu-vertical menu bg-menu-theme">
             <div className="app-brand demo">
@@ -22,7 +23,7 @@ const Sidebar = () => {
             <div className="menu-inner-shadow"></div>
 
             <ul className="menu-inner py-1">
-                {MenuData.map((section) => (
+                {Data.map((section) => (
                     <React.Fragment key={section.header}>
                         {section.header && (
                             <li className="menu-header small text-uppercase">

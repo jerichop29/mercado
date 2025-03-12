@@ -4,7 +4,8 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "concurrently \"vite\" \"nodemon backend/config/database_setup.js\"",
+    "create-database":"nodemon backend/config/database_setup.js",
+    "dev": "vite",
     "build": "concurrently \"vite build\" \"node backend/config/database_setup.js\"",
     "lint": "eslint .",
     "preview": "vite preview"

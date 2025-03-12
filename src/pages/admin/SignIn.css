@@ -1,0 +1,235 @@
+/* Styling for the back icon container */
+.back-icon-container {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    cursor: pointer;
+    z-index: 10; /* Ensure it stays above other content */
+  }
+  
+.back-icon-container .back-icon {
+    width: 30px;
+    height: 30px;
+    color: #000000; /* Icon color */
+  }
+  
+  .back-icon-container .back-icon:hover {
+    color: #0d3e94; /* Icon hover color */
+  }
+  
+  /* Adjustments to your main login container */
+  .d-flex-sb {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .mb-5, .my-5 {
+    margin-bottom: 3rem !important;
+  }
+  
+  .align-items-center {
+    align-items: center !important;
+  }
+   
+  .half, .half .login-container > .row {
+    height: 100vh;
+    min-height: 700px;
+  }
+  
+  @media (max-width: 767px) {
+    .half .contents {
+      padding: 10px;
+      height: auto;
+    }
+  
+    .half .login-container {
+      width: 100%;
+      max-width: 100%;
+      margin: 0 auto;
+    }
+  }
+  
+  @media (max-width: 991.98px) {
+    .half .bg {
+      height: 200px;
+    }
+
+    .back-icon{
+      margin-top: 200px;
+    }
+  }
+  
+  .half .contents {
+    background: #f6f7fc;
+  }
+  
+  .half .contents, .half .bg {
+    width: 50%;
+  }
+  
+  @media (max-width: 1199.98px) {
+    .half .contents, .half .bg {
+      width: 100%;
+    }
+  }
+  
+  .half .contents .form-control, .half .bg .form-control {
+    border: none;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    height: 54px;
+    background: #fff;
+  }
+  
+  .half .contents .form-control:active,
+  .half .contents .form-control:focus,
+  .half .bg .form-control:active,
+  .half .bg .form-control:focus {
+    outline: none;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+  }
+  
+  .half .contents .form-control:focus,
+  .half .bg .form-control:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(13, 62, 148, 0.8);
+    border: 2px solid #0d3e94;
+  }
+  
+  .half .bg {
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .half a {
+    color: #888;
+    text-decoration: underline;
+  }
+  
+  .half .btn {
+    height: 54px;
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+  
+  .half .forgot-pass {
+    position: relative;
+    top: 2px;
+    font-size: 14px;
+  }
+  
+  .half .forgot-pass:hover {
+    color: #0d3e94;
+  }
+  
+  .control {
+    display: block;
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .control .caption {
+    position: relative;
+    top: .2rem;
+    color: #888;
+  }
+  
+  .control input {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+  }
+  
+  .control__indicator {
+    position: absolute;
+    top: 2px;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background: #e6e6e6;
+    border-radius: 4px;
+  }
+  
+  .control--radio .control__indicator {
+    border-radius: 50%;
+  }
+  
+  .control:hover input ~ .control__indicator,
+  .control input:focus ~ .control__indicator {
+    background: #ccc;
+  }
+  
+  .control input:checked ~ .control__indicator {
+    background: #0d3e94;
+  }
+  
+  .control:hover input:not([disabled]):checked ~ .control__indicator,
+  .control input:checked:focus ~ .control__indicator {
+    background: #0d3e94;
+  }
+  
+  .control input:disabled ~ .control__indicator {
+    background-color: #e6e6e6;
+    opacity: 0.9;
+    pointer-events: none;
+  }
+  
+  .control__indicator:after {
+    font-family: 'bootstrap-icons';
+    content: '\F272';
+    position: absolute;
+    display: none;
+    font-size: 16px;
+    font-weight: bold;
+    transition: .3s all ease;
+    padding-top: 1px;
+  }
+  
+  .control input:checked ~ .control__indicator:after {
+    display: block;
+    color: #fff;
+  }
+  
+  .control--checkbox .control__indicator:after {
+    top: 50%;
+    left: 50%;
+    margin-top: -1px;
+    transform: translate(-50%, -50%);
+  }
+  
+  .control--checkbox input:disabled ~ .control__indicator:after {
+    border-color: #7b7b7b;
+  }
+  
+  .control--checkbox input:disabled:checked ~ .control__indicator {
+    background-color: #7e0cf5;
+    opacity: .2;
+  }
+  
+  .btn-primary {
+    color: #fff;
+    background-color: #0d3e94;
+    border-color: #000000;
+  }
+  
+  .btn-primary:hover {
+    background: color-mix(in srgb, var(--accent-color), transparent 10%);
+    border-color: #0d3e94;
+  }
+  
+  input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].btn-block {
+    width: 100%;
+  }
+  
+  /* Make sure back icon is on top in smaller screens */
+  @media (max-width: 767px) {
+    .back-icon-container {
+      top: 10px;
+      left: 10px;
+    }
+  }
+  

@@ -1,12 +1,13 @@
 import {useEffect, useState} from 'react';
 import './SignIn.css';
 import LoginImage from '../../assets/img/login.png';
+import AdminHandler from '../../../backend/src/controllers/js/AdminHandler';
 import Cookies from 'js-cookie';
 import {useNavigate} from 'react-router-dom';
 import {setAuth} from '../../utils/auth'; // Import the auth utility
-import OwnerHandler from '../../../backend/src/controllers/js/OwnerHandler';
 
-const SignInPage = () => {
+
+const AdminSignInPage = () => {
     const [username,
         setUsername] = useState('');
     const [password,
@@ -33,8 +34,8 @@ const SignInPage = () => {
             if (!username || !password) {
                 throw new Error('Username and password are required');
             }
-            const response = await OwnerHandler.AuthOwner({username, password});
-            
+            const response = await AdminHandler.Authadmin({username, password});
+
             if (response.status === 'success' ) {
                 // Store authentication data
                 setAuth(response.token, response.user, response.role);
@@ -45,7 +46,7 @@ const SignInPage = () => {
                     Cookies.remove('username');
                 }
 
-                navigate('/user/owner-dashboard');
+                navigate('/user/dashboard');
             }else {
                 throw new Error(response.message || 'Authentication failed');
             }
@@ -149,4 +150,4 @@ const SignInPage = () => {
     );
 };
 
-export default SignInPage;
+export default AdminSignInPage;
