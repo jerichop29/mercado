@@ -64,10 +64,18 @@ class StallFunctions {
 
     // Update stall
     public function updateStall($id, $data) {
-        $sql = "UPDATE stalltbl SET StallCode = ?, BuildingName = ?, Type_Id = ?, Status_Id =? WHERE Stall_Id = ?";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("siiii", $data['stallName'], $data['BuildingName'], $data['type'], $data['Status_Id'], $id);
-        
+        if($data['Owner_Id'] != null){
+        $sql = "UPDATE stalltbl SET  Type_Id = ?,Owner_Id =?, Status_Id =? WHERE Stall_Id = ?";
+        }else{
+        $sql = "UPDATE stalltbl SET  Type_Id = ?, Status_Id =? WHERE Stall_Id = ?";
+        }$stmt = $this->conn->prepare($sql);
+
+        if($data['Owner_Id'] != null){
+        $stmt->bind_param("siii", $data['Type_Id'],$data['Owner_Id'], $data['Status'], $id);    
+        }
+        else{
+        $stmt->bind_param("sii", $data['Type_Id'], $data['Status'], $id);
+        }
         if ($stmt->execute()) {
             return ["status" => "success", "message" => "Stall updated successfully"];
         }

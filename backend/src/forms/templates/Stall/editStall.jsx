@@ -1,13 +1,11 @@
-import {useState, useEffect} from 'react';
-import PersonHandler from '../../../controllers/js/PersonHandler';
-import stallHandler from '../../../controllers/js/stallHandler';
+import { useState, useEffect } from "react";
+import stallHandler from "../../../controllers/js/stallHandler";
 
-const useStallUpdate = (editData, onSubmitSuccess) => {
-
+const useStallUpdate = (editData = {}, onSubmitSuccess) => {
     const initialFormState = {
         Owner_Id: "",
         StallCode: "",
-        TypeName: "",
+        Type_Id: "6",
         BuildingName: "",
         OwnerFname: "",
         OwnerMname: "",
@@ -15,27 +13,33 @@ const useStallUpdate = (editData, onSubmitSuccess) => {
         Status: "",
         id: null
     };
+
     const [formData, setFormData] = useState(initialFormState);
-    const [message, setMessage] = useState({text: "", type: ""});
+    const [message, setMessage] = useState({ text: "", type: "" });
+
     useEffect(() => {
-        if (editData  ) {
+        if (editData && Object.keys(editData).length > 0) {
             setFormData({
                 Owner_Id: editData.Owner_Id || "",
-                StallCode: editData.StallCode,
-                TypeName: editData.TypeName,
-                BuildingName: editData.BuildingName,
+                StallCode: editData.StallCode || "",
+                Type_Id: editData.Type_Id || "",
+                BuildingName: editData.BuildingName || "",
                 OwnerFname: editData.OwnerFname || "",
                 OwnerMname: editData.OwnerMname || "",
                 OwnerLname: editData.OwnerLname || "",
-                Status: editData.Status,
-                id: editData.id
+                Status: editData.Status || "",
+                id: editData.Stall_Id || null
             });
+        } else {
+            setFormData(initialFormState);
         }
     }, [editData]);
 
     const handleChange = (e) => {
-        const {name, value} = e.target;
-        setFormData(prev => ({
+        
+        const { name, value } = e.target;
+        console.log({name,value})
+        setFormData((prev) => ({
             ...prev,
             [name]: value
         }));
@@ -43,27 +47,34 @@ const useStallUpdate = (editData, onSubmitSuccess) => {
 
     const resetForm = () => {
         setFormData(initialFormState);
-        setMessage({text: "", type: ""});
+        setMessage({ text: "", type: "" });
     };
 
-    const handleSubmit = async(e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(message)
-        console.log(formData)
-        setMessage({text: "", type: ""});
+        setMessage({ text: "", type: "" });
+
         try {
-            const stall = stallHandler.updateStall(formData.id,formData)
-
-
-            setMessage({text: result.message, type: "success"});
-            if(stall.status === 'success'){
-                alert('Stall Edited');
+            if (!formData.id) {
+                console.log(formData)
+                throw new Error("Stall ID is missing.");
             }
 
-            resetForm();
+            const stall = await stallHandler.updateStall(formData.id, formData);
 
+            if (stall?.status === "success") {
+                setMessage({ text: stall.message, type: "success" });
+                alert("Stall Edited");
+                resetForm();
+
+                if (onSubmitSuccess) {
+                    onSubmitSuccess();
+                }
+            } else {
+                setMessage({ text: stall?.message || "Update failed", type: "error" });
+            }
         } catch (error) {
-            setMessage({text: error.message, type: "error"});
+            setMessage({ text: error.message || "An error occurred", type: "error" });
         }
     };
 

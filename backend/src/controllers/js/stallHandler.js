@@ -49,7 +49,6 @@ class StallHandler {
     }
     // Update stall
     async updateStall(stallId, stallData) {
-        StallValidator.validateStallData(stallData);
         return this.fetchWithErrorHandling(`${this.baseUrl}?action=update&id=${stallId}`, {
             method: 'PUT',
             body: JSON.stringify(stallData)

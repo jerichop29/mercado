@@ -1,11 +1,5 @@
-import { useEffect } from "react";
-import { useData } from "../../../../backend/src/views/useData";
 import { getUser } from "../../../utils/auth";
 const OwnerDashboard = () => {
-    const { owner } = useData();
-    useEffect(() => {
-        dashboardAnalitics();
-    }, [])
     return (
         <>
             <div className="row">

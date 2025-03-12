@@ -39,6 +39,7 @@ const searchFilters = {
                 { label: "Reserved", value: "Reserved" },
                 { label: "Available", value: "Available" },
                 { label: "Unavailable", value: "Unavailable" },
+                { label: "Maintenance", value: "Maintenance" },
             ]
         }
     ],
