@@ -4,6 +4,7 @@ import CategoryValidator from '../../validators/categoryValidator';
 
 const useManageCategory = (editData) => {
     const initialFormState = {
+        Category_Id: "",
         Title: "",
         Description: "",
         id: null
@@ -15,6 +16,7 @@ const useManageCategory = (editData) => {
     useEffect(() => {
         if (editData) {
             setFormData({
+                Category_Id: editData.Category_Id || "",
                 Title: editData.Title || "",
                 Description: editData.Description || "",
                 id: editData.id
@@ -61,31 +63,3 @@ const useManageCategory = (editData) => {
 };
 
 export default useManageCategory;
-
-// Delete function
-const useDeleteCategory = (onDeleteSuccess) => {
-    const [message, setMessage] = useState({ text: "", type: "" });
-
-    const handleDelete = async (categoryData) => {
-        setMessage({ text: "", type: "" });
-        try {
-            const result = await CategoryHandler.deleteCategory(categoryData.id);
-            if (result.status === "success") {
-                if (onDeleteSuccess) onDeleteSuccess();
-                setMessage({ text: "Category successfully deleted", type: "success" });
-            } else {
-                setMessage({ text: "Failed to delete category", type: "error" });
-            }
-        } catch (error) {
-            setMessage({ text: error.message, type: "error" });
-        }
-    };
-
-    return {
-        message,
-        handleDelete,
-        setMessage
-    };
-};
-
-export { useDeleteCategory };

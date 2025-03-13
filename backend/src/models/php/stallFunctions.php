@@ -67,7 +67,7 @@ class StallFunctions {
         if($data['Owner_Id'] != null){
         $sql = "UPDATE stalltbl SET  Type_Id = ?,Owner_Id =?, Status_Id =? WHERE Stall_Id = ?";
         }else{
-        $sql = "UPDATE stalltbl SET  Type_Id = ?, Status_Id =? WHERE Stall_Id = ?";
+        $sql = "UPDATE stalltbl SET  Type_Id = ?,Owner_Id = NULL, Status_Id =? WHERE Stall_Id = ?";
         }$stmt = $this->conn->prepare($sql);
 
         if($data['Owner_Id'] != null){
