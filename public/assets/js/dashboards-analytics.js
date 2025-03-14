@@ -4,7 +4,7 @@
 
 'use strict';
 
-function dashboardAnalitics(pie,bar,complaint) {
+function dashboardAnalitics(pie,bar,complaint,year,months) {
 
   let cardColor, headingColor, axisColor, shadeColor, borderColor;
   cardColor = config.colors.cardColor;
@@ -18,7 +18,7 @@ function dashboardAnalitics(pie,bar,complaint) {
     totalRevenueChartOptions = {
       series: [
         {
-          name: '2025',
+          name: year??'2025',
           data: bar??[7, 15, 5, 10, 20, 10, 7]
         },
       ],
@@ -74,7 +74,7 @@ function dashboardAnalitics(pie,bar,complaint) {
         }
       },
       xaxis: {
-        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+        categories: months??['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
         labels: {
           style: {
             fontSize: '13px',

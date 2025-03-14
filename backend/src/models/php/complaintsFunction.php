@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../../../config/connect_db.php';
-class AppointmentFunction {
+class ComplaintsFunction {
     private $db;
     private $conn;
 
@@ -9,35 +9,36 @@ class AppointmentFunction {
         $this->conn = $this->db->getConnection();
     }
 
-    // Get all appointment
-    public function getAppointment() {
-        $sql = "SELECT * FROM appointmenttbl";
+    // Get all complaints
+    public function getComplaints() {
+        $sql = "SELECT * FROM complaintstable 
+                        ";
 
         $result = $this->conn->query($sql);
         
         if ($result) {
-            $appointment = $result->fetch_all(MYSQLI_ASSOC);
-            return ["status" => "success", "data" => $appointment];
+            $complaints = $result->fetch_all(MYSQLI_ASSOC);
+            return ["status" => "success", "data" => $complaints];
         }
-        return ["status" => "error", "message" => "Failed to fetch appointment"];
+        return ["status" => "error", "message" => "Failed to fetch complaints"];
     }
 
     // Add new stall
-    public function addAppointment($data) {
-        $sql = "INSERT INTO appointmenttbl ( `Stall_Id`, `FullName`, `Email`, `Contact`, `POI`, `Status`) VALUES (?, ?, ?, ?, ?, ?)";
+    public function addComplaints($data) {
+        $sql = "INSERT INTO complaintstable (`Complainant`, `Category_Id`, `SubCategory_Id`, `Complaint_Message`, `Status`, `Complaint_Image`, `Request`, `Date_End`, `Date_Start`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("isssss", $data['Stall_Id'], $data['FullName'], $data['Email'], $data['Contact'], $data['POI'], $data['Status']);
+        $stmt->bind_param("isssss", $data['Complainant'], $data['Category_Id'], $data['SubCategory_Id'], $data['Complaint_Message'], $data['Status'], $data['Complaint_Image'], $data['Request'], $data['Date_End'], $data['Date_Start']);
         
         if ($stmt->execute()) {
-            return ["status" => "success", "message" => "Appointment added successfully"];
+            return ["status" => "success", "message" => "complaints added successfully"];
         }
-        error_log("Failed to add appointment");
-        return ["status" => "error", "message" => "Failed to add appointment"];
+        error_log("Failed to add complaints");
+        return ["status" => "error", "message" => "Failed to add complaints"];
     }
 
     // Delete stall
-    public function deleteAppointment($id) {
-        $stmt = $this->conn->prepare("DELETE FROM appointmenttbl WHERE Appointment_Id = ?");
+    public function deleteComplaints($id) {
+        $stmt = $this->conn->prepare("DELETE FROM complaintstable WHERE Complaints_Id = ?");
         $stmt->bind_param("i", $id);
         
         if ($stmt->execute()) {
@@ -48,8 +49,8 @@ class AppointmentFunction {
     }
 
     // Update stall
-    public function updateAppointment($id, $data) {
-        $sql = "UPDATE appointmenttbl SET `Stall_Id` = ?, `FullName` = ?, `Email` = ?, `Contact`= ?, `POI`= ?, `Status`= ? WHERE Appointment_Id = ?";
+    public function updateComplaints($id, $data) {
+        $sql = "UPDATE complaintstable SET `Stall_Id` = ?, `FullName` = ?, `Email` = ?, `Contact`= ?, `POI`= ?, `Status`= ? WHERE Complaints_Id = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("isssssi", $data['Stall_Id'], $data['FullName'], $data['Email'], $data['Contact'], $data['POI'] , $data['Status'], $id);
         
@@ -61,8 +62,8 @@ class AppointmentFunction {
     }
 
      // Update stall
-     public function updateAppointmentStatus($id, $data) {
-        $sql = "UPDATE appointmenttbl SET  Status_Id =? WHERE Appoinment_Id = ?";
+     public function updateComplaintsStatus($id, $data) {
+        $sql = "UPDATE complaintstable SET  Status_Id =? WHERE Appoinment_Id = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("ii",$data['Status_Id'] , $id);
         
@@ -84,10 +85,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
-$AppointmentFunction = new AppointmentFunction();
+$ComplaintsFunction = new ComplaintsFunction();
 $action = $_GET['action'] ?? '';
 
-$allowedActions = ['get', 'add', 'delete', 'update', 'status', 'updateAppointmentStatus'];
+$allowedActions = ['get', 'add', 'delete', 'update', 'status', 'updateAllByOwner'];
 if (!in_array($action, $allowedActions, true)) {
     echo json_encode(["status" => "error", "message" => "Invalid action"]);
     exit();
@@ -98,11 +99,11 @@ $data = json_decode(file_get_contents('php://input'), true);
 try {
     switch ($action) {
         case 'get':
-            echo json_encode($AppointmentFunction->getAppointment());
+            echo json_encode($ComplaintsFunction->getComplaints());
             break;
             
         case 'add':
-            echo json_encode($AppointmentFunction->addAppointment($data));
+            echo json_encode($ComplaintsFunction->addComplaints($data));
             break;
             
         case 'delete':
@@ -111,7 +112,7 @@ try {
                 echo json_encode(["status" => "error", "message" => "Missing or invalid ID"]);
                 exit();
             }
-            echo json_encode($AppointmentFunction->deleteAppointment($id));
+            echo json_encode($ComplaintsFunction->deleteComplaints($id));
             break;
             
         case 'update':
@@ -120,7 +121,7 @@ try {
                 echo json_encode(["status" => "error", "message" => "Missing or invalid ID"]);
                 exit();
             }
-            echo json_encode($AppointmentFunction->updateAppointment($id, $data));
+            echo json_encode($ComplaintsFunction->updateComplaints($id, $data));
             break;
 
         case 'status':
@@ -129,7 +130,7 @@ try {
             echo json_encode(["status" => "error", "message" => "Missing or invalid ID"]);
             exit();
             }
-            echo json_encode($AppointmentFunction->updateAppointmentStatus($id, $data));
+            echo json_encode($ComplaintsFunction->updateComplaintsStatus($id, $data));
             break;
     }
 } catch (Exception $e) {

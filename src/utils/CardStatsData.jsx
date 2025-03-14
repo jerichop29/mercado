@@ -44,7 +44,7 @@ export const CardStats = () => {
         ? `${ ((occupiedStalls / totalStalls) * 100).toFixed(2)}%`
         : "0";
     const uniqueStallCount = new Set(tenant.map(t => t.stall_Id)).size || 0;
-    const stallsOccupied  = ((occupiedStalls / totalStalls) * 10000).toFixed(2);  
+    const stallsOccupied  = ((occupiedStalls / totalStalls) * 100).toFixed(2);  
     return {
         stallsOccupied:stallsOccupied,
         totalStalls:totalStalls,

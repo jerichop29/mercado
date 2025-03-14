@@ -60,7 +60,7 @@ export default function AddTenant({ onClose, onSubmitSuccess, edit }) {
                                     type="text" 
                                     className="form-control"
                                     id="add-user-middlename"
-                                    placeholder="Middle Name"
+                                  placeholder="Middle Name"
                                     name="MName"
                                     onChange={handleChange} 
                                     value={formData.MName} 

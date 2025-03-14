@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import stallHandler from "../../../controllers/js/stallHandler";
-
+import { Alert } from "../../../../../src/components/main/DialogueBox/DialogueBox";
 const useStallUpdate = (editData = {}, onSubmitSuccess) => {
     const initialFormState = {
         Owner_Id: "",
@@ -64,7 +64,7 @@ const useStallUpdate = (editData = {}, onSubmitSuccess) => {
 
             if (stall?.status === "success") {
                 setMessage({ text: stall.message, type: "success" });
-                alert("Stall Edited");
+                Alert("Stall Edited");
                 resetForm();
 
                 if (onSubmitSuccess) {

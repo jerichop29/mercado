@@ -17,6 +17,21 @@ export default function StallAppointmentsTable({ StallAppointments }) {
     };
 
     const title = getTitle(); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
     return (
         <>
             <div className="card">

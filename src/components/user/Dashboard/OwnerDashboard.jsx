@@ -12,11 +12,11 @@ const OwnerDashboard = () => {
                                         Welcome {getUser? getUser():"Guest"}! 🎉
                                     </h5>
                                     <p className="mb-4">
-                                        You are logged in as <span className="fw-medium">Account type</span> description about account type
+                                        You are logged in as <span className="fw-medium">Owner</span> description about account type
                                     </p>
 
                                     <a aria-label="view badges"
-                                        href="#"
+                                        href="./my-profile"
                                         className="btn btn-sm btn-outline-primary"
                                     >
                                         View Details

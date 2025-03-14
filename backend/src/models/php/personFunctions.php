@@ -39,7 +39,7 @@ class PersonFunctions {
                           $data['Birthdate']);
         
         if ($stmt->execute()) {
-            return ["status" => "success", "message" => "Person added successfully"];
+            return ["status" => "success", "message" => "User added successfully"];
         }
         error_log("Failed to add person");
         return ["status" => "error", "message" => "Failed to add person"];
@@ -51,7 +51,7 @@ class PersonFunctions {
         $stmt->bind_param("i", $id);
         
         if ($stmt->execute()) {
-            return ["status" => "success", "message" => "Person deleted successfully"];
+            return ["status" => "success", "message" => "User deleted successfully"];
         }
         error_log("Failed to delete person");
         return ["status" => "error", "message" => "Failed to delete person"];

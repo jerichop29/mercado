@@ -21,7 +21,7 @@ function ThreeEnvironment ( {modelName}){
           background ={true} // Shows the environment map as a background
           // Blur factor between 0 and 1
         >
-          <color attach="background" args={['#889']} /> {/* Set custom background color */}
+          <color attach="background" args={['#668']} /> {/* Set custom background color */}
         </Environment>
         {/* Supplementary lights */}
         <ambientLight intensity={1.0} />
