@@ -1,10 +1,21 @@
-import { useEffect } from "react";
-import { useData } from "../../../../backend/src/views/useData";
-import { getUser } from "../../../utils/auth";
+import {useEffect, useState} from "react";
+import {useData} from "../../../../backend/src/views/useData";
+import {getUser} from "../../../utils/auth";
+import {CardStats} from "../../../utils/CardStatsData";
 const AdminDashboard = () => {
-    const { admin } = useData();
+    const {admin} = useData();
+    
+    const {username} = useData(getUser());
+    const [pie,
+        setPieData] = useState(0);
     useEffect(() => {
-        dashboardAnalitics();
+
+       
+        setTimeout(function () {
+            getData();
+            dashboardAnalitics([pie]);
+        }, 1000);
+
     }, [])
     return (
         <>
