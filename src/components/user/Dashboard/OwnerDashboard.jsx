@@ -20,12 +20,12 @@ const OwnerDashboard = () => {
                                         You are logged in as <span className="fw-medium">Owner</span> description about account type
                                     </p>
 
-                                    <a aria-label="view badges"
-                                        href="./my-profile"
-                                        className="btn btn-sm btn-outline-primary"
-                                    >
+                                    <Link
+                                        aria-label="view badges"
+                                        to="/user/my-profile"
+                                        className="btn btn-sm btn-outline-primary">
                                         View Details
-                                    </a>
+                                    </Link>
                                 </div>
                             </div>
                             <div className="col-sm-5 text-center text-sm-left">

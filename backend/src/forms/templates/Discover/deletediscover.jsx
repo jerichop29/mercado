@@ -1,4 +1,5 @@
 import { useState } from "react";
+import DiscoverHandler from "../../../controllers/js/DiscoverHandler";
 // Delete function
 const useDeleteDiscover = (onDeleteSuccess) => {
     const [message, setMessage] = useState({ text: "", type: "" });
@@ -6,7 +7,7 @@ const useDeleteDiscover = (onDeleteSuccess) => {
     const handleDelete = async (discoverData) => {
         setMessage({ text: "", type: "" });
         try {
-            const result = await DiscoverHandler.deleteDiscover(discoverData.id);
+            const result = await DiscoverHandler.deleteDiscovery(discoverData.discover_Id);
             if (result.status === "success") {
                 if (onDeleteSuccess) onDeleteSuccess();
                 setMessage({ text: "Discover entry successfully deleted", type: "success" });

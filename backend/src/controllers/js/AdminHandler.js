@@ -43,6 +43,13 @@ class AdminHandler {
             body: JSON.stringify(adminData)
         });
     }
+    async checkUsername(adminData) {
+        console.log(adminData)
+        return this.fetchWithErrorHandling(`${this.baseUrl}?action=checkUsername`,{
+        method:'POST',
+        body: JSON.stringify(adminData)
+        });
+    }
 
     async addAdmin(adminData) {
         AdminValidator.validateAdminData(adminData);

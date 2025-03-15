@@ -16,6 +16,7 @@ class TenantFunctions {
                     tenanttbl.Date_Start,
                     tenanttbl.`Market Fee` AS Market_Fee, 
                     persontbl.*, 
+                    stalltbl.Stall_Id,
                     stalltbl.StallCode,
                     stalltbl.BuildingName, 
                     ownertbl.Person_Id AS Owner_Person_Id, 
@@ -123,6 +124,8 @@ try {
             }
             echo json_encode($tenantFunctions->updateTenant($id, $data));
             break;
+        default:
+            throw new Exception("Invalid action");
     }
 } catch (Exception $e) {
     echo json_encode(["status" => "error", "message" => $e->getMessage()]);

@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 $discoverFunctions = new DiscoverFunctions();
 $action = $_GET['action'] ?? '';
 
-$allowedActions = ['get', 'addDiscover', 'deleteDiscover', 'updateDiscover'];
+$allowedActions = ['get', 'add', 'delete', 'update'];
 if (!in_array($action, $allowedActions, true)) {
     echo json_encode(["status" => "error", "message" => "Invalid action"]);
     exit();
@@ -85,11 +85,11 @@ try {
             echo json_encode($discoverFunctions->getAllDiscovers());
             break;
             
-        case 'addDiscover':
+        case 'add':
             echo json_encode($discoverFunctions->addDiscover($data));
             break;
             
-        case 'deleteDiscover':
+        case 'delete':
             $id = isset($_GET['id']) ? (int)$_GET['id'] : null;
             if (!$id) {
                 echo json_encode(["status" => "error", "message" => "Missing or invalid ID"]);
@@ -98,7 +98,7 @@ try {
             echo json_encode($discoverFunctions->deleteDiscover($id));
             break;
             
-        case 'updateDiscover':
+        case 'update':
             $id = isset($_GET['id']) ? (int)$_GET['id'] : null;
             if (!$id) {
                 echo json_encode(["status" => "error", "message" => "Missing or invalid ID"]);
@@ -106,6 +106,8 @@ try {
             }
             echo json_encode($discoverFunctions->updateDiscover($id, $data));
             break;
+        default:
+            throw new Exception("Invalid action");
     }
 } catch (Exception $e) {
     echo json_encode(["status" => "error", "message" => $e->getMessage()]);

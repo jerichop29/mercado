@@ -2,6 +2,7 @@ import Select from 'react-select';
 import { useState } from "react";
 import useAddUserModel from "../../../../backend/src/forms/templates/User/addUserModel";
 import { useData } from '../../../../backend/src/views/useData';
+import { Alert } from '../../main/DialogueBox/DialogueBox';
 export default function AddUser({ onClose, onSubmitSuccess ,edit}) {
 const { stall }=useData();
 
@@ -52,6 +53,7 @@ const { stall }=useData();
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         if(validateForm()){
+            onSubmitSuccess();
             await handleSubmit(e);
         }
         
@@ -144,7 +146,7 @@ const { stall }=useData();
                                 <option value="Owner">Owner</option>
                                 <option value="admin">Admin</option>
                                 {formData.role == "superadmin" &&(
-                                <option value="superadmin">Admin</option>
+                                <option value="superadmin">Super Admin</option>
                                 )}
                             </select>
                         </div> 

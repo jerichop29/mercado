@@ -135,6 +135,8 @@ try {
             }
             echo json_encode($personFunctions->updatePerson($id, $data));
             break;
+        default:
+            throw new Exception("Invalid action");
     }
 } catch (Exception $e) {
     echo json_encode(["status" => "error", "message" => $e->getMessage()]);

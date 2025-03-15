@@ -131,6 +131,8 @@ try {
             }
             echo json_encode($AppointmentFunction->updateAppointmentStatus($id, $data));
             break;
+        default:
+            throw new Exception("Invalid action");
     }
 } catch (Exception $e) {
     echo json_encode(["status" => "error", "message" => $e->getMessage()]);

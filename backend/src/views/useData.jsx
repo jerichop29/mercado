@@ -32,8 +32,8 @@ export const useData = (search, role) => {
             const ownerData = await ownerHandler.getOwners();
             const adminData = await adminHandler.getAdmins();
             const stallData = await stallHandler.getStalls();
-            // const appointment = await AppointmentHandler.getAppointments();
-            // const complaints = await complaintsHandler.getComplaints();
+            const appointment = await AppointmentHandler.getAppointments();
+            const complaints = await complaintsHandler.getComplaints();
             const discoverData = await DiscoverHandler.getDiscoveries();
 
             const filteredUsername = ownerData
@@ -102,7 +102,7 @@ export const useData = (search, role) => {
                 .filter(data => {
                     // Skip filtering if no search criteria
                     if (!search && !role)
-                        return true;
+                        return data.role?.toLowerCase() !== 'superadmin';
 
                     // Normalize search and role once
                     const searchLower = search

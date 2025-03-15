@@ -88,20 +88,19 @@ export default function DiscoverTable() {
                             </div>
 
                             <div className="d-md-flex align-items-center dt-layout-end col-md-auto ms-auto d-flex gap-md-4 justify-content-md-between justify-content-center gap-4 flex-wrap mt-0">
+                            {selectedDiscover.length > 0 && (
+                                <button className="btn btn-danger" onClick={handleDeleteSelected}>
+                                    Delete Selected
+                                </button>
+                                )}
                                 <div className="dt-search mb-md-6 mb-2">
                                     <input type="search" className="form-control" id="dt-search-0" placeholder="Search Discover" aria-controls="DataTables_Table_0" value={filter} onChange={(e) => setFilter(e.target.value)}/>
                                     <label htmlFor="dt-search-0"></label>
                                 </div>
-                                <div className="dt-buttons btn-group flex-wrap d-flex gap-4 mb-md-0 mb-6">
-                {selectedDiscover.length > 0 && (
-                  <button className="btn btn-danger" onClick={handleDeleteSelected}>
-                    Delete Selected
-                  </button>
-                )}
-              </div>
+                                <div className="dt-buttons btn-group flex-wrap d-flex gap-4 mb-md-0 mb-6">               
+                                </div>
                             </div>
                         </div>
-
                         <div className="justify-content-between dt-layout-table">
                             <div className="d-md-flex justify-content-between align-items-center dt-layout-full table-responsive">
                                 <table className="datatables-users table border-top dataTable dtr-column collapsed" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" style={{ width: '100%' }}>

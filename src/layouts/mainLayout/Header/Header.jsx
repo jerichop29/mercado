@@ -2,6 +2,7 @@ import './Header.css';
 import Logo from '../../../assets/img/logo.png';
 import { Link, useLocation } from 'react-router-dom';
 import React, { useState } from 'react';
+import { isAuthenticated } from '../../../utils/auth';
 
 export default function Header() {
     const location = useLocation(); // Get current location (route)
@@ -107,6 +108,17 @@ export default function Header() {
                                     <i className="bi bi-telephone-inbound"></i>&nbsp;&nbsp;Contact
                                 </Link>
                             </li>
+                            <li>
+                            {!isAuthenticated()&&isMobileMenuOpen&&(
+                                <Link className="" to="/auth/signin">
+                                    <i className="bi bi-person-square"></i>&nbsp;&nbsp;Access Your Account
+                                </Link>)}
+                                {isAuthenticated()&&isMobileMenuOpen&&(
+                                <Link className="" to="/user/dashboard">
+                                    <i className="bi bi-house"></i>&nbsp;&nbsp;Return to Dashboard
+                                </Link>)}
+                            </li>
+                           
                         </ul>
                     </div>
                     {/* Mobile Menu Toggle Button */}
@@ -118,9 +130,14 @@ export default function Header() {
                         <i className={`bi bi-${isMobileMenuOpen ? 'x' : 'list'}`}></i> {/* Toggle icon */}
                     </div>
                     {/* Updated link for accessing account */}
+                    {!isAuthenticated()&&(
                     <Link className="cta-btn" to="/auth/signin">
                         <i className="bi bi-person-square"></i>&nbsp;&nbsp;Access Your Account
-                    </Link>
+                    </Link>)}
+                    {isAuthenticated()&&(
+                    <Link className="cta-btn" to="/user/dashboard">
+                        <i className="bi bi-house"></i>&nbsp;&nbsp;Return to Dashboard
+                    </Link>)}
                 </div>
             </div>
         </header>

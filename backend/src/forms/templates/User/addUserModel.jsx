@@ -4,6 +4,7 @@ import PersonValidator from '../../validators/personValidator';
 import OwnerHandler from '../../../controllers/js/OwnerHandler';
 import AdminHandler from '../../../controllers/js/AdminHandler';
 import stallHandler from '../../../controllers/js/stallHandler';
+import { Alert } from '../../../../../src/components/main/DialogueBox/DialogueBox';
 const useAddUserModel = (editData) => {
   const initialFormState = {
     FName: "",
@@ -99,9 +100,37 @@ const useAddUserModel = (editData) => {
           p.Email === formData.Email
         );
         if (person) {
+
+          const generateUsername = async (FName, LName, role) => {
+            // Normalize name parts: lowercase, remove spaces & special characters
+            const cleanName = (name) => name.toLowerCase().replace(/[^a-z0-9]/g, '');
+        
+            let baseUsername = `${cleanName(FName)}_${cleanName(LName)}`;
+            let username = baseUsername;
+            let counter = 1;
+        
+            // Determine the appropriate handler based on role
+            let checkUserName;
+            if (role === 'Owner') {
+                checkUserName = OwnerHandler.checkUsername;  // Assign function reference
+            } else {
+                checkUserName = AdminHandler.checkUsername;  // Assign function reference
+            }
+        
+            // First, check if the base username is available
+            if (await checkUserName(username)) {
+                // If it exists, add a number and keep checking for uniqueness
+                while (await checkUserName(username)) {
+                    username = `${baseUsername}${counter}`;
+                    counter++;
+                }
+            }
+        
+            return username;
+        };
+        
           // Generate username from name parts
-          const username = `${formData.FName.toLowerCase()}_${formData.LName.toLowerCase()}`;
-          
+          const username = await generateUsername(formData.FName,formData.LName,formData.role);
           // Generate random password
           const generatePassword = () => {
             const length = 22;
@@ -150,7 +179,7 @@ const useAddUserModel = (editData) => {
             console.log('Generated credentials:');
             console.log('Username:', username);
             console.log('Password:', password);
-            alert("User Created");
+            Alert("User Created");
           }
         }
       }

@@ -116,19 +116,6 @@ export default function CategoryTable({ Category: initialCategory }) {
                                             Delete Selected
                                         </button>
                                     )}
-                                    <button
-                                        className="btn add-new tbl-btn-primary"
-                                        tabIndex="0"
-                                        aria-controls="DataTables_Table_0"
-                                        type="button"
-                                        data-bs-toggle="offcanvas"
-                                        data-bs-target="#offcanvasAddCategory"
-                                    >
-                                        <span className="d-flex justify-content-between align-item-center">
-                                            <i className="icon-base bx bx-plus icon-lg me-0 me-sm-2"></i>
-                                            <span className="d-none d-sm-inline-block">Add New Category</span>
-                                        </span>
-                                    </button>
                                 </div>
                                 <div className="dt-search mb-md-6 mb-2">
                                     <input 

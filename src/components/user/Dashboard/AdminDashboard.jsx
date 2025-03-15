@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import {useData} from "../../../../backend/src/views/useData";
 import {getUser} from "../../../utils/auth";
 import {CardStats} from "../../../utils/CardStatsData";
+import { Link } from 'react-router-dom';
 const AdminDashboard = () => {
     const { admin } = useData();
     const { stallsOccupied } = CardStats();
@@ -36,12 +37,12 @@ const AdminDashboard = () => {
                                 description about account type
                             </p>
 
-                            <a
+                            <Link
                                 aria-label="view badges"
-                                href="./my-profile"
+                                to="/user/my-profile"
                                 className="btn btn-sm btn-outline-primary">
                                 View Details
-                            </a>
+                            </Link>
                         </div>
                     </div>
                     <div className="col-sm-5 text-center text-sm-left">

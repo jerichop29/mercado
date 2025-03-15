@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+import sha256 from 'js-sha256';
 const SESSION_EXPIRY_TIME = 30 * 60 * 1000; // 30 minutes
 
 // Get current timestamp
@@ -53,12 +53,8 @@ const isSessionExpired = () => {
 };
 
 function hashData(data) {
-    return crypto.subtle.digest("SHA-256", new TextEncoder().encode(data)).then((hashBuffer) => {
-        return Array.from(new Uint8Array(hashBuffer))
-            .map((b) => b.toString(16).padStart(2, "0"))
-            .join("");
-    });
-}
+    return sha256(data);
+  }
 
 async function storeHashedData(user, role) {
     const userHash = await hashData(user);

@@ -40,6 +40,7 @@ const TenantsTable = ({search}) => {
             Stall_Id: tenant.Stall_Id || "",
             Date_Start: tenant.Date_Start || "",
             Market_Fee: tenant.Market_Fee || "",
+            Person_Id:tenant.Person_Id||"",
             id: tenant.TenantId
         });
         const offcanvasElement = document.getElementById('offcanvasAddUser');
@@ -47,11 +48,11 @@ const TenantsTable = ({search}) => {
         offcanvas.show();
     };
 
-    const handleDeleteClick = async(tenant) => {
+    const handleDeleteClick = async (tenant) => {
         const result = await Confirm("Are you sure you want to proceed?", "Confirmation");
         if (result) {
             console.log("User confirmed!");
-            await handleDelete({TenantId: tenant.TenantId, Person_Id: tenant.Person_Id});
+            await handleDelete({TenantId: tenant.TenantId});
         } else {
             console.log("User canceled.");
         }
@@ -348,7 +349,7 @@ const TenantsTable = ({search}) => {
                                                     <a
                                                         href=""
                                                         className="btn btn-icon delete-record"
-                                                        onClick={() => handleDeleteClick(tenant)}>
+                                                        onClick={async () => await handleDeleteClick(tenant)}>
                                                         <i className="icon-base bx bx-trash icon-md icon-lg"></i>
                                                     </a>
                                                     <a href="app-user-view-account.html" className="btn btn-icon">
