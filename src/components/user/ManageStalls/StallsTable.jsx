@@ -59,6 +59,15 @@ const handleChange = (e) => {
   };
 
   const handleSubmitSuccess = (updatedStall) => {
+    setFilter((prev) => (prev
+        ? prev + ' '
+        : ' ')); // Add a space if there's a value, otherwise set to space
+
+    setTimeout(() => {
+        setFilter((prev) => (prev
+            ? prev.trim()
+            : '')); // Remove the extra space after delay
+    }, 100);
     handleCloseEdit();
   };
 

@@ -54,7 +54,7 @@ class PersonFunctions {
             return ["status" => "success", "message" => "User deleted successfully"];
         }
         error_log("Failed to delete person");
-        return ["status" => "error", "message" => "Failed to delete person"];
+        return ["status" => "error", "message" => "Failed to delete user"];
     }
 
     // Update person
@@ -82,7 +82,7 @@ class PersonFunctions {
                     $id);
         
         if ($stmt->execute()) {
-            return ["status" => "success", "message" => "Person updated successfully"];
+            return ["status" => "success", "message" => "User edited successfully"];
         }
         error_log("Failed to update person");
         return ["status" => "error", "message" => "Failed to update person"];

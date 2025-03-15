@@ -142,7 +142,10 @@ const { stall }=useData();
                             >
                                 <option value="" disabled>Select Role</option>
                                 <option value="Owner">Owner</option>
-                                <option value="Admin">Admin</option>
+                                <option value="admin">Admin</option>
+                                {formData.role == "superadmin" &&(
+                                <option value="superadmin">Admin</option>
+                                )}
                             </select>
                         </div> 
                         {formData.role === 'Owner' && (

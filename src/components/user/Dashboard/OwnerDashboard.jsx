@@ -1,5 +1,7 @@
 import { getUser } from "../../../utils/auth";
+import { useData } from "../../../../backend/src/views/useData";
 const OwnerDashboard = () => {
+    const { username } = useData(getUser());
     return (
         <>
             <div className="row">
@@ -9,7 +11,10 @@ const OwnerDashboard = () => {
                             <div className="col-sm-7">
                                 <div className="card-body">
                                     <h5 className="card-title text-primary">
-                                        Welcome {getUser? getUser():"Guest"}! 🎉
+                                        Welcome {Array.isArray(username) && username.length > 0 
+                                    ? username[0]
+                                        ?.FName
+                                        : "Guest"}! 🎉
                                     </h5>
                                     <p className="mb-4">
                                         You are logged in as <span className="fw-medium">Owner</span> description about account type

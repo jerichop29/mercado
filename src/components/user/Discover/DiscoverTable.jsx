@@ -1,4 +1,71 @@
-export default function DiscoverTable({ Discover }) {
+import React,{ useState } from 'react';
+import { useData } from '../../../../backend/src/views/useData';
+import { Confirm } from '../../main/DialogueBox/DialogueBox';
+import { useDeleteDiscover } from '../../../../backend/src/forms/templates/Discover/deletediscover';
+export default function DiscoverTable() {
+    const [filter,setFilter] = useState('');
+  const [displayData , setdisplayData] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1); 
+  const { discover  } = useData(filter);
+  const totalPages = Math.ceil(discover.length / displayData);
+  const startIndex = (currentPage - 1) * displayData;
+  const endIndex = startIndex + displayData;
+  const displayedDiscover = discover
+  const [selectedDiscover, setSelectedDiscover] = useState([]);
+  const [selectAll, setSelectAll] = useState(false);
+  const { handleDelete, message } = useDeleteDiscover(() => {
+    setFilter((prev) => prev + ' ');
+    setTimeout(() => {
+      setFilter((prev) => (prev ? prev.trim() : '')); 
+  }, 100);
+  });
+
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+    }
+  };
+
+  const handleDeleteClick = async (e, discover) => {
+    console.log("Selected Disover for Deletion:",  discover);
+    e.preventDefault();
+
+    const result = await Confirm("Are you sure you want to proceed?", "Confirmation");
+    if (result) {
+        await handleDelete(user);
+    } else {
+    }
+  };
+  const handleSelectDiscover = (discover) => {
+    setSelectedDiscover((prevSelected) => {
+      if (prevSelected.some(selectedDiscover => selectedDiscover.discover_Id === discover.discover_Id)) {
+        return prevSelected.filter(selectedDiscover => selectedDiscover.discover_Id !==  discover.discover_Id); // Deselect user
+      } else {
+        return [...prevSelected, discover]; // Select user
+      }
+    });
+  };
+
+  const handleDeleteSelected = async () => {
+    const result = await Confirm("Are you sure you want to proceed?", "Confirmation");
+    if (result) {
+        for (const user of selectedDiscover) {
+          await handleDelete(user); // Assuming handleDelete can take the entire user object
+        }
+        setSelectedDiscover([]); // Clear selection after deletion
+    } else {
+    }
+  };
+
+  const handleSelectAllChange = (event) => {
+    const isChecked = event.target.checked;
+    setSelectAll(isChecked);
+    if (isChecked) {
+      setSelectedDiscover(displayedDiscover);
+    } else {
+     setSelectedDiscover([]);
+    }
+  };
     return (
         <>
             <div className="card">
@@ -11,7 +78,7 @@ export default function DiscoverTable({ Discover }) {
                         <div className="row mx-3 my-0 justify-content-between">
                             <div className="d-md-flex justify-content-between align-items-center dt-layout-start col-md-auto me-auto mt-0">
                                 <div className="dt-length mb-md-6 mb-0">
-                                    <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" className="form-select ms-0" id="dt-length-0">
+                                    <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" className="form-select ms-0" id="dt-length-0"value={displayData} onChange={(e)=>{setdisplayData(e.target.value)}}>
                                         <option value="10">10</option>
                                         <option value="25">25</option>
                                         <option value="50">50</option>
@@ -22,9 +89,16 @@ export default function DiscoverTable({ Discover }) {
 
                             <div className="d-md-flex align-items-center dt-layout-end col-md-auto ms-auto d-flex gap-md-4 justify-content-md-between justify-content-center gap-4 flex-wrap mt-0">
                                 <div className="dt-search mb-md-6 mb-2">
-                                    <input type="search" className="form-control" id="dt-search-0" placeholder="Search Discover" aria-controls="DataTables_Table_0" />
+                                    <input type="search" className="form-control" id="dt-search-0" placeholder="Search Discover" aria-controls="DataTables_Table_0" value={filter} onChange={(e) => setFilter(e.target.value)}/>
                                     <label htmlFor="dt-search-0"></label>
                                 </div>
+                                <div className="dt-buttons btn-group flex-wrap d-flex gap-4 mb-md-0 mb-6">
+                {selectedDiscover.length > 0 && (
+                  <button className="btn btn-danger" onClick={handleDeleteSelected}>
+                    Delete Selected
+                  </button>
+                )}
+              </div>
                             </div>
                         </div>
 
@@ -39,14 +113,20 @@ export default function DiscoverTable({ Discover }) {
                                         <col data-dt-column="5" style={{ width: '150px' }} />
                                         <col data-dt-column="6" style={{ width: '150px' }} />
                                         <col data-dt-column="7" style={{ width: '150px' }} />
-                                        <col data-dt-column="8" style={{ width: '200px' }} />
-                                        <col data-dt-column="9" style={{ width: '250px' }} />
+                                        <col data-dt-column="8" style={{ width: '50px' }} />
+                                        <col data-dt-column="9" style={{ width: '150px' }} />
                                     </colgroup>
                                     <thead>
                                         <tr>
                                             <th data-dt-column="0" className="control dt-orderable-none dtr-hidden" style={{ display: 'none' }}></th>
                                             <th data-dt-column="1" className="dt-select dt-orderable-none">
-                                                <input className="form-check-input" type="checkbox" aria-label="Select all rows" />
+                                            <input 
+                                                    className="form-check-input" 
+                                                    type="checkbox" 
+                                                    aria-label="Select all rows" 
+                                                    checked={selectAll}
+                                                    onChange={handleSelectAllChange}
+                                                />
                                             </th>
                                             <th data-dt-column="2" className="dt-orderable-asc dt-orderable-desc dt-ordering-desc">
                                                 <span className="dt-column-title" role="button">ID</span>
@@ -76,61 +156,68 @@ export default function DiscoverTable({ Discover }) {
                                     </thead>
 
                                     <tbody>
-                                        {Discover && Discover.map((Discover, index) => (
+                                        {displayedDiscover.map((Discover, index) => (
                                             <tr key={index}>
                                                 <td className="control dtr-hidden" tabIndex="0" style={{ display: 'none' }}></td>
                                                 <td className="dt-select">
-                                                    <input aria-label="Select row" className="form-check-input" type="checkbox" />
+                                                <input 
+                                                    aria-label="Select row" 
+                                                    className="form-check-input" 
+                                                    type="checkbox" 
+                                                    checked={selectedDiscover.some(selectedDiscover => selectedDiscover.discover_Id === Discover.discover_Id)} 
+                                                    onChange={() => handleSelectDiscover(Discover)} 
+                                                    />
                                                 </td>
                                                 <td>
                                                     <span className="fw-medium">
-                                                    {Discover.id}
+                                                    {Discover.discover_Id}
                                                     </span>
                                                 </td>
                                                 <td>
                                                     <span className="fw-medium">
-                                                    <i className="icon-base fa-solid fa-triangle-exclamation text-warning me-2"></i>{Discover.title}
+                                                    <i className="icon-base fa-solid fa-triangle-exclamation text-warning me-2"></i>{Discover.Title}
                                                     </span>
                                                 </td>
                                                 <td>
                                                     <span className="fw-medium">
-                                                    <i className="icon-base bi bi-chat-left-text-fill text-secondary me-2"></i>{Discover.description}
+                                                    <i className="icon-base bi bi-chat-left-text-fill text-secondary me-2"></i>{Discover.Description}
                                                     </span>
                                                 </td>
                                                 <td>
                                                     <span className="fw-medium">
-                                                    <i className="icon-base bx bx-calendar-check text-success me-2"></i>{Discover.publish}
+                                                    <i className="icon-base bx bx-calendar-check text-success me-2"></i>{Discover.Date_Start}
                                                     </span>
                                                 </td>
                                                 <td>
                                                     <span className="fw-medium">
-                                                    <i className="icon-base bx bx-calendar-x text-danger me-2"></i>{Discover.end}
+                                                    <i className="icon-base bx bx-calendar-x text-danger me-2"></i>{Discover.Date_End}
                                                     </span>
                                                 </td>
                                                 <td>
                                                     <div className="fw-medium">
-                                                        <img src={Discover.background} alt="Background Image" width="150" height="100" />
+                                                        <img src={Discover.image || "https://www.britishclubbangkok.org/wp-content/uploads/2022/05/Table-Tennis-Tournament-1600.jpg"} alt="Background Image" width="150" height="100" />
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <span className="fw-medium">
-                                                    <i className="icon-base bx bx-link text-info me-2"></i>{Discover.link}
-                                                    </span>
+                                                    <a href={Discover.Link} target='_blank'><span className="fw-medium" target="_blank">
+                                                    <i className="icon-base icon-lg bx bx-link text-info me-2 "></i>
+                                                    </span></a>
                                                 </td>
                                                 <td>
                                                     <div className="d-flex align-items-center">
-                                                        <a href="" className="btn btn-icon delete-record">
+                                                        <a 
+                                                          href="" 
+                                                          className="btn btn-icon delete-record"
+                                                          onClick={(e) => handleDeleteClick(e, Discover)}
+                                                        >
                                                             <i className="icon-base bx bx-trash icon-md icon-lg"></i>
                                                         </a>
                                                         <a href="app-user-view-account.html" className="btn btn-icon">
                                                             <i className="icon-base bx bx-show icon-md icon-lg"></i>
                                                         </a>
-                                                        <a href="" className="btn btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                                            <i className="icon-base bx bx-dots-vertical-rounded icon-md icon-lg"></i>
+                                                        <a href="app-user-view-account.html" className="btn btn-icon">
+                                                            <i className="icon-base bx bx-edit icon-md icon-lg"></i>
                                                         </a>
-                                                        <div className="dropdown-menu dropdown-menu-end m-0">
-                                                            <a href="" className="dropdown-item">Edit</a>
-                                                        </div>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -144,39 +231,46 @@ export default function DiscoverTable({ Discover }) {
                         <div className="row mx-3 justify-content-between">
                             <div className="d-md-flex justify-content-between align-items-center dt-layout-start col-md-auto me-auto mt-0">
                                 <div className="dt-info" aria-live="polite" id="DataTables_Table_0_info" role="status">
-                                    Showing 1 to 10 of {Discover.length} entries
+                                Showing {startIndex + 1} to {Math.min(endIndex, discover.length)} of {discover.length} entries
                                 </div>
                             </div>
                             <div className="d-md-flex align-items-center dt-layout-end col-md-auto ms-auto d-flex gap-md-4 justify-content-md-between justify-content-center gap-4 flex-wrap mt-0">
                                 <div className="dt-paging">
-                                    <nav aria-label="pagination">
-                                        <ul className="pagination">
-                                            <li className="dt-paging-button page-item disabled">
-                                                <button className="page-link previous" role="link" type="button" aria-controls="DataTables_Table_0" aria-disabled="true" aria-label="Previous" data-dt-idx="previous" tabIndex="-1">
-                                                    <i className="icon-base bx bx-chevron-left icon-18px"></i>
-                                                </button>
-                                            </li>
-                                            <li className="dt-paging-button page-item active">
-                                                <button className="page-link" role="link" type="button" aria-controls="DataTables_Table_0" aria-current="page" data-dt-idx="0">1</button>
-                                            </li>
-                                            <li className="dt-paging-button page-item">
-                                                <button className="page-link" role="link" type="button" aria-controls="DataTables_Table_0" data-dt-idx="1">2</button>
-                                            </li>
-                                            <li className="dt-paging-button page-item">
-                                                <button className="page-link" role="link" type="button" aria-controls="DataTables_Table_0" data-dt-idx="2">3</button>
-                                            </li>
-                                            <li className="dt-paging-button page-item">
-                                                <button className="page-link" role="link" type="button" aria-controls="DataTables_Table_0" data-dt-idx="3">4</button>
-                                            </li>
-                                            <li className="dt-paging-button page-item">
-                                                <button className="page-link" role="link" type="button" aria-controls="DataTables_Table_0" data-dt-idx="4">5</button>
-                                            </li>
-                                            <li className="dt-paging-button page-item">
-                                                <button className="page-link next" role="link" type="button" aria-controls="DataTables_Table_0" aria-label="Next" data-dt-idx="next">
-                                                    <i className="icon-base bx bx-chevron-right icon-18px"></i>
-                                                </button>
-                                            </li>
-                                        </ul>
+                                <nav aria-label="pagination">
+                                    <ul className="pagination">
+                                        <li className={`dt-paging-button page-item ${currentPage === 1 ? "disabled" : ""}`}>
+                                        <button
+                                            className="page-link previous"
+                                            onClick={() => handlePageChange(currentPage - 1)}
+                                        >
+                                            <i className="icon-base bx bx-chevron-left icon-18px"></i>
+                                        </button>
+                                        </li>
+
+                                        {[...Array(Math.min(5, totalPages))].map((_, index) => {
+                                                                const pageNumber = currentPage + index - 2; // Center the current page in the range
+                                                                if (pageNumber < 1 || pageNumber > totalPages) return null; // Skip out-of-bounds pages
+                                                                return (
+                                                                    <li key={pageNumber} className={`dt-paging-button page-item ${currentPage === pageNumber ? "active" : ""}`}>
+                                                                        <button
+                                                                            className="page-link"
+                                                                            onClick={() => handlePageChange(pageNumber)}
+                                                                        >
+                                                                            {pageNumber}
+                                                                        </button>
+                                                                    </li>
+                                                                );
+                                                            })}
+
+                                        <li className={`dt-paging-button page-item ${currentPage === totalPages ? "disabled" : ""}`}>
+                                        <button
+                                            className="page-link next"
+                                            onClick={() => handlePageChange(currentPage + 1)}
+                                        >
+                                            <i className="icon-base bx bx-chevron-right icon-18px"></i>
+                                        </button>
+                                        </li>
+                                    </ul>
                                     </nav>
                                 </div>
                             </div>

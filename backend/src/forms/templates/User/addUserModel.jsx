@@ -53,7 +53,7 @@ const useAddUserModel = (editData) => {
     setMessage({ text: "", type: "" });
     try {
        PersonValidator.validatePersonData(formData);
-      if (editData){
+      if (editData && formData.role == "Owner"){
         const persons = await PersonHandler.getPersons();
         
         const person = persons.data.filter((p) => 

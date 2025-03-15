@@ -25,14 +25,14 @@ const AdminDashboard = () => {
                     <div className="col-sm-7">
                         <div className="card-body">
                             <h5 className="card-title text-primary">
-                                Welcome {username
+                                Welcome {Array.isArray(username) && username.length > 0 
                                     ? username[0]
                                         ?.FName
                                         : "Guest"}! 🎉
                             </h5>
                             <p className="mb-4">
                                 You are logged in as
-                                <span className="fw-medium">Admin</span>
+                                <span className="fw-medium"> Admin </span>
                                 description about account type
                             </p>
 

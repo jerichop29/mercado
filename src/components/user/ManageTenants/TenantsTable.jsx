@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import AddTenant from './AddTenant';
 import {useData} from '../../../../backend/src/views/useData';
 import useDeleteTenantModel from '../../../../backend/src/forms/templates/Tenants/deleteTenantModel';
-
+import { Confirm } from '../../main/DialogueBox/DialogueBox';
 const TenantsTable = ({search}) => {
     const [filter,
         setFilter] = useState('');
@@ -48,8 +48,12 @@ const TenantsTable = ({search}) => {
     };
 
     const handleDeleteClick = async(tenant) => {
-        if (window.confirm('Are you sure you want to delete this user?')) {
+        const result = await Confirm("Are you sure you want to proceed?", "Confirmation");
+        if (result) {
+            console.log("User confirmed!");
             await handleDelete({TenantId: tenant.TenantId, Person_Id: tenant.Person_Id});
+        } else {
+            console.log("User canceled.");
         }
     };
 
@@ -71,10 +75,14 @@ const TenantsTable = ({search}) => {
             alert('No tenants selected for deletion.');
             return;
         }
-        if (window.confirm('Are you sure you want to delete the selected tenants?')) {
-            await Promise.all(selectedTenants.map(tenantId => handleDelete({TenantId: tenantId})));
+        const result = await Confirm("Are you sure you want to proceed?", "Confirmation");
+            if (result) {
+                console.log("User confirmed!");
+                await Promise.all(selectedTenants.map(tenantId => handleDelete({TenantId: tenantId})));
             setSelectedTenants([]); // Clear selection after deletion
-        }
+            } else {
+                console.log("User canceled.");
+            }
     };
 
     const handleBuildingChange = (e) => {

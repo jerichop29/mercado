@@ -2,7 +2,9 @@ import getGreetingMessage from '../../utils/GreetingHandler';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../../utils/auth';
 import { getUser } from '../../utils/auth';
+import { useData } from '../../../backend/src/views/useData';
 const Navbar = () => {
+  const { username } = useData(getUser());
   const navigate = useNavigate();
   const handleLogout = () => {
     logout(); // Clear auth data
@@ -22,7 +24,7 @@ const Navbar = () => {
       </div>
 
       <div className="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-        {getGreetingMessage(getUser? getUser():"Guest")}
+      {getGreetingMessage(Array.isArray(username) && username.length > 0 ? username[0]?.FName : "Guest")}
         <ul className="navbar-nav flex-row align-items-center ms-auto">
           <li>
             <i className='menu-icon bx bx-bell'></i>

@@ -1,6 +1,6 @@
 class complaintsHandler {
     constructor() {
-        this.baseUrl = `${window.location.protocol}//${window.location.hostname}/mercado/backend/src/models/php/complaintsFunctions.php`;
+        this.baseUrl = `${window.location.protocol}//${window.location.hostname}/mercado/backend/src/models/php/complaintsFunction.php`;
     }
     // Generic fetch method with error handling
     async fetchWithErrorHandling(url, options = {}) {

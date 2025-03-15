@@ -123,10 +123,8 @@ const initializeAuth = () => {
     const isRoleValid = (hashAdminRole === storedRoleHash || hashSuperadminRole === storedRoleHash);
     
     if (isRoleValid) {
-        console.log("Role verification successful!");
         return true;
     } else {
-        console.log("Role verification failed.");
         return false;
     }
 }
@@ -143,10 +141,8 @@ const initializeAuth = () => {
     const isRoleValid = hashOwnerRole === storedRoleHash;
 
     if (isRoleValid) {
-        console.log("Role verification successful!");
         return true;
     } else {
-        console.log("Role verification failed.");
         return false;
     }
 }
