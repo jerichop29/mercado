@@ -59,4 +59,4 @@ class CategoryHandler {
     }
 }
 
-export default new DiscoverHandler(); 
+export default new CategoryHandler(); 
