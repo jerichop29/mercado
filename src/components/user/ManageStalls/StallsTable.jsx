@@ -35,7 +35,7 @@ const handleChange = (e) => {
     setSelectedStall({
         Owner_Id:stall.Owner_Id || "",
         StallCode: stall.StallCode || "",
-        TypeName: stall.TypeName || "",
+        Type_Id: stall.Type_Id || "",
         BuildingName: stall.BuildingName || "",
         OwnerFname: stall.OwnerFname || "",
         OwnerMname: stall.OwnerMname || "",

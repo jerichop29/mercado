@@ -34,7 +34,17 @@ const useManageDiscover = (editData) => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
+        setFormData(prev => {
+            const updatedData = { ...prev, [name]: value };
+            // Ensure Title and Activity are the same
+            if (name === "Title") {
+                updatedData.Activity = value;
+            } else if (name === "Activity") {
+                updatedData.Title = value;
+            }
+            return updatedData;
+        });
+        console.log(formData);
     };
 
     const resetForm = () => {
@@ -46,11 +56,12 @@ const useManageDiscover = (editData) => {
         e.preventDefault();
         setMessage({ text: "", type: "" });
         try {
+            
             DiscoverValidator.validateDiscoverData(formData);
             
             const result = editData
-                ? await DiscoverHandler.updateDiscover(formData.id, formData)
-                : await DiscoverHandler.addDiscover(formData);
+                ? await DiscoverHandler.updateDiscovery(formData.id, formData)
+                : await DiscoverHandler.addDiscovery(formData);
 
             setMessage({ text: result.message, type: "success" });
             resetForm();

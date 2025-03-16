@@ -24,7 +24,7 @@ export default function Discover() {
                     <h2 className="d-card_title">{discover.Title}</h2>
                     <div className="d-card_text">
                       <span className="note">{discover.Activity}</span>
-                      <p>{discover.Description}</p>
+                      <div dangerouslySetInnerHTML={{ __html: discover.Description }} />
                       {discover.Reg_form !== '' &&
                         <p>Registration Form:
                           <a href={discover.Reg_form} target='_blank'><strong>{discover.Reg_form}</strong></a>

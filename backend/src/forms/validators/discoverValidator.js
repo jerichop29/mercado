@@ -30,7 +30,7 @@ class DiscoverValidator {
             errors.push('Date_Start cannot be later than Date_End.');
         }
 
-        if (!data.Reg_form || typeof data.Reg_form !== 'string' || !data.Reg_form.trim()) {
+        if (!data.Link || typeof data.Link !== 'string' || !data.Link.trim()) {
             errors.push('Registration form URL is required and must be a non-empty string.');
         }
 

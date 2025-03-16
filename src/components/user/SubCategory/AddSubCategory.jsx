@@ -1,33 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
-import Quill from 'quill';
+import React, {  useState } from 'react';
+import useQuillEditor from '../../../hooks/useQuillEditor';
 import 'quill/dist/quill.snow.css'; // Import Quill's styles
-
+import useManageCategory from '../../../../backend/src/forms/templates/Category/addcategory';
 export default function AddSubCategory() {
-    const quillRef = useRef(null);
+    const {quillRef} = useQuillEditor();
     const [selectedCategory, setSelectedCategory] = useState('');
     const categories = ['Maintenance Issues', 'Plumbing Issues', 'Structural Problems', 'Hygiene and Cleanliness', 'Security Concerns'];
-
-    useEffect(() => {
-        if (quillRef.current && !quillRef.current.quill) {
-            const quill = new Quill(quillRef.current, {
-                theme: 'snow',
-                modules: {
-                    toolbar: [
-                        ['bold', 'italic', 'underline'],
-                        [{ list: 'ordered' }, { list: 'bullet' }],
-                        ['link', 'image'],
-                    ],
-                },
-                placeholder: 'Sub-Category Description',
-            });
-
-            quillRef.current.quill = quill;
-
-            quill.on('text-change', () => {
-                console.log(quill.root.innerHTML);
-            });
-        }
-    }, []);
 
     return (
         <>

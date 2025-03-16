@@ -32,7 +32,7 @@ export default function DiscoverTable() {
 
     const result = await Confirm("Are you sure you want to proceed?", "Confirmation");
     if (result) {
-        await handleDelete(user);
+        await handleDelete(discover);
     } else {
     }
   };
@@ -179,7 +179,8 @@ export default function DiscoverTable() {
                                                 </td>
                                                 <td>
                                                     <span className="fw-medium">
-                                                    <i className="icon-base bi bi-chat-left-text-fill text-secondary me-2"></i>{Discover.Description}
+                                                    <i className="icon-base bi bi-chat-left-text-fill text-secondary me-2"></i>
+                                                    <div dangerouslySetInnerHTML={{ __html: Discover.Description }} />
                                                     </span>
                                                 </td>
                                                 <td>

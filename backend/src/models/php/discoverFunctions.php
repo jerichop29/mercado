@@ -23,9 +23,9 @@ class DiscoverFunctions {
 
     // Add new discovery
     public function addDiscover($data) {
-        $sql = "INSERT INTO discovertbl (Title, Activity, `Description`, Date_start, Date_End, Link) VALUES (?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO discovertbl (Title, Activity,`image`, `Description`, Date_start, Date_End, Link) VALUES (?, ?, ?, ?, ?, ?,?)";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("ssssss", $data['title'], $data['activity'], $data['description'], $data['date_start'], $data['date_end'], $data['Link']);
+        $stmt->bind_param("ssbssss", $data['Title'], $data['Activity'], $data['image'], $data['Description'], $data['Date_Start'], $data['Date_End'], $data['Link']);
         
         if ($stmt->execute()) {
             return ["status" => "success", "message" => "Discovery added successfully"];

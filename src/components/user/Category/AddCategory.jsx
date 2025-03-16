@@ -2,7 +2,7 @@
 import useQuillEditor from '../../../hooks/useQuillEditor';
 export default function AddCategory() {
 
-    const quill = useQuillEditor();
+    const {quillRef} = useQuillEditor();
 
     return (
         <>
@@ -44,7 +44,7 @@ export default function AddCategory() {
                                             <label className="mb-1">Description (Optional)</label>
                                             <div className="form-control p-0">
                                                 {/* Quill Editor Container */}
-                                                <div ref={quill} />
+                                                <div ref={quillRef} />
                                             </div>
                                         </div>
 

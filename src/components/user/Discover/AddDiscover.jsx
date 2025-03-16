@@ -1,9 +1,40 @@
-
+import { useState } from 'react';
 import useQuillEditor from '../../../hooks/useQuillEditor';
-export default function AddDiscover() {
+import useManageDiscover from '../../../../backend/src/forms/templates/Discover/addDiscover';
+import { Description } from '@mui/icons-material';
+export default function AddDiscover(edit,onSubmitSuccess) {
+    const [errors, setErrors] = useState({});
+    const {quillRef,editorRef} = useQuillEditor();
+    const {
+        formData,
+        message,
+        handleChange,
+        handleSubmit,
+        resetForm
+    } = useManageDiscover();
 
-    const quill = useQuillEditor();
 
+    const handleFormSubmit = async (e) => {
+        e.preventDefault();
+        const currentDate = new Date().toISOString().slice(0, 16); // Get current date in 'YYYY-MM-DDTHH:MM' format
+
+        // Validate Date_Start
+        if (!edit && formData.Date_Start < currentDate) {
+            setErrors({ ...errors, Date_Start: "Start date must be greater than or equal to the current date." });
+            return;
+        }
+
+        // Validate Date_End
+        if (formData.Date_End <= formData.Date_Start) {
+            setErrors({ ...errors, Date_End: "End date must be greater than Start date." });
+            return;
+        }
+
+        // Get the content from the Quill editor
+        const descriptionContent = editorRef.current.root.innerHTML;
+        formData.Description = descriptionContent; // Add it to formData
+        await handleSubmit(e);
+    };
     return (
         <>
             <div className="container-xxl flex-grow-1 container-p-y">
@@ -24,7 +55,7 @@ export default function AddDiscover() {
                                     <h5 className="card-tile mb-0">Discover information</h5>
                                 </div>
                                 <div className="card-body">
-                                    <form>
+                                    <form onSubmit={handleFormSubmit} noValidate>
                                         <div className="mb-6">
                                             <label className="form-label" htmlFor="Discover-title">
                                                 Title
@@ -34,8 +65,10 @@ export default function AddDiscover() {
                                                 className="form-control"
                                                 id="Discover"
                                                 placeholder="Discover title"
-                                                name="DiscoverTitle"
+                                                value={formData.Title}
+                                                name="Title"
                                                 aria-label="Discover title"
+                                                onChange={handleChange}
                                             />
                                         </div>
 
@@ -44,7 +77,7 @@ export default function AddDiscover() {
                                             <label className="mb-1">Description (Optional)</label>
                                             <div className="form-control p-0">
                                                 {/* Quill Editor Container */}
-                                                <div ref={quill} />
+                                                <div ref={quillRef} name="Description" />
                                             </div>
                                         </div>
                                         
@@ -53,21 +86,21 @@ export default function AddDiscover() {
                                             <label className="mb-1" htmlFor="Discover-publish">
                                                 Publish Date and Time
                                             </label>
-                                            <input className="form-control" type="datetime-local" id="html5-datetime-local-input"/>
+                                            <input className="form-control" name='Date_Start' type="datetime-local" id="html5-datetime-local-input" onChange={handleChange} value={formData.Date_Start}/>
                                         </div>
 
                                         <div className="mb-6">
                                             <label className="mb-1" htmlFor="Discover-end">
                                                 End Date and Time
                                             </label>
-                                            <input className="form-control" type="datetime-local" id="html5-datetime-local-input"/>
+                                            <input className="form-control" name='Date_End' type="datetime-local" id="html5-datetime-local-input" onChange={handleChange} value={formData.Date_End}/>
                                         </div>
 
                                         <div className="mb-6">
                                             <label className="mb-1" htmlFor="Discover-background">
                                                 Background Image
                                             </label>
-                                            <input className="form-control" type="file" id="formValidationFile" name="formValidationFile"></input>
+                                            <input className="form-control" type="file" id="image" name="image" onChange={handleChange} value={formData.image}></input>
                                         </div>
 
                                         <div className="mb-6">
@@ -79,8 +112,10 @@ export default function AddDiscover() {
                                                 className="form-control"
                                                 id="Discover"
                                                 placeholder="Discover link"
-                                                name="DiscoverLink"
+                                                name="Link"
                                                 aria-label="Discover link"
+                                                onChange={handleChange}
+                                                value={formData.Link}
                                             />
                                         </div>
 
@@ -90,6 +125,11 @@ export default function AddDiscover() {
                                                 Add Discover
                                             </button>
                                         </div>
+                                        {message.text && (
+                                            <div className={`alert alert-${message.type === 'error' ? 'danger' : 'success'} mt-3`}>
+                                                {message.text}
+                                            </div>
+                                        )}
                                     </form>
                                 </div>
                             </div>

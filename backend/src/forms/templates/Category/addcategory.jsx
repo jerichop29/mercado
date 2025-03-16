@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import CategoryHandler from '../../../controllers/js/CategoryHandler';
-import CategoryValidator from '../../validators/categoryValidator';
 
 const useManageCategory = (editData) => {
     const initialFormState = {
@@ -36,7 +35,6 @@ const useManageCategory = (editData) => {
         e.preventDefault();
         setMessage({ text: "", type: "" });
         try {
-            CategoryValidator.validateCategoryData(formData);
             
             const result = editData
                 ? await CategoryHandler.updateCategory(formData.id, formData)
