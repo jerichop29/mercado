@@ -8,7 +8,7 @@ const useManageSubCategory = (editData) => {
         Description: "",
         id: null
     };
-    
+
     const [formData, setFormData] = useState(initialFormState);
     const [message, setMessage] = useState({ text: "", type: "" });
 
@@ -18,7 +18,7 @@ const useManageSubCategory = (editData) => {
                 Category_Id: editData.Category_Id || "",
                 Title: editData.Title || "",
                 Description: editData.Description || "",
-                id: editData.id
+                id: editData.SubCategories_Id
             });
         }
     }, [editData]);
@@ -38,11 +38,12 @@ const useManageSubCategory = (editData) => {
         setMessage({ text: "", type: "" });
         try {
 
-            
+
             const result = editData
                 ? await SubCategoryHandler.updateSubCategory(formData.id, formData)
                 : await SubCategoryHandler.addSubCategory(formData);
-                if(result){Alert("SubCategory Added")}
+            if (result && !editData) { Alert("SubCategory Added") }
+            else if (result  && editData ){ Alert("SubCategory Editted")}
             setMessage({ text: result.message, type: "success" });
             resetForm();
         } catch (error) {

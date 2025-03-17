@@ -1,87 +1,105 @@
 import React, { useState } from 'react';
 import { useData } from '../../../../backend/src/views/useData';
 import { Confirm } from '../../main/DialogueBox/DialogueBox';
-export default function CategoryTable({ SubCategory: initialSubCategory }) {
+import { useDeleteCategory } from '../../../../backend/src/forms/templates/SubCategory/deleteSubCategory';
+import { useNavigate } from 'react-router-dom';
+export default function CategoryTable() {
+    const navigate = useNavigate();
     // State management
     const [displayData, setDisplayData] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [editData, setEditData] = useState(null);
-
-    const {categories} = useData();
-
-    
     const {subCategories} = useData(searchTerm);
     // Pagination logic
     const totalPages = Math.ceil(subCategories.length / displayData);
     const startIndex = (currentPage - 1) * displayData;
     const endIndex = startIndex + displayData;
     const displayedCategories = subCategories.slice(startIndex, endIndex);
-
+    const [selectAll, setSelectAll] = useState(false);
     // Handle page change
     const handlePageChange = (newPage) => {
         if (newPage >= 1 && newPage <= totalPages) {
             setCurrentPage(newPage);
         }
     };
+    const { handleDelete, message } = useDeleteCategory(() => {
+        setSearchTerm((prev) => prev + ' ');
+        setTimeout(() => {
+            setSearchTerm((prev) => (prev ? prev.trim() : '')); 
+      }, 100);
+      });
+
+    const handleSelectAllChange = (event) => {
+        const isChecked = event.target.checked;
+        setSelectAll(isChecked);
+        if (isChecked) {
+          setSelectedCategories(displayedCategories);
+        } else {
+         setSelectedCategories([]);
+        }
+      };
 
     // Handle category selection
     const handleSelectCategory = (categoryId) => {
         setSelectedCategories((prevSelected) => {
-            if (prevSelected.includes(categoryId)) {
-                return prevSelected.filter(id => id !== categoryId); // Deselect
+            if (prevSelected.some(selectedCategories => selectedCategories.SubCategories_Id === categoryId.SubCategories_Id)) {
+                return prevSelected.filter(selectedCategories => selectedCategories.SubCategories_Id !== categoryId.SubCategories_Id); // Deselect user
             } else {
-                return [...prevSelected, categoryId]; // Select
+                return [
+                    ...prevSelected,
+                    categoryId
+                ]; 
             }
         });
     };
 
     // Handle delete operation
-    const handleDeleteClick = async (category) => {
+    const handleDeleteClick = async (e, categories) => {
+
+        console.log("Selected Category for Deletion:",  categories);
+        e.preventDefault();    
         const result = await Confirm("Are you sure you want to proceed?", "Confirmation");
         if (result) {
-            console.log("User confirmed!");
-            setSubCategories(prevCategories => 
-                prevCategories.filter(item => item.id !== category.id)
-            );
-            // Also remove from selected if it was selected
-            setSelectedCategories(prev => prev.filter(id => id !== category.id));
+            await handleDelete(categories);
+            Alert("SubCategory Deleted")
         } else {
-            console.log("User canceled.");
         }
-    };
+      };
 
     // Handle delete selected
     const handleDeleteSelected = async () => {
-        if (selectedCategories.length === 0) {
-            alert('No subCategories selected for deletion.');
-            return;
-        }
         const result = await Confirm("Are you sure you want to proceed?", "Confirmation");
         if (result) {
-            console.log("User confirmed!");
-            setSubCategories(prevCategories => 
-                prevCategories.filter(item => !selectedCategories.includes(item.id))
-            );
+            for (const category of selectedCategories) {
+              await handleDelete(category); // Assuming handleDelete can take the entire user object
+            }
             setSelectedCategories([]); // Clear selection after deletion
         } else {
-            console.log("User canceled.");
         }
-    };
+      };
 
     // Handle edit click
     const handleEditClick = (e, category) => {
         e.preventDefault();
-        setEditData({
-            id: category.id,
-            type: category.type,
-            title: category.title,
-            description: category.description
+        
+        // Prepare the data for editing
+        const editData = {
+            SubCategories_Id: category.SubCategories_Id,
+            Type: category.Type,
+            Title: category.Title,
+            Description: category.Description,
+            Category_Id: category.Category_Id // Assuming this exists in your data
+        };
+        
+        // Navigate to the AddSubCategory component with the edit data
+        navigate('/user/add-sub-category', { 
+            state: { 
+                isEditing: true,
+                editData: editData
+            } 
         });
-        // In a real implementation, you would show an edit modal or navigate to edit page
-        alert(`Edit category: ${category.title}`);
-        // Placeholder for actual edit functionality
     };
 
     return (
@@ -161,14 +179,8 @@ export default function CategoryTable({ SubCategory: initialSubCategory }) {
                                                     className="form-check-input" 
                                                     type="checkbox" 
                                                     aria-label="Select all rows" 
-                                                    checked={selectedCategories.length === displayedCategories.length && displayedCategories.length > 0}
-                                                    onChange={() => {
-                                                        if (selectedCategories.length === displayedCategories.length) {
-                                                            setSelectedCategories([]);
-                                                        } else {
-                                                            setSelectedCategories(displayedCategories.map(category => category.id));
-                                                        }
-                                                    }}
+                                                    checked={selectAll}
+                                                    onChange={handleSelectAllChange}
                                                 />
                                             </th>
                                             <th data-dt-column="2" className="dt-orderable-asc dt-orderable-desc dt-ordering-desc">
@@ -198,18 +210,17 @@ export default function CategoryTable({ SubCategory: initialSubCategory }) {
                                                         aria-label="Select row" 
                                                         className="form-check-input" 
                                                         type="checkbox" 
-                                                        checked={selectedCategories.includes(category.SubCategory_Id)}
-                                                        onChange={() => handleSelectCategory(category.SubCategory_Id)}
-                                                    />
+                                                        checked={selectedCategories.some(selectedCategories => selectedCategories.SubCategories_Id === category.SubCategories_Id)}
+                                                        onChange={() => handleSelectCategory(category)}/>
                                                 </td>
                                                 <td>
                                                     <span className="fw-medium">
-                                                        {category.id}
+                                                        {category.SubCategories_Id}
                                                     </span>
                                                 </td>
                                                 <td>
                                                     <span className="fw-medium">
-                                                        <i className="icon-base fa-solid fa-triangle-exclamation text-warning me-2"></i>{category.Categories_Id}
+                                                        <i className="icon-base fa-solid fa-triangle-exclamation text-warning me-2"></i>{category.Type}
                                                     </span>
                                                 </td>
                                                 <td>
@@ -219,19 +230,18 @@ export default function CategoryTable({ SubCategory: initialSubCategory }) {
                                                 </td>
                                                 <td>
                                                     <span className="fw-medium">
-                                                        <i className="icon-base bi bi-chat-left-text-fill text-secondary me-2"></i>{category.description}
+                                                        <i className="icon-base bi bi-chat-left-text-fill text-secondary me-2"></i>
+                                                        <div dangerouslySetInnerHTML={{ __html: category.Description }} />
                                                     </span>
                                                 </td>
                                                 <td>
                                                     <div className="d-flex align-items-center">
                                                         <a href="#" className="btn btn-icon delete-record" onClick={(e) => {
-                                                            e.preventDefault();
-                                                            handleDeleteClick(category);
+                                                            handleDeleteClick(e,category);
                                                         }}>
                                                             <i className="icon-base bx bx-trash icon-md icon-lg"></i>
                                                         </a>
                                                         <a href="#" className="btn btn-icon" onClick={(e) => {
-                                                            e.preventDefault();
                                                             // View logic would go here
                                                         }}>
                                                             <i className="icon-base bx bx-show icon-md icon-lg"></i>

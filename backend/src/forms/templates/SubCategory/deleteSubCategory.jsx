@@ -5,9 +5,10 @@ const useDeleteCategory = (onDeleteSuccess) => {
     const [message, setMessage] = useState({ text: "", type: "" });
 
     const handleDelete = async (categoryData) => {
+        console.log(categoryData)
         setMessage({ text: "", type: "" });
         try {
-            const result = await SubCategoryHandler.deleteSubCategory(categoryData.id);
+            const result = await SubCategoryHandler.deleteSubCategory(categoryData.SubCategories_Id);
             if (result.status === "success") {
                 if (onDeleteSuccess) onDeleteSuccess();
                 setMessage({ text: "Category successfully deleted", type: "success" });

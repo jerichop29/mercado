@@ -4,7 +4,7 @@ import {getUser} from "../../../utils/auth";
 import {CardStats} from "../../../utils/CardStatsData";
 import { Link } from 'react-router-dom';
 const AdminDashboard = () => {
-    const { admin } = useData();
+    const { admin,complaints,discover,appointment,stall } = useData();
     const { stallsOccupied } = CardStats();
     const { username } = useData(getUser());
     const [pie, setPieData] = useState(0);
@@ -90,9 +90,9 @@ const AdminDashboard = () => {
                             </div>
                             <span className="fw-medium d-block mb-1">Users</span>
                             <h3 className="card-title mb-2">{admin.length}</h3>
-                            <small className="text-success fw-medium">
+                            {/* <small className="text-success fw-medium">
                                 <i className="bx bx-up-arrow-alt"></i>stall admin's
-                            </small>
+                            </small> */}
                         </div>
                     </div>
                 </div>
@@ -126,11 +126,11 @@ const AdminDashboard = () => {
                                 </div>
                             </div>
                             <span>Complaints</span>
-                            <h3 className="card-title text-nowrap mb-1">5</h3>
-                            <small className="text-danger fw-medium">
+                            <h3 className="card-title text-nowrap mb-1">{complaints.length}</h3>
+                            {/* <small className="text-danger fw-medium">
                                 <i className="bx bx-up-arrow-alt"></i>
                                 new complaints
-                            </small>
+                            </small> */}
                         </div>
                     </div>
                 </div>
@@ -189,7 +189,7 @@ const AdminDashboard = () => {
                                 </div>
                                 <div className="d-flex flex-column">
                                     <small>Year 2025</small>
-                                    <h6 className="mb-0">456</h6>
+                                    <h6 className="mb-0">{stall.length}</h6>
                                 </div>
                             </div>
                         </div>
@@ -229,11 +229,11 @@ const AdminDashboard = () => {
                                 </div>
                             </div>
                             <span className="d-block mb-1">Appointment</span>
-                            <h3 className="card-title text-nowrap mb-2">4</h3>
-                            <small className="text-success fw-medium">
+                            <h3 className="card-title text-nowrap mb-2">{appointment.length}</h3>
+                            {/* <small className="text-success fw-medium">
                                 <i className="bx bx-up-arrow-alt"></i>
                                 new request
-                            </small>
+                            </small> */}
                         </div>
                     </div>
                 </div>
@@ -267,11 +267,11 @@ const AdminDashboard = () => {
                                 </div>
                             </div>
                             <span className="fw-medium d-block mb-1">Discover</span>
-                            <h3 className="card-title mb-2">2</h3>
-                            <small className="text-success fw-medium">
+                            <h3 className="card-title mb-2">{discover.length}</h3>
+                            {/* <small className="text-success fw-medium">
                                 <i className="bx bx-up-arrow-alt"></i>
                                 Announcements
-                            </small>
+                            </small> */}
                         </div>
                     </div>
                 </div>
@@ -285,14 +285,14 @@ const AdminDashboard = () => {
                                     <div className="card-title">
                                         <h5 className="text-nowrap mb-2">Complaints Report</h5>
                                         <span className="badge bg-label-primary rounded-pill">
-                                            Current Year 2025
-                                        </span>
+                                            Current Year {new Date().getFullYear()}
+                                        </span> 
                                     </div>
                                     <div className="mt-sm-auto">
-                                        <small className="text-success text-nowrap fw-medium">
+                                        {/* <small className="text-success text-nowrap fw-medium">
                                             <i className="bx bx-chevron-down"></i>
                                             Resolved Complaints
-                                        </small>
+                                        </small> */}
                                         <h3 className="mb-0">100</h3>
                                     </div>
                                 </div>

@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { useData } from '../../../../backend/src/views/useData';
 import { useDeleteCategory } from '../../../../backend/src/forms/templates/Category/deletecategory';
 import { Alert, Confirm } from '../../main/DialogueBox/DialogueBox';
-export default function CategoryTable({ Category: initialCategory }) {
+import { useNavigate } from 'react-router-dom';
+export default function CategoryTable() {
     // State management
-    
+    const navigate = useNavigate();
     const [displayData, setDisplayData] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState('');
@@ -82,7 +83,24 @@ export default function CategoryTable({ Category: initialCategory }) {
          setSelectedCategories([]);
         }
       };
-     
+      const handleEditClick = (e, category) => {
+        e.preventDefault();
+        
+        // Prepare the data for editing
+        const editData = {
+            Title: category.Title,
+            Description: category.Description,
+            Categories_Id: category.Categories_Id // Assuming this exists in your data
+        };
+        
+        // Navigate to the AddSubCategory component with the edit data
+        navigate('/user/add-category', { 
+            state: { 
+                isEditing: true,
+                editData: editData
+            } 
+        });
+    };
     return (
         <>
             <div className="card">

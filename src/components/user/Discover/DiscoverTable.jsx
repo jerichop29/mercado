@@ -2,7 +2,9 @@ import React,{ useState } from 'react';
 import { useData } from '../../../../backend/src/views/useData';
 import { Confirm } from '../../main/DialogueBox/DialogueBox';
 import { useDeleteDiscover } from '../../../../backend/src/forms/templates/Discover/deletediscover';
+import { useNavigate } from 'react-router-dom';
 export default function DiscoverTable() {
+    const navigate = useNavigate();
     const [filter,setFilter] = useState('');
   const [displayData , setdisplayData] = useState(10);
   const [currentPage, setCurrentPage] = useState(1); 
@@ -66,6 +68,32 @@ export default function DiscoverTable() {
      setSelectedDiscover([]);
     }
   };
+
+  const handleEditClick = (e, discover) => {
+    e.preventDefault();
+    
+    // Prepare the data for editing
+    const editData = {
+        Title: discover.Title || "",
+        image: discover.image || "",
+        Activity: discover.Title || "",
+        Description: discover.Description || "",
+        Date_Start: discover.Date_Start || "",
+        Date_End: discover.Date_End || "",
+        Link: discover.Link || "",
+        id: discover.discover_Id
+    };
+    
+    // Navigate to the AddSubCategory component with the edit data
+    navigate('/user/add-discover', { 
+        state: { 
+            isEditing: true,
+            editData: editData
+        } 
+    });
+};
+
+
     return (
         <>
             <div className="card">
@@ -195,7 +223,7 @@ export default function DiscoverTable() {
                                                 </td>
                                                 <td>
                                                     <div className="fw-medium">
-                                                        <img src={Discover.image || "https://www.britishclubbangkok.org/wp-content/uploads/2022/05/Table-Tennis-Tournament-1600.jpg"} alt="Background Image" width="150" height="100" />
+                                                        <img src={Discover.image ? Discover.image: "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png"} alt="Background Image" width="150" height="100" />
                                                     </div>
                                                 </td>
                                                 <td>
@@ -215,7 +243,7 @@ export default function DiscoverTable() {
                                                         <a href="app-user-view-account.html" className="btn btn-icon">
                                                             <i className="icon-base bx bx-show icon-md icon-lg"></i>
                                                         </a>
-                                                        <a href="app-user-view-account.html" className="btn btn-icon">
+                                                        <a href="#" className="btn btn-icon" onClick={(e) => handleEditClick(e, Discover)}>
                                                             <i className="icon-base bx bx-edit icon-md icon-lg"></i>
                                                         </a>
                                                     </div>

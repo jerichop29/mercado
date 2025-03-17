@@ -1,8 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import useQuillEditor from '../../../hooks/useQuillEditor';
 import useManageDiscover from '../../../../backend/src/forms/templates/Discover/addDiscover';
-import { Description } from '@mui/icons-material';
-export default function AddDiscover(edit,onSubmitSuccess) {
+import { useLocation } from 'react-router-dom';
+
+export default function AddDiscover() {
+    const location = useLocation();
+    const { isEditing, editData } = location.state || { isEditing: false, editData: null };
     const [errors, setErrors] = useState({});
     const {quillRef,editorRef} = useQuillEditor();
     const {
@@ -11,15 +14,25 @@ export default function AddDiscover(edit,onSubmitSuccess) {
         handleChange,
         handleSubmit,
         resetForm
-    } = useManageDiscover();
+    } = useManageDiscover(editData);
 
+
+    useEffect(() => {
+        if (isEditing && editData) {
+            // Set form data from editData
+            // Set the Quill editor content
+            if (editorRef.current && editData.Description) {
+                editorRef.current.root.innerHTML = editData.Description;
+            }
+        }
+    }, [isEditing, editData, editorRef]);
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         const currentDate = new Date().toISOString().slice(0, 16); // Get current date in 'YYYY-MM-DDTHH:MM' format
 
         // Validate Date_Start
-        if (!edit && formData.Date_Start < currentDate) {
+        if (!editData && formData.Date_Start < currentDate) {
             setErrors({ ...errors, Date_Start: "Start date must be greater than or equal to the current date." });
             return;
         }
@@ -42,7 +55,7 @@ export default function AddDiscover(edit,onSubmitSuccess) {
                     {/* Add Discover */}
                     <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-6 row-gap-4">
                         <div className="d-flex flex-column justify-content-center">
-                            <h4 className="mb-1">Add a new Discover</h4>
+                            <h4 className="mb-1">{isEditing?"Edit ":"Add a New "}Discover</h4>
                             <p className="mb-0">create and publish announcements, events, or important updates that will be displayed in the Discover section.</p>
                         </div>
                     </div>
@@ -69,6 +82,7 @@ export default function AddDiscover(edit,onSubmitSuccess) {
                                                 name="Title"
                                                 aria-label="Discover title"
                                                 onChange={handleChange}
+                                                required
                                             />
                                         </div>
 
@@ -86,14 +100,14 @@ export default function AddDiscover(edit,onSubmitSuccess) {
                                             <label className="mb-1" htmlFor="Discover-publish">
                                                 Publish Date and Time
                                             </label>
-                                            <input className="form-control" name='Date_Start' type="datetime-local" id="html5-datetime-local-input" onChange={handleChange} value={formData.Date_Start}/>
+                                            <input className="form-control" name='Date_Start' type="datetime-local" id="html5-datetime-local-input" onChange={handleChange} value={formData.Date_Start} required/>
                                         </div>
 
                                         <div className="mb-6">
                                             <label className="mb-1" htmlFor="Discover-end">
                                                 End Date and Time
                                             </label>
-                                            <input className="form-control" name='Date_End' type="datetime-local" id="html5-datetime-local-input" onChange={handleChange} value={formData.Date_End}/>
+                                            <input className="form-control" name='Date_End' type="datetime-local" id="html5-datetime-local-input" onChange={handleChange} value={formData.Date_End} required/>
                                         </div>
 
                                         <div className="mb-6">
@@ -116,13 +130,14 @@ export default function AddDiscover(edit,onSubmitSuccess) {
                                                 aria-label="Discover link"
                                                 onChange={handleChange}
                                                 value={formData.Link}
+                                                required
                                             />
                                         </div>
 
                                         {/* Add Discover Button Inside the Form */}
                                         <div className="d-flex align-content-center flex-wrap gap-4">
                                             <button type="submit" className="btn add-new tbl-btn-primary">
-                                                Add Discover
+                                            {isEditing?"Edit ":"Add "}Discover
                                             </button>
                                         </div>
                                         {message.text && (

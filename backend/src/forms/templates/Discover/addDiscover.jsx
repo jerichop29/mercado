@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import DiscoverHandler from '../../../controllers/js/DiscoverHandler';
 import DiscoverValidator from '../../validators/discoverValidator';
-
+import { Alert } from '../../../../../src/components/main/DialogueBox/DialogueBox';
 const useManageDiscover = (editData) => {
     const initialFormState = {
         Title: "",
@@ -18,11 +18,12 @@ const useManageDiscover = (editData) => {
     const [message, setMessage] = useState({ text: "", type: "" });
 
     useEffect(() => {
+        console.log("Edit: ",editData)
         if (editData) {
             setFormData({
                 Title: editData.Title || "",
                 image: editData.image || "",
-                Activity: editData.Activity || "",
+                Activity: editData.Title || "",
                 Description: editData.Description || "",
                 Date_Start: editData.Date_Start || "",
                 Date_End: editData.Date_End || "",
@@ -62,7 +63,8 @@ const useManageDiscover = (editData) => {
             const result = editData
                 ? await DiscoverHandler.updateDiscovery(formData.id, formData)
                 : await DiscoverHandler.addDiscovery(formData);
-
+                if (result && !editData) { Alert("Discover Added") }
+                else if (result  && editData ){ Alert("Discover Editted")}
             setMessage({ text: result.message, type: "success" });
             resetForm();
         } catch (error) {

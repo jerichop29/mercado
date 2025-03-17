@@ -50,7 +50,7 @@ class DiscoverFunctions {
     public function updateDiscover($id, $data) {
         $sql = "UPDATE discovertbl SET Title = ?, Activity = ?, `Description` = ?, Date_start = ?, Date_End = ?, Link = ? WHERE discover_ID = ?";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("ssssssi", $data['title'], $data['activity'], $data['description'], $data['date_start'], $data['date_end'], $data['Link'], $id);
+        $stmt->bind_param("ssssssi", $data['Title'], $data['Title'], $data['Description'], $data['Date_Start'], $data['Date_End'], $data['Link'], $id);
         
         if ($stmt->execute()) {
             return ["status" => "success", "message" => "Discovery updated successfully"];

@@ -5,7 +5,7 @@ const useManageCategory = (editData) => {
     const initialFormState = {
         Title: "",
         Description: "",
-        id: null
+        Categories_Id: null
     };
     
     const [formData, setFormData] = useState(initialFormState);
@@ -16,7 +16,7 @@ const useManageCategory = (editData) => {
             setFormData({
                 Title: editData.Title || "",
                 Description: editData.Description || "",
-                id: editData.id
+                Categories_Id: editData.Categories_Id
             });
         }
     }, [editData]);
@@ -37,9 +37,10 @@ const useManageCategory = (editData) => {
         try {
             
             const result = editData
-                ? await CategoryHandler.updateCategory(formData.id, formData)
+                ? await CategoryHandler.updateCategory(formData.Categories_Id, formData)
                 : await CategoryHandler.addCategory(formData);
-            if(result){Alert("Category Added")}
+                if (result && !editData) { Alert("Category Added") }
+                else if (result  && editData ){ Alert("Category Editted")}
             setMessage({ text: result.message, type: "success" });
             resetForm();
         } catch (error) {

@@ -23,7 +23,12 @@ export const useDiscover = () => {
       const date = new Date(inputDate);
       const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
       const formattedMonth = monthNames[date.getMonth()];
-      return `${formattedMonth} ${String(date.getDate()).padStart(2, '0')}, ${date.getFullYear()}`;
+      let hours = date.getHours();
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12; // Convert to 12-hour format
+      hours = hours ? String(hours).padStart(2, '0') : '12'; // Adjust for 0 hour
+      return `${formattedMonth} ${String(date.getDate()).padStart(2, '0')}, ${date.getFullYear()} ${hours}:${minutes} ${ampm}`;
     } catch (error) {
       console.error('Error formatting date:', error);
       return null;

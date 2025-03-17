@@ -101,7 +101,7 @@ CREATE TABLE `categoriestbl` (
 --
 
 CREATE TABLE `categoriestbl-sub` (
-  `SubCategrories_Id` int(11) NOT NULL,
+  `SubCategories_Id` int(11) NOT NULL,
   `Category_Id` int(11) NOT NULL,
   `Title` varchar(100) NOT NULL,
   `Description` varchar(1000) NOT NULL

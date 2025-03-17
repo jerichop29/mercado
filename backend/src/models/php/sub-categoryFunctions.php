@@ -11,7 +11,8 @@ class SubCategoriesFunction {
 
     // Get all categories
     public function getAllCategories() {
-        $sql = "SELECT Category_Id, Title, Description FROM `categoriestbl-sub` WHERE 1";
+        $sql = "SELECT categoriestbl.Title AS `Type`,`categoriestbl-sub`.* FROM `categoriestbl-sub` 
+                LEFT JOIN categoriestbl ON categoriestbl.Categories_Id = `categoriestbl-sub`.Category_Id;";
         $result = $this->conn->query($sql);
         
         if ($result) {
@@ -36,7 +37,7 @@ class SubCategoriesFunction {
 
     // Delete category
     public function deleteCategory($id) {
-        $stmt = $this->conn->prepare("DELETE FROM `categoriestbl-sub` WHERE SubCategrories_Id  = ?");
+        $stmt = $this->conn->prepare("DELETE FROM `categoriestbl-sub` WHERE SubCategories_Id  = ?");
         $stmt->bind_param("i", $id);
         
         if ($stmt->execute()) {
@@ -48,7 +49,7 @@ class SubCategoriesFunction {
 
     // Update category
     public function updateCategory($id, $data) {
-        $sql = "UPDATE `categoriestbl-sub` SET Category_Id = ?, Title = ?, Description = ? WHERE SubCategrories_Id = ?";
+        $sql = "UPDATE `categoriestbl-sub` SET Category_Id = ?, Title = ?, Description = ? WHERE SubCategories_Id = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("issi", $data['Category_Id'], $data['Title'], $data['Description'], $id);
         
@@ -61,7 +62,7 @@ class SubCategoriesFunction {
     
     // Get category by ID
     public function getCategoryById($id) {
-        $sql = "SELECT Category_Id, Title, Description FROM `categoriestbl-sub` WHERE SubCategrories_Id = ?";
+        $sql = "SELECT Category_Id, Title, Description FROM `categoriestbl-sub` WHERE SubCategories_Id = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("i", $id);
         $stmt->execute();
