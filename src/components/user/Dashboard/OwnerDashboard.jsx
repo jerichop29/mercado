@@ -1,5 +1,6 @@
 import { getUser } from "../../../utils/auth";
 import { useData } from "../../../../backend/src/views/useData";
+import { Link } from "react-router-dom";
 const OwnerDashboard = () => {
     const { username } = useData(getUser());
     return (
@@ -19,7 +20,7 @@ const OwnerDashboard = () => {
                                     <p className="mb-4">
                                         You are logged in as <span className="fw-medium">Owner</span> description about account type
                                     </p>
-
+                                            
                                     <Link
                                         aria-label="view badges"
                                         to="/user/my-profile"

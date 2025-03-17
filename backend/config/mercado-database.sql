@@ -2,15 +2,15 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Mar 16, 2025 at 02:06 AM
+-- Host: 127.0.0.1
+-- Generation Time: Mar 17, 2025 at 07:08 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
-SET FOREIGN_KEY_CHECKS=0;
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -18,7 +18,7 @@ SET FOREIGN_KEY_CHECKS=0;
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `mercado-database_test`
+-- Database: `mercado-database`
 --
 
 -- --------------------------------------------------------
@@ -42,7 +42,7 @@ CREATE TABLE `admintbl` (
 INSERT INTO `admintbl` (`Admin_Id`, `Username`, `Password`, `role`, `Person_Id`) VALUES
 (1, 'admin', '$2y$10$01s7AX.F1ojyatwKNmmpqOXc4lgHmnUBdti8X4dgsAb46hy33iGGK', 'admin', 2),
 (2, 'superadmin', '$2y$10$01s7AX.F1ojyatwKNmmpqOXc4lgHmnUBdti8X4dgsAb46hy33iGGK', 'superadmin', 3),
-(29, 'asdfasdf_asdfasdf', '$2y$10$/psG4gLOCuT8MR4EDLjbI.LKEED6xTZLHTFFDCaMR2r2Bz1s.sgF2', 'Admin', 125);
+(35, 'glennchristian_terrible2', '$2y$10$gDNkOGEXi.a4uyVVYB3yje//lLMlGWrl8UfEy6brFx6lGdzRZEeqC', 'admin', 179);
 
 -- --------------------------------------------------------
 
@@ -58,6 +58,18 @@ CREATE TABLE `appointmenttbl` (
   `Contact` varchar(13) NOT NULL,
   `POI` blob NOT NULL,
   `Status` varchar(60) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `avatartbl`
+--
+
+CREATE TABLE `avatartbl` (
+  `Avatar_Id` int(11) NOT NULL,
+  `Person_Id` int(11) NOT NULL,
+  `image` longblob NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -138,8 +150,8 @@ CREATE TABLE `discovertbl` (
   `image` blob NOT NULL COMMENT 'image upload',
   `Activity` varchar(60) NOT NULL,
   `Description` varchar(1000) NOT NULL,
-  `Date_Start` date NOT NULL,
-  `Date_End` date NOT NULL,
+  `Date_Start` datetime NOT NULL,
+  `Date_End` datetime NOT NULL,
   `Link` varchar(1000) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -148,8 +160,8 @@ CREATE TABLE `discovertbl` (
 --
 
 INSERT INTO `discovertbl` (`discover_Id`, `Title`, `image`, `Activity`, `Description`, `Date_Start`, `Date_End`, `Link`) VALUES
-(1, 'Test', '', 'TEst', 'The \"Table Tennis Tournament at Mercado De Calamba for Youth\" is an exciting event aimed at promoting sportsmanship, skill development, and community engagement among young people. Held at the Mercado De Calamba, this tournament invites local youth to participate in friendly yet competitive table tennis matches. The event provides a platform for young players to showcase their talents, improve their game, and interact with peers in a vibrant and supportive environment.', '2025-02-06', '2025-02-21', 'http://localhost/phpmyadmin/index.php?route=/sql&pos=0&db=mercado-database_test&table=discovertbl'),
-(2, 'Test', '', 'TEst', 'The \"Table Tennis Tournament at Mercado De Calamba for Youth\" is an exciting event aimed at promoting sportsmanship, skill development, and community engagement among young people. Held at the Mercado De Calamba, this tournament invites local youth to participate in friendly yet competitive table tennis matches. The event provides a platform for young players to showcase their talents, improve their game, and interact with peers in a vibrant and supportive environment.', '2025-02-06', '2025-02-21', 'http://localhost/phpmyadmin/index.php?route=/sql&pos=0&db=mercado-database_test&table=discovertbl');
+(1, 'Test', '', 'TEst', 'The \"Table Tennis Tournament at Mercado De Calamba for Youth\" is an exciting event aimed at promoting sportsmanship, skill development, and community engagement among young people. Held at the Mercado De Calamba, this tournament invites local youth to participate in friendly yet competitive table tennis matches. The event provides a platform for young players to showcase their talents, improve their game, and interact with peers in a vibrant and supportive environment.', '2025-02-06 00:00:00', '2025-02-21 00:00:00', 'http://localhost/phpmyadmin/index.php?route=/sql&pos=0&db=mercado-database_test&table=discovertbl'),
+(2, 'Tite', '', 'Tite', '<p>asdfasdf<u>asdfasdfasdf</u></p>', '2025-03-18 23:33:00', '2025-03-19 23:33:00', 'http://localhost/phpmyadmin/index.php?route=/sql&pos=0&db=mercado-database_test&table=discovertbl');
 
 -- --------------------------------------------------------
 
@@ -207,15 +219,6 @@ CREATE TABLE `ownertbl` (
   `role` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `ownertbl`
---
-
-INSERT INTO `ownertbl` (`Owner_Id`, `Person_Id`, `Admin_Id`, `Date_Start`, `Username`, `Password`, `role`) VALUES
-(1, 1, 1, '2025-02-21', 'test', '$2y$10$xr7Aq3von6ec94nsWiTLSuOQ6gBChTWwcjkUcACkkCffU5RqWbopG', 'Owner'),
-(20, 124, 1, '2025-03-11', 'test_test', '$2y$10$pwZTlunBfnG.b5k5IOVQx.PdKjqlg/10Z1QV8rGvldZz3WXYi6nh.', 'Owner'),
-(21, 126, 1, '2025-03-12', 'test_user', '$2y$10$L6Q6S3RnehLLCAanI23lQOmH6S5ZNC2suEC.uLwH5psqor.vu.oOq', 'Owner');
-
 -- --------------------------------------------------------
 
 --
@@ -252,20 +255,21 @@ CREATE TABLE `persontbl` (
 --
 
 INSERT INTO `persontbl` (`Person_Id`, `FName`, `LName`, `MName`, `Gender`, `Address`, `Contact`, `Email`, `Birthdate`) VALUES
-(1, 'Test', 'Test', 'Testing', 'Male', 'Brgy, New City Hall Complex, Chipeco Ave, Calamba,', '09123467899', 'test@gmail.com', '2025-02-10'),
 (2, 'admin', 'admin', 'admin', 'Male', 'admin', '09123456789', 'admin@gmail.com', '2025-02-13'),
 (3, 'super admin', 'admin', 'admin', 'Female', 'admin', '09123456789', 'admin@gmail.com', '2025-02-13'),
-(102, 'asdfasdf', 'asdfasdf', 'asdfasdfa', 'Male', 'asdfsadf', '09999999999', 'asdfasdf@gmail.com', '2025-03-05'),
-(115, 'Test', 'as;lkdjf;ls', 'Tesing', 'Male', 'ajskldfjalsdjkflsjkf', '09888888888', 'asdfjalskdj@gmai.com', '2001-02-14'),
-(116, 'Test', 'as;lkdjf;ls', 'Tesing', 'Male', 'ajskldfjalsdjkflsjkf', '09888888888', 'asdfjalskdj@gmai.com', '2001-02-14'),
-(117, 'Test', 'as;lkdjf;ls', 'Tesing', 'Male', 'ajskldfjalsdjkflsjkf', '09888888888', 'asdfjalskdj@gmai.com', '2001-02-14'),
-(118, 'Test', 'as;lkdjf;ls', 'Tesing', 'Male', 'ajskldfjalsdjkflsjkf', '09888888888', 'asdfjalskdj@gmai.com', '2001-02-14'),
-(119, 'Test', 'as;lkdjf;ls', 'Tesing', 'Male', 'ajskldfjalsdjkflsjkf', '09888888888', 'asdfjalskdj@gmai.com', '2001-02-14'),
-(122, 'Test', 'Ting', 'Tesss', 'Male', 'asdfasdf', '09888888888', 'asdfsadf@gmail.com', '2025-03-04'),
-(123, 'asdfasdf', 'asdfasdf', 'asdfasdfasdfaasd', 'Female', 'asdfasdf', '09888883333', 'asdfasdf@jjj.com', '2025-03-06'),
-(124, 'Test', 'Test', 'Client', 'Male', 'ajsdhflkjhsadf', '09888888888', 'asldkfjlkjasdf@gmail.com', '2025-03-12'),
-(125, 'asdfasdf', 'asdfasdf', 'asdfasdfaasd', 'Female', 'asdf', '09999999999', 'aslkdfj@gmail.com', '2025-03-11'),
-(126, 'Test', 'User', 'User', 'Other', 'asdk.halkjsdl', '09999999999', 'gcterasdfasdf@gmail.com', '2021-02-15');
+(179, 'Glenn Christian', 'Terrible', 'Delos Reyessss', 'Female', '#98', '09123456789', 'gcterrible@gmail.com', '2025-03-19');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `stallimagetbl`
+--
+
+CREATE TABLE `stallimagetbl` (
+  `stallImage_Id` int(11) NOT NULL,
+  `Stall_Id` int(11) NOT NULL,
+  `image` longblob NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -287,12 +291,12 @@ CREATE TABLE `stalltbl` (
 --
 
 INSERT INTO `stalltbl` (`Stall_Id`, `Type_Id`, `StallCode`, `BuildingName`, `Owner_Id`, `Status_Id`) VALUES
-(1, 1, 'C-24', 1, 20, 5),
+(1, 6, 'C-24', 1, NULL, 4),
 (2, 6, 'C-24C', 1, NULL, 3),
-(3, 1, 'C-24B', 1, 20, 4),
-(4, 1, 'C-24D', 1, NULL, 3),
-(5, 6, 'C-24A', 1, NULL, 1),
-(6, 6, 'A-95', 1, 21, 4),
+(3, 1, 'C-24B', 1, NULL, 4),
+(4, 6, 'C-24D', 1, NULL, 1),
+(5, 5, 'C-24A', 1, NULL, 1),
+(6, 6, 'A-95', 1, NULL, 1),
 (7, 6, 'A-96', 1, NULL, 1),
 (8, 6, 'A-97', 1, NULL, 1),
 (9, 6, 'A-98', 1, NULL, 1),
@@ -781,14 +785,6 @@ CREATE TABLE `tenanttbl` (
   `Market Fee` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `tenanttbl`
---
-
-INSERT INTO `tenanttbl` (`TenantId`, `Person_Id`, `Stall_Id`, `Owner_Id`, `Date_Start`, `Market Fee`) VALUES
-(4, 122, 1, 1, '2025-03-10', 2500),
-(5, 123, 1, 1, '2025-03-10', 12);
-
 -- --------------------------------------------------------
 
 --
@@ -845,6 +841,13 @@ ALTER TABLE `appointmenttbl`
   ADD PRIMARY KEY (`Appointment_Id`);
 
 --
+-- Indexes for table `avatartbl`
+--
+ALTER TABLE `avatartbl`
+  ADD PRIMARY KEY (`Avatar_Id`),
+  ADD KEY `fk_avatar_personId` (`Person_Id`);
+
+--
 -- Indexes for table `buildingtbl`
 --
 ALTER TABLE `buildingtbl`
@@ -860,7 +863,7 @@ ALTER TABLE `categoriestbl`
 -- Indexes for table `categoriestbl-sub`
 --
 ALTER TABLE `categoriestbl-sub`
-  ADD PRIMARY KEY (`SubCategrories_Id`),
+  ADD PRIMARY KEY (`SubCategories_Id`),
   ADD KEY `fk_Category_Id` (`Category_Id`);
 
 --
@@ -911,6 +914,13 @@ ALTER TABLE `persontbl`
   ADD PRIMARY KEY (`Person_Id`);
 
 --
+-- Indexes for table `stallimagetbl`
+--
+ALTER TABLE `stallimagetbl`
+  ADD PRIMARY KEY (`stallImage_Id`),
+  ADD KEY `fk_stall_stallimageId` (`Stall_Id`);
+
+--
 -- Indexes for table `stalltbl`
 --
 ALTER TABLE `stalltbl`
@@ -957,13 +967,19 @@ ALTER TABLE `typestbl`
 -- AUTO_INCREMENT for table `admintbl`
 --
 ALTER TABLE `admintbl`
-  MODIFY `Admin_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `Admin_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `appointmenttbl`
 --
 ALTER TABLE `appointmenttbl`
   MODIFY `Appointment_Id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `avatartbl`
+--
+ALTER TABLE `avatartbl`
+  MODIFY `Avatar_Id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `buildingtbl`
@@ -975,13 +991,13 @@ ALTER TABLE `buildingtbl`
 -- AUTO_INCREMENT for table `categoriestbl`
 --
 ALTER TABLE `categoriestbl`
-  MODIFY `Categories_Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Categories_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `categoriestbl-sub`
 --
 ALTER TABLE `categoriestbl-sub`
-  MODIFY `SubCategrories_Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `SubCategories_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `complaintstable`
@@ -993,7 +1009,7 @@ ALTER TABLE `complaintstable`
 -- AUTO_INCREMENT for table `discovertbl`
 --
 ALTER TABLE `discovertbl`
-  MODIFY `discover_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `discover_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `eventtbl`
@@ -1011,7 +1027,7 @@ ALTER TABLE `facilitiestbl`
 -- AUTO_INCREMENT for table `ownertbl`
 --
 ALTER TABLE `ownertbl`
-  MODIFY `Owner_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `Owner_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `owner_paymenttbl`
@@ -1023,7 +1039,13 @@ ALTER TABLE `owner_paymenttbl`
 -- AUTO_INCREMENT for table `persontbl`
 --
 ALTER TABLE `persontbl`
-  MODIFY `Person_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=127;
+  MODIFY `Person_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=180;
+
+--
+-- AUTO_INCREMENT for table `stallimagetbl`
+--
+ALTER TABLE `stallimagetbl`
+  MODIFY `stallImage_Id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `stalltbl`
@@ -1066,6 +1088,12 @@ ALTER TABLE `admintbl`
   ADD CONSTRAINT `fk_Person_Id-Admin` FOREIGN KEY (`Person_Id`) REFERENCES `persontbl` (`Person_Id`);
 
 --
+-- Constraints for table `avatartbl`
+--
+ALTER TABLE `avatartbl`
+  ADD CONSTRAINT `fk_avatar_personId` FOREIGN KEY (`Person_Id`) REFERENCES `persontbl` (`Person_Id`) ON DELETE NO ACTION;
+
+--
 -- Constraints for table `categoriestbl-sub`
 --
 ALTER TABLE `categoriestbl-sub`
@@ -1076,7 +1104,7 @@ ALTER TABLE `categoriestbl-sub`
 --
 ALTER TABLE `complaintstable`
   ADD CONSTRAINT `fk_Category` FOREIGN KEY (`Category_Id`) REFERENCES `categoriestbl` (`Categories_Id`),
-  ADD CONSTRAINT `fk_SubCategory` FOREIGN KEY (`SubCategory_Id`) REFERENCES `categoriestbl-sub` (`SubCategrories_Id`);
+  ADD CONSTRAINT `fk_SubCategory` FOREIGN KEY (`SubCategory_Id`) REFERENCES `categoriestbl-sub` (`SubCategories_Id`);
 
 --
 -- Constraints for table `eventtbl`
@@ -1090,6 +1118,12 @@ ALTER TABLE `eventtbl`
 ALTER TABLE `ownertbl`
   ADD CONSTRAINT `fk_Admin_Id` FOREIGN KEY (`Admin_Id`) REFERENCES `admintbl` (`Admin_Id`),
   ADD CONSTRAINT `fk_Person_Id_2` FOREIGN KEY (`Person_Id`) REFERENCES `persontbl` (`Person_Id`);
+
+--
+-- Constraints for table `stallimagetbl`
+--
+ALTER TABLE `stallimagetbl`
+  ADD CONSTRAINT `fk_stall_stallimageId` FOREIGN KEY (`Stall_Id`) REFERENCES `stalltbl` (`Stall_Id`) ON DELETE NO ACTION;
 
 --
 -- Constraints for table `stalltbl`
