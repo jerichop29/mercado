@@ -100,7 +100,16 @@ const useAddUserModel = (editData) => {
           p.Email === formData.Email
         );
         if (person) {
-
+          const checkUserName = async (input) =>{
+            if (formData.role === 'Owner') {
+              await OwnerHandler.checkUsername({username:input});  // Assign function reference
+              console.log(await OwnerHandler.checkUsername({username:input}))
+          }
+          else{
+             await AdminHandler.checkUsername({username:input});
+          }
+          return false;
+          }
           const generateUsername = async (FName, LName, role) => {
             // Normalize name parts: lowercase, remove spaces & special characters
             const cleanName = (name) => name.toLowerCase().replace(/[^a-z0-9]/g, '');
@@ -108,25 +117,24 @@ const useAddUserModel = (editData) => {
             let baseUsername = `${cleanName(FName)}_${cleanName(LName)}`;
             let username = baseUsername;
             let counter = 1;
-        
-            // Determine the appropriate handler based on role
-            let checkUserName;
-            if (role === 'Owner') {
-                checkUserName = OwnerHandler.checkUsername;  // Assign function reference
-            } else {
-                checkUserName = AdminHandler.checkUsername;  // Assign function reference
+            let checkUserName
+            if(role === 'Owner'){
+              checkUserName =  OwnerHandler.checkUsername;
             }
-        
+            else{
+              checkUserName =  AdminHandler.checkUsername;
+            }
+            // Determine the appropriate handler based on role
             // First, check if the base username is available
-            if (await checkUserName(username)) {
+            if (await checkUserName({username:username})) {
                 // If it exists, add a number and keep checking for uniqueness
-                while (await checkUserName(username)) {
+                while (await checkUserName({username:username})) {
                     username = `${baseUsername}${counter}`;
                     counter++;
                 }
             }
         
-            return username;
+           return username;
         };
         
           // Generate username from name parts
@@ -154,7 +162,7 @@ const useAddUserModel = (editData) => {
           const createUserAccount ={
             Admin_Id: "1",
             Date_Start: formattedDate,
-            Person_Id: person[0].Person_Id,
+            Person_Id: person[person.length - 1].Person_Id,
             username: username,
             password: password,
             role: formData.role
@@ -173,6 +181,7 @@ const useAddUserModel = (editData) => {
             stallupdate =await stallHandler.updateStallStatus(formData.Stall_Id,{Status_Id:"4",Owner_Id:owner[0].Owner_Id}); 
           }
           else{
+            console.log(createUserAccount)
             userResult = await AdminHandler.addAdmin(createUserAccount);
           }
           if (userResult) {

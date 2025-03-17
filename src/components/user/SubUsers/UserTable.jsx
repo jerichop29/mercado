@@ -248,7 +248,7 @@ const handleRoleChange = (e) => {
                         <div className="d-flex justify-content-start align-items-center user-name">
                           <div className="avatar-wrapper">
                             <div className="avatar avatar-sm me-4">
-                              <img src={user.avatar || "https://cdn-icons-png.flaticon.com/512/9203/9203764.png"} alt="Avatar" className="rounded-circle" />
+                              <img src={user.avatar ?user.avatar :"https://cdn-icons-png.flaticon.com/512/9203/9203764.png"} alt="Avatar" className="rounded-circle" />
                             </div>
                           </div>
                           <div className="d-flex flex-column">

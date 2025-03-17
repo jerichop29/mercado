@@ -154,7 +154,7 @@ try {
             echo json_encode($ownerFunctions->updateOwner($id, $data));
             break;
         case 'checkUsername':
-            echo json_encode($adminFunctions->checkUsernameExists($data));
+            echo json_encode($ownerFunctions->checkUsernameExists($data));
             break;
         default:
             throw new Exception("Invalid action");

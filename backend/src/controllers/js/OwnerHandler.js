@@ -41,11 +41,10 @@ class OwnerHandler {
         body: JSON.stringify(ownerData)
         });
     }
-    async checkUsername(ownerData) {
-        console.log(ownerData)
-        return this.fetchWithErrorHandling(`${this.baseUrl}?action=checkUsername`,{
-        method:'POST',
-        body: JSON.stringify(ownerData)
+    checkUsername = async (ownerData) => {
+        return this.fetchWithErrorHandling(`${this.baseUrl}?action=checkUsername`, {
+            method: 'POST',
+            body: JSON.stringify(ownerData)
         });
     }
 
