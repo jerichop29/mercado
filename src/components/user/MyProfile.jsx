@@ -1,20 +1,29 @@
 import {useState} from "react";
 import {useLocation} from 'react-router-dom';
 import useAddUserModel from "../../../backend/src/forms/templates/User/addUserModel";
+import { Alert } from "../main/DialogueBox/DialogueBox";
 export default function MyProfile() {
     const [activeTab,
         setActiveTab] = useState("account");
     const location = useLocation();
-    const {editData} = location.state || {
+    const { editData } = location.state || {
         editData: null
     };
     const {formData, message, handleChange, handleSubmit, resetForm} = useAddUserModel(editData);
     const handleFormSubmit = async (e) => {
         e.preventDefault();
-        // Get the content from the Quill editor
-        await handleSubmit(e);
-        resetForm();
+        
+        try {
+            const success = await handleSubmit(e); // Ensure handleSubmit executes properly
+            console.log(success)
+                Alert("User's Account Details Updated")
+                resetForm(); // Only reset if submission is successful
+            
+        } catch (error) {
+            console.error("Form submission failed:", error);
+        }
     };
+    
     return ( <> <div className="container-xxl flex-grow-1 container-p-y">
         <div className="row">
             <div className="col-md-12">
@@ -81,14 +90,14 @@ export default function MyProfile() {
                             <form
                                 id="formAccountSettings"
                                 method="POST"
-                                onSubmit={(e) => handleFormSubmit(e)}>
+                                onSubmit={handleFormSubmit}>
                                 <div className="row g-6">
                                     <div className="col-md-6">
                                         <label htmlFor="firstName" className="form-label">First Name</label>
                                         <input
                                             className="form-control"
                                             type="text"
-                                            id="firstName"
+                                            id="FName"
                                             name="FName"
                                             value={formData.FName}
                                             onChange={handleChange}
@@ -98,7 +107,7 @@ export default function MyProfile() {
                                         <label htmlFor="middleName" className="form-label">Middle Name</label>
                                         <input
                                             className="form-control"
-                                            type="text"
+                                            type="MName"
                                             id="middleName"
                                             name="MName"
                                             value={formData.MName}
@@ -111,7 +120,7 @@ export default function MyProfile() {
                                             className="form-control"
                                             type="text"
                                             name="LName"
-                                            id="lastName"
+                                            id="LName"
                                             value={formData.LName}
                                             onChange={handleChange}
                                             defaultValue="Last Name"/>
@@ -124,7 +133,7 @@ export default function MyProfile() {
                                             name="Address"
                                             value={formData.Address}
                                             onChange={handleChange}
-                                            id="address"
+                                            id="Address"
                                             defaultValue="Address"/>
                                     </div>
                                     <div className="col-md-6">
@@ -132,7 +141,7 @@ export default function MyProfile() {
                                         <input
                                             className="form-control"
                                             type="text"
-                                            id="email"
+                                            id="Email"
                                             name="Email"
                                             value={formData.Email}
                                             onChange={handleChange}
@@ -145,7 +154,7 @@ export default function MyProfile() {
                                             <span className="input-group-text">PH (+63)</span>
                                             <input
                                                 type="text"
-                                                id="phoneNumber"
+                                                id="Contact"
                                                 name="Contact"
                                                 value={formData.Contact}
                                                 onChange={handleChange}

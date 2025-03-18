@@ -11,27 +11,6 @@ const AdminDashboard = () => {
     const { stallsOccupied } = CardStats();
     const { username } = useData(getUser());
 
-    const handleEditClick = (e, user) => {
-        e.preventDefault();
-        
-        // Prepare the data for editing
-        const editData = {
-            FName: user.FName,
-            MName: user.MName,
-            LName: user.LName,
-            Address: user.Address,
-            Email: user.Email,
-            Admin_Id: user.Admin_Id // Assuming this exists in your data
-        };
-        
-        // Navigate to the AddSubCategory component with the edit data
-        navigate('/user/my-profile', { 
-            state: { 
-                editData: editData
-            } 
-        });
-    };
-    
 
     const [pie, setPieData] = useState(0);
         useEffect(() => {
@@ -45,6 +24,33 @@ const AdminDashboard = () => {
             }
           }, [pie]);
 
+          const handleProfileClick = (e, user) => {
+            e.preventDefault();
+            // Prepare the data for editing
+            console.log(user)
+            const editData = {
+                FName: user.FName,
+                MName: user.MName,
+                LName: user.LName,
+                Address: user.Address,
+                Contact: user.Contact,
+                Email: user.Email,
+                id: user.Person_Id,
+                Admin_Id: user.Admin_Id,
+                Gender: user.Gender,
+                Birthdate: user.Birthdate,
+                Stall_Id: user.Stall_Id || "",
+                role:user.role,
+                // Assuming this exists in your data
+            };
+            
+            // Navigate to the Profile component with the edit data
+            navigate('/user/my-profile', { 
+                state: { 
+                    editData: editData
+                } 
+            });
+        };
     return ( <> <div className="row">
         <div className="col-lg-8 mb-4 order-0">
             <div className="card">
@@ -65,7 +71,7 @@ const AdminDashboard = () => {
 
                             <Link
                                 aria-label="view badges"
-                                onClick={(e)=>handleEditClick(e,username.length > 0 ?username[0]?.FName:"")}
+                                onClick={(e)=>handleProfileClick(e,username.length > 0 ?username[0]:"")}
                                 className="btn btn-sm btn-outline-primary">
                                 View Details
                             </Link>

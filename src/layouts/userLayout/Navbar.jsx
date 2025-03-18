@@ -12,7 +12,32 @@ const Navbar = () => {
     window.location.reload(); 
   };
 
-  
+  const handleProfileClick = (e, user) => {
+    e.preventDefault();
+      // Prepare the data for editing
+    const editData = {
+        FName: user.FName,
+        MName: user.MName,
+        LName: user.LName,
+        Address: user.Address,
+        Contact: user.Contact,
+        Email: user.Email,
+        id: user.Admin_Id,
+        Gender: user.Gender,
+        Birthdate: user.Birthdate,
+        Stall_Id: user.Stall_Id || "",
+        role:user.role,
+        // Assuming this exists in your data
+    };
+    
+    // Navigate to the Profile component with the edit data
+    navigate('/user/my-profile', { 
+        state: { 
+            editData: editData
+        } 
+    });
+};
+
   return (
     <nav
       className="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
@@ -55,7 +80,7 @@ const Navbar = () => {
                 <div className="dropdown-divider"></div>
               </li>
               <li>
-              <a className="dropdown-item" onClick={() => navigate('/user/my-profile')} style={{ cursor: "pointer" }}>
+              <a className="dropdown-item" onClick={(e) =>handleProfileClick(e,username[0])} style={{ cursor: "pointer" }}>
                   <i className="bx bx-user me-2"></i>
                   <span className="align-middle">My Profile</span>
                 </a>

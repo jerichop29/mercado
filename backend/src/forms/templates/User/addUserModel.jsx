@@ -51,6 +51,7 @@ const useAddUserModel = (editData) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(formData)
     setMessage({ text: "", type: "" });
     try {
        PersonValidator.validatePersonData(formData);
