@@ -11,8 +11,7 @@ class AppointmentFunction {
 
     // Get all appointment
     public function getAppointment() {
-        $sql = "SELECT * FROM appointmenttbl 
-                        ";
+        $sql = "SELECT * FROM appointmenttbl";
 
         $result = $this->conn->query($sql);
         
@@ -88,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 $AppointmentFunction = new AppointmentFunction();
 $action = $_GET['action'] ?? '';
 
-$allowedActions = ['get', 'add', 'delete', 'update', 'status', 'updateAllByOwner'];
+$allowedActions = ['get', 'add', 'delete', 'update', 'status', 'updateAppointmentStatus'];
 if (!in_array($action, $allowedActions, true)) {
     echo json_encode(["status" => "error", "message" => "Invalid action"]);
     exit();
@@ -132,6 +131,8 @@ try {
             }
             echo json_encode($AppointmentFunction->updateAppointmentStatus($id, $data));
             break;
+        default:
+            throw new Exception("Invalid action");
     }
 } catch (Exception $e) {
     echo json_encode(["status" => "error", "message" => $e->getMessage()]);

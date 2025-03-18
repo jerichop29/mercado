@@ -2,15 +2,15 @@ class PersonValidator {
     static validatePersonData(data) {
         const errors = [];
 
-        if (!data.FName || typeof data.FName !== 'string' || !data.FName.trim()) {
+        if (!data.FName || typeof data.FName !== 'string' || !data.FName.trim() || !/^[A-Za-z\s]+$/.test(data.FName)) {
             errors.push('First name (FName) is required and must be a non-empty string.');
         }
 
-        if (!data.LName || typeof data.LName !== 'string' || !data.LName.trim()) {
+        if (!data.LName || typeof data.LName !== 'string' || !data.LName.trim()|| !/^[A-Za-z\s]+$/.test(data.LName)) {
             errors.push('Last name (LName) is required and must be a non-empty string.');
         }
 
-        if (data.MName && (typeof data.MName !== 'string' || !data.MName.trim())) {
+        if (data.MName && (typeof data.MName !== 'string' || !data.MName.trim())|| !/^[A-Za-z\s]+$/.test(data.MName)) {
             errors.push('Middle name (MName), if provided, must be a non-empty string.');
         }
 

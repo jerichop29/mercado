@@ -46,21 +46,21 @@ const EditStall = ({stall, onClose, onSubmitSuccess}) => {
                             disabled/>
                     </div>
                     <div className="mb-3">
-                        <label className="form-label" htmlFor="typeName">Type</label>
+                        <label className="form-label" htmlFor="Type_Id">Type</label>
                         <select
-                            id="TypeName"
-                            name="TypeName"
+                            id="Type_Id"
+                            name="Type_Id"
                             className="form-select"
-                            value={formData.TypeName}
+                            value={formData.Type_Id}
                             onChange={handleChange}
                             required
                             >
-                            <option value="None">None</option>
-                            <option value="Meat">Meat</option>
-                            <option value="Fish">Fish</option>
-                            <option value="Vegetable">Vegetable</option>
-                            <option value="Variety">Variety</option>
-                            <option value="Other">Other</option>
+                            <option value="6">None</option>
+                            <option value="1">Meat</option>
+                            <option value="2">Fish</option>
+                            <option value="3">Vegetable</option>
+                            <option value="4">Variety</option>
+                            <option value="5">Other</option>
                         </select>
                     </div>
                     <div className="mb-3">
@@ -117,9 +117,6 @@ const EditStall = ({stall, onClose, onSubmitSuccess}) => {
                     <div className='row mt-4'>
                         <div className='col-6'>
                                 <button type="submit" className="btn btn-primary">Save Changes</button>
-                        </div>
-                        <div className='col-6'>
-                                <button type="submit" className="btn btn-primary">Clear Stall</button>
                         </div>
                     </div>
                 </form>

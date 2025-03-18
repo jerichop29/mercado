@@ -23,9 +23,9 @@ class DiscoverFunctions {
 
     // Add new discovery
     public function addDiscover($data) {
-        $sql = "INSERT INTO discovertbl (Title, Activity, `Description`, Date_start, Date_End, Link) VALUES (?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO discovertbl (Title, Activity,`image`, `Description`, Date_start, Date_End, Link) VALUES (?, ?, ?, ?, ?, ?,?)";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("ssssss", $data['title'], $data['activity'], $data['description'], $data['date_start'], $data['date_end'], $data['Link']);
+        $stmt->bind_param("ssbssss", $data['Title'], $data['Activity'], $data['image'], $data['Description'], $data['Date_Start'], $data['Date_End'], $data['Link']);
         
         if ($stmt->execute()) {
             return ["status" => "success", "message" => "Discovery added successfully"];
@@ -50,7 +50,7 @@ class DiscoverFunctions {
     public function updateDiscover($id, $data) {
         $sql = "UPDATE discovertbl SET Title = ?, Activity = ?, `Description` = ?, Date_start = ?, Date_End = ?, Link = ? WHERE discover_ID = ?";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("ssssssi", $data['title'], $data['activity'], $data['description'], $data['date_start'], $data['date_end'], $data['Link'], $id);
+        $stmt->bind_param("ssssssi", $data['Title'], $data['Title'], $data['Description'], $data['Date_Start'], $data['Date_End'], $data['Link'], $id);
         
         if ($stmt->execute()) {
             return ["status" => "success", "message" => "Discovery updated successfully"];
@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 $discoverFunctions = new DiscoverFunctions();
 $action = $_GET['action'] ?? '';
 
-$allowedActions = ['get', 'addDiscover', 'deleteDiscover', 'updateDiscover'];
+$allowedActions = ['get', 'add', 'delete', 'update'];
 if (!in_array($action, $allowedActions, true)) {
     echo json_encode(["status" => "error", "message" => "Invalid action"]);
     exit();
@@ -85,11 +85,11 @@ try {
             echo json_encode($discoverFunctions->getAllDiscovers());
             break;
             
-        case 'addDiscover':
+        case 'add':
             echo json_encode($discoverFunctions->addDiscover($data));
             break;
             
-        case 'deleteDiscover':
+        case 'delete':
             $id = isset($_GET['id']) ? (int)$_GET['id'] : null;
             if (!$id) {
                 echo json_encode(["status" => "error", "message" => "Missing or invalid ID"]);
@@ -98,7 +98,7 @@ try {
             echo json_encode($discoverFunctions->deleteDiscover($id));
             break;
             
-        case 'updateDiscover':
+        case 'update':
             $id = isset($_GET['id']) ? (int)$_GET['id'] : null;
             if (!$id) {
                 echo json_encode(["status" => "error", "message" => "Missing or invalid ID"]);
@@ -106,6 +106,8 @@ try {
             }
             echo json_encode($discoverFunctions->updateDiscover($id, $data));
             break;
+        default:
+            throw new Exception("Invalid action");
     }
 } catch (Exception $e) {
     echo json_encode(["status" => "error", "message" => $e->getMessage()]);

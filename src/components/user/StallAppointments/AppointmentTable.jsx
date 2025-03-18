@@ -17,6 +17,21 @@ export default function StallAppointmentsTable({ StallAppointments }) {
     };
 
     const title = getTitle(); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
     return (
         <>
             <div className="card">
@@ -158,12 +173,9 @@ export default function StallAppointmentsTable({ StallAppointments }) {
                                                         <a href="app-user-view-account.html" className="btn btn-icon">
                                                             <i className="icon-base bx bx-show icon-md icon-lg"></i>
                                                         </a>
-                                                        <a href="" className="btn btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                                            <i className="icon-base bx bx-dots-vertical-rounded icon-md icon-lg"></i>
+                                                        <a href="app-user-edit-account.html" className="btn btn-icon">
+                                                            <i className="icon-base bx bx-edit icon-md icon-lg"></i>
                                                         </a>
-                                                        <div className="dropdown-menu dropdown-menu-end m-0">
-                                                            <a href="" className="dropdown-item">Edit</a>
-                                                        </div>
                                                     </div>
                                                 </td>
                                             </tr>

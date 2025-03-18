@@ -35,7 +35,7 @@ const handleChange = (e) => {
     setSelectedStall({
         Owner_Id:stall.Owner_Id || "",
         StallCode: stall.StallCode || "",
-        TypeName: stall.TypeName || "",
+        Type_Id: stall.Type_Id || "",
         BuildingName: stall.BuildingName || "",
         OwnerFname: stall.OwnerFname || "",
         OwnerMname: stall.OwnerMname || "",
@@ -59,6 +59,15 @@ const handleChange = (e) => {
   };
 
   const handleSubmitSuccess = (updatedStall) => {
+    setFilter((prev) => (prev
+        ? prev + ' '
+        : ' ')); // Add a space if there's a value, otherwise set to space
+
+    setTimeout(() => {
+        setFilter((prev) => (prev
+            ? prev.trim()
+            : '')); // Remove the extra space after delay
+    }, 100);
     handleCloseEdit();
   };
 

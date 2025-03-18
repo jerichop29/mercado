@@ -21,7 +21,15 @@ class AdminFunctions {
         }
         return ["status" => "error", "message" => "Failed to fetch admins"];
     }
-
+    //check UID if existing
+    public function checkUsernameExists($data) {
+        $stmt = $this->conn->prepare("SELECT Username FROM admintbl WHERE Username = ?");
+        $stmt->bind_param("s", $data['username']);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        return $result->num_rows > 0; // Returns true if username exists, false otherwise
+    }
     // Authenticate admin
     public function authAdmin($data) {
         $username = $data['username'] ?? null;
@@ -106,7 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 $adminFunctions = new AdminFunctions();
 $action = $_GET['action'] ?? '';
 
-$allowedActions = ['get', 'auth', 'add', 'delete', 'update'];
+$allowedActions = ['get', 'auth', 'add', 'delete', 'update','checkUsername'];
 if (!in_array($action, $allowedActions, true)) {
     echo json_encode(["status" => "error", "message" => "Invalid action"]);
     exit();
@@ -132,6 +140,9 @@ try {
         case 'update':
             $id = $_GET['id'] ?? null;
             echo json_encode($adminFunctions->updateAdmin($id, $data));
+            break;
+        case 'checkUsername':
+            echo json_encode($adminFunctions->checkUsernameExists($data));
             break;
         default:
             throw new Exception("Invalid action");

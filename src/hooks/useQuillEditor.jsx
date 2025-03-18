@@ -23,10 +23,10 @@ export default function useQuillEditor(placeholder = "Description") {
 
             // Handle text changes (Optional)
             editorRef.current.on('text-change', () => {
-                console.log(editorRef.current.root.innerHTML);
+                
             });
         }
     }, [placeholder]);
-
-    return quillRef;
+    
+    return {quillRef,editorRef};
 }

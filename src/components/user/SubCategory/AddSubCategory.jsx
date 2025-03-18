@@ -1,33 +1,40 @@
-import React, { useEffect, useRef, useState } from 'react';
-import Quill from 'quill';
-import 'quill/dist/quill.snow.css'; // Import Quill's styles
-
+import React, { useEffect } from 'react';
+import useQuillEditor from '../../../hooks/useQuillEditor';
+import { useLocation } from 'react-router-dom';
+import useManageSubCategory from '../../../../backend/src/forms/templates/SubCategory/addSubCategory';
+import { useData } from '../../../../backend/src/views/useData';
 export default function AddSubCategory() {
-    const quillRef = useRef(null);
-    const [selectedCategory, setSelectedCategory] = useState('');
-    const categories = ['Maintenance Issues', 'Plumbing Issues', 'Structural Problems', 'Hygiene and Cleanliness', 'Security Concerns'];
+    const location = useLocation();
+    const { isEditing, editData } = location.state || { isEditing: false, editData: null };
+    console.log(editData)
+    const { quillRef ,editorRef } = useQuillEditor();
+    const {
+        formData,
+        message,
+        handleChange,
+        handleSubmit,
+        resetForm
+    } = useManageSubCategory(editData);
+    const {categories} = useData();
+ // Handle edit data when component mounts
+        useEffect(() => {
+            if (isEditing && editData) {
+                // Set form data from editData
+                // Set the Quill editor content
+                if (editorRef.current && editData.Description) {
+                    editorRef.current.root.innerHTML = editData.Description;
+                }
+            }
+        }, [isEditing, editData, editorRef]);
 
-    useEffect(() => {
-        if (quillRef.current && !quillRef.current.quill) {
-            const quill = new Quill(quillRef.current, {
-                theme: 'snow',
-                modules: {
-                    toolbar: [
-                        ['bold', 'italic', 'underline'],
-                        [{ list: 'ordered' }, { list: 'bullet' }],
-                        ['link', 'image'],
-                    ],
-                },
-                placeholder: 'Sub-Category Description',
-            });
-
-            quillRef.current.quill = quill;
-
-            quill.on('text-change', () => {
-                console.log(quill.root.innerHTML);
-            });
-        }
-    }, []);
+    const handleFormSubmit = async (e) => {
+        e.preventDefault();
+        // Get the content from the Quill editor
+        const descriptionContent = editorRef.current.root.innerHTML;
+        formData.Description = descriptionContent; // Add it to formData
+        await handleSubmit(e);
+        resetForm();
+    };
 
     return (
         <>
@@ -35,7 +42,7 @@ export default function AddSubCategory() {
                 <div className="">
                     <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-6 row-gap-4">
                         <div className="d-flex flex-column justify-content-center">
-                            <h4 className="mb-1">Add a new Sub-Category</h4>
+                            <h4 className="mb-1">{isEditing?"Edit ":"Add a New "}Sub-Category</h4>
                             <p className="mb-0">Concise details defining a specific category.</p>
                         </div>
                     </div>
@@ -46,19 +53,21 @@ export default function AddSubCategory() {
                                     <h5 className="card-title mb-0">Sub-Category Information</h5>
                                 </div>
                                 <div className="card-body">
-                                    <form>
+                                    <form onSubmit={handleFormSubmit}>
                                         {/* Category Dropdown */}
                                         <div className="mb-4">
                                             <label className="form-label" htmlFor="category">Category</label>
                                             <select 
                                                 className="form-control" 
                                                 id="category" 
-                                                value={selectedCategory} 
-                                                onChange={(e) => setSelectedCategory(e.target.value)}
+                                                name='Category_Id'
+                                                value={formData.Category_Id} 
+                                                onChange={handleChange}
+                                                required
                                             >
                                                 <option value="">Select a category</option>
                                                 {categories.map((category, index) => (
-                                                    <option key={index} value={category}>{category}</option>
+                                                    <option key={index} value={category.Categories_Id}>{category.Title}</option>
                                                 ))}
                                             </select>
                                         </div>
@@ -70,9 +79,12 @@ export default function AddSubCategory() {
                                                 type="text"
                                                 className="form-control"
                                                 id="sub-category"
+                                                value={formData.Title}
+                                                onChange={handleChange}
                                                 placeholder="Sub-Category title"
-                                                name="sub-categoryTitle"
+                                                name="Title"
                                                 aria-label="Sub-Category title"
+                                                required
                                             />
                                         </div>
 
@@ -80,14 +92,14 @@ export default function AddSubCategory() {
                                         <div className="mb-4">
                                             <label className="mb-1">Description (Optional)</label>
                                             <div className="form-control p-0">
-                                                <div ref={quillRef} />
+                                                <div ref={quillRef} name="Description"/>
                                             </div>
                                         </div>
 
                                         {/* Add Sub-Category Button */}
                                         <div className="d-flex align-content-center flex-wrap gap-4">
                                             <button type="submit" className="btn add-new tbl-btn-primary">
-                                                Add Sub-Category
+                                            {isEditing?"Edit ":"Add "} Sub-Category
                                             </button>
                                         </div>
                                     </form>

@@ -2,10 +2,9 @@ import {useState, useEffect} from 'react';
 import PersonHandler from '../../../controllers/js/PersonHandler';
 import PersonValidator from '../../validators/personValidator';
 import TenantHandler from '../../../controllers/js/TenantHandler';
-import OwnerHandler from '../../../controllers/js/OwnerHandler';
 import stallHandler from '../../../controllers/js/stallHandler';
 
-const useaddTenant = (editData,) => {
+const useaddTenant = (editData,onSubmitSuccess) => {
     const initialFormState = {
         FName: "",
         MName: "",
@@ -36,6 +35,7 @@ const useaddTenant = (editData,) => {
                 Stall_Id: editData.Stall_Id || "",
                 Date_Start: editData.Date_Start || "",
                 Market_Fee: editData.Market_Fee || "",
+                Person_Id:editData.Person_Id||"",
                 id: editData.id
             });
         }
@@ -65,12 +65,9 @@ const useaddTenant = (editData,) => {
             if(editData){
                 const persons = await PersonHandler.getPersons();
                 const person = persons.data.filter((p) => 
-                    p.FName === formData.FName && 
-                    p.MName === formData.MName && 
-                    p.LName === formData.LName &&
-                    p.Email === formData.Email
+                    p.Person_Id === formData.Person_Id
                 );
-                
+                await PersonHandler.updatePerson(formData.Person_Id,formData)
             }
 
             const result = editData
@@ -105,7 +102,7 @@ const useaddTenant = (editData,) => {
                         Person_Id: person[0].Person_Id,
                         Market_Fee: formData.Market_Fee
                     };
-                      
+                      console.log(createTenantData)
                     let userResult = await TenantHandler.addTenant(createTenantData);
                     if (userResult) {
                         alert('Tenant Added');

@@ -92,6 +92,8 @@ try {
         default:
             echo json_encode(["status" => "error", "message" => "Invalid action"]);
             break;
+        default:
+            throw new Exception("Invalid action");
     }
 } catch (Exception $e) {
     echo json_encode(["status" => "error", "message" => $e->getMessage()]);

@@ -177,7 +177,7 @@ a:hover .bi-chevron-down {
 }
 
 /* Navmenu - Mobile */
-@media (max-width: 1199px) {
+@media (max-width: 1199.99px) {
     .mobile-nav-toggle {
         color: var(--nav-color);
         font-size: 28px;
@@ -288,7 +288,7 @@ a:hover .bi-chevron-down {
 
     .mobile-nav-active .mobile-nav-toggle {
         color: #fff;
-        position: absolute;
+        position: inherit;
         font-size: 32px;
         top: 15px;
         right: 15px;

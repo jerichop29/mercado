@@ -39,7 +39,7 @@ class PersonFunctions {
                           $data['Birthdate']);
         
         if ($stmt->execute()) {
-            return ["status" => "success", "message" => "Person added successfully"];
+            return ["status" => "success", "message" => "User added successfully"];
         }
         error_log("Failed to add person");
         return ["status" => "error", "message" => "Failed to add person"];
@@ -51,10 +51,10 @@ class PersonFunctions {
         $stmt->bind_param("i", $id);
         
         if ($stmt->execute()) {
-            return ["status" => "success", "message" => "Person deleted successfully"];
+            return ["status" => "success", "message" => "User deleted successfully"];
         }
         error_log("Failed to delete person");
-        return ["status" => "error", "message" => "Failed to delete person"];
+        return ["status" => "error", "message" => "Failed to delete user"];
     }
 
     // Update person
@@ -82,7 +82,7 @@ class PersonFunctions {
                     $id);
         
         if ($stmt->execute()) {
-            return ["status" => "success", "message" => "Person updated successfully"];
+            return ["status" => "success", "message" => "User edited successfully"];
         }
         error_log("Failed to update person");
         return ["status" => "error", "message" => "Failed to update person"];
@@ -135,6 +135,8 @@ try {
             }
             echo json_encode($personFunctions->updatePerson($id, $data));
             break;
+        default:
+            throw new Exception("Invalid action");
     }
 } catch (Exception $e) {
     echo json_encode(["status" => "error", "message" => $e->getMessage()]);

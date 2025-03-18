@@ -11,10 +11,10 @@ const useDeleteTenantModel = (onDeleteSuccess) => {
       // First, delete the user account based on role
 
       let userResult;
-      userResult = await TenantHandler.deleteTenant(userData.TenantId);
+      userResult = await PersonHandler.deletePerson(userData.Person_Id);
       // Only after successfully deleting the user role record, delete the person
       if (userResult.status === "success") {
-        const result = await PersonHandler.deletePerson(userData.Person_Id);
+        const result = await TenantHandler.deleteTenant(userData.TenantId);
         
         if (result) {
           if (onDeleteSuccess) onDeleteSuccess();

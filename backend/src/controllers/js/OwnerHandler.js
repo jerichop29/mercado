@@ -41,6 +41,12 @@ class OwnerHandler {
         body: JSON.stringify(ownerData)
         });
     }
+    checkUsername = async (ownerData) => {
+        return this.fetchWithErrorHandling(`${this.baseUrl}?action=checkUsername`, {
+            method: 'POST',
+            body: JSON.stringify(ownerData)
+        });
+    }
 
     async addOwner(ownerData) {
         OwnerValidator.validateUserData(ownerData);

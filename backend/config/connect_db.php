@@ -16,7 +16,7 @@ class Database {
     private $host = "localhost";
     private $username = "root";
     private $password = "";
-    private $database = "mercado-database_test";
+    private $database = "mercado-database";
     private $conn;
 
     public function __construct() {

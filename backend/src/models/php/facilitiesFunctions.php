@@ -114,6 +114,8 @@ try {
             }
             echo json_encode($facilitiesFunctions->updateFacilities($id, $data));
             break;
+        default:
+            throw new Exception("Invalid action");
     }
 } catch (Exception $e) {
     echo json_encode(["status" => "error", "message" => $e->getMessage()]);

@@ -8,7 +8,7 @@ const connection = mysql.createConnection({
   multipleStatements: true,
 });
 
-const databaseName = "mercado-database_test";
+const databaseName = "mercado-database";
 
 connection.query(`SHOW DATABASES LIKE ?`, [databaseName], (err, results) => {
   if (err) {

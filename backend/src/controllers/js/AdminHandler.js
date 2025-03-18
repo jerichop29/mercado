@@ -4,6 +4,8 @@ class AdminHandler {
     constructor() {
         this.baseUrl = `${window.location.protocol}//${window.location.hostname}/mercado/backend/src/models/php/adminFunctions.php`; // Update with the correct PHP file
 
+        // Bind methods if necessary
+        // this.checkUsername = this.checkUsername.bind(this);
     }
 
     async fetchWithErrorHandling(url, options = {}) {
@@ -39,6 +41,13 @@ class AdminHandler {
 
     async Authadmin(adminData) {
         return this.fetchWithErrorHandling(`${this.baseUrl}?action=auth`, {
+            method: 'POST',
+            body: JSON.stringify(adminData)
+        });
+    }
+
+    checkUsername = async (adminData) => {
+        return this.fetchWithErrorHandling(`${this.baseUrl}?action=checkUsername`, {
             method: 'POST',
             body: JSON.stringify(adminData)
         });

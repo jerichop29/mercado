@@ -21,7 +21,15 @@ class OwnerFunctions {
         }
         return ["status" => "error", "message" => "Failed to fetch owners"];
     }
-
+    //check UID if existing
+    public function checkUsernameExists($data) {
+        $stmt = $this->conn->prepare("SELECT Username FROM ownertbl WHERE Username = ?");
+        $stmt->bind_param("s", $data['username']);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        return $result->num_rows > 0; // Returns true if username exists, false otherwise
+    }
     // Authenticate owners
     public function AuthOwner($data) {
         $username = $data['username'] ?? null;
@@ -114,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 $ownerFunctions = new OwnerFunctions();
 $action = $_GET['action'] ?? '';
 
-$allowedActions = ['get', 'auth', 'add', 'delete', 'update'];
+$allowedActions = ['get', 'auth', 'add', 'delete', 'update','checkUsername'];
 if (!in_array($action, $allowedActions, true)) {
     echo json_encode(["status" => "error", "message" => "Invalid action"]);
     exit();
@@ -145,6 +153,11 @@ try {
             $id = isset($_GET['id']) ? (int)$_GET['id'] : null;
             echo json_encode($ownerFunctions->updateOwner($id, $data));
             break;
+        case 'checkUsername':
+            echo json_encode($ownerFunctions->checkUsernameExists($data));
+            break;
+        default:
+            throw new Exception("Invalid action");
     }
 } catch (Exception $e) {
     echo json_encode(["status" => "error", "message" => $e->getMessage()]);

@@ -16,7 +16,7 @@ export default function AddTenant({ onClose, onSubmitSuccess, edit }) {
 
     // Stall options for the dropdown, filtered by selected building
     const stallOptions = stall
-        .filter(s => s.Status === "Occupied" && (!selectedBuilding || s.BuildingName === selectedBuilding))
+        .filter(s => s.Status == "Occupied"  && (!selectedBuilding || s.BuildingName === selectedBuilding))
         .map((s) => ({
             value: s.Stall_Id,
             label: s.StallCode
@@ -60,7 +60,7 @@ export default function AddTenant({ onClose, onSubmitSuccess, edit }) {
                                     type="text" 
                                     className="form-control"
                                     id="add-user-middlename"
-                                    placeholder="Middle Name"
+                                  placeholder="Middle Name"
                                     name="MName"
                                     onChange={handleChange} 
                                     value={formData.MName} 
@@ -140,7 +140,7 @@ export default function AddTenant({ onClose, onSubmitSuccess, edit }) {
                             <label className="form-label" htmlFor="add-tenant-stall">Stall</label>
                             <Select
                                 id="add-tenant-stall"
-                                value={selectedStall}
+                                value={stallOptions.find(option => option.value === formData.Stall_Id)|| null}
                                 className="form-react-select"
                                 classNamePrefix="react-select"
                                 onChange={handleStallChange}
@@ -149,6 +149,14 @@ export default function AddTenant({ onClose, onSubmitSuccess, edit }) {
                                 isSearchable
                                 placeholder="Select or type a Stall"
                             />
+                        </div>
+                        <div className='mt-4'>
+                        {message.text && (
+                            <div className={`alert alert-${message.type === 'error' ? 'danger' : 'success'} mt-3`}>
+                                {message.text}
+                            </div>
+                        )}
+
                         </div>
                         <div className="mt-4">
                             <button type="submit" className="btn btn-primary me-3">Submit</button>

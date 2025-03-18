@@ -1,11 +1,8 @@
-import { useEffect } from "react";
-import { useData } from "../../../../backend/src/views/useData";
 import { getUser } from "../../../utils/auth";
+import { useData } from "../../../../backend/src/views/useData";
+import { Link } from "react-router-dom";
 const OwnerDashboard = () => {
-    const { owner } = useData();
-    useEffect(() => {
-        dashboardAnalitics();
-    }, [])
+    const { username } = useData(getUser());
     return (
         <>
             <div className="row">
@@ -15,18 +12,21 @@ const OwnerDashboard = () => {
                             <div className="col-sm-7">
                                 <div className="card-body">
                                     <h5 className="card-title text-primary">
-                                        Welcome {getUser? getUser():"Guest"}! 🎉
+                                        Welcome {Array.isArray(username) && username.length > 0 
+                                    ? username[0]
+                                        ?.FName
+                                        : "Guest"}! 🎉
                                     </h5>
                                     <p className="mb-4">
-                                        You are logged in as <span className="fw-medium">Account type</span> description about account type
+                                        You are logged in as <span className="fw-medium">Owner</span> description about account type
                                     </p>
-
-                                    <a aria-label="view badges"
-                                        href="#"
-                                        className="btn btn-sm btn-outline-primary"
-                                    >
+                                            
+                                    <Link
+                                        aria-label="view badges"
+                                        to="/user/my-profile"
+                                        className="btn btn-sm btn-outline-primary">
                                         View Details
-                                    </a>
+                                    </Link>
                                 </div>
                             </div>
                             <div className="col-sm-5 text-center text-sm-left">

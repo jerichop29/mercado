@@ -2,7 +2,7 @@ import React,{ useState } from 'react';
 import AddUser from './AddUser';
 import { useData } from '../../../../backend/src/views/useData';
 import useDeleteUserModel from '../../../../backend/src/forms/templates/User/deleteUserModel';
-
+import { Confirm } from '../../main/DialogueBox/DialogueBox';
 const UserTable = ({ search }) => {
   const [filter,setFilter] = useState('');
   const [role,setRole] = useState('');
@@ -45,27 +45,48 @@ const handleRoleChange = (e) => {
   const handleDeleteClick = async (e, user) => {
     console.log("Selected Users for Deletion:",  user);
     e.preventDefault();
-    if (window.confirm('Are you sure you want to delete this user?')) {
-      await handleDelete(user);
+
+    const result = await Confirm("Are you sure you want to proceed?", "Confirmation");
+    if (result) {
+        console.log("User confirmed!");
+        await handleDelete(user);
+    } else {
+        console.log("User canceled.");
     }
   };
 
   const handleEditClick = (e, user) => {
     e.preventDefault();
-    const stallid = stall.filter((s)=>s.Owner_Id === user.Owner_Id)
-    setEditData({
-      FName: user.FName,
-      MName: user.MName,
-      LName: user.LName,
-      Gender: user.Gender,
-      Address: user.Address,
-      Contact: user.Contact,
-      Email: user.Email,
-      Birthdate: user.Birthdate,
-      role: user.role,
-      Stall_Id: stallid[0].Stall_Id,
-      id: user.Person_Id
-    });
+    const stallid = stall.filter((s) => s.Owner_Id === user.Owner_Id);
+
+    if (user.role !== "admin" && user.role !== "superadmin" && stallid.length > 0) {
+        setEditData({
+            FName: user.FName,
+            MName: user.MName,
+            LName: user.LName,
+            Gender: user.Gender,
+            Address: user.Address,
+            Contact: user.Contact,
+            Email: user.Email,
+            Birthdate: user.Birthdate,
+            role: user.role,
+            Stall_Id: stallid[0].Stall_Id, // Ensure stallid[0] exists
+            id: user.Person_Id
+        });
+    } else {
+        setEditData({
+            FName: user.FName,
+            MName: user.MName,
+            LName: user.LName,
+            Gender: user.Gender,
+            Address: user.Address,
+            Contact: user.Contact,
+            Email: user.Email,
+            Birthdate: user.Birthdate,
+            role: user.role,
+            id: user.Person_Id
+        });
+    }
     // Open the offcanvas
     const offcanvasElement = document.getElementById('offcanvasAddUser');
     const offcanvas = new bootstrap.Offcanvas(offcanvasElement);
@@ -83,12 +104,14 @@ const handleRoleChange = (e) => {
   };
 
   const handleDeleteSelected = async () => {
-    if (window.confirm('Are you sure you want to delete the selected users?')) {
-      
-      for (const user of selectedUsers) {
-        await handleDelete(user); // Assuming handleDelete can take the entire user object
-      }
-      setSelectedUsers([]); // Clear selection after deletion
+    const result = await Confirm("Are you sure you want to proceed?", "Confirmation");
+    if (result) {
+        for (const user of selectedUsers) {
+          await handleDelete(user); // Assuming handleDelete can take the entire user object
+        }
+        setSelectedUsers([]); // Clear selection after deletion
+    } else {
+        console.log("User canceled.");
     }
   };
 
@@ -225,7 +248,7 @@ const handleRoleChange = (e) => {
                         <div className="d-flex justify-content-start align-items-center user-name">
                           <div className="avatar-wrapper">
                             <div className="avatar avatar-sm me-4">
-                              <img src={user.avatar || "https://cdn-icons-png.flaticon.com/512/9203/9203764.png"} alt="Avatar" className="rounded-circle" />
+                              <img src={user.avatar ?user.avatar :"https://cdn-icons-png.flaticon.com/512/9203/9203764.png"} alt="Avatar" className="rounded-circle" />
                             </div>
                           </div>
                           <div className="d-flex flex-column">
