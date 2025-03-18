@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import CategoryHandler from '../../../controllers/js/CategoryHandler';
-
+import { Alert } from "../../../../../src/components/main/DialogueBox/DialogueBox";
 const useManageCategory = (editData) => {
     const initialFormState = {
         Title: "",
@@ -39,7 +39,7 @@ const useManageCategory = (editData) => {
             const result = editData
                 ? await CategoryHandler.updateCategory(formData.id, formData)
                 : await CategoryHandler.addCategory(formData);
-
+            if(result){Alert("Category Added")}
             setMessage({ text: result.message, type: "success" });
             resetForm();
         } catch (error) {

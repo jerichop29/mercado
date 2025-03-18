@@ -1,4 +1,5 @@
-
+import { useState } from "react";
+import SubCategoryHandler from "../../../controllers/js/SubCategoryHandler";
 // Delete function
 const useDeleteCategory = (onDeleteSuccess) => {
     const [message, setMessage] = useState({ text: "", type: "" });
@@ -6,7 +7,7 @@ const useDeleteCategory = (onDeleteSuccess) => {
     const handleDelete = async (categoryData) => {
         setMessage({ text: "", type: "" });
         try {
-            const result = await CategoryHandler.deleteCategory(categoryData.id);
+            const result = await SubCategoryHandler.deleteSubCategory(categoryData.id);
             if (result.status === "success") {
                 if (onDeleteSuccess) onDeleteSuccess();
                 setMessage({ text: "Category successfully deleted", type: "success" });

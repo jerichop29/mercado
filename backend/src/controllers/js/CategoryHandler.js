@@ -1,5 +1,3 @@
-import CategoryValidator from "../../forms/validators/discoverValidator";
-
 class CategoryHandler {
     constructor() {
         this.baseUrl = `${window.location.protocol}//${window.location.hostname}/mercado/backend/src/models/php/categoryFunctions.php`; // Update with the correct PHP file
@@ -37,7 +35,6 @@ class CategoryHandler {
     }
 
     async addCategory(categoryData) {
-        DiscoverValidator.validateDiscoverData(categoryData);
         return this.fetchWithErrorHandling(`${this.baseUrl}?action=add`, {
             method: 'POST',
             body: JSON.stringify(categoryData)
@@ -51,7 +48,6 @@ class CategoryHandler {
     }
 
     async updateCategory(categoryId, categoryData) {
-        DiscoverValidator.validateDiscoverData(categoryData);
         return this.fetchWithErrorHandling(`${this.baseUrl}?action=update&id=${categoryId}`, {
             method: 'PUT',
             body: JSON.stringify(categoryData)

@@ -1,11 +1,30 @@
 import React, {  useState } from 'react';
+
 import useQuillEditor from '../../../hooks/useQuillEditor';
 import 'quill/dist/quill.snow.css'; // Import Quill's styles
-import useManageCategory from '../../../../backend/src/forms/templates/Category/addcategory';
+import SubCategoryHandler from '../../../../backend/src/controllers/js/SubCategoryHandler';
+import useManageSubCategory from '../../../../backend/src/forms/templates/SubCategory/addSubCategory';
+import { useData } from '../../../../backend/src/views/useData';
 export default function AddSubCategory() {
-    const {quillRef} = useQuillEditor();
+    const { quillRef ,editorRef } = useQuillEditor();
     const [selectedCategory, setSelectedCategory] = useState('');
-    const categories = ['Maintenance Issues', 'Plumbing Issues', 'Structural Problems', 'Hygiene and Cleanliness', 'Security Concerns'];
+    const {
+        formData,
+        message,
+        handleChange,
+        handleSubmit,
+        resetForm
+    } = useManageSubCategory();
+    const {categories} = useData();
+
+    const handleFormSubmit = async (e) => {
+        e.preventDefault();
+        // Get the content from the Quill editor
+        const descriptionContent = editorRef.current.root.innerHTML;
+        formData.Description = descriptionContent; // Add it to formData
+        await handleSubmit(e);
+        resetForm();
+    };
 
     return (
         <>
@@ -31,12 +50,13 @@ export default function AddSubCategory() {
                                             <select 
                                                 className="form-control" 
                                                 id="category" 
-                                                value={selectedCategory} 
-                                                onChange={(e) => setSelectedCategory(e.target.value)}
+                                                name='Category_Id'
+                                                value={formData.Category_Id} 
+                                                onChange={handleChange}
                                             >
                                                 <option value="">Select a category</option>
                                                 {categories.map((category, index) => (
-                                                    <option key={index} value={category}>{category}</option>
+                                                    <option key={index} value={category.Categories_Id}>{category.Title}</option>
                                                 ))}
                                             </select>
                                         </div>
@@ -48,8 +68,9 @@ export default function AddSubCategory() {
                                                 type="text"
                                                 className="form-control"
                                                 id="sub-category"
+                                                value={formData.Title}
                                                 placeholder="Sub-Category title"
-                                                name="sub-categoryTitle"
+                                                name="Title"
                                                 aria-label="Sub-Category title"
                                             />
                                         </div>
@@ -58,7 +79,7 @@ export default function AddSubCategory() {
                                         <div className="mb-4">
                                             <label className="mb-1">Description (Optional)</label>
                                             <div className="form-control p-0">
-                                                <div ref={quillRef} />
+                                                <div ref={quillRef} name="Description"/>
                                             </div>
                                         </div>
 

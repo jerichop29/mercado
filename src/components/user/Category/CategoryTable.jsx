@@ -1,25 +1,45 @@
 import React, { useState } from 'react';
-
+import { useData } from '../../../../backend/src/views/useData';
+import { useDeleteCategory } from '../../../../backend/src/forms/templates/Category/deletecategory';
+import { Alert, Confirm } from '../../main/DialogueBox/DialogueBox';
 export default function CategoryTable({ Category: initialCategory }) {
     // State management
+    
     const [displayData, setDisplayData] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [editData, setEditData] = useState(null);
-    const [categories, setCategories] = useState(initialCategory || []);
-
-    // Filter categories based on search term
-    const filteredCategories = categories.filter(category => 
-        category.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        category.description.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-
+    const {categories} = useData(searchTerm);
     // Pagination logic
-    const totalPages = Math.ceil(filteredCategories.length / displayData);
+    const totalPages = Math.ceil(categories.length / displayData);
     const startIndex = (currentPage - 1) * displayData;
     const endIndex = startIndex + displayData;
-    const displayedCategories = filteredCategories.slice(startIndex, endIndex);
+    const displayedCategories = categories.slice(startIndex, endIndex);
+
+    const [selectAll, setSelectAll] = useState(false);
+  
+  
+
+    const { handleDelete, message } = useDeleteCategory(() => {
+        setSearchTerm((prev) => prev + ' ');
+        setTimeout(() => {
+          setSearchTerm((prev) => (prev ? prev.trim() : '')); 
+      }, 100);
+      });
+    
+    const handleDeleteClick = async (e, categories) => {
+
+        console.log("Selected Category for Deletion:",  categories);
+        e.preventDefault();    
+        const result = await Confirm("Are you sure you want to proceed?", "Confirmation");
+        if (result) {
+            await handleDelete(categories);
+            Alert("Category Deleted")
+        } else {
+        }
+      };
+
 
     // Handle page change
     const handlePageChange = (newPage) => {
@@ -28,55 +48,41 @@ export default function CategoryTable({ Category: initialCategory }) {
         }
     };
 
-    // Handle category selection
     const handleSelectCategory = (categoryId) => {
         setSelectedCategories((prevSelected) => {
-            if (prevSelected.includes(categoryId)) {
-                return prevSelected.filter(id => id !== categoryId); // Deselect
+            if (prevSelected.some(selectedCategories => selectedCategories.Categories_Id === categoryId.Categories_Id)) {
+                return prevSelected.filter(selectedCategories => selectedCategories.Categories_Id !== categoryId.Categories_Id); // Deselect user
             } else {
-                return [...prevSelected, categoryId]; // Select
+                return [
+                    ...prevSelected,
+                    categoryId
+                ]; 
             }
         });
     };
 
-    // Handle delete operation
-    const handleDeleteClick = (category) => {
-        if (window.confirm('Are you sure you want to delete this category?')) {
-            setCategories(prevCategories => 
-                prevCategories.filter(item => item.id !== category.id)
-            );
-            // Also remove from selected if it was selected
-            setSelectedCategories(prev => prev.filter(id => id !== category.id));
-        }
-    };
 
-    // Handle delete selected
-    const handleDeleteSelected = () => {
-        if (selectedCategories.length === 0) {
-            alert('No categories selected for deletion.');
-            return;
-        }
-        if (window.confirm('Are you sure you want to delete the selected categories?')) {
-            setCategories(prevCategories => 
-                prevCategories.filter(item => !selectedCategories.includes(item.id))
-            );
+    const handleDeleteSelected = async () => {
+        const result = await Confirm("Are you sure you want to proceed?", "Confirmation");
+        if (result) {
+            for (const category of selectedCategories) {
+              await handleDelete(category); // Assuming handleDelete can take the entire user object
+            }
             setSelectedCategories([]); // Clear selection after deletion
+        } else {
         }
-    };
-
-    // Handle edit click
-    const handleEditClick = (e, category) => {
-        e.preventDefault();
-        setEditData({
-            id: category.id,
-            title: category.title,
-            description: category.description
-        });
-        // In a real implementation, you would show an edit modal or navigate to edit page
-        alert(`Edit category: ${category.title}`);
-        // Placeholder for actual edit functionality
-    };
-
+      };
+      
+      const handleSelectAllChange = (event) => {
+        const isChecked = event.target.checked;
+        setSelectAll(isChecked);
+        if (isChecked) {
+          setSelectedCategories(displayedCategories);
+        } else {
+         setSelectedCategories([]);
+        }
+      };
+     
     return (
         <>
             <div className="card">
@@ -153,14 +159,8 @@ export default function CategoryTable({ Category: initialCategory }) {
                                                     className="form-check-input" 
                                                     type="checkbox" 
                                                     aria-label="Select all rows" 
-                                                    checked={selectedCategories.length === displayedCategories.length && displayedCategories.length > 0}
-                                                    onChange={() => {
-                                                        if (selectedCategories.length === displayedCategories.length) {
-                                                            setSelectedCategories([]);
-                                                        } else {
-                                                            setSelectedCategories(displayedCategories.map(category => category.id));
-                                                        }
-                                                    }}
+                                                    checked={selectAll}
+                                                    onChange={handleSelectAllChange}
                                                 />
                                             </th>
                                             <th data-dt-column="2" className="dt-orderable-asc dt-orderable-desc dt-ordering-desc">
@@ -187,30 +187,29 @@ export default function CategoryTable({ Category: initialCategory }) {
                                                         aria-label="Select row" 
                                                         className="form-check-input" 
                                                         type="checkbox" 
-                                                        checked={selectedCategories.includes(category.id)}
-                                                        onChange={() => handleSelectCategory(category.id)}
-                                                    />
+                                                        checked={selectedCategories.some(selectedCategories => selectedCategories.Categories_Id === category.Categories_Id)}
+                                                        onChange={() => handleSelectCategory(category)}/>
                                                 </td>
                                                 <td>
                                                     <span className="fw-medium">
-                                                        {category.id}
+                                                        {category.Categories_Id}
                                                     </span>
                                                 </td>
                                                 <td>
                                                     <span className="fw-medium">
-                                                        <i className="icon-base fa-solid fa-triangle-exclamation text-warning me-2"></i>{category.title}
+                                                        <i className="icon-base fa-solid fa-triangle-exclamation text-warning me-2"></i>{category.Title}
                                                     </span>
                                                 </td>
                                                 <td>
                                                     <span className="fw-medium">
-                                                        <i className="icon-base bi bi-chat-left-text-fill text-secondary me-2"></i>{category.description}
+                                                        <i className="icon-base bi bi-chat-left-text-fill text-secondary me-2"></i>
+                                                        <div dangerouslySetInnerHTML={{ __html: category.Description }} />
                                                     </span>
                                                 </td>
                                                 <td>
                                                     <div className="d-flex align-items-center">
                                                         <a href="#" className="btn btn-icon delete-record" onClick={(e) => {
-                                                            e.preventDefault();
-                                                            handleDeleteClick(category);
+                                                            handleDeleteClick(e,category);
                                                         }}>
                                                             <i className="icon-base bx bx-trash icon-md icon-lg"></i>
                                                         </a>
@@ -236,7 +235,7 @@ export default function CategoryTable({ Category: initialCategory }) {
                         <div className="row mx-3 justify-content-between">
                             <div className="d-md-flex justify-content-between align-items-center dt-layout-start col-md-auto me-auto mt-0">
                                 <div className="dt-info" aria-live="polite" id="DataTables_Table_0_info" role="status">
-                                    Showing {startIndex + 1} to {Math.min(endIndex, filteredCategories.length)} of {filteredCategories.length} entries
+                                    Showing {startIndex + 1} to {Math.min(endIndex, categories.length)} of {categories.length} entries
                                 </div>
                             </div>
                             <div className="d-md-flex align-items-center dt-layout-end col-md-auto ms-auto d-flex gap-md-4 justify-content-md-between justify-content-center gap-4 flex-wrap mt-0">

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import CategoryHandler from '../../../controllers/js/CategoryHandler';
-
-const useManageCategory = (editData) => {
+import SubCategoryHandler from '../../../controllers/js/SubCategoryHandler';
+import { Alert } from '../../../../../src/components/main/DialogueBox/DialogueBox';
+const useManageSubCategory = (editData) => {
     const initialFormState = {
         Category_Id: "",
         Title: "",
@@ -40,9 +40,9 @@ const useManageCategory = (editData) => {
 
             
             const result = editData
-                ? await CategoryHandler.updateCategory(formData.id, formData)
-                : await CategoryHandler.addCategory(formData);
-
+                ? await SubCategoryHandler.updateSubCategory(formData.id, formData)
+                : await SubCategoryHandler.addSubCategory(formData);
+                if(result){Alert("SubCategory Added")}
             setMessage({ text: result.message, type: "success" });
             resetForm();
         } catch (error) {
@@ -61,4 +61,4 @@ const useManageCategory = (editData) => {
     };
 };
 
-export default useManageCategory;
+export default useManageSubCategory;

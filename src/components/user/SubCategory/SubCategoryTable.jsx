@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useData } from '../../../../backend/src/views/useData';
 import { Confirm } from '../../main/DialogueBox/DialogueBox';
 export default function CategoryTable({ SubCategory: initialSubCategory }) {
     // State management
@@ -7,20 +8,16 @@ export default function CategoryTable({ SubCategory: initialSubCategory }) {
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [editData, setEditData] = useState(null);
-    const [subCategories, setSubCategories] = useState(initialSubCategory || []);
 
-    // Filter categories based on search term
-    const filteredCategories = subCategories.filter(category => 
-        category.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        category.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        category.type.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const {categories} = useData();
 
+    
+    const {subCategories} = useData(searchTerm);
     // Pagination logic
-    const totalPages = Math.ceil(filteredCategories.length / displayData);
+    const totalPages = Math.ceil(subCategories.length / displayData);
     const startIndex = (currentPage - 1) * displayData;
     const endIndex = startIndex + displayData;
-    const displayedCategories = filteredCategories.slice(startIndex, endIndex);
+    const displayedCategories = subCategories.slice(startIndex, endIndex);
 
     // Handle page change
     const handlePageChange = (newPage) => {
@@ -58,7 +55,7 @@ export default function CategoryTable({ SubCategory: initialSubCategory }) {
     // Handle delete selected
     const handleDeleteSelected = async () => {
         if (selectedCategories.length === 0) {
-            alert('No categories selected for deletion.');
+            alert('No subCategories selected for deletion.');
             return;
         }
         const result = await Confirm("Are you sure you want to proceed?", "Confirmation");
@@ -201,8 +198,8 @@ export default function CategoryTable({ SubCategory: initialSubCategory }) {
                                                         aria-label="Select row" 
                                                         className="form-check-input" 
                                                         type="checkbox" 
-                                                        checked={selectedCategories.includes(category.id)}
-                                                        onChange={() => handleSelectCategory(category.id)}
+                                                        checked={selectedCategories.includes(category.SubCategory_Id)}
+                                                        onChange={() => handleSelectCategory(category.SubCategory_Id)}
                                                     />
                                                 </td>
                                                 <td>
@@ -212,12 +209,12 @@ export default function CategoryTable({ SubCategory: initialSubCategory }) {
                                                 </td>
                                                 <td>
                                                     <span className="fw-medium">
-                                                        <i className="icon-base fa-solid fa-triangle-exclamation text-warning me-2"></i>{category.type}
+                                                        <i className="icon-base fa-solid fa-triangle-exclamation text-warning me-2"></i>{category.Categories_Id}
                                                     </span>
                                                 </td>
                                                 <td>
                                                     <span className="fw-medium">
-                                                        <i className="icon-base fa-solid fa-triangle-exclamation text-warning me-2"></i>{category.title}
+                                                        <i className="icon-base fa-solid fa-triangle-exclamation text-warning me-2"></i>{category.Title}
                                                     </span>
                                                 </td>
                                                 <td>
@@ -255,7 +252,7 @@ export default function CategoryTable({ SubCategory: initialSubCategory }) {
                         <div className="row mx-3 justify-content-between">
                             <div className="d-md-flex justify-content-between align-items-center dt-layout-start col-md-auto me-auto mt-0">
                                 <div className="dt-info" aria-live="polite" id="DataTables_Table_0_info" role="status">
-                                    Showing {startIndex + 1} to {Math.min(endIndex, filteredCategories.length)} of {filteredCategories.length} entries
+                                    Showing {startIndex + 1} to {Math.min(endIndex, subCategories.length)} of {subCategories.length} entries
                                 </div>
                             </div>
                             <div className="d-md-flex align-items-center dt-layout-end col-md-auto ms-auto d-flex gap-md-4 justify-content-md-between justify-content-center gap-4 flex-wrap mt-0">
