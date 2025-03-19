@@ -109,6 +109,48 @@ class OwnerFunctions {
         error_log("Failed to update owner");
         return ["status" => "error", "message" => "Failed to update owner"];
     }
+    public function updatePasswordByUsername($data) {
+        $username = $data['username'] ?? null;
+        $currentPassword = $data['current_password'] ?? null;
+        $newPassword = $data['new_password'] ?? null;
+        
+        // Validate inputs
+        if (empty($username) || empty($currentPassword) || empty($newPassword)) {
+            return ["status" => "error", "message" => "Username, current password, and new password are required"];
+        }
+        
+        // First authenticate the user
+        $authData = [
+            'username' => $username,
+            'password' => $currentPassword
+        ];
+        
+        $authResult = $this->AuthOwner($authData);
+        
+        if ($authResult['status'] !== "success") {
+            return ["status" => "error", "message" => "Authentication failed. Current password is incorrect."];
+        }
+        
+        // If authentication succeeded, proceed with password update
+        $hashedPassword = password_hash($newPassword, PASSWORD_BCRYPT);
+        
+        // Prepare and execute the update query
+        $sql = "UPDATE ownertbl SET `Password` = ? WHERE Username = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("ss", $hashedPassword, $username);
+        
+        if ($stmt->execute()) {
+            // Check if any row was affected
+            if ($stmt->affected_rows > 0) {
+                return ["status" => "success", "message" => "Password updated successfully"];
+            } else {
+                return ["status" => "error", "message" => "Failed to update password. Please try again."];
+            }
+        }
+        
+        error_log("Failed to update password for username: " . $username);
+        return ["status" => "error", "message" => "Failed to update password"];
+    }
 }
 
 // Handle incoming requests

@@ -51,7 +51,6 @@ const useAddUserModel = (editData) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData)
     setMessage({ text: "", type: "" });
     try {
        PersonValidator.validatePersonData(formData);
@@ -86,6 +85,18 @@ const useAddUserModel = (editData) => {
 
       const result = editData
         ? await PersonHandler.updatePerson(editData.id, formData)
+        .then(response => {
+          if (response.status === "success") {
+            Alert(response.message)
+          } else {
+            Alert(response.message)
+          }
+        })
+        .catch(error => {
+          // Handle any exceptions thrown during the process
+          Alert(error)
+          // Show a generic error message to the user
+        })
         : await PersonHandler.addPerson(formData);
       
       setMessage({ text: result.message, type: "success" });
@@ -101,16 +112,6 @@ const useAddUserModel = (editData) => {
           p.Email === formData.Email
         );
         if (person) {
-          const checkUserName = async (input) =>{
-            if (formData.role === 'Owner') {
-              await OwnerHandler.checkUsername({username:input});  // Assign function reference
-              console.log(await OwnerHandler.checkUsername({username:input}))
-          }
-          else{
-             await AdminHandler.checkUsername({username:input});
-          }
-          return false;
-          }
           const generateUsername = async (FName, LName, role) => {
             // Normalize name parts: lowercase, remove spaces & special characters
             const cleanName = (name) => name.toLowerCase().replace(/[^a-z0-9]/g, '');
