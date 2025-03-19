@@ -5,7 +5,7 @@ import OwnerHandler from '../../../controllers/js/OwnerHandler';
 import AdminHandler from '../../../controllers/js/AdminHandler';
 import stallHandler from '../../../controllers/js/stallHandler';
 import { Alert } from '../../../../../src/components/main/DialogueBox/DialogueBox';
-const useAddUserModel = (editData) => {
+const useAddUserModel = (editData,onSubmitSuccess) => {
   const initialFormState = {
     FName: "",
     MName:"",
@@ -100,6 +100,7 @@ const useAddUserModel = (editData) => {
         : await PersonHandler.addPerson(formData);
       
       setMessage({ text: result.message, type: "success" });
+      if(onSubmitSuccess){onSubmitSuccess()}
       // After successful person creation/update
       if (result && !editData) {
         // Get all persons and filter

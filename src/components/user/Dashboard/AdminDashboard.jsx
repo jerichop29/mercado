@@ -29,6 +29,7 @@ const AdminDashboard = () => {
             // Prepare the data for editing
             console.log(user)
             const editData = {
+                Username: user.Username,
                 FName: user.FName,
                 MName: user.MName,
                 LName: user.LName,

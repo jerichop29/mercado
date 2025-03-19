@@ -1,11 +1,30 @@
 import getGreetingMessage from '../../utils/GreetingHandler';
 import { useNavigate } from 'react-router-dom';
-import { logout } from '../../utils/auth';
+import { checkRole, checkRoleisOwner, logout } from '../../utils/auth';
 import { getUser } from '../../utils/auth';
 import { useData } from '../../../backend/src/views/useData';
+import { useEffect, useState } from 'react';
+
 const Navbar = () => {
   const { username } = useData(getUser());
   const navigate = useNavigate();
+  const [userRole, setUserRole] = useState('');
+
+  useEffect(() => {
+    const fetchUserRole = async () => {
+      const isOwner = await checkRoleisOwner();
+      const isAdmin = await checkRole();
+      if (isAdmin) {
+        setUserRole('Admin');
+      } else if (isOwner) {
+        setUserRole('Owner');
+      } else {
+        setUserRole('Guest');
+      }
+    };
+    fetchUserRole();
+  }, []);
+
   const handleLogout = () => {
     logout(); // Clear auth data
     navigate('/', { replace: true }); // Redirect to login page with replace
@@ -22,7 +41,8 @@ const Navbar = () => {
         Address: user.Address,
         Contact: user.Contact,
         Email: user.Email,
-        id: user.Admin_Id,
+        Admin_Id: user.Admin_Id,
+        Owner_Id: user.Owner_Id,
         Gender: user.Gender,
         Birthdate: user.Birthdate,
         Stall_Id: user.Stall_Id || "",
@@ -62,7 +82,7 @@ const Navbar = () => {
             </a>
             <ul className="dropdown-menu dropdown-menu-end">
               <li>
-                <a aria-label='go to profile' className="dropdown-item" href="#">
+                <a aria-label='go to profile' onClick={(e) =>handleProfileClick(e,username[0])} style={{ cursor: "pointer" }} className="dropdown-item" href="#">
                   <div className="d-flex">
                     <div className="flex-shrink-0 me-3">
                       <div className="avatar avatar-online">
@@ -70,8 +90,12 @@ const Navbar = () => {
                       </div>
                     </div>
                     <div className="flex-grow-1">
-                      <span className="fw-medium d-block">{getUser? getUser():"Guest"}</span>
-                      <small className="text-muted">Admin</small>
+                      <span className="fw-medium d-block">
+                        {Array.isArray(username) && username.length > 0 
+                          ? `${username[0]?.FName} ${username[0]?.LName}` 
+                          : "Guest"}
+                      </span>
+                      <small className="text-muted">{userRole}</small>
                     </div>
                   </div>
                 </a>

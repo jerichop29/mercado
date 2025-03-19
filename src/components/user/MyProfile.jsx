@@ -1,18 +1,27 @@
-    import { useState } from "react";
+    import { useState, useEffect } from "react";
     import { useLocation } from 'react-router-dom';
     import useAddUserModel from "../../../backend/src/forms/templates/User/addUserModel";
     import { Alert } from "../main/DialogueBox/DialogueBox";
+import useEditPassword from "../../../backend/src/forms/templates/User/editPassword";
+import { getUser } from "../../utils/auth";
     export default function MyProfile() {
         const [activeTab,
             setActiveTab] = useState("account");
         const [showForm, setShowForm] = useState(false);
         const location = useLocation();
+
         const { editData } = location.state || {
             editData: null
         };
-        const { formData, message, handleChange, handleSubmit, resetForm } = useAddUserModel(editData);
+        const { formData, message, handleChange, handleSubmit, resetForm,setMessage } = useAddUserModel(editData);
+        const {handlePasswordChange,
+            resetPassword,
+            passwordData,
+            passwordMessage,
+            handleEditPassword} = useEditPassword(editData);
         const handleFormSubmit = async (e) => {
             e.preventDefault();
+            console.log(message.text)
             try {
                 await handleSubmit(e).then; // Ensure handleSubmit executes properly
             } catch (error) {
@@ -20,43 +29,25 @@
             }
         };
 
+        const handleFormPasswordSubmit = async (e) => {
+            e.preventDefault();
+            
+            try {
+                await handleEditPassword(e).then; // Ensure handleSubmit executes properly
+            } catch (error) {
+                console.error("Form submission failed:", error);
+            }
+        };
+
+
+        const [showImageModal, setShowImageModal] = useState(false);
+        const [selectedImage, setSelectedImage] = useState("");
+
         return (<> 
         <div className="container-xxl flex-grow-1 container-p-y">
             <div className="row">
                 <div className="col-md-12">
-                    <ul className="nav nav-pills flex-column flex-md-row mb-6 gap-md-2 gap-2">
-                        <li className="nav-item">
-                            <a
-                                className={`nav-link ${activeTab === "account"
-                                    ? "active"
-                                    : ""}`}
-                                onClick={() => setActiveTab("account")}
-                                style={{
-                                    cursor: "pointer"
-                                }}>
-                                <i className="icon-base bx bx-user icon-sm me-1_5"></i>
-                                Account
-                            </a>
-                        </li>
-                        <li className="nav-item">
-                            <a
-                                className={`nav-link ${activeTab === "password"
-                                    ? "active"
-                                    : ""}`}
-                                onClick={() => setActiveTab("password")}
-                                style={{
-                                    cursor: "pointer"
-                                }}>
-                                <i className="icon-base bi bi-lock icon-sm me-1_5"></i>
-                                Password
-                            </a>
-                        </li>
-                    </ul>
-
-
                         <div className="container p-3 bg-light py-3 rounded">
-
-
                             <div className="profile-container position-relative mb-5">
                                 {/* Cover Photo Section */}
                                 <div className="cover-photo" style={{ height: '300px', backgroundColor: '#1877f2', borderRadius: '0 0 8px 8px', overflow: 'hidden' }}>
@@ -67,7 +58,7 @@
                                     />
 
                                     {/* Settings Cog - positioned on the cover */}
-                                    <div className="position-absolute top-0 end-0 m-3">
+                                    <div className="position-absolute top-0 start-0 m-3">
                                         <button
                                             className="btn btn-light rounded-circle"
                                             onClick={() => setShowForm(!showForm)}
@@ -79,13 +70,17 @@
                                     </div>
 
                                     {/* Profile Picture - positioned to overlap cover and info card */}
-                                    <div className="position-absolute" style={{ bottom: window.innerHeight <= 667 ? '30vh' : '13vh', left: '4px', zIndex: '3' }}>
+                                    <div className="position-absolute" style={{ bottom: window.innerWidth < 768 ? '350px' : '182px', left: window.innerWidth < 768 ? '15vw' : '4px', zIndex: '3' }}>
                                         <div className="rounded-circle border border-4 border-white bg-primary shadow" style={{ width: '168px', height: '168px' }}>
                                             <img
-                                                src="https://static.vecteezy.com/system/resources/previews/000/439/863/non_2x/vector-users-icon.jpg"
+                                                src={formData.image ? formData.image : "https://static.vecteezy.com/system/resources/previews/000/439/863/non_2x/vector-users-icon.jpg"}
                                                 alt="Profile"
                                                 className="w-100 h-100 rounded-circle"
                                                 style={{ objectFit: 'cover' }}
+                                                onClick={() => {
+                                                    setSelectedImage(formData.image ? formData.image : "https://static.vecteezy.com/system/resources/previews/000/439/863/non_2x/vector-users-icon.jpg");
+                                                    setShowImageModal(true);
+                                                }}
                                             />
                                         </div>
                                     </div>
@@ -133,12 +128,21 @@
                                                         <div className="d-flex align-items-center mb-3">
                                                             <div className="me-3">
                                                                 <div className="rounded-circle overflow-hidden" style={{ width: '80px', height: '80px' }}>
-                                                                    <img
-                                                                        src="https://static.vecteezy.com/system/resources/previews/000/439/863/non_2x/vector-users-icon.jpg"
-                                                                        alt="user-avatar"
-                                                                        className="w-100 h-100"
-                                                                        style={{ objectFit: 'cover' }}
-                                                                    />
+                                                                    {formData.image ? (
+                                                                        <img
+                                                                            src={formData.image}
+                                                                            alt="user-avatar"
+                                                                            className="w-100 h-100"
+                                                                            style={{ objectFit: 'cover' }}
+                                                                        />
+                                                                    ) : (
+                                                                        <img
+                                                                            src="https://static.vecteezy.com/system/resources/previews/000/439/863/non_2x/vector-users-icon.jpg"
+                                                                            alt="user-avatar"
+                                                                            className="w-100 h-100"
+                                                                            style={{ objectFit: 'cover' }}
+                                                                        />
+                                                                    )}
                                                                 </div>
                                                             </div>
                                                             <div>
@@ -149,10 +153,39 @@
                                                                         id="upload"
                                                                         className="d-none"
                                                                         accept="image/png, image/jpeg"
+                                                                        onChange={async (e) => {
+                                                                            const file = e.target.files[0];
+                                                                            if (file) {
+                                                                                const reader = new FileReader();
+                                                                                reader.onloadend = () => {
+                                                                                    handleChange({ target: { name: 'image', value: reader.result } });
+                                                                                    console.log(formData)
+                                                                                };
+                                                                                reader.readAsDataURL(file);
+                                                                            }
+                                                                        }}
                                                                     />
                                                                 </label>
                                                                 <small className="text-secondary">Allowed JPG, GIF, or PNG. Max size of 800K</small>
                                                             </div>
+                                                            {formData.image && (
+                                                                <div className="text-end mx-3">
+                                                                    <button
+                                                                        type="button"
+                                                                        className="btn btn-primary mx-1"
+                                                                        onClick={() => {/* Add save functionality here */}}
+                                                                    >
+                                                                        Save
+                                                                    </button>
+                                                                    <button
+                                                                        type="button"
+                                                                        className="btn btn-secondary mx-1"
+                                                                        onClick={() => handleChange({ target: { name: 'image', value: null } })}
+                                                                    >
+                                                                        Reset
+                                                                    </button>
+                                                                </div>
+                                                            )}
                                                         </div>
 
                                                         <form onSubmit={handleFormSubmit}>
@@ -228,23 +261,35 @@
                                                                     />
                                                                 </div>
                                                             </div>
-
                                                             <div className="text-end mt-4">
+                                                                
                                                                 <button
                                                                     type="button"
-                                                                    className="btn btn-secondary me-2"
-                                                                    onClick={() => setShowForm(false)}
+                                                                    className="btn btn-secondary mx-1 col-sm-4 col-lg-3"
+                                                                    onClick={() => {setShowForm(false)}}
                                                                 >
                                                                     Cancel
                                                                 </button>
+
                                                                 <button
                                                                     type="submit"
-                                                                    className="btn btn-primary"
+                                                                    className="btn btn-primary col-sm-6 col-lg-3"
                                                                 >
-                                                                    Save Changes
+                                                                    Save
                                                                 </button>
                                                             </div>
                                                         </form>
+                                                        <a
+                                                        className={`nav-link ${activeTab === "password"
+                                                            ? "active"
+                                                            : ""} mt-5`}
+                                                        onClick={() => setActiveTab("password")}
+                                                        style={{
+                                                            cursor: "pointer"
+                                                        }}> 
+                                                        <i className="icon-base bi bi-lock icon-sm me-1_5"></i>
+                                                        Change Password
+                                                    </a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -252,43 +297,83 @@
                                     </div>
                                 ) ||
                                 (activeTab === "password" && (
-                                    <div className="card mb-6">
-                                        <div className="card-body pt-4">
-                                            <form
-                                                id="formPasswordChange"
-                                                method="POST"
-                                                onSubmit={(e) => e.preventDefault()}>
-                                                <div className="row g-6">
-                                                    <div className="col-md-6">
-                                                        <label htmlFor="currentPassword" className="form-label">Current Password</label>
-                                                        <input
-                                                            className="form-control"
-                                                            type="password"
-                                                            id="currentPassword"
-                                                            name="currentPassword" />
-                                                    </div>
-                                                    <div className="col-md-6">
-                                                        <label htmlFor="newPassword" className="form-label">New Password</label>
-                                                        <input
-                                                            className="form-control"
-                                                            type="password"
-                                                            id="newPassword"
-                                                            name="newPassword" />
-                                                    </div>
-                                                    <div className="col-md-6">
-                                                        <label htmlFor="confirmPassword" className="form-label">Confirm New Password</label>
-                                                        <input
-                                                            className="form-control"
-                                                            type="password"
-                                                            id="confirmPassword"
-                                                            name="confirmPassword" />
-                                                    </div>
+                                    <div className="modal d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.7)', zIndex: 1200 }}>
+                                        <div className="modal-dialog modal-dialog-centered modal-lg">
+                                            <div className="modal-content">
+                                                <div className="modal-header">
+                                                    <h5 className="modal-title fw-bold">Change Password</h5>
+                                                    <button
+                                                        type="button"
+                                                        className="btn-close"
+                                                        aria-label="Close"
+                                                        onClick={() => setShowForm(false)}
+                                                    ></button>
                                                 </div>
-                                                <div className="mt-4">
-                                                    <button type="submit" className="btn tbl-btn-primary me-3">Change Password</button>
-                                                    <button type="reset" className="btn btn-outline-secondary">Cancel</button>
+                                                <div className="modal-body">
+                                                    <form
+                                                        id="formPasswordChange"
+                                                        method="POST"
+                                                        onSubmit={handleFormPasswordSubmit}>
+                                                        <div className="row g-6">
+                                                            <div className="col-md-12">
+                                                                <label htmlFor="current_password" className="form-label fw-bold">Current Password</label>
+                                                                <input
+                                                                    className="form-control"
+                                                                    type="password"
+                                                                    value={passwordData.current_password}
+                                                                    onChange={handlePasswordChange}
+                                                                    id="current_password"
+                                                                    name="current_password" />
+                                                            </div>
+                                                            <div className="col-md-6">
+                                                                <label htmlFor="new_password" className="form-label fw-bold">New Password</label>
+                                                                <input
+                                                                    className="form-control"
+                                                                    type="password"
+                                                                    value={passwordData.new_password}
+                                                                    onChange={handlePasswordChange}
+                                                                    id="new_password"
+                                                                    name="new_password" />
+                                                            </div>
+                                                            <div className="col-md-6">
+                                                                <label htmlFor="confirm_password" className="form-label fw-bold">Confirm New Password</label>
+                                                                <input
+                                                                    className="form-control"
+                                                                    type="password"
+                                                                    value={passwordData.confirm_password}
+                                                                    onChange={handlePasswordChange}
+                                                                    id="confirm_password"
+                                                                    name="confirm_password" />
+                                                            </div>
+                                                        </div>
+                                                        {passwordMessage.text && (
+                                                            <div className={`alert alert-${passwordMessage.type === 'error' ? 'danger' : 'success'} mt-3`}>
+                                                                {passwordMessage.text}
+                                                            </div>
+                                                        )}
+
+                                                        <div className="text-end mt-4">
+                                                            <button type="button" className="btn btn-secondary me-1 col-sm-4 col-lg-3" onClick={() => {setShowForm(false);resetPassword();}}>
+                                                                Cancel
+                                                            </button>
+                                                            <button type="submit" className="btn btn-primary col-sm-6 col-lg-2">
+                                                               Submit
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                    <a
+                                                            className={`nav-link ${activeTab === "account"
+                                                                ? "active"
+                                                                : ""}mt-5`}
+                                                            onClick={() => setActiveTab("account")}
+                                                            style={{
+                                                                cursor: "pointer"
+                                                            }}>
+                                                            <i className="icon-base bx bx-user icon-sm me-1_5"></i>
+                                                            Edit Account
+                                                        </a>
                                                 </div>
-                                            </form>
+                                            </div>
                                         </div>
                                     </div>
                                 )
@@ -297,6 +382,32 @@
                         </div> 
                 </div>
             </div>
-        </div> </>
+        </div>
+
+        {/* Modal for Image Preview */}
+        {showImageModal && (
+            <div className="modal d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.7)', zIndex: 1200 }}>
+                <div className="modal-dialog modal-dialog-centered">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <button
+                                type="button"
+                                className="btn-close"
+                                aria-label="Close"
+                                onClick={() => setShowImageModal(false)}
+                            ></button>
+                        </div>
+                        <div className="modal-body">
+                            <img
+                                src={selectedImage}
+                                alt="Full Size"
+                                className="img-fluid"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )}
+        </>
         );
     }

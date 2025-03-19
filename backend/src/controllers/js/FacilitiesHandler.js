@@ -1,8 +1,6 @@
-import EventValidator from "../../forms/validators/facilitiesValidator";
-
-class DiscoverHandler {
+class AvatarHandler {
     constructor() {
-        this.baseUrl = `${window.location.protocol}//${window.location.hostname}/mercado/backend/src/models/php/facilitiesFunctions.php`; // Update with the correct PHP file
+        this.baseUrl = `${window.location.protocol}//${window.location.hostname}/mercado/backend/src/models/php/avatarFunctions.php`;
     }
 
     async fetchWithErrorHandling(url, options = {}) {
@@ -16,7 +14,7 @@ class DiscoverHandler {
             });
 
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                throw new Error(`HTTP error! Status: ${response.status}`);
             }
 
             const data = await response.json();
@@ -26,41 +24,46 @@ class DiscoverHandler {
 
             return data;
         } catch (error) {
-            console.error('API Error:', error);
+            console.error("API Error:", error);
             throw error;
         }
     }
 
-    async getFacilities(facilitiesId) {
-        return this.fetchWithErrorHandling(`${this.baseUrl}?action=get&id=${facilitiesId}`, {
+    async getAllAvatars() {
+        return this.fetchWithErrorHandling(`${this.baseUrl}?action=get`, {
             method: 'GET'
         });
     }
 
-    async addFacilities(facilitiesData) {
-        EventValidator.validateEventData(facilitiesData);
+    async addAvatar(personId, image) {
+        const data = {
+            Person_Id: personId,
+            image: image // Base64 string of the image
+        };
+
         return this.fetchWithErrorHandling(`${this.baseUrl}?action=add`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(facilitiesData)
+            body: JSON.stringify(data)
         });
     }
 
-    async deleteFacilities(facilitiesId) {
-        return this.fetchWithErrorHandling(`${this.baseUrl}?action=delete&id=${facilitiesId}`, {
-            method: 'DELETE',
-            headers: { 'Content-Type': 'application/json' }
-        });
-    }
+    async updateAvatar(id, personId, image) {
+        const data = {
+            Person_Id: personId,
+            image: image // Base64 string of the image
+        };
 
-    async updateFacilities(facilitiesId, facilitiesData) {
-        EventValidator.validateEventData(facilitiesData);
-        return this.fetchWithErrorHandling(`${this.baseUrl}?action=update&id=${facilitiesId}`, {
+        return this.fetchWithErrorHandling(`${this.baseUrl}?action=update&id=${id}`, {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(facilitiesData)
+            body: JSON.stringify(data)
+        });
+    }
+
+    async deleteAvatar(id) {
+        return this.fetchWithErrorHandling(`${this.baseUrl}?action=delete&id=${id}`, {
+            method: 'DELETE'
         });
     }
 }
 
-export default new DiscoverHandler();
+export default new AvatarHandler();

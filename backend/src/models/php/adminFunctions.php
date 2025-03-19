@@ -87,8 +87,8 @@ class AdminFunctions {
         return ["status" => "error", "message" => "Failed to update admin"];
     }
 
-    public function updatePasswordByUsername($data) {
-        $username = $data['username'] ?? null;
+    public function updatePassword($id,$data) {
+        $username = $data['Username'] ?? null;
         $currentPassword = $data['current_password'] ?? null;
         $newPassword = $data['new_password'] ?? null;
         
@@ -113,9 +113,9 @@ class AdminFunctions {
         $hashedPassword = password_hash($newPassword, PASSWORD_BCRYPT);
         
         // Prepare and execute the update query
-        $sql = "UPDATE admintbl SET `Password` = ? WHERE Username = ?";
+        $sql = "UPDATE admintbl SET `Password` = ? WHERE Admin_Id = ?";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("ss", $hashedPassword, $username);
+        $stmt->bind_param("si", $hashedPassword, $id);
         
         if ($stmt->execute()) {
             // Check if any row was affected
@@ -126,10 +126,9 @@ class AdminFunctions {
             }
         }
         
-        error_log("Failed to update password for username: " . $username);
+        error_log("Failed to update password for id: " . $id);
         return ["status" => "error", "message" => "Failed to update password"];
-    }   
-
+    }
 
     // Delete admin
     public function deleteAdmin($id) {
@@ -158,7 +157,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 $adminFunctions = new AdminFunctions();
 $action = $_GET['action'] ?? '';
 
-$allowedActions = ['get', 'auth', 'add', 'delete', 'update','checkUsername'];
+$allowedActions = ['get', 'auth', 'add', 'delete', 'update','checkUsername','updatePassword'];
 if (!in_array($action, $allowedActions, true)) {
     echo json_encode(["status" => "error", "message" => "Invalid action"]);
     exit();
@@ -187,6 +186,10 @@ try {
             break;
         case 'checkUsername':
             echo json_encode($adminFunctions->checkUsernameExists($data));
+            break;
+        case 'updatePassword':
+            $id = $_GET['id'] ?? null;
+            echo json_encode($adminFunctions->updatePassword($id,$data));
             break;
         default:
             throw new Exception("Invalid action");

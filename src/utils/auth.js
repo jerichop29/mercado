@@ -1,5 +1,6 @@
 import axios from 'axios';
 import sha256 from 'js-sha256';
+import { Alert } from '../components/main/DialogueBox/DialogueBox';
 const SESSION_EXPIRY_TIME = 30 * 60 * 1000; // 30 minutes
 
 // Get current timestamp
@@ -106,6 +107,7 @@ const initializeAuth = () => {
 };
  async function checkRole() {
     if (isSessionExpired()) {
+        Alert("Session Expired");
         console.log("Session expired.");
         return false;
     }

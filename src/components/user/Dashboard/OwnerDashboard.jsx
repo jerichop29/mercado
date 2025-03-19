@@ -1,8 +1,38 @@
 import { getUser } from "../../../utils/auth";
 import { useData } from "../../../../backend/src/views/useData";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 const OwnerDashboard = () => {
+    const navigate = useNavigate();
     const { username } = useData(getUser());
+    const handleProfileClick = (e, user) => {
+        e.preventDefault();
+        // Prepare the data for editing
+        console.log(user)
+        const editData = {
+            Username: user.Username,
+            FName: user.FName,
+            MName: user.MName,
+            LName: user.LName,
+            Address: user.Address,
+            Contact: user.Contact,
+            Email: user.Email,
+            id: user.Person_Id,
+            Owner_Id: user.Owner_Id,
+            Gender: user.Gender,
+            Birthdate: user.Birthdate,
+            Stall_Id: user.Stall_Id || "",
+            role:user.role,
+            // Assuming this exists in your data
+        };
+        
+        // Navigate to the Profile component with the edit data
+        navigate('/user/my-profile', { 
+            state: { 
+                editData: editData
+            } 
+        });
+    };
     return (
         <>
             <div className="row">
@@ -23,7 +53,7 @@ const OwnerDashboard = () => {
                                             
                                     <Link
                                         aria-label="view badges"
-                                        to="/user/my-profile"
+                                        onClick={(e)=>handleProfileClick(e,username.length > 0 ?username[0]:"")}
                                         className="btn btn-sm btn-outline-primary">
                                         View Details
                                     </Link>
