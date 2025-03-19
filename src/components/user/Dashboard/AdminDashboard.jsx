@@ -2,11 +2,37 @@ import {useEffect, useState} from "react";
 import {useData} from "../../../../backend/src/views/useData";
 import {getUser} from "../../../utils/auth";
 import {CardStats} from "../../../utils/CardStatsData";
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
+
 const AdminDashboard = () => {
+    const navigate = useNavigate();
+
     const { admin,complaints,discover,appointment,stall } = useData();
     const { stallsOccupied } = CardStats();
     const { username } = useData(getUser());
+
+    const handleEditClick = (e, user) => {
+        e.preventDefault();
+        
+        // Prepare the data for editing
+        const editData = {
+            FName: user.FName,
+            MName: user.MName,
+            LName: user.LName,
+            Address: user.Address,
+            Email: user.Email,
+            Admin_Id: user.Admin_Id // Assuming this exists in your data
+        };
+        
+        // Navigate to the AddSubCategory component with the edit data
+        navigate('/user/my-profile', { 
+            state: { 
+                editData: editData
+            } 
+        });
+    };
+    
+
     const [pie, setPieData] = useState(0);
         useEffect(() => {
             const pData = parseFloat(stallsOccupied);
@@ -39,7 +65,7 @@ const AdminDashboard = () => {
 
                             <Link
                                 aria-label="view badges"
-                                to="/user/my-profile"
+                                onClick={(e)=>handleEditClick(e,username.length > 0 ?username[0]?.FName:"")}
                                 className="btn btn-sm btn-outline-primary">
                                 View Details
                             </Link>
