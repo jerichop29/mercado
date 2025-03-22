@@ -28,8 +28,18 @@ class AvatarFunctions {
         // Check if image data is provided
         if (isset($data['image'])) {
             $base64String = $data['image'];
+            // Check if the base64 string has a data URL prefix and remove it
+            if (preg_match('/^data:image\/(\w+);base64,/', $base64String, $type)) {
+                $base64String = substr($base64String, strpos($base64String, ',') + 1);
+            }
+
             $imageData = base64_decode($base64String);
-            $imagePath = 'path/to/save/' . uniqid() . '.jpg'; // Define a unique path for the image
+            $imagePath = './../../../../src/assets/uploads/avatar' . uniqid() . '.jpg'; // Define a unique path for the image
+
+            // Ensure the directory exists
+            if (!is_dir('./../../../../src/assets/uploads/')) {
+                mkdir('./../../../../src/assets/uploads/', 0777, true); // Create the directory if it doesn't exist
+            }
 
             // Save the image
             if (file_put_contents($imagePath, $imageData) === false) {
@@ -53,11 +63,31 @@ class AvatarFunctions {
 
     // Update avatar
     public function updateAvatar($id, $data) {
+        // First, retrieve the current image path to delete the old file
+        $sql = "SELECT `image` FROM `avatartbl` WHERE `Avatar_Id` = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $avatar = $result->fetch_assoc();
+
+        if ($avatar) {
+            // Delete the old image file from the server
+            if (file_exists($avatar['image'])) {
+                unlink($avatar['image']);
+            }
+        }
+
         // Check if image data is provided
         if (isset($data['image'])) {
             $base64String = $data['image'];
             $imageData = base64_decode($base64String);
-            $imagePath = 'path/to/save/' . uniqid() . '.jpg'; // Define a unique path for the image
+            $imagePath = './../../../../src/assets/uploads/avatar' . uniqid() . '.jpg'; // Define a unique path for the image
+
+            // Ensure the directory exists
+            if (!is_dir('./../../../../src/assets/uploads/')) {
+                mkdir('./../../../../src/assets/uploads/', 0777, true); // Create the directory if it doesn't exist
+            }
 
             // Save the image
             if (file_put_contents($imagePath, $imageData) === false) {

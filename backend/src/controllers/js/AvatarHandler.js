@@ -4,16 +4,37 @@ class AvatarHandler {
     constructor() {
         this.baseUrl = `${window.location.protocol}//${window.location.hostname}/mercado/backend/src/models/php/avatarFunctions.php`;
     }
-
-    // Function to get all avatars
-    async getAllAvatars() {
+    async fetchWithErrorHandling(url, options = {}) {
         try {
-            const response = await axios.get(`${this.baseUrl}?action=get`);
-            return response.data;
+            const response = await fetch(url, {
+                ...options,
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...options.headers,
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            if (data.status === 'error') {
+                throw new Error(data.message);
+            }
+
+            return data;
         } catch (error) {
-            console.error("Error fetching avatars:", error);
+            console.error('API Error:', error);
             throw error;
         }
+        // ... existing fetchWithErrorHandling method ...
+    }
+    // Function to get all avatars
+    async getAllAvatars() {
+        return this.fetchWithErrorHandling(`${this.baseUrl}?action=get`, {
+            method: 'GET'
+        });
     }
 
     // Function to add a new avatar
@@ -23,40 +44,31 @@ class AvatarHandler {
             image: image // Base64 string of the image
         };
 
-        try {
-            const response = await axios.post(`${this.baseUrl}?action=add`, data);
-            return response.data;
-        } catch (error) {
-            console.error("Error adding avatar:", error);
-            throw error;
-        }
+        return this.fetchWithErrorHandling(`${this.baseUrl}?action=add`, {
+            method: 'POST',
+            body: JSON.stringify(data)
+        });
     }
 
     // Function to update an existing avatar
     async updateAvatar(id, personId, image) {
         const data = {
+            Avatar_Id: id,
             Person_Id: personId,
             image: image // Base64 string of the image
         };
 
-        try {
-            const response = await axios.put(`${this.baseUrl}?action=update&id=${id}`, data);
-            return response.data;
-        } catch (error) {
-            console.error("Error updating avatar:", error);
-            throw error;
-        }
+        return this.fetchWithErrorHandling(`${this.baseUrl}?action=update&id=${id}`, {
+            method: 'PUT',
+            body: JSON.stringify(data)
+        });
     }
 
     // Function to delete an avatar
     async deleteAvatar(id) {
-        try {
-            const response = await axios.delete(`${this.baseUrl}?action=delete&id=${id}`);
-            return response.data;
-        } catch (error) {
-            console.error("Error deleting avatar:", error);
-            throw error;
-        }
+        return this.fetchWithErrorHandling(`${this.baseUrl}?action=delete&id=${id}`, {
+            method: 'DELETE'
+        });
     }
 }
-export default AvatarHandler; 
+export default new AvatarHandler(); 

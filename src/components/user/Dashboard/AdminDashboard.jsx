@@ -10,7 +10,7 @@ const AdminDashboard = () => {
     const { admin,complaints,discover,appointment,stall } = useData();
     const { stallsOccupied } = CardStats();
     const { username } = useData(getUser());
-
+    const { avatar } = useData(username[0]?.Person_Id);
 
     const [pie, setPieData] = useState(0);
         useEffect(() => {
@@ -27,7 +27,6 @@ const AdminDashboard = () => {
           const handleProfileClick = (e, user) => {
             e.preventDefault();
             // Prepare the data for editing
-            console.log(user)
             const editData = {
                 Username: user.Username,
                 FName: user.FName,
@@ -40,6 +39,8 @@ const AdminDashboard = () => {
                 Admin_Id: user.Admin_Id,
                 Gender: user.Gender,
                 Birthdate: user.Birthdate,
+                imageId: avatar[0].Avatar_Id || null,
+                Avatar: avatar[0].image || null,
                 Stall_Id: user.Stall_Id || "",
                 role:user.role,
                 // Assuming this exists in your data

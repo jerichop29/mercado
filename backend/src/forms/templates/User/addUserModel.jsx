@@ -54,7 +54,7 @@ const useAddUserModel = (editData,onSubmitSuccess) => {
     setMessage({ text: "", type: "" });
     try {
        PersonValidator.validatePersonData(formData);
-      if (editData && formData.role == "Owner"){
+      if (editData && formData.role == "Owner"&& editData.Stall_Id !=null && editData.Stall_Id !== ''){
         const persons = await PersonHandler.getPersons();
         
         const person = persons.data.filter((p) => 
@@ -73,10 +73,10 @@ const useAddUserModel = (editData,onSubmitSuccess) => {
         const stall = stalls.data.filter((s) =>
         s.Owner_Id === owner[0].Owner_Id 
         );
-        const editStall = stalls.data.filter((s)=> s.Stall_Id === stall[0].Stall_Id);
+        const editStall = stalls.data.filter((s)=> s.Stall_Id === stall[0]?.Stall_Id);
         
         console.log(editStall)
-        await stallHandler.updateStallStatus(stall[0].Stall_Id, { Status_Id: "1", Owner_Id: null });
+        await stallHandler.updateStallStatus(stall[0]?.Stall_Id, { Status_Id: "1", Owner_Id: null });
 
         await stallHandler.updateStallStatus(formData.Stall_Id,{Status_Id:"4",Owner_Id:owner[0].Owner_Id}); 
       } 

@@ -7,9 +7,10 @@ import { useEffect, useState } from 'react';
 
 const Navbar = () => {
   const { username } = useData(getUser());
+  const { avatar } = useData(username[0]?.Person_Id);
   const navigate = useNavigate();
   const [userRole, setUserRole] = useState('');
-
+  
   useEffect(() => {
     const fetchUserRole = async () => {
       const isOwner = await checkRoleisOwner();
@@ -45,6 +46,8 @@ const Navbar = () => {
         Owner_Id: user.Owner_Id,
         Gender: user.Gender,
         Birthdate: user.Birthdate,
+        imageId: avatar[0].Avatar_Id || null,
+        Avatar: avatar[0].image || null,
         Stall_Id: user.Stall_Id || "",
         role:user.role,
         // Assuming this exists in your data
@@ -77,7 +80,7 @@ const Navbar = () => {
           <li className="nav-item navbar-dropdown dropdown-user dropdown">
             <a aria-label='dropdown profile avatar' className="nav-link dropdown-toggle hide-arrow" href="#" data-bs-toggle="dropdown">
               <div className="avatar avatar-online">
-                <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" className="w-px-40 h-auto rounded-circle" alt="avatar-image" aria-label='Avatar Image'/>
+                <img src={ avatar[0]?.image ? avatar[0]?.image :"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"} className="w-px-40 h-px-40 rounded-circle" alt="avatar-image" aria-label='Avatar Image'/>
               </div>
             </a>
             <ul className="dropdown-menu dropdown-menu-end">
@@ -86,7 +89,7 @@ const Navbar = () => {
                   <div className="d-flex">
                     <div className="flex-shrink-0 me-3">
                       <div className="avatar avatar-online">
-                        <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" className="w-px-40 h-auto rounded-circle" alt='avatar-image' aria-label='Avatar Image' />
+                        <img src={ avatar[0]?.image? avatar[0]?.image :"https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"} className="w-px-40 h-px-40 rounded-circle" alt='avatar-image' aria-label='Avatar Image' />
                       </div>
                     </div>
                     <div className="flex-grow-1">
