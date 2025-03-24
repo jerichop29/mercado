@@ -22,7 +22,7 @@ const useAddAvatar = (editData, onSubmitSuccess) => {
                     ...prev,
                     Avatar: reader.result.split(',')[1] // Store the base64 string directly
                 }));
-                console.log(editData.imageId)
+ 
             };
             reader.readAsDataURL(file); // Read the file as a data URL
         }
@@ -60,15 +60,6 @@ const useAddAvatar = (editData, onSubmitSuccess) => {
         } catch (error) {
             setMessage({ text: error.message, type: "error" });
         }
-    };
-
-    const toBase64 = (file) => {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => resolve(reader.result.split(',')[1]); // Get base64 string
-            reader.onerror = error => reject(error);
-        });
     };
 
     return {

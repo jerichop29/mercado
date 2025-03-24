@@ -406,9 +406,9 @@ export default function MyProfile() {
 
         {/* Modal for Image Preview */}
         {showImageModal && (
-            <div className="modal d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.7)', zIndex: 1200 }}>
+            <div className="modal d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)', zIndex: 1200 }}>
                 <div className="modal-dialog modal-dialog-centered">
-                    <div className="modal-content">
+                    <div className="modal-content bg-transparent">
                         <div className="modal-header">
                             <button
                                 type="button"
@@ -417,11 +417,12 @@ export default function MyProfile() {
                                 onClick={() => setShowImageModal(false)}
                             ></button>
                         </div>
-                        <div className="modal-body">
+                        <div className="modal-body text-center">
                             <img
                                 src={selectedImage}
                                 alt="Full Size"
                                 className="img-fluid"
+                                style={{ width: '100vw', height: '40vh', objectFit: 'cover' }}
                             />
                         </div>
                     </div>

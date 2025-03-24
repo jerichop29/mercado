@@ -20,11 +20,6 @@ export default function useQuillEditor(placeholder = "Description") {
                 },
                 placeholder,
             });
-
-            // Handle text changes (Optional)
-            editorRef.current.on('text-change', () => {
-                
-            });
         }
     }, [placeholder]);
     

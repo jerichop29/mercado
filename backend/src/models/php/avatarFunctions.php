@@ -34,11 +34,11 @@ class AvatarFunctions {
             }
 
             $imageData = base64_decode($base64String);
-            $imagePath = './../../../../src/assets/uploads/avatar' . uniqid() . '.jpg'; // Define a unique path for the image
+            $imagePath = './../../../../src/assets/uploads/avatar/' . uniqid() . '.jpg'; // Define a unique path for the image
 
             // Ensure the directory exists
-            if (!is_dir('./../../../../src/assets/uploads/')) {
-                mkdir('./../../../../src/assets/uploads/', 0777, true); // Create the directory if it doesn't exist
+            if (!is_dir('./../../../../src/assets/uploads/avatar/')) {
+                mkdir('./../../../../src/assets/uploads/avatar/', 0777, true); // Create the directory if it doesn't exist
             }
 
             // Save the image
@@ -82,11 +82,11 @@ class AvatarFunctions {
         if (isset($data['image'])) {
             $base64String = $data['image'];
             $imageData = base64_decode($base64String);
-            $imagePath = './../../../../src/assets/uploads/avatar' . uniqid() . '.jpg'; // Define a unique path for the image
+            $imagePath = './../../../../src/assets/uploads/avatar/' . uniqid() . '.jpg'; // Define a unique path for the image
 
             // Ensure the directory exists
-            if (!is_dir('./../../../../src/assets/uploads/')) {
-                mkdir('./../../../../src/assets/uploads/', 0777, true); // Create the directory if it doesn't exist
+            if (!is_dir('./../../../../src/assets/uploads/avatar/')) {
+                mkdir('./../../../../src/assets/uploads/avatar/', 0777, true); // Create the directory if it doesn't exist
             }
 
             // Save the image

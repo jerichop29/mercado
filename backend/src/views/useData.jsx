@@ -14,6 +14,8 @@ export const useData = (search, role) => {
         setAvatar]= useState([]);
     const [subCategories,
         setSubCategories] = useState([]);
+    const [subCategoriesWid,
+            setSubCategoriesWid] = useState([]);
     const [username,
         setUsername] = useState([]);
     const [owner,
@@ -78,13 +80,25 @@ export const useData = (search, role) => {
                 .data
                 .filter(data => {
                     if (!search) 
-                        return true;
+                        return null;
                     const title = data
                         ?.Title
                             ?.toLowerCase() === search || '';
                     return title;
                 });
             setSubCategories(filterSubCategoryTitle);
+
+            const filterSubCategoryWithCatId = subCategoriesData
+                .data
+                .filter(data => {
+                    if (!search) 
+                        return true;
+                    const catId = data
+                        ?.Category_Id === search || '';
+                    return catId;
+                });
+            setSubCategoriesWid(filterSubCategoryWithCatId);
+
             const filteredUsername = ownerData
                 .data
                 .filter(data => {
@@ -292,6 +306,7 @@ export const useData = (search, role) => {
         discover,
         categories,
         subCategories,
-        avatar
+        avatar,
+        subCategoriesWid
     };
 };

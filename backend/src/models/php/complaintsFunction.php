@@ -23,8 +23,33 @@ class ComplaintsFunction {
         return ["status" => "error", "message" => "Failed to fetch complaints"];
     }
 
-    // Add new stall
+    // Add new complaint
     public function addComplaints($data) {
+        // Check if image data is provided
+        if (isset($data['Complaint_Image'])) {
+            $base64String = $data['Complaint_Image'];
+            // Check if the base64 string has a data URL prefix and remove it
+            if (preg_match('/^data:image\/(\w+);base64,/', $base64String, $type)) {
+                $base64String = substr($base64String, strpos($base64String, ',') + 1);
+            }
+
+            $imageData = base64_decode($base64String);
+            $imagePath = './../../../../src/assets/uploads/complaints/' . uniqid() . '.jpg'; // Define a unique path for the image
+
+            // Ensure the directory exists
+            if (!is_dir('./../../../../src/assets/uploads/complaints/')) {
+                mkdir('./../../../../src/assets/uploads/complaints/', 0777, true); // Create the directory if it doesn't exist
+            }
+
+            // Save the image
+            if (file_put_contents($imagePath, $imageData) === false) {
+                return ["status" => "error", "message" => "Failed to save image"];
+            }
+            $data['Complaint_Image'] = $imagePath; // Update the data to store the image path
+        } else {
+            return ["status" => "error", "message" => "No image data provided"];
+        }
+
         $sql = "INSERT INTO complaintstable (`Complainant`, `Category_Id`, `SubCategory_Id`, `Complaint_Message`, `Status`, `Complaint_Image`, `Request`, `Date_End`, `Date_Start`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("isssss", $data['Complainant'], $data['Category_Id'], $data['SubCategory_Id'], $data['Complaint_Message'], $data['Status'], $data['Complaint_Image'], $data['Request'], $data['Date_End'], $data['Date_Start']);
@@ -48,8 +73,38 @@ class ComplaintsFunction {
         return ["status" => "error", "message" => "Failed to delete stall"];
     }
 
-    // Update stall
+    // Update complaint
     public function updateComplaints($id, $data) {
+        // First, retrieve the current image path to delete the old file if a new image is provided
+        $sql = "SELECT `Complaint_Image` FROM `complaintstable` WHERE `Complaints_Id` = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $complaint = $result->fetch_assoc();
+
+        if ($complaint && isset($data['Complaint_Image'])) {
+            // Delete the old image file from the server
+            if (file_exists($complaint['Complaint_Image'])) {
+                unlink($complaint['Complaint_Image']);
+            }
+
+            $base64String = $data['Complaint_Image'];
+            $imageData = base64_decode($base64String);
+            $imagePath = './../../../../src/assets/uploads/complaints/' . uniqid() . '.jpg'; // Define a unique path for the image
+
+            // Ensure the directory exists
+            if (!is_dir('./../../../../src/assets/uploads/complaints/')) {
+                mkdir('./../../../../src/assets/uploads/complaints/', 0777, true); // Create the directory if it doesn't exist
+            }
+
+            // Save the image
+            if (file_put_contents($imagePath, $imageData) === false) {
+                return ["status" => "error", "message" => "Failed to save image"];
+            }
+            $data['Complaint_Image'] = $imagePath; // Update the data to store the image path
+        }
+
         $sql = "UPDATE complaintstable SET `Stall_Id` = ?, `FullName` = ?, `Email` = ?, `Contact`= ?, `POI`= ?, `Status`= ? WHERE Complaints_Id = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("isssssi", $data['Stall_Id'], $data['FullName'], $data['Email'], $data['Contact'], $data['POI'] , $data['Status'], $id);

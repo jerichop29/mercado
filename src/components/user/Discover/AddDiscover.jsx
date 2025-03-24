@@ -114,7 +114,7 @@ export default function AddDiscover() {
                                             <label className="mb-1" htmlFor="Discover-background">
                                                 Background Image
                                             </label>
-                                            <input className="form-control" type="file" id="image" name="image" onChange={handleChange} value={formData.image}></input>
+                                            <input className="form-control" type="file" id="image" name="image" accept="image/*" onChange={handleChange} />
                                         </div>
 
                                         <div className="mb-6">

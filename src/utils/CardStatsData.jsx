@@ -187,19 +187,19 @@ export const CardStats = () => {
                 description: "New Complaints this week",
                 icon: "bi bi-calendar3"
             }, {
-                title: "Approved",
+                title: "Resolve",
                 count: 20,
-                description: "Approved Complaints",
+                description: "Resolve Complaints",
                 icon: "bx bx-check-circle"
             }, {
-                title: "Cancelled",
+                title: "Not-Process",
                 count: 20,
-                description: "Cancelled Complaints",
+                description: "Not-Process Complaints",
                 icon: "bx bx-x-circle"
             }, {
-                title: "Request",
+                title: "In-Process",
                 count: 500,
-                description: "Request Complaints",
+                description: "In-Process Complaints",
                 icon: "bx bx-calendar-check"
             }
         ],

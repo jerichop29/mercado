@@ -39,8 +39,8 @@ const AdminDashboard = () => {
                 Admin_Id: user.Admin_Id,
                 Gender: user.Gender,
                 Birthdate: user.Birthdate,
-                imageId: avatar[0].Avatar_Id || null,
-                Avatar: avatar[0].image || null,
+                imageId: avatar[0]?.Avatar_Id || null,
+                Avatar: avatar[0]?.image || null,
                 Stall_Id: user.Stall_Id || "",
                 role:user.role,
                 // Assuming this exists in your data
