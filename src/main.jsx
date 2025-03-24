@@ -1,4 +1,3 @@
-import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
 import ErrorBoundary from "./components/main/ErrorPages/ErrorPage.jsx";
@@ -10,9 +9,7 @@ import 'jspdf-autotable';
 import "apexcharts"
 
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
     <ErrorBoundary>
       <App />
     </ErrorBoundary>
-  </StrictMode>
 );
