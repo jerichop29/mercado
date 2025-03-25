@@ -1,5 +1,5 @@
 import './Header.css';
-import Logo from '../../../assets/img/logo.png';
+import Logo from '/assets/img/logo.png';
 import { Link, useLocation } from 'react-router-dom';
 import React, { useState } from 'react';
 import { isAuthenticated } from '../../../utils/auth';

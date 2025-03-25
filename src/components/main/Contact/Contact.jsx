@@ -1,5 +1,5 @@
 import './Contact.css';
-import MapImage from '../../../assets/img/map.png';
+import MapImage from '/assets/img/map.png';
 
 export default function Contact() {
   return (

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "../../../assets/css/main/Style.css"; // Ensure your CSS is updated
+import "../../../../public/assets/css/main/Style.css"; // Ensure your CSS is updated
 
 const Forbidden = () => {
   return (

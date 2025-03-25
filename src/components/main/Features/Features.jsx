@@ -1,5 +1,5 @@
 import './Features.css';
-import FeaturesImage from '../../../assets/img/features.jpg';
+import FeaturesImage from '/assets/img/features.jpg';
 
 export default function Features() {
   return (

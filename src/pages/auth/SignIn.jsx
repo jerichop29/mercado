@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import './SignIn.css';
-import LoginImage from '../../assets/img/login.png';
+import LoginImage from '/assets/img/login.png';
 import Cookies from 'js-cookie';
 import {useNavigate} from 'react-router-dom';
 import {setAuth} from '../../utils/auth'; // Import the auth utility

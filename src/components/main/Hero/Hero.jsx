@@ -1,8 +1,8 @@
 // Hero.jsx (preserved original structure)
 import './Hero.css';
-import CarouseImage1 from "../../../assets/img/hero-carousel/hero-carousel-1.png";
-import CarouseImage2 from "../../../assets/img/hero-carousel/hero-carousel-2.jpg";
-import CarouseImage3 from "../../../assets/img/hero-carousel/hero-carousel-3.jpg";
+import CarouseImage1 from "/assets/img/hero-carousel/hero-carousel-1.png";
+import CarouseImage2 from "/assets/img/hero-carousel/hero-carousel-2.jpg";
+import CarouseImage3 from "/assets/img/hero-carousel/hero-carousel-3.jpg";
 import { Link } from 'react-router-dom';
 
 export default function Hero() {

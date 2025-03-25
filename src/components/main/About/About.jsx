@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import './About.css';
-import AboutImage from '../../../assets/img/about.jpg';
+import AboutImage from '/assets/img/about.jpg';
 import GLightbox from 'glightbox';
 
 export default function About() {

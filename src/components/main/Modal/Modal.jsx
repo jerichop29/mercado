@@ -18,7 +18,7 @@ function Modal({ isOpen, stallName, onClose }) {
               <div key={index} className="stall-card">
                 <div className="stall-image">
                   <img 
-                    src={data.image==''?"src/assets/img/buildings/building1.png":data.image} 
+                    src={data.image==''?"/assets/img/buildings/building1.png":data.image} 
                     alt="Stall preview" 
                     className="stall-preview-image"
                   />

@@ -1,7 +1,7 @@
 import React ,{ useEffect , useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import  { MenuData }  from '../../utils/MenuData.jsx'
-import Logo from '../../assets/img/logo.png';
+import Logo from '/assets/img/logo.png';
 const Sidebar = () => {
     const [menuItems, setMenuItems] = useState({ Data: [] });
     useEffect(() => {

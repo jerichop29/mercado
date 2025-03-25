@@ -1,8 +1,8 @@
-import Building1Image from '../assets/img/buildings/building1.png';
-import Building2Image from '../assets/img/buildings/building2.png';
-import Building3Image from '../assets/img/buildings/building3.png';
-import Building4Image from '../assets/img/buildings/building4.png';
-import Building5Image from '../assets/img/buildings/building5.png';
+import Building1Image from '/assets/img/buildings/building1.png';
+import Building2Image from '/assets/img/buildings/building2.png';
+import Building3Image from '/assets/img/buildings/building3.png';
+import Building4Image from '/assets/img/buildings/building4.png';
+import Building5Image from '/assets/img/buildings/building5.png';
 
 const BuildingData = [
     {

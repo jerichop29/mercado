@@ -72,7 +72,7 @@ export default function MyProfile() {
                             {/* Cover Photo Section */}
                             <div className="cover-photo" style={{ height: '300px', backgroundColor: '#1877f2', borderRadius: '0 0 8px 8px', overflow: 'hidden' }}>
                                 <img
-                                    src="/src/assets/img/hero-carousel/hero-carousel-2.jpg"
+                                    src="/assets/img/hero-carousel/hero-carousel-2.jpg"
                                     alt="Mercado"
                                     style={{ width: '100%', height: '100%', objectFit: "cover" }}
                                 />
