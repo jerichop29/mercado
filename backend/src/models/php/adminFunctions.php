@@ -87,6 +87,49 @@ class AdminFunctions {
         return ["status" => "error", "message" => "Failed to update admin"];
     }
 
+    public function updatePassword($id,$data) {
+        $username = $data['Username'] ?? null;
+        $currentPassword = $data['current_password'] ?? null;
+        $newPassword = $data['new_password'] ?? null;
+        
+        // Validate inputs
+        if (empty($username) || empty($currentPassword) || empty($newPassword)) {
+            return ["status" => "error", "message" => "Username, current password, and new password are required"];
+        }
+        
+        // First authenticate the user
+        $authData = [
+            'username' => $username,
+            'password' => $currentPassword
+        ];
+        
+        $authResult = $this->authAdmin($authData);
+        
+        if ($authResult['status'] !== "success") {
+            return ["status" => "error", "message" => "Authentication failed. Current password is incorrect."];
+        }
+        
+        // If authentication succeeded, proceed with password update
+        $hashedPassword = password_hash($newPassword, PASSWORD_BCRYPT);
+        
+        // Prepare and execute the update query
+        $sql = "UPDATE admintbl SET `Password` = ? WHERE Admin_Id = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("si", $hashedPassword, $id);
+        
+        if ($stmt->execute()) {
+            // Check if any row was affected
+            if ($stmt->affected_rows > 0) {
+                return ["status" => "success", "message" => "Password updated successfully"];
+            } else {
+                return ["status" => "error", "message" => "Failed to update password. Please try again."];
+            }
+        }
+        
+        error_log("Failed to update password for id: " . $id);
+        return ["status" => "error", "message" => "Failed to update password"];
+    }
+
     // Delete admin
     public function deleteAdmin($id) {
         $stmt = $this->conn->prepare("DELETE FROM admintbl WHERE Admin_Id = ?");
@@ -114,7 +157,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 $adminFunctions = new AdminFunctions();
 $action = $_GET['action'] ?? '';
 
-$allowedActions = ['get', 'auth', 'add', 'delete', 'update','checkUsername'];
+$allowedActions = ['get', 'auth', 'add', 'delete', 'update','checkUsername','updatePassword'];
 if (!in_array($action, $allowedActions, true)) {
     echo json_encode(["status" => "error", "message" => "Invalid action"]);
     exit();
@@ -143,6 +186,10 @@ try {
             break;
         case 'checkUsername':
             echo json_encode($adminFunctions->checkUsernameExists($data));
+            break;
+        case 'updatePassword':
+            $id = $_GET['id'] ?? null;
+            echo json_encode($adminFunctions->updatePassword($id,$data));
             break;
         default:
             throw new Exception("Invalid action");

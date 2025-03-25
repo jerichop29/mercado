@@ -56,8 +56,6 @@ const useaddTenant = (editData,onSubmitSuccess) => {
 
     const handleSubmit = async(e) => {
         e.preventDefault();
-        console.log(message)
-        console.log(formData)
         setMessage({text: "", type: ""});
         try {
             PersonValidator.validatePersonData(formData);
@@ -76,10 +74,6 @@ const useaddTenant = (editData,onSubmitSuccess) => {
 
             setMessage({text: result.message, type: "success"});
             if (onSubmitSuccess) onSubmitSuccess();
-            // if (onSubmitSuccess) 
-            //     onSubmitSuccess();
-            
-            // After successful person creation/update
             if (result && !editData) {
                 const persons = await PersonHandler.getPersons();
                 const person = persons.data.filter((p) => 

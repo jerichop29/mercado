@@ -435,8 +435,15 @@ const TenantsTable = ({search}) => {
             }}
                 onSubmitSuccess={() => {
                 setEditData(null);
-                setFilter((prev) => prev + ' ');
-                setTimeout(() => setFilter((prev) => prev.trim()), 100);
+                setFilter((prev) => (prev
+                    ? prev + ' '
+                    : ' ')); // Add a space if there's a value, otherwise set to space
+            
+                setTimeout(() => {
+                    setFilter((prev) => (prev
+                        ? prev.trim()
+                        : '')); // Remove the extra space after delay
+                }, 100);
             }}
                 edit={editData}/>
         </div>

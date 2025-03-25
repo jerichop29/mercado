@@ -72,6 +72,26 @@ class AdminHandler {
             body: JSON.stringify(adminData)
         });
     }
+    async updatePassword(adminId, adminData) {
+        this.validateAdminData(adminData);
+        this.validateNewPassword(adminData);
+        return this.fetchWithErrorHandling(`${this.baseUrl}?action=updatePassword&id=${adminId}`, {
+            method: 'PUT',
+            body: JSON.stringify(adminData)
+        });
+    }
+    validateAdminData(data) {
+        if (!data.Username?.trim() || !data.current_password?.trim()) {
+           console.log('Username and password are required');
+        }
+        return true;
+    }
+    validateNewPassword(data) {
+        if (data.new_password !== data.confirm_password) { // Check if new_password and confirm_password match
+            throw new Error('New password and confirm password do not match');
+        }
+        return true;
+    }
 }
 
 export default new AdminHandler();

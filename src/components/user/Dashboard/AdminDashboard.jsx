@@ -2,11 +2,16 @@ import {useEffect, useState} from "react";
 import {useData} from "../../../../backend/src/views/useData";
 import {getUser} from "../../../utils/auth";
 import {CardStats} from "../../../utils/CardStatsData";
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
+
 const AdminDashboard = () => {
+    const navigate = useNavigate();
+
     const { admin,complaints,discover,appointment,stall } = useData();
     const { stallsOccupied } = CardStats();
     const { username } = useData(getUser());
+    const { avatar } = useData(username[0]?.Person_Id);
+
     const [pie, setPieData] = useState(0);
         useEffect(() => {
             const pData = parseFloat(stallsOccupied);
@@ -19,6 +24,35 @@ const AdminDashboard = () => {
             }
           }, [pie]);
 
+          const handleProfileClick = (e, user) => {
+            e.preventDefault();
+            // Prepare the data for editing
+            const editData = {
+                Username: user.Username,
+                FName: user.FName,
+                MName: user.MName,
+                LName: user.LName,
+                Address: user.Address,
+                Contact: user.Contact,
+                Email: user.Email,
+                id: user.Person_Id,
+                Admin_Id: user.Admin_Id,
+                Gender: user.Gender,
+                Birthdate: user.Birthdate,
+                imageId: avatar[0]?.Avatar_Id || null,
+                Avatar: avatar[0]?.image || null,
+                Stall_Id: user.Stall_Id || "",
+                role:user.role,
+                // Assuming this exists in your data
+            };
+            
+            // Navigate to the Profile component with the edit data
+            navigate('/user/my-profile', { 
+                state: { 
+                    editData: editData
+                } 
+            });
+        };
     return ( <> <div className="row">
         <div className="col-lg-8 mb-4 order-0">
             <div className="card">
@@ -39,7 +73,7 @@ const AdminDashboard = () => {
 
                             <Link
                                 aria-label="view badges"
-                                to="/user/my-profile"
+                                onClick={(e)=>handleProfileClick(e,username.length > 0 ?username[0]:"")}
                                 className="btn btn-sm btn-outline-primary">
                                 View Details
                             </Link>

@@ -69,10 +69,23 @@ class OwnerHandler {
             body: JSON.stringify(ownerData)
         });
     }
-
+    async updatePassword(ownerId, ownerData) {
+        this.validateOwnerData(ownerData);
+        this.validateNewPassword(ownerData);
+        return this.fetchWithErrorHandling(`${this.baseUrl}?action=updatePassword&id=${ownerId}`, {
+            method: 'PUT',
+            body: JSON.stringify(ownerData)
+        });
+    }
     validateOwnerData(data) {
-        if (!data.username?.trim() || !data.password?.trim()) {
+        if (!data.Username?.trim() || !data.current_password?.trim()) {
             throw new Error('Username and password are required');
+        }
+        return true;
+    }
+    validateNewPassword(data) {
+        if (data.new_password !== data.confirm_password) { // Check if new_password and confirm_password match
+            throw new Error('New password and confirm password do not match');
         }
         return true;
     }

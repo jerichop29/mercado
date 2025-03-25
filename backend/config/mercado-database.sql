@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 17, 2025 at 07:08 PM
+-- Generation Time: Mar 24, 2025 at 03:25 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -41,8 +41,7 @@ CREATE TABLE `admintbl` (
 
 INSERT INTO `admintbl` (`Admin_Id`, `Username`, `Password`, `role`, `Person_Id`) VALUES
 (1, 'admin', '$2y$10$01s7AX.F1ojyatwKNmmpqOXc4lgHmnUBdti8X4dgsAb46hy33iGGK', 'admin', 2),
-(2, 'superadmin', '$2y$10$01s7AX.F1ojyatwKNmmpqOXc4lgHmnUBdti8X4dgsAb46hy33iGGK', 'superadmin', 3),
-(35, 'glennchristian_terrible2', '$2y$10$gDNkOGEXi.a4uyVVYB3yje//lLMlGWrl8UfEy6brFx6lGdzRZEeqC', 'admin', 179);
+(2, 'superadmin', '$2y$10$95JxqQT/Unu/kGebX891teqsLwnaeKwTpR6Yq6MMY1i/kK329FNNy', 'superadmin', 3);
 
 -- --------------------------------------------------------
 
@@ -56,7 +55,7 @@ CREATE TABLE `appointmenttbl` (
   `FullName` varchar(100) NOT NULL,
   `Email` varchar(100) NOT NULL,
   `Contact` varchar(13) NOT NULL,
-  `POI` blob NOT NULL,
+  `POI` longblob NOT NULL,
   `Status` varchar(60) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -71,6 +70,14 @@ CREATE TABLE `avatartbl` (
   `Person_Id` int(11) NOT NULL,
   `image` longblob NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `avatartbl`
+--
+
+INSERT INTO `avatartbl` (`Avatar_Id`, `Person_Id`, `image`) VALUES
+(4, 3, 0x2e2f2e2e2f2e2e2f2e2e2f2e2e2f7372632f6173736574732f75706c6f6164732f6176617461722f363765306433386533366330342e6a7067),
+(5, 182, 0x2e2f2e2e2f2e2e2f2e2e2f2e2e2f7372632f6173736574732f75706c6f6164732f6176617461722f363765306433646239323536312e6a7067);
 
 -- --------------------------------------------------------
 
@@ -106,6 +113,14 @@ CREATE TABLE `categoriestbl` (
   `Description` varchar(1000) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `categoriestbl`
+--
+
+INSERT INTO `categoriestbl` (`Categories_Id`, `Title`, `Description`) VALUES
+(3, 'TEST', '<p><em>asdasdasd <u>asdasdasd</u></em></p>'),
+(4, 'kljhhlkjhkl', '<p><br></p>');
+
 -- --------------------------------------------------------
 
 --
@@ -118,6 +133,13 @@ CREATE TABLE `categoriestbl-sub` (
   `Title` varchar(100) NOT NULL,
   `Description` varchar(1000) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `categoriestbl-sub`
+--
+
+INSERT INTO `categoriestbl-sub` (`SubCategories_Id`, `Category_Id`, `Title`, `Description`) VALUES
+(5, 3, 'TEst', '<p><u>asdfasdfasdf</u></p>');
 
 -- --------------------------------------------------------
 
@@ -132,7 +154,7 @@ CREATE TABLE `complaintstable` (
   `SubCategory_Id` int(11) NOT NULL,
   `Complaint_Message` varchar(10000) NOT NULL,
   `Status` varchar(100) NOT NULL,
-  `Complaint_Image` blob NOT NULL,
+  `Complaint_Image` longblob NOT NULL,
   `Request` date NOT NULL,
   `Date_End` date NOT NULL,
   `Date_Start` date NOT NULL
@@ -147,21 +169,13 @@ CREATE TABLE `complaintstable` (
 CREATE TABLE `discovertbl` (
   `discover_Id` int(11) NOT NULL,
   `Title` varchar(60) NOT NULL,
-  `image` blob NOT NULL COMMENT 'image upload',
+  `image` longblob NOT NULL COMMENT 'image upload',
   `Activity` varchar(60) NOT NULL,
   `Description` varchar(1000) NOT NULL,
   `Date_Start` datetime NOT NULL,
   `Date_End` datetime NOT NULL,
   `Link` varchar(1000) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `discovertbl`
---
-
-INSERT INTO `discovertbl` (`discover_Id`, `Title`, `image`, `Activity`, `Description`, `Date_Start`, `Date_End`, `Link`) VALUES
-(1, 'Test', '', 'TEst', 'The \"Table Tennis Tournament at Mercado De Calamba for Youth\" is an exciting event aimed at promoting sportsmanship, skill development, and community engagement among young people. Held at the Mercado De Calamba, this tournament invites local youth to participate in friendly yet competitive table tennis matches. The event provides a platform for young players to showcase their talents, improve their game, and interact with peers in a vibrant and supportive environment.', '2025-02-06 00:00:00', '2025-02-21 00:00:00', 'http://localhost/phpmyadmin/index.php?route=/sql&pos=0&db=mercado-database_test&table=discovertbl'),
-(2, 'Tite', '', 'Tite', '<p>asdfasdf<u>asdfasdfasdf</u></p>', '2025-03-18 23:33:00', '2025-03-19 23:33:00', 'http://localhost/phpmyadmin/index.php?route=/sql&pos=0&db=mercado-database_test&table=discovertbl');
 
 -- --------------------------------------------------------
 
@@ -219,6 +233,13 @@ CREATE TABLE `ownertbl` (
   `role` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `ownertbl`
+--
+
+INSERT INTO `ownertbl` (`Owner_Id`, `Person_Id`, `Admin_Id`, `Date_Start`, `Username`, `Password`, `role`) VALUES
+(26, 182, 1, '2025-03-20', 'gagi_terrible', '$2y$10$sWw1mV0g3ezscjV9E.Ows.puiPrXB2Qx52o15.OFk9mIGjh9n3l8K', 'Owner');
+
 -- --------------------------------------------------------
 
 --
@@ -255,9 +276,9 @@ CREATE TABLE `persontbl` (
 --
 
 INSERT INTO `persontbl` (`Person_Id`, `FName`, `LName`, `MName`, `Gender`, `Address`, `Contact`, `Email`, `Birthdate`) VALUES
-(2, 'admin', 'admin', 'admin', 'Male', 'admin', '09123456789', 'admin@gmail.com', '2025-02-13'),
-(3, 'super admin', 'admin', 'admin', 'Female', 'admin', '09123456789', 'admin@gmail.com', '2025-02-13'),
-(179, 'Glenn Christian', 'Terrible', 'Delos Reyessss', 'Female', '#98', '09123456789', 'gcterrible@gmail.com', '2025-03-19');
+(2, 'super admink', 'admin', 'admin', 'Female', 'admin', '09123456789', 'admin@gmail.com', '2025-02-13'),
+(3, 'Mercado', 'Calamba', 'De', 'Female', 'Calamba City,Laguna,4027', '09123456789', 'mercadodecalamba@gmail.com', '2025-02-13'),
+(182, 'Glenn Christian', 'Terrible', 'Delos Reyes', 'Female', '#98', '09888883333', 'gcterrible@gmail.com', '2025-03-18');
 
 -- --------------------------------------------------------
 
@@ -967,7 +988,7 @@ ALTER TABLE `typestbl`
 -- AUTO_INCREMENT for table `admintbl`
 --
 ALTER TABLE `admintbl`
-  MODIFY `Admin_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `Admin_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `appointmenttbl`
@@ -979,7 +1000,7 @@ ALTER TABLE `appointmenttbl`
 -- AUTO_INCREMENT for table `avatartbl`
 --
 ALTER TABLE `avatartbl`
-  MODIFY `Avatar_Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Avatar_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `buildingtbl`
@@ -991,13 +1012,13 @@ ALTER TABLE `buildingtbl`
 -- AUTO_INCREMENT for table `categoriestbl`
 --
 ALTER TABLE `categoriestbl`
-  MODIFY `Categories_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `Categories_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `categoriestbl-sub`
 --
 ALTER TABLE `categoriestbl-sub`
-  MODIFY `SubCategories_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `SubCategories_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `complaintstable`
@@ -1009,7 +1030,7 @@ ALTER TABLE `complaintstable`
 -- AUTO_INCREMENT for table `discovertbl`
 --
 ALTER TABLE `discovertbl`
-  MODIFY `discover_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `discover_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `eventtbl`
@@ -1027,7 +1048,7 @@ ALTER TABLE `facilitiestbl`
 -- AUTO_INCREMENT for table `ownertbl`
 --
 ALTER TABLE `ownertbl`
-  MODIFY `Owner_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `Owner_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `owner_paymenttbl`
@@ -1039,7 +1060,7 @@ ALTER TABLE `owner_paymenttbl`
 -- AUTO_INCREMENT for table `persontbl`
 --
 ALTER TABLE `persontbl`
-  MODIFY `Person_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=180;
+  MODIFY `Person_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=186;
 
 --
 -- AUTO_INCREMENT for table `stallimagetbl`

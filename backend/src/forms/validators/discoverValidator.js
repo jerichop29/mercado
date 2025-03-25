@@ -6,9 +6,6 @@ class DiscoverValidator {
             errors.push('Title is required and must be a non-empty string.');
         }
 
-        if (!data.image || typeof data.image !== 'string' || !data.image.trim()) {
-            errors.push('Image URL is required and must be a non-empty string.');
-        }
 
         if (!data.Activity || typeof data.Activity !== 'string' || !data.Activity.trim()) {
             errors.push('Activity is required and must be a non-empty string.');

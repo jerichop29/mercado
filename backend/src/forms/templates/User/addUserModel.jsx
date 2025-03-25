@@ -5,7 +5,7 @@ import OwnerHandler from '../../../controllers/js/OwnerHandler';
 import AdminHandler from '../../../controllers/js/AdminHandler';
 import stallHandler from '../../../controllers/js/stallHandler';
 import { Alert } from '../../../../../src/components/main/DialogueBox/DialogueBox';
-const useAddUserModel = (editData) => {
+const useAddUserModel = (editData,onSubmitSuccess) => {
   const initialFormState = {
     FName: "",
     MName:"",
@@ -54,7 +54,7 @@ const useAddUserModel = (editData) => {
     setMessage({ text: "", type: "" });
     try {
        PersonValidator.validatePersonData(formData);
-      if (editData && formData.role == "Owner"){
+      if (editData && formData.role == "Owner"&& editData.Stall_Id !=null && editData.Stall_Id !== ''){
         const persons = await PersonHandler.getPersons();
         
         const person = persons.data.filter((p) => 
@@ -73,10 +73,10 @@ const useAddUserModel = (editData) => {
         const stall = stalls.data.filter((s) =>
         s.Owner_Id === owner[0].Owner_Id 
         );
-        const editStall = stalls.data.filter((s)=> s.Stall_Id === stall[0].Stall_Id);
+        const editStall = stalls.data.filter((s)=> s.Stall_Id === stall[0]?.Stall_Id);
         
         console.log(editStall)
-        await stallHandler.updateStallStatus(stall[0].Stall_Id, { Status_Id: "1", Owner_Id: null });
+        await stallHandler.updateStallStatus(stall[0]?.Stall_Id, { Status_Id: "1", Owner_Id: null });
 
         await stallHandler.updateStallStatus(formData.Stall_Id,{Status_Id:"4",Owner_Id:owner[0].Owner_Id}); 
       } 
@@ -85,9 +85,22 @@ const useAddUserModel = (editData) => {
 
       const result = editData
         ? await PersonHandler.updatePerson(editData.id, formData)
+        .then(response => {
+          if (response.status === "success") {
+            Alert(response.message)
+          } else {
+            Alert(response.message)
+          }
+        })
+        .catch(error => {
+          // Handle any exceptions thrown during the process
+          Alert(error)
+          // Show a generic error message to the user
+        })
         : await PersonHandler.addPerson(formData);
       
       setMessage({ text: result.message, type: "success" });
+      if(onSubmitSuccess){onSubmitSuccess()}
       // After successful person creation/update
       if (result && !editData) {
         // Get all persons and filter
@@ -100,16 +113,6 @@ const useAddUserModel = (editData) => {
           p.Email === formData.Email
         );
         if (person) {
-          const checkUserName = async (input) =>{
-            if (formData.role === 'Owner') {
-              await OwnerHandler.checkUsername({username:input});  // Assign function reference
-              console.log(await OwnerHandler.checkUsername({username:input}))
-          }
-          else{
-             await AdminHandler.checkUsername({username:input});
-          }
-          return false;
-          }
           const generateUsername = async (FName, LName, role) => {
             // Normalize name parts: lowercase, remove spaces & special characters
             const cleanName = (name) => name.toLowerCase().replace(/[^a-z0-9]/g, '');

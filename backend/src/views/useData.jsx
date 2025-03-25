@@ -8,9 +8,14 @@ import complaintsHandler from "../controllers/js/complaintsHandler.js";
 import DiscoverHandler from '../controllers/js/DiscoverHandler.js';
 import CategoryHandler from "../controllers/js/CategoryHandler.js";
 import SubCategoryHandler from "../controllers/js/SubCategoryHandler.js";
+import AvatarHandler from "../controllers/js/AvatarHandler.js";
 export const useData = (search, role) => {
+    const [avatar,
+        setAvatar]= useState([]);
     const [subCategories,
         setSubCategories] = useState([]);
+    const [subCategoriesWid,
+            setSubCategoriesWid] = useState([]);
     const [username,
         setUsername] = useState([]);
     const [owner,
@@ -40,11 +45,24 @@ export const useData = (search, role) => {
             const stallData = await stallHandler.getStalls();
             const categoriesData = await CategoryHandler.getCategory();
             const subCategoriesData = await SubCategoryHandler.getSubCategory();
-
+            const avatarData = await AvatarHandler.getAllAvatars();
             // const subCategoriesData = await SubCategor
             const appointment = await AppointmentHandler.getAppointments();
             const complaints = await complaintsHandler.getComplaints();
             const discoverData = await DiscoverHandler.getDiscoveries();
+
+
+
+            const filterAvatarData = avatarData
+                .data
+                .filter(data => {
+                    if (!search) 
+                        return true;
+                    const personId = data
+                        ?.Person_Id === search || '';
+                    return personId;
+                });
+                setAvatar(filterAvatarData);
 
             const filterCategoryTitle = categoriesData
                 .data
@@ -62,13 +80,25 @@ export const useData = (search, role) => {
                 .data
                 .filter(data => {
                     if (!search) 
-                        return true;
+                        return null;
                     const title = data
                         ?.Title
                             ?.toLowerCase() === search || '';
                     return title;
                 });
             setSubCategories(filterSubCategoryTitle);
+
+            const filterSubCategoryWithCatId = subCategoriesData
+                .data
+                .filter(data => {
+                    if (!search) 
+                        return true;
+                    const catId = data
+                        ?.Category_Id === search || '';
+                    return catId;
+                });
+            setSubCategoriesWid(filterSubCategoryWithCatId);
+
             const filteredUsername = ownerData
                 .data
                 .filter(data => {
@@ -275,6 +305,8 @@ export const useData = (search, role) => {
         complaints,
         discover,
         categories,
-        subCategories
+        subCategories,
+        avatar,
+        subCategoriesWid
     };
 };
